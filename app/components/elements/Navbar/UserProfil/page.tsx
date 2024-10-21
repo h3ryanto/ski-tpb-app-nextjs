@@ -10,10 +10,13 @@ const UserProfil = () => {
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
                     <Image
-                        alt=""
-                        src=""
-                        className="h-8 w-8 rounded-full"
-                    />
+                alt="Your Company"
+                src="https://tailwindui.com/plus/img/logos/mark.svg"
+                width={30}
+                height={30}
+                className="block h-8 w-auto lg:hidden"
+
+            />
                 </MenuButton>
             </div>
             <MenuItems
