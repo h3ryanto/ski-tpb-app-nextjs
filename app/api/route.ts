@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { retriveData, Del } from "../lib/firebase/service";
+import { retriveData} from "../lib/firebase/service";
 
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
-  // addData()
-  // Del()
+
   const user = await retriveData('user');
   return NextResponse.json({ status: 200, message: "succes", data: user, request: request })
 }
