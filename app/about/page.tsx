@@ -6,7 +6,7 @@ export default async function Page() {
   const users = await retriveData('user');
   return (
     <ul>
-      {users.map((post:any) => (
+      {users && users.map((post: any)  => (
         <li key={post.id}>{post.user}</li>
       ))}
     </ul>

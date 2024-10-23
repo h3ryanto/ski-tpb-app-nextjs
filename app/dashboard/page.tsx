@@ -7,7 +7,7 @@ const posts = await data.json()
 
   return (
     <ul>
-      {posts.map((post:any) => (
+      {posts.map((post: { id: string; title: string }) => (
         <li key={post.id}>{post.title}</li>
       ))}
     </ul>
