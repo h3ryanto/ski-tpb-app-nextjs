@@ -22,7 +22,15 @@ export default function Login() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to submit the data. Please try again.')
+        console.log(response)
+        switch (response.status) {
+          case 400:
+            throw new Error('Email tidak terdaftar.')
+          case 401:
+          default:
+            throw new Error('Email atau password salah.')
+        }
+
       }
 
       // Handle response if necessary
