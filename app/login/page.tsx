@@ -20,10 +20,18 @@ export default function Login() {
         method: 'POST',
         body: formData,
       })
+
       if (!response.ok) {
-        setError(response.statusText)
+        throw new Error('Failed to submit the data. Please try again.')
       }
 
+      // Handle response if necessary
+      // const data = await response.json()
+      // ...
+    } catch (error: any) {
+      // Capture the error message to display to the user
+      setError(error.message)
+      console.error(error)
 
     } finally {
       setIsLoading(false) // Set loading to false when the request completes

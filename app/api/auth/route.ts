@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     
     switch (error.code) {
       case 'auth/invalid-credential':
-        return new Response('Email tidak terdaftar', {status: 400})
+        return new Response('Email tidak terdaftar', {status: 400,statusText:'Email tidak terdaftar'})
       case 'auth/invalid-email':
       default:
         return new Response('Email atau password salah' , {status: 401, statusText:'Email atau password salah'})
