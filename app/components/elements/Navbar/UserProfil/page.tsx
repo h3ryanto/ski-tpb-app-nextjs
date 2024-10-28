@@ -1,5 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Image from 'next/image'
+// import { SignOut } from '../../../../lib/firebase/authentication/service'
 
 const UserProfil = () => {
     return (
@@ -10,13 +11,13 @@ const UserProfil = () => {
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
                     <Image
-                alt="Your Company"
-                src="https://tailwindui.com/plus/img/logos/mark.svg"
-                width={30}
-                height={30}
-                className="block h-8 w-auto lg:hidden"
+                        alt="Your Company"
+                        src="https://tailwindui.com/plus/img/logos/mark.svg"
+                        width={30}
+                        height={30}
+                        className="block h-8 w-auto"
 
-            />
+                    />
                 </MenuButton>
             </div>
             <MenuItems
@@ -34,12 +35,12 @@ const UserProfil = () => {
                     </a>
                 </MenuItem>
                 <MenuItem>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" >
                         Sign out
-                    </a>
+                    </button>
                 </MenuItem>
             </MenuItems>
-        </Menu>
+        </Menu >
     )
 }
 export default UserProfil;

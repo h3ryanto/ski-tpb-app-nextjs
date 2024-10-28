@@ -10,7 +10,7 @@ const CompanyProfile = () => {
                 src="https://tailwindui.com/plus/img/logos/mark.svg"
                 width={30}
                 height={30}
-                className="block h-8 w-auto lg:hidden"
+                className="block h-8 w-auto"
 
             />
         </div>

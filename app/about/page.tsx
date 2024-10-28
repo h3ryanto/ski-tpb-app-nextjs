@@ -1,5 +1,5 @@
 
-import { retriveData } from "../lib/firebase/service";
+import { retriveData } from "../lib/firebase/firestore/service";
 
  
 export default async function Page() {
