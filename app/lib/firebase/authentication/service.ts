@@ -13,7 +13,9 @@ import {
 export const FirebaseAuth = getAuth(app)
 
 export const Authentication = () => {
+  console.log(FirebaseAuth)
     return FirebaseAuth
+    
   }
 
   export const SignUp = async (email :string,password:string) => {

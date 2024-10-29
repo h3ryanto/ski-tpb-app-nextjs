@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
+import { Authentication, SignIn, GetSignInErrorMessage } from '../lib/firebase/authentication/service'
 
 // type FormValues = {
 //   password: string
@@ -8,38 +9,46 @@ import React, { useState, FormEvent } from 'react'
 // }
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null)
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true) // Set loading to true when the request starts
-    setError(null) // Clear previous errors when a new request starts
-
+    // setError("") // Clear previous errors when a new request starts
     try {
+
       const formData = new FormData(event.currentTarget)
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        body: formData,
-      })
+      const password = formData.get('password')
+      const email = formData.get('email')
+      await SignIn(email, password)
+      console.log(Authentication().currentUser?.email)
+      // console.log(res)
+      // const response = await fetch('/api/auth', {
+      //   method: 'POST',
+      //   body: formData,
+      // })
 
-      if (!response.ok) {
-        console.log(response)
-        switch (response.status) {
-          case 400:
-            throw new Error('Email tidak terdaftar.')
-          case 401:
-          default:
-            throw new Error('Email atau password salah.')
-        }
-
-      }
+      // if (!response.ok) {
+      //   switch (response.status) {
+      //     case 400:
+      //       throw new Error('Email atau password salah.')
+      //     case 401:
+      //     default:
+      //       throw new Error('Email atau password tidak valid.')
+      //   }
+      // } else {
+      //   console.log(Authentication())
+      // }
 
       // Handle response if necessary
       // const data = await response.json()
+      // console.log(data);
       // ...
     } catch (error: any) {
       // Capture the error message to display to the user
-      setError(error.message)
-      console.error(error)
+
+      setError(GetSignInErrorMessage(error.code))
+      // console.error(error)
 
     } finally {
       setIsLoading(false) // Set loading to false when the request completes
@@ -116,9 +125,7 @@ export default function Login() {
                 disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Login'}
               </button>
-              <p>
-                {error && <div style={{ color: 'red' }}><small>{error}</small></div>}
-              </p>
+              {error && <div style={{ color: 'red' }}><small>{error}</small></div>}
             </div>
           </form>
 
