@@ -40,9 +40,9 @@ export const Authentication = () => {
   export const GetSignInErrorMessage = (code:any) => {
     switch (code) {
       case 'auth/invalid-credential':
-        return 'Email tidak terdaftar'
+        return 'Email atau password salah'
       case 'auth/invalid-email':
       default:
-        return 'Email atau password salah'
+        return 'Email tidak valid'
     }
   }

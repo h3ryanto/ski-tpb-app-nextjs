@@ -6,19 +6,16 @@ import { useRouter } from 'next/navigation'
 import { Authentication, SignIn, GetSignInErrorMessage } from '../../lib/firebase/authentication/service'
 
 
-// type FormValues = {
-//   password: string
-//   email: string
-// }
 export default function Login() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null)
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsLoading(true) // Set loading to true when the request starts
-    // setError("") // Clear previous errors when a new request starts
+    setIsLoading(true)
+
     try {
 
       const formData = new FormData(event.currentTarget)
@@ -27,13 +24,6 @@ export default function Login() {
       await SignIn(email, password)
       Authentication().onAuthStateChanged((user) => {
         if (user) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          // const Profile = {
-          //   "sub": "1234567890",
-          //   "name": "John Doe",
-          //   "admin": true
-          // }
-          // createSession(`${user.email}`)
           router.replace('/')
         }
       });
@@ -60,13 +50,10 @@ export default function Login() {
       // console.log(data);
       // ...
     } catch (error: any) {
-      // Capture the error message to display to the user
-
       setError(GetSignInErrorMessage(error.code))
-      // console.error(error)
 
     } finally {
-      setIsLoading(false) // Set loading to false when the request completes
+      setIsLoading(false)
     }
   }
 
