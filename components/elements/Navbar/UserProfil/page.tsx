@@ -1,14 +1,10 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Image from 'next/image'
 import { SignOut } from '@/lib/firebase/authentication/service'
-import { useRouter } from 'next/navigation'
 
 const UserProfil = () => {
-    const router = useRouter()
-    const logout = () => {
-        SignOut()
-        router.replace('/login')
-    }
+
+
     return (
 
         <Menu as="div" className="relative ml-3">
@@ -41,7 +37,7 @@ const UserProfil = () => {
                     </a>
                 </MenuItem>
                 <MenuItem>
-                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={logout}>
+                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={SignOut}>
                         Sign out
                     </button>
                 </MenuItem>
