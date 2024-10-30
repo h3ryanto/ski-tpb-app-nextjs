@@ -1,6 +1,6 @@
 
 import app from '../init'
-import { Redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { createSession,deleteSession} from '@/lib/auth/session'
 import {
     getAuth,
@@ -36,7 +36,7 @@ export const Authentication = () => {
   export const SignOut = async () => {
     await signOut(FirebaseAuth)
     deleteSession()
-    Redirect('/login') 
+    redirect('/login') 
   }
   
   export const GetSignInErrorMessage = (code:any) => {
