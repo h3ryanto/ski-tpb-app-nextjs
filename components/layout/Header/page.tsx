@@ -1,18 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 'use client'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import CompanyProfile from '../../elements/Navbar/CompanyProfile/page'
 import UserProfil from '../../elements/Navbar/UserProfil/page'
-// import { Authentication } from '../../../lib/firebase/authentication/service'
+import { Authentication } from '@/lib/firebase/authentication/service'
+
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Header() {
+  const [nama, setNama] = useState<string | null>(null)
   const router = useRouter()
   const pathname = usePathname();
   const navigation = [
@@ -20,7 +24,13 @@ export default function Header() {
     { name: 'Dashboard', href: 'dashboard', current: pathname === '/dashboard' ? true : false },
     { name: 'About', href: '/about', current: pathname === '/about' ? true : false },
   ]
-
+  useEffect(() => {
+    Authentication().onAuthStateChanged((user) => {
+      if (user) {
+        setNama(user ? user.email : "Nama User")
+      }
+    })
+  }, [])
 
   return (
     <div className='card'>
@@ -66,7 +76,7 @@ export default function Header() {
                 <span className="sr-only">View notifications</span>
                 <BellIcon aria-hidden="true" className="h-6 w-6" />
               </button>
-              <div className="rounded-md px-3 py-2 text-sm font-medium text-white">Nama USer</div>
+              <div className="rounded-md px-3 py-2 text-sm font-medium text-white">{nama && nama}</div>
               {/* Profile dropdown */}
               <UserProfil />
             </div>

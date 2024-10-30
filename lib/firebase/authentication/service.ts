@@ -1,5 +1,6 @@
 
 import app from '../init'
+import { createSession,deleteSession} from '@/lib/auth/session'
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -13,7 +14,6 @@ import {
 export const FirebaseAuth = getAuth(app)
 
 export const Authentication = () => {
-  console.log(FirebaseAuth)
     return FirebaseAuth
     
   }
@@ -24,13 +24,17 @@ export const Authentication = () => {
   
   export const SignIn = async (email:any,password:any) => {
     await signInWithEmailAndPassword(FirebaseAuth, email, password)
-    console.log(FirebaseAuth)
+    Authentication().onAuthStateChanged((user) => {
+      if (user) {
+    createSession(`${user.email}`)
+      }
+    })
   }
 
   
   export const SignOut = async () => {
     await signOut(FirebaseAuth)
-    console.log(FirebaseAuth)
+    deleteSession()
   }
   
   export const GetSignInErrorMessage = (code:any) => {

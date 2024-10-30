@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { retriveData} from "../lib/firebase/firestore/service";
+import { retriveData} from "../../lib/firebase/firestore/service";
 
 
 

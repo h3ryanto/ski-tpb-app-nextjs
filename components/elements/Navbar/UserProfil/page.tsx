@@ -1,6 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Image from 'next/image'
-// import { SignOut } from '../../../../lib/firebase/authentication/service'
+import { SignOut } from '@/lib/firebase/authentication/service'
+
 
 const UserProfil = () => {
     return (
@@ -35,7 +36,7 @@ const UserProfil = () => {
                     </a>
                 </MenuItem>
                 <MenuItem>
-                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" >
+                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={SignOut}>
                         Sign out
                     </button>
                 </MenuItem>

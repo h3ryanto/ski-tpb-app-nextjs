@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "./components/layout/Header/page";
-import Sidebar from "./components/elements/Sidebar/page";
+import Header from "../components/layout/Header/page";
+import Sidebar from "../components/elements/Sidebar/page";
+// import { ContextProvider } from 'auth-lib'
 
 
 
@@ -32,9 +33,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <ContextProvider> */}
         <Header />
         <Sidebar />
         {children}
+        {/* </ContextProvider> */}
       </body>
     </html>
   );

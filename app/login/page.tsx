@@ -1,13 +1,17 @@
 'use client'
 import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
-import { Authentication, SignIn, GetSignInErrorMessage } from '../lib/firebase/authentication/service'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useRouter } from 'next/navigation'
+import { Authentication, SignIn, GetSignInErrorMessage } from '../../lib/firebase/authentication/service'
+
 
 // type FormValues = {
 //   password: string
 //   email: string
 // }
 export default function Login() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null)
@@ -21,7 +25,18 @@ export default function Login() {
       const password = formData.get('password')
       const email = formData.get('email')
       await SignIn(email, password)
-      console.log(Authentication().currentUser?.email)
+      Authentication().onAuthStateChanged((user) => {
+        if (user) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          // const Profile = {
+          //   "sub": "1234567890",
+          //   "name": "John Doe",
+          //   "admin": true
+          // }
+          // createSession(`${user.email}`)
+          router.replace('/')
+        }
+      });
       // console.log(res)
       // const response = await fetch('/api/auth', {
       //   method: 'POST',
