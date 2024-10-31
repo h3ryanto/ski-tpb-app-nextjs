@@ -1,9 +1,13 @@
+import type { Metadata } from 'next'
 
+export const metadata: Metadata = {
+  title: 'Dashboard',
+}
 
-export default async function About() {
+export default async function Dashboard() {
 
-const data = await fetch('https://api.vercel.app/blog')
-const posts = await data.json()
+  const data = await fetch('https://api.vercel.app/blog')
+  const posts = await data.json()
 
   return (
     <ul>

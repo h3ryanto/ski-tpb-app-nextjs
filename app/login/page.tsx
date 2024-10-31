@@ -24,34 +24,12 @@ export default function Login() {
       await SignIn(email, password)
       Authentication().onAuthStateChanged((user) => {
         if (user) {
+
           router.replace('/')
         }
       });
-      // console.log(res)
-      // const response = await fetch('/api/auth', {
-      //   method: 'POST',
-      //   body: formData,
-      // })
-
-      // if (!response.ok) {
-      //   switch (response.status) {
-      //     case 400:
-      //       throw new Error('Email atau password salah.')
-      //     case 401:
-      //     default:
-      //       throw new Error('Email atau password tidak valid.')
-      //   }
-      // } else {
-      //   console.log(Authentication())
-      // }
-
-      // Handle response if necessary
-      // const data = await response.json()
-      // console.log(data);
-      // ...
     } catch (error: any) {
       setError(GetSignInErrorMessage(error.code))
-
     } finally {
       setIsLoading(false)
     }
