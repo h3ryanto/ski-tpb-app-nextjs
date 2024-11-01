@@ -25,7 +25,7 @@ export const Authentication = () => {
   
   export const SignIn = async (email:any,password:any) => {
     await signInWithEmailAndPassword(FirebaseAuth, email, password)
-    Authentication().onAuthStateChanged((user) => {
+    await Authentication().onAuthStateChanged((user) => {
       if (user) {
     createSession(`${user.email}`)
       }
@@ -35,8 +35,8 @@ export const Authentication = () => {
   
   export const SignOut = async () => {
     await signOut(FirebaseAuth)
-    deleteSession()
-    redirect('/login') 
+    await deleteSession()
+    await redirect('/login') 
   }
   
   export const GetSignInErrorMessage = (code:any) => {
