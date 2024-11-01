@@ -1,41 +1,33 @@
-"use client"
-import DataTable from 'react-data-table-component';
+import style from './styles.module.css'
+import { retriveData } from '@/lib/firebase/firestore/service'
+export default async function Dokumen() {
+	const posts = await retriveData('header')
+	return (
+		<div className="container mx-auto px-4">
+			<table id={style.table} className="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Dok</th>
+						<th scope="col">Nomor Aju</th>
+						<th scope="col">Nomor Daftar</th>
+						<th scope="col">Tanggal Daftar</th>
+					</tr>
+				</thead>
+				<tbody>
+					{posts && posts.map((post: any) => (
+						<tr key={post.id}>
+							<td>{post.kode_dokumen}</td>
+							<td>{post.nomor_aju}</td>
+							<td>{post.nomor_daftar}</td>
+							<td>{post.tanggal_daftar}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
 
 
-const columns = [
-	{
-		name: 'Title'
-	},
-	{
-		name: 'Year',
-	},
-];
-
-const data = [
-  	{
-		id: 1,
-		title: 'Beetlejuice',
-		year: '1988',
-	},
-	{
-		id: 2,
-		title: 'Ghostbusters',
-		year: '1984',
-	},
-]
 
 
-export default function Dokumen() {
-  return (
-
-      <DataTable
-			columns={columns}
-			data={data}
-		/>
-     
-
-   
-
-
-  )
+	)
 }

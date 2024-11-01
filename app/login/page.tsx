@@ -29,7 +29,7 @@ export default function Login() {
         }
       });
     } catch (error: any) {
-      setError(GetSignInErrorMessage(error.code))
+      await setError(GetSignInErrorMessage(error.code))
     } finally {
       setIsLoading(false)
     }
@@ -48,7 +48,7 @@ export default function Login() {
               src="https://tailwindui.com/plus/img/logos/mark.svg"
               width={30}
               height={30}
-              className="block h-16 w-auto justify-items-center"
+              className="dark:invert block h-16 w-auto justify-items-center"
 
             />
           </div>
@@ -72,13 +72,12 @@ export default function Login() {
                   required
                   autoComplete="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue="test"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
+              <div className="mt-5 flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
@@ -96,7 +95,6 @@ export default function Login() {
                   required
                   autoComplete="current-password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue="test"
                 />
               </div>
             </div>
@@ -104,7 +102,7 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="mt-10 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Login'}
               </button>

@@ -1,4 +1,3 @@
-
 import app from '../init'
 import { redirect } from 'next/navigation'
 import { createSession,deleteSession} from '@/lib/auth/session'
@@ -27,7 +26,7 @@ export const Authentication = () => {
     await signInWithEmailAndPassword(FirebaseAuth, email, password)
     await Authentication().onAuthStateChanged((user) => {
       if (user) {
-    createSession(`${user.email}`)
+        createSession(`${user.email}`)
       }
     })
   }
