@@ -24,10 +24,9 @@ export const Authentication = () => {
   
   export const SignIn = async (email:any,password:any) => {
     await signInWithEmailAndPassword(FirebaseAuth, email, password)
-    await Authentication().onAuthStateChanged((user) => {
+    Authentication().onAuthStateChanged((user) => {
       if (user) {
         createSession(`${user.email}`)
-        redirect('/') 
       }
     })
   }

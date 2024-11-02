@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { Authentication, SignIn, GetSignInErrorMessage } from '../../lib/firebase/authentication/service'
 
 
@@ -24,8 +24,8 @@ export default function Login() {
       await SignIn(email, password)
       await Authentication().onAuthStateChanged((user) => {
         if (user) {
-
-          router.replace('/')
+          console.log(user)
+          router.push('/dashboard')
         }
       });
     } catch (error: any) {
