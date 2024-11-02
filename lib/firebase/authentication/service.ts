@@ -27,6 +27,7 @@ export const Authentication = () => {
     await Authentication().onAuthStateChanged((user) => {
       if (user) {
         createSession(`${user.email}`)
+        redirect('/') 
       }
     })
   }
