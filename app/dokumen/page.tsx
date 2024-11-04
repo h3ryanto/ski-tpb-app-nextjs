@@ -1,7 +1,7 @@
 import style from './styles.module.css'
 import { retriveData } from '@/lib/firebase/firestore/service'
 export default async function Dokumen() {
-	const posts = await retriveData('header')
+	const posts = await (await retriveData('header')).data
 	return (
 		<div className="container mx-auto px-4">
 			<table id={style.table} className="table table-striped">
