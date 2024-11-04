@@ -24,7 +24,7 @@ export async function getNextsPaginatedData(lastVisible:any) {
       const query1:any = query(collection(firestore, 'header'), orderBy("created_at", "desc"), startAfter(lastVisible), limit(10));
       const snapshot = await getDocs(query1);
       const newLastVisible = snapshot.docs[snapshot.docs.length-1];
-      const newFirstVisible = snapshot.docs[0];
+      const newFirstVisible = snapshot.docs[snapshot.docs.length-10];
     const data = snapshot.docs.map((doc:any) => ({
         id: doc.id,
         ...doc.data(),
@@ -39,7 +39,7 @@ export async function getNextsPaginatedData(lastVisible:any) {
     const query1:any = query(collection(firestore, 'header'), orderBy("created_at", "desc"), endBefore(firstVisible), limit(10));
     const snapshot = await getDocs(query1);
     const newLastVisible = snapshot.docs[snapshot.docs.length-1];
-    const newFirstVisible = snapshot.docs[0];
+    const newFirstVisible = snapshot.docs[snapshot.docs.length-10];
   const data = snapshot.docs.map((doc:any) => ({
       id: doc.id,
       ...doc.data(),
