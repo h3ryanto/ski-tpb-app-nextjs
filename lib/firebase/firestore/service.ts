@@ -1,20 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { collection, getDocs, getFirestore, query, orderBy, limit, startAfter, endBefore, limitToLast} from "firebase/firestore";
+import { collection, getDocs, getFirestore, query, orderBy, limit, startAfter, endBefore, limitToLast, getCountFromServer} from "firebase/firestore";
 import app from "../init";
 
 const firestore = getFirestore(app);
 
 export async function retriveData(collectionName: string,) {
     const first = query(collection(firestore, collectionName), orderBy("created_at", "desc"), limit(10));
-
+    const allData = collection(firestore, collectionName);
     const snapshot = await getDocs(first);
+    const snapshotAll= await getCountFromServer(allData);
+    const totalPage = snapshotAll.data().count;
     const newLastVisible = snapshot.docs[snapshot.docs.length-1];
     const data = snapshot.docs.map((doc:any) => ({
         id: doc.id,
         ...doc.data(),
     }));
 
-    return {data,newLastVisible};
+    return {data,newLastVisible, totalPage};
 }
 
 
@@ -45,9 +47,9 @@ export async function getFirstsPaginatedData(firstVisible:any) {
     }));
 
     const newLastVisible = snapshotPrev.docs[snapshotPrev.docs.length-1];
-    const newFirstVisible = snapshotPrev.docs[0];
+    const newFirstVisible = snapshotPrev.docs[snapshotPrev.docs.length-10];
   
-    return { data, newLastVisible,newFirstVisible };
+    return { data, newLastVisible, newFirstVisible };
   
   };
 

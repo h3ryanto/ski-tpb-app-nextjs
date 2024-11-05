@@ -9,6 +9,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import CompanyProfile from '../../elements/Navbar/CompanyProfile/page'
 import UserProfil from '../../elements/Navbar/UserProfil/page'
 import { Authentication } from '@/lib/firebase/authentication/service'
+import profile from '@/public/user.jpg'
 
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
@@ -79,7 +80,7 @@ export default function Header() {
                   <span className="sr-only">View notifications</span>
                   <BellIcon aria-hidden="true" className="h-6 w-6" />
                 </button>
-                <div className="rounded-md px-3 py-2 text-sm font-medium text-white">{nama && nama}</div>
+                <div className="hidden sm:ml-6 sm:block rounded-md px-3 py-2 text-sm font-medium text-white">{nama && nama}</div>
                 {/* Profile dropdown */}
                 <UserProfil />
               </div>
