@@ -10,6 +10,7 @@ export default function PaginationComponent() {
   const [firstVisible, setFirstVisible] = useState(null);
   const [page, setPage] = useState<number>(1);
   const [totalPage, setPageTotal] = useState<number>(1);
+  let i: number = 1
 
   const load = async () => {
     const data: any = await retriveData('header');
@@ -51,19 +52,22 @@ export default function PaginationComponent() {
 
   return (
 
-    <div className="container mx-auto px-4">
-      <table id={style.table} className="table-auto border-collapse">
-        <thead>
+    <div className="bg-white container mx-auto max-h-screen px-4 py-5 mt-4 rounded-md">
+      <table id={style.table} className="table-auto">
+        <thead className="font-sans text-sm">
           <tr>
+            <th scope="col">No</th>
             <th scope="col">Dok</th>
             <th scope="col">Nomor Aju</th>
             <th scope="col">Nomor Daftar</th>
             <th scope="col">Tanggal Daftar</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="font-sans text-sm">
           {data && data.map((post: any) => (
+
             <tr key={post.id}>
+              <td>{(i++ + ((10 * page) - 10))}.</td>
               <td>{post.kode_dokumen}</td>
               <td>{post.nomor_aju}</td>
               <td>{post.nomor_daftar}</td>
@@ -74,7 +78,7 @@ export default function PaginationComponent() {
       </table>
       <div className="relative flex h-16 items-center justify-between max-w-sm">
         <button onClick={loadPrev} disabled={page === 1 ? true : false}>Prev</button>
-        <div>Page : {page} / {totalPage}</div>
+        <div>Page : {page} of {totalPage}</div>
         <button onClick={loadNext}>Next</button>
       </div>
     </div>

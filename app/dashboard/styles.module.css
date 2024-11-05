@@ -5,13 +5,13 @@
   }
   
   #table td, #table th {
-    border: 1px solid #ddd;
+    border: 1px solid #f0efef;
     padding: 4px;
   }
   
-  /* #table tr:nth-child(even){background-color: #f2f2f2;} */
+  #table tr:nth-child(even){background-color: #f2f2f2;}
   
-  #table tr:hover {background-color: #ddd;}
+  #table tr:hover {background-color: #bed8f5;}
   
   #table th {
     padding-top: 12px;
