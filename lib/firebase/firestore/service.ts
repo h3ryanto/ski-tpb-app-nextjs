@@ -56,8 +56,8 @@ export async function getFirstsPaginatedData(firstVisible:any) {
 
 
   export async function tambahData() {
-    const data: any = json;
-    const posts = data.data
+    // const data: any = json;
+    // const posts = data.data
 
   //   posts.map((post: any) => (
       
@@ -68,11 +68,11 @@ export async function getFirstsPaginatedData(firstVisible:any) {
 //   subject: "Recess"
 // }
 
-      posts.forEach((post:any) => {
+      // posts.forEach((post:any) => {
 
-        const frankDocRef = doc(collection(firestore, "header"));
-        setDoc(frankDocRef,post)
-      });
+      //   const frankDocRef = doc(collection(firestore, "header"));
+      //   setDoc(frankDocRef,post)
+      // });
       
 
    

@@ -52,10 +52,10 @@ export default function PaginationComponent() {
 
   return (
 
-    <div className="bg-white container mx-auto max-h-screen px-4 py-5 mt-4 rounded-md">
-      <table id={style.table} className="table-auto">
-        <thead className="font-sans text-sm">
-          <tr>
+    <div className="bg-white container mx-auto max-h-screen px-4 py-5 mt-4 rounded-md font-sans text-sm">
+      <table id={style.table} className="table-auto overflow-x-scroll">
+        <thead>
+          <tr className="border-b-2 border-y-slate-400">
             <th scope="col">No</th>
             <th scope="col">Dok</th>
             <th scope="col">Nomor Aju</th>
@@ -63,7 +63,7 @@ export default function PaginationComponent() {
             <th scope="col">Tanggal Daftar</th>
           </tr>
         </thead>
-        <tbody className="font-sans text-sm">
+        <tbody >
           {data && data.map((post: any) => (
 
             <tr key={post.id}>
@@ -76,11 +76,13 @@ export default function PaginationComponent() {
           ))}
         </tbody>
       </table>
-      <div className="relative flex h-16 items-center justify-between max-w-sm">
-        <button onClick={loadPrev} disabled={page === 1 ? true : false}>Prev</button>
-        <div>Page : {page} of {totalPage}</div>
-        <button onClick={loadNext}>Next</button>
+      <div className="relative flex items-center justify-between max-w-sm mx-auto mt-4">
+
+
+        <button onClick={loadPrev} disabled={page === 1 ? true : false} className={page === 1 ? "text-gray-400 p-2 rounded-md border" : "hover:bg-blue-100 hover:border-blue-500 p-2 rounded-md border"}>Previous</button>
+        <div>Page : {page} to {Math.round(totalPage / 10)} of {totalPage} data entris</div>
+        <button onClick={loadNext} className={page === Math.round(totalPage / 10) ? "text-gray-400 hover:bg-blue-100 hover:border-blue-500 p-2 rounded-md border" : "hover:bg-blue-100 hover:border-blue-500 p-2 rounded-md border"}>Next</button>
       </div>
-    </div>
+    </div >
   );
 }

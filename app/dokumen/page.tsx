@@ -1,7 +1,13 @@
-import style from './styles.module.css'
-import { retriveData } from '@/lib/firebase/firestore/service'
+import { sql } from "@vercel/postgres";
+import style from './styles.module.css';
+import formatDate from '@/lib/date/date';
+
+
+
+
 export default async function Dokumen() {
-	const posts = await (await retriveData('header')).data
+	const { rows } = await sql`SELECT * FROM headers LIMIT 10`;
+
 	return (
 		<div className="container mx-auto px-4">
 			<table id={style.table} className="table table-striped">
@@ -14,12 +20,13 @@ export default async function Dokumen() {
 					</tr>
 				</thead>
 				<tbody>
-					{posts && posts.map((post: any) => (
+					{rows && rows.map((post: any) => (
 						<tr key={post.id}>
 							<td>{post.kode_dokumen}</td>
 							<td>{post.nomor_aju}</td>
 							<td>{post.nomor_daftar}</td>
-							<td>{post.tanggal_daftar}</td>
+							<td>{formatDate(post.nomor_daftar)}</td>
+
 						</tr>
 					))}
 				</tbody>
@@ -31,3 +38,5 @@ export default async function Dokumen() {
 
 	)
 }
+
+
