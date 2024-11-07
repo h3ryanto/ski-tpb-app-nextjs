@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Image from 'next/image'
 import { SignOut } from '@/lib/firebase/authentication/service'
