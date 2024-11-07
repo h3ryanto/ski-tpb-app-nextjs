@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import app from '../init'
+
 import { redirect } from 'next/navigation'
 import { createSession,deleteSession} from '@/lib/auth/session'
 import {
@@ -24,17 +26,17 @@ export const Authentication = () => {
   
   export const SignIn = async (email:any,password:any) => {
     await signInWithEmailAndPassword(FirebaseAuth, email, password)
-    Authentication().onAuthStateChanged((user) => {
-      if (user) {
-        createSession(`${user.email}`)
-      }
-    })
+    console.log(Authentication)
+    // Authentication().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     createSession(`${user.email}`)
+    //   }
+    // })
   }
 
   
   export const SignOut = async () => {
     await signOut(FirebaseAuth)
-    await deleteSession()
     await redirect('/login') 
   }
   

@@ -3,10 +3,13 @@ import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { redirect, useRouter } from 'next/navigation'
-import { Authentication, SignIn, GetSignInErrorMessage } from '../../lib/firebase/authentication/service'
+// import { Authentication, SignIn, GetSignInErrorMessage } from '../../lib/firebase/authentication/service'
+import { signIn } from "next-auth/react"
+
 
 
 export default function Login() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,19 +20,33 @@ export default function Login() {
     setIsLoading(true)
 
     try {
-
       const formData = new FormData(event.currentTarget)
-      const password = formData.get('password')
-      const email = formData.get('email')
-      await SignIn(email, password)
-      await Authentication().onAuthStateChanged((user) => {
-        if (user) {
-          console.log(user)
-          router.push('/dashboard')
-        }
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: formData.get('email'),
+        password: formData.get('password'),
+        callbackUrl: '/dashboard',
       });
+
+      if (!res?.error) {
+        router.push('/dashboard')
+      } else {
+        console.log(res.error)
+      }
+
+      // const formData = new FormData(event.currentTarget)
+      // const password = formData.get('password')
+      // const email = formData.get('email')
+      // await SignIn(email, password)
+      // await Authentication().onAuthStateChanged((user) => {
+      //   if (user) {
+      //     console.log(user)
+      //     router.push('/dashboard')
+      //   }
+      // });
     } catch (error: any) {
-      await setError(GetSignInErrorMessage(error.code))
+      console.log(error)
+      // await setError(GetSignInErrorMessage(error.code))
     } finally {
       setIsLoading(false)
     }
@@ -53,7 +70,7 @@ export default function Login() {
             />
           </div>
 
-          <h2 className="text-slate-800 dark:text-white mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="text-slate-800 dark:text-white mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
             Sign in to your account
           </h2>
         </div>
@@ -61,7 +78,7 @@ export default function Login() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={onSubmit}>
             <div>
-              <label htmlFor="email" className="text-slate-900 dark:text-white block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="email" className="text-slate-900 dark:text-white block text-sm font-medium leading-6">
                 Email address
               </label>
               <div className="mt-2">
@@ -78,7 +95,7 @@ export default function Login() {
 
             <div>
               <div className="mt-5 flex items-center justify-between">
-                <label htmlFor="password" className="text-slate-900 dark:text-white block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="password" className="text-slate-900 dark:text-white block text-sm font-medium leading-6">
                   Password
                 </label>
                 <div className="text-sm">
