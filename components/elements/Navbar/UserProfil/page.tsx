@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Image from 'next/image'
-import { SignOut } from '@/lib/firebase/authentication/service'
+import { logOut } from '@/lib/firebase/authentication/service'
 import profile from '@/public/user.jpg'
 import { Authentication } from '@/lib/firebase/authentication/service'
 import { useState, useEffect } from 'react'
@@ -54,7 +54,7 @@ const UserProfil = () => {
                 <MenuItem>
 
 
-                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={SignOut}>
+                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={()=>signOut()}>
                         Sign out
                     </button>
 
