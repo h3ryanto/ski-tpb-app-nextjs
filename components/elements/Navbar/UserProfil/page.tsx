@@ -8,11 +8,23 @@ import { useState, useEffect } from 'react'
 import { signOut } from "next-auth/react"
 
 
+
 const UserProfil = () => {
     const [nama, setNama] = useState<string | null>(null)
+    const handleLogout = async () => {
+        try {
+            await signOut()
+            await logOut()
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         Authentication().onAuthStateChanged((user) => {
             if (user) {
+                console.log(user)
                 setNama(user ? user.email : "Nama User")
             }
         })
@@ -54,7 +66,7 @@ const UserProfil = () => {
                 <MenuItem>
 
 
-                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={()=>signOut()}>
+                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={() => handleLogout()}>
                         Sign out
                     </button>
 

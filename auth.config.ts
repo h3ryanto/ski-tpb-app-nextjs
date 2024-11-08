@@ -1,7 +1,6 @@
 
 import type { NextAuthConfig } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { Authentication, SignIn } from '@/lib/firebase/authentication/service'
 import app from '@/lib/firebase/init'
 import {
     getAuth,
@@ -31,6 +30,7 @@ export default {
                             const user = userCredential.user;
                             return user
                         }).catch((error) => {
+                            console.log(error)
                             throw new Error("Invalid credentials.")
                         });
 
