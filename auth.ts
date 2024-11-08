@@ -4,8 +4,7 @@ import authConfig from "./auth.config"
 
 
  
-// export const authOptions : NextAuthOptions= { 
-  export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {strategy: "jwt"},
   secret: process.env.AUTH_SECRET, 
 ...authConfig,
@@ -34,5 +33,5 @@ pages: {
 // }
 });
 
-// export default NextAuth(authOptions)
+
 
