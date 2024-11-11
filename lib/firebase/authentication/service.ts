@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import app from '../init'
 import { redirect } from 'next/navigation'
-import { createSession,deleteSession} from '@/lib/auth/session'
 import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    updateProfile,
   } from 'firebase/auth'
 
 
@@ -24,17 +24,39 @@ export const Authentication = () => {
   }
   
   export const SignIn = async (email:any,password:any) => {
-    await signInWithEmailAndPassword(FirebaseAuth, email, password)
+    const res =await signInWithEmailAndPassword(FirebaseAuth, email, password)
     .then((userCredential) => {
-    // Signed in 
     const user = userCredential.user;
     return user
     // ...
   })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    return errorMessage
+  });
+
+  return res
   }
 
+  export const Update= async () => {
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        FirebaseAuth,
+       "hery.heryanto21@gmail.com",
+        "H3ry4nt0#"
+      );
+      updateProfile(user, {
+        displayName: "Hery Heryanto",
+        photoURL: "https://www.freepik.com/premium-vector/portrait-young-anime-male-student-with-straight-black-hair_262727129.htm#fromView=keyword&page=1&position=8&uuid=81ec9880-3dae-4253-aef2-c52d29721393"
+      });
+  } catch (e) {
+      console.log(e)
+  }
+    
+}
   
-  export const logOut = async () => {
+    export const logOut = async () => {
     await signOut(FirebaseAuth)
     await redirect('/login') 
   }

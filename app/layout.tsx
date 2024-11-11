@@ -25,14 +25,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>,
-
 ) {
 
-  // const session = useSession();
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
         <SessionProvider>
+
           <Header />
           {children}
         </SessionProvider>

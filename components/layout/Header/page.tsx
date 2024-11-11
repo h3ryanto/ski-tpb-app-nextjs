@@ -8,8 +8,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import CompanyProfile from '../../elements/Navbar/CompanyProfile/page'
 import UserProfil from '../../elements/Navbar/UserProfil/page'
-import { Authentication } from '@/lib/firebase/authentication/service'
-import profile from '@/public/user.jpg'
+import { useSession } from 'next-auth/react';
 
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
@@ -17,7 +16,7 @@ function classNames(...classes: (string | undefined | null | false)[]): string {
 }
 
 export default function Header() {
-  const [nama, setNama] = useState<string | null>(null)
+  const session = useSession();
   const router = useRouter()
   const pathname = usePathname();
   const navigation = [
@@ -25,13 +24,7 @@ export default function Header() {
     { name: 'Dashboard', href: 'dashboard', current: pathname === '/dashboard' ? true : false },
     { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false },
   ]
-  useEffect(() => {
-    Authentication().onAuthStateChanged((user) => {
-      if (user) {
-        setNama(user ? user.email : "Nama User")
-      }
-    })
-  }, [])
+
   const publicRoutes = ['/login']
   const isLoginRoute = publicRoutes.includes(pathname)
 
@@ -58,7 +51,7 @@ export default function Header() {
 
                       <Link
                         key={item.name}
-                        href={item.href}
+                        href={item.href} replace
                         aria-current={item.current ? 'page' : undefined}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
@@ -80,7 +73,7 @@ export default function Header() {
                   <span className="sr-only">View notifications</span>
                   <BellIcon aria-hidden="true" className="h-6 w-6" />
                 </button>
-                <div className="hidden sm:ml-6 sm:block rounded-md px-3 py-2 text-sm font-medium text-white">{nama && nama}</div>
+                <div className="hidden sm:ml-6 sm:block rounded-md px-3 py-2 text-sm font-medium text-white">{session.data?.user?.name}</div>
                 {/* Profile dropdown */}
                 <UserProfil />
               </div>

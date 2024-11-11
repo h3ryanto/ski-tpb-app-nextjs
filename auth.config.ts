@@ -1,11 +1,7 @@
 
 import type { NextAuthConfig } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import app from '@/lib/firebase/init'
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-  } from 'firebase/auth' 
+import { SignIn } from "@/lib/firebase/authentication/service" 
 
 export default { 
     providers: [
@@ -23,22 +19,25 @@ export default {
                     password: string;
                   };
 
-                  const FirebaseAuth = getAuth(app)
-                const user = await signInWithEmailAndPassword(FirebaseAuth, email, password)
-                            .then((userCredential) => {
-                            
-                            const user = userCredential.user;
-                            return user
-                        }).catch((error) => {
-                            console.log(error)
-                            throw new Error("Invalid credentials.")
-                        });
+                  try {
+                    const res = await SignIn(email, password)
+                    if (res.auth.currentUser.email=email){
+                        const user = {
+                            email:res.auth.currentUser.email,
+                            name:res.auth.currentUser.displayName,
+                            photo:res.auth.currentUser.photoURL
+                        }
+                        return user
+                    }else{
+                        return null
+                    }
 
-                if (user){
-                    return user
-                }else{
-                    return null
-                }
+                    } catch (error) {
+                        console.log(error)
+                        return null
+                    }
+
+               
                 // await Authentication().onAuthStateChanged((user) => {
                 //     if (user) {
                 //         return user

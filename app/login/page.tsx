@@ -1,18 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { redirect, useRouter } from 'next/navigation'
-// import { Authentication, SignIn, GetSignInErrorMessage } from '../../lib/firebase/authentication/service'
+import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
+import companyLogo from "@/public/logo.png"
+import img from "@/public/img/image.jpg"
 
 
 
 export default function Login() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null)
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -29,107 +28,90 @@ export default function Login() {
       });
 
       if (!res?.error) {
-        router.push('/dashboard')
+        router.replace('/dashboard')
       } else {
         console.log(res.error)
       }
-
-      // const formData = new FormData(event.currentTarget)
-      // const password = formData.get('password')
-      // const email = formData.get('email')
-      // await SignIn(email, password)
-      // await Authentication().onAuthStateChanged((user) => {
-      //   if (user) {
-      //     console.log(user)
-      //     router.push('/dashboard')
-      //   }
-      // });
     } catch (error: any) {
       console.log(error)
-      // await setError(GetSignInErrorMessage(error.code))
     } finally {
       setIsLoading(false)
     }
   }
 
-
-
   return (
-    <>
-
-      <div className="bg-white dark:bg-slate-800 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className="block h-16 w-auto justify-items-center">
-            <Image
-              alt="Your Company"
-              src="https://tailwindui.com/plus/img/logos/mark.svg"
-              width={30}
-              height={30}
-              className="dark:invert block h-16 w-auto justify-items-center"
-
-            />
-          </div>
-
-          <h2 className="text-slate-800 dark:text-white mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={onSubmit}>
-            <div>
-              <label htmlFor="email" className="text-slate-900 dark:text-white block text-sm font-medium leading-6">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="text"
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="mt-5 flex items-center justify-between">
-                <label htmlFor="password" className="text-slate-900 dark:text-white block text-sm font-medium leading-6">
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="mt-10 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                disabled={isLoading}>
-                {isLoading ? 'Loading...' : 'Login'}
-              </button>
-              {error && <div style={{ color: 'red' }}><small>{error}</small></div>}
-            </div>
-          </form>
-
-
-        </div>
+    <div className="container h-svh mx-auto flex flex-col items-center border border-red-500">
+      <div className='flex flex-col border border-slate-600 mx-auto h-32 w-48 my-12'>
+        <div className='min-w-16  min-h-16 border border-4 mx-auto rounded-full'></div>
+        <div className='min-w-32  min-h-32 border border-4 mx-auto rounded-full'></div>
       </div>
-    </>
+      <div className="container mx-auto flex flex-col justify-center px-12 py-3 lg:px-8 z-10">
+        <div className="rounded-xl shadow-lg border border-slate-200 px-5 py-5">
+          <div className="flex justify-center items-center ">
+            <h2 className="font-sans text-blue-600 dark:text-white text-center text-xl font-bold leading-9 tracking-tight">
+              Sign<span className="text-slate-500">In</span>
+            </h2>
+          </div>
+          <div className="mt-5 mx-auto ">
+            <form onSubmit={onSubmit}>
+              <div>
+                <label className="block">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="Email"
+                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500
+                               disabled:border-slate-200 disabled:shadow-none focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+                            "/>
+                </label>
+              </div>
+
+              <div>
+                <label className="block mt-2">
+                  <div >
+                    <input
+                      id="password"
+                      type="password"
+                      name="password"
+                      required
+                      placeholder="Password"
+                      autoComplete="current-password"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 text-sm sm:text-sm sm:leading-6"
+                    />
+                    <div className="text-sm">
+                      <a href="#" className="font-semibold text-sky-600 hover:text-sky-500">
+                        Forgot password?
+                      </a>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  className="mt-5 mb-5 flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  disabled={isLoading}>
+                  {isLoading ? 'Loading...' : 'Login'}
+                </button>
+                {error && <div style={{ color: 'red' }}><small>{error}</small></div>}
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div >
+      <div className="flex w-svw h-80 fixed bottom-0 z-0 sm:hidden">
+        <div className='flex mx-auto bg-slate-200 w-60 h-60 rounded-full mt-24 animate-bounce'></div>
+        <div className='bg-blue-300 w-72 h-72 rounded-tr-full fixed bottom-0'></div>
+        <div className='bg-blue-400 w-72 h-72 rounded-tl-full fixed bottom-0 right-0'></div>
+
+      </div>
+    </div >
+
   )
 }
