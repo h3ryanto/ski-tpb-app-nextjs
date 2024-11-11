@@ -43,8 +43,8 @@ export const Authentication = () => {
     try {
       const { user } = await createUserWithEmailAndPassword(
         FirebaseAuth,
-       "hery.heryanto21@gmail.com",
-        "H3ry4nt0#"
+       "",
+        ""
       );
       updateProfile(user, {
         displayName: "Hery Heryanto",

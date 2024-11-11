@@ -4,8 +4,8 @@ import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
-import companyLogo from "@/public/logo.png"
-import img from "@/public/img/image.jpg"
+import login from "@/public/svg/login.svg"
+import { Span } from 'next/dist/trace'
 
 
 
@@ -40,16 +40,13 @@ export default function Login() {
   }
 
   return (
-    <div className="container h-svh mx-auto flex flex-col items-center border border-red-500">
-      <div className='flex flex-col border border-slate-600 mx-auto h-32 w-48 my-12'>
-        <div className='min-w-16  min-h-16 border border-4 mx-auto rounded-full'></div>
-        <div className='min-w-32  min-h-32 border border-4 mx-auto rounded-full'></div>
-      </div>
-      <div className="container mx-auto flex flex-col justify-center px-12 py-3 lg:px-8 z-10">
-        <div className="rounded-xl shadow-lg border border-slate-200 px-5 py-5">
+    <div className="container h-svh mx-auto flex flex-col md:items-end items-center">
+      <div className="container mx-auto flex flex-col justify-center px-12 py-10 lg:px-8 z-20 
+                      md:max-w-sm md:justify-end">
+        <div className="rounded-xl px-1 py-5">
           <div className="flex justify-center items-center ">
             <h2 className="font-sans text-blue-600 dark:text-white text-center text-xl font-bold leading-9 tracking-tight">
-              Sign<span className="text-slate-500">In</span>
+              Sign<span className="text-slate-500"> In</span>
             </h2>
           </div>
           <div className="mt-5 mx-auto ">
@@ -65,7 +62,7 @@ export default function Login() {
                     placeholder="Email"
                     className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
                               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500
-                               disabled:border-slate-200 disabled:shadow-none focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+                              disabled:border-slate-200 disabled:shadow-none focus:invalid:border-pink-500 focus:invalid:ring-pink-500 sm:text-sm sm:leading-6 text-slate-800
                             "/>
                 </label>
               </div>
@@ -80,7 +77,9 @@ export default function Login() {
                       required
                       placeholder="Password"
                       autoComplete="current-password"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 text-sm sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
+                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
+                      text-sm sm:text-sm sm:leading-6 text-slate-800 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                     />
                     <div className="text-sm">
                       <a href="#" className="font-semibold text-sky-600 hover:text-sky-500">
@@ -94,7 +93,7 @@ export default function Login() {
               <div>
                 <button
                   type="submit"
-                  className="mt-5 mb-5 flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex mt-5 mb-5 w-24 mx-auto justify-center rounded-xl bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   disabled={isLoading}>
                   {isLoading ? 'Loading...' : 'Login'}
                 </button>
@@ -104,13 +103,17 @@ export default function Login() {
 
           </div>
         </div>
-      </div >
-      <div className="flex w-svw h-80 fixed bottom-0 z-0 sm:hidden">
-        <div className='flex mx-auto bg-slate-200 w-60 h-60 rounded-full mt-24 animate-bounce'></div>
-        <div className='bg-blue-300 w-72 h-72 rounded-tr-full fixed bottom-0'></div>
-        <div className='bg-blue-400 w-72 h-72 rounded-tl-full fixed bottom-0 right-0'></div>
-
-      </div>
+      </div >  
+        <Image 
+        src={login} 
+        alt="Login" 
+        width={500}
+        height={500}
+        className='bg-transparent z-10 max-w-56 fixed bottom-0 -right-10 
+        transition sm:-translate-x-96 md:hidden'
+        />
+        <div className='bg-blue-400 w-[900] h-[900] rounded-full fixed -bottom-[600] -right-[500]
+        md:-left-[450] md:-bottom-20'></div>
     </div >
 
   )
