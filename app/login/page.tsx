@@ -4,8 +4,8 @@ import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
-import login from "@/public/svg/login.svg"
-import { Span } from 'next/dist/trace'
+import login_sm from "@/public/svg/login_sm.svg"
+import login_md from "@/public/svg/login_md.svg"
 
 
 
@@ -31,6 +31,7 @@ export default function Login() {
         router.replace('/dashboard')
       } else {
         console.log(res.error)
+        setError("Email atau Password salah!")
       }
     } catch (error: any) {
       console.log(error)
@@ -40,10 +41,21 @@ export default function Login() {
   }
 
   return (
-    <div className="container h-svh mx-auto flex flex-col md:items-end items-center">
-      <div className="container mx-auto flex flex-col justify-center px-12 py-10 lg:px-8 z-20 
-                      md:max-w-sm md:justify-end">
-        <div className="rounded-xl px-1 py-5">
+    <div className="container h-svh mx-auto flex flex-col items-center md:justify-center">
+
+
+      <div className="container mx-auto flex flex-col items-center py-10 z-20
+                      md:flex-row md:justify-between md:items-center md:max-w-[100vw]:">
+        <div className="hidden md:block md:basis-1/2">
+          <Image
+            src={login_md}
+            alt="Login"
+            width={500}
+            height={500}
+            className='bg-transparent z-10 max-w-[50vh]]' />
+        </div>
+        <div className="rounded-xl py-5 mb-10 w-full px-14
+                        sm:max-w-md md:basis-1/2 ">
           <div className="flex justify-center items-center ">
             <h2 className="font-sans text-blue-600 dark:text-white text-center text-xl font-bold leading-9 tracking-tight">
               Sign<span className="text-slate-500"> In</span>
@@ -60,9 +72,9 @@ export default function Login() {
                     required
                     autoComplete="email"
                     placeholder="Email"
-                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500
-                              disabled:border-slate-200 disabled:shadow-none focus:invalid:border-pink-500 focus:invalid:ring-pink-500 sm:text-sm sm:leading-6 text-slate-800
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
+                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
+                      text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500 
                             "/>
                 </label>
               </div>
@@ -79,9 +91,9 @@ export default function Login() {
                       autoComplete="current-password"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
                       placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
-                      text-sm sm:text-sm sm:leading-6 text-slate-800 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                      text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500"
                     />
-                    <div className="text-sm">
+                    <div className="text-sm mt-2">
                       <a href="#" className="font-semibold text-sky-600 hover:text-sky-500">
                         Forgot password?
                       </a>
@@ -100,20 +112,18 @@ export default function Login() {
                 {error && <div style={{ color: 'red' }}><small>{error}</small></div>}
               </div>
             </form>
-
           </div>
         </div>
-      </div >  
-        <Image 
-        src={login} 
-        alt="Login" 
+      </div >
+      <Image
+        src={login_sm}
+        alt="Login"
         width={500}
         height={500}
-        className='bg-transparent z-10 max-w-56 fixed bottom-0 -right-10 
-        transition sm:-translate-x-96 md:hidden'
-        />
-        <div className='bg-blue-400 w-[900] h-[900] rounded-full fixed -bottom-[600] -right-[500]
-        md:-left-[450] md:-bottom-20'></div>
+        className='bg-transparent z-10 max-w-56 fixed bottom-0 md:hidden' />
+      <div className='bg-blue-400 w-[110vw] h-[110vw] rounded-r-full rounded-l-full fixed -bottom-[50vw] z-0
+                      md:-left-[65vw] md:w-[110vw] md:h-[110vw] md:-bottom-[25vw]'></div>
+
     </div >
 
   )

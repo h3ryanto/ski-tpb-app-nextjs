@@ -52,10 +52,19 @@ export default function PaginationComponent() {
 
   return (
 
-    <div className="bg-white container mx-auto max-h-screen px-4 py-5 mt-4 rounded-md font-sans text-sm">
-      <table id={style.table} className="table-auto overflow-x-scroll">
+    <div className="container flex flex-col mx-auto justify-center px-4 py-5 mt-4 rounded-md font-sans text-sm">
+      <div className='columns-1 bg-slate-600 divide-y-2 divide-slate-400 text-slate-100 rounded-md px-5'>
+        {data && data.map((post: any) => (
+          <div key={post.id}>
+            <p>{post.nomor_aju}</p>
+            <p>{post.nomor_daftar} / {post.tanggal_daftar}</p>
+            <p>{post.kode_dokumen}</p>
+          </div>
+        ))}
+      </div>
+      <table id={style.table} className="table-auto overflow-x-scroll hidden">
         <thead>
-          <tr className="border-b-2 border-y-slate-400">
+          <tr className="border-b-2 border-y-slate-400 ">
             <th scope="col">No</th>
             <th scope="col">Dok</th>
             <th scope="col">Nomor Aju</th>
