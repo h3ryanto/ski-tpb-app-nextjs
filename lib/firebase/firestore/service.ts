@@ -5,6 +5,9 @@ import json from '../../../public/header.json'
 
 const firestore = getFirestore(app);
 
+export async function retriveDokumen() {
+
+}
 export async function retriveData(collectionName: string,) {
     const first = query(collection(firestore, collectionName), orderBy("created_at", "desc"), limit(10));
     const allData = collection(firestore, collectionName);
@@ -25,7 +28,7 @@ export async function getNextsPaginatedData(lastVisible:any) {
 
       const query1:any = query(collection(firestore, 'header'), orderBy("created_at", "desc"), startAfter(lastVisible), limit(10));
       const snapshot = await getDocs(query1);
-      
+     
     const data = snapshot.docs.map((doc:any) => ({
         id: doc.id,
         ...doc.data(),

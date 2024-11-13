@@ -80,7 +80,7 @@ export default function Header() {
             </div>
           </div>
 
-          <DisclosurePanel className="sm:hidden">
+          <DisclosurePanel className="absolute  bg-gray-800 p-1 text-gray-400 z-10 sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <DisclosureButton

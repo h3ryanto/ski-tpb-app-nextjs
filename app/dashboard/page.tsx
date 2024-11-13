@@ -29,7 +29,7 @@ export default function PaginationComponent() {
     setFirstVisible(newFirstVisible);
     // console.log(data.newFirstVisible);
     setPage(prev => prev + 1);
-    console.log(newFirstVisible._document.data.value.mapValue.fields.nomor_aju)
+    // console.log(newFirstVisible._document.data.value.mapValue.fields.nomor_aju)
   };
 
   const loadPrev = async () => {
@@ -37,8 +37,8 @@ export default function PaginationComponent() {
     const data: any = await getFirstsPaginatedData(firstVisible);
     const newFirstVisible = data.newFirstVisible;
     const newLastVisible = data.newLastVisible;
-    console.log("next ", newLastVisible._document.data.value.mapValue.fields.nomor_aju)
-    console.log("prev ", data.newFirstVisible)
+    // console.log("next ", newLastVisible._document.data.value.mapValue.fields.nomor_aju)
+    // console.log("prev ", data.newFirstVisible)
     setData(data.data);
     setFirstVisible(newFirstVisible);
     setLastVisible(newLastVisible);
@@ -46,23 +46,44 @@ export default function PaginationComponent() {
 
   };
 
+  const borderColor = (kode_dokumen: string) => {
+    if (kode_dokumen == '30') {
+      return 'border-yellow-400';
+    } else if (kode_dokumen == '23') {
+      return 'border-red-400';
+    } else if (kode_dokumen == '27') {
+      return 'border-blue-400';
+    } else if (kode_dokumen == '40') {
+      return 'border-green-400';
+    } else if (kode_dokumen == '262') {
+      return 'border-pink-400';
+    } else if (kode_dokumen == '41') {
+      return 'border-cyan-400';
+    } else if (kode_dokumen == '33') {
+      return 'border-orange-400';
+    }
+  }
+
   useEffect(() => {
     load();
   }, []);
 
   return (
 
-    <div className="container flex flex-col mx-auto justify-center px-4 py-5 mt-4 rounded-md font-sans text-sm">
-      <div className='columns-1 bg-slate-600 divide-y-2 divide-slate-400 text-slate-100 rounded-md px-5'>
+    <div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
+      <div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
         {data && data.map((post: any) => (
-          <div key={post.id}>
-            <p>{post.nomor_aju}</p>
-            <p>{post.nomor_daftar} / {post.tanggal_daftar}</p>
-            <p>{post.kode_dokumen}</p>
+          <div key={post.id} className='flex items-center hover:bg-blue-400/50'>
+            <div className={`flex justify-center items-center border-2 ${borderColor(post.kode_dokumen)} w-12 h-12 rounded-full mr-3`}>{post.kode_dokumen}</div>
+            <div>
+              <p>{post.nomor_aju}</p>
+              <p>{post.nomor_daftar} / {post.tanggal_daftar}</p>
+              <p>{post.kode_dokumen}</p>
+            </div>
           </div>
         ))}
       </div>
-      <table id={style.table} className="table-auto overflow-x-scroll hidden">
+      <table id={style.table} className="table-auto hidden md:table">
         <thead>
           <tr className="border-b-2 border-y-slate-400 ">
             <th scope="col">No</th>
@@ -85,13 +106,14 @@ export default function PaginationComponent() {
           ))}
         </tbody>
       </table>
-      <div className="relative flex items-center justify-between max-w-sm mx-auto mt-4">
-
-
-        <button onClick={loadPrev} disabled={page === 1 ? true : false} className={page === 1 ? "text-gray-400 p-2 rounded-md border" : "hover:bg-blue-100 hover:border-blue-500 p-2 rounded-md border"}>Previous</button>
-        <div>Page : {page} to {Math.round(totalPage / 10)} of {totalPage} data entris</div>
-        <button onClick={loadNext} className={page === Math.round(totalPage / 10) ? "text-gray-400 hover:bg-blue-100 hover:border-blue-500 p-2 rounded-md border" : "hover:bg-blue-100 hover:border-blue-500 p-2 rounded-md border"}>Next</button>
+      <div className='flex justify-center mx-auto bg-slate-800 min-w-full py-2'>
+        <div className="relative flex items-center justify-between max-w-sm mx-auto text-slate-100">
+          <button onClick={loadPrev} disabled={page === 1 ? true : false} className={page === 1 ? "text-gray-700 p-2 rounded-md border" : " hover:border-blue-500  hover:text-blue-500 p-2 rounded-md border-2"}>Previous</button>
+          <div className='mx-2'>Page : {page} to {Math.round(totalPage / 10)} of {totalPage} data entris </div>
+          <button onClick={loadNext} className={page === Math.round(totalPage / 10) ? "text-gray-700 hover:border-blue-500 p-2 rounded-md border-2 border-grey-400" : "hover:border-blue-500 hover:text-blue-500 p-2 rounded-md border-2"}>Next</button>
+        </div>
       </div>
+
     </div >
   );
 }
