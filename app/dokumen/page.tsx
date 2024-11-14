@@ -27,7 +27,21 @@ export default async function Dokumen(props: {
 								END)
 								ORDER BY headers.created_at DESC
 								LIMIT 10 offset ${Number(page) * 10 - 10}`;
-	const count: any = await sql`SELECT COUNT(*) FROM headers`;
+	const count: any = await sql`SELECT count(*)
+								FROM headers 
+								INNER JOIN entitas ON entitas.nomor_aju = headers.nomor_aju 
+								WHERE entitas.kode_entitas = 
+								(CASE
+									WHEN headers.kode_dokumen ='23' THEN '3'
+									WHEN headers.kode_dokumen ='40' THEN '5'
+									WHEN headers.kode_dokumen ='27' THEN '3'
+									WHEN headers.kode_dokumen ='30' THEN '6'
+									WHEN headers.kode_dokumen ='262' THEN '9'
+									WHEN headers.kode_dokumen ='261' THEN '8'
+									WHEN headers.kode_dokumen ='41' THEN '8'
+									WHEN headers.kode_dokumen ='25' THEN '8'
+									WHEN headers.kode_dokumen ='33' THEN '8'
+								END)`;
 	const countrResults: any = count.rows[0].count;
 	console.log(countrResults);
 

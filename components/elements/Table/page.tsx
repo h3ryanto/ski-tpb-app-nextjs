@@ -31,17 +31,17 @@ export default async function Table({ posts }: { posts: any }) {
 						<div className={`flex justify-center items-center border-2 ${borderColor(post.kode_dokumen)} w-12 h-12 rounded-full mr-3`}>{post.kode_dokumen}</div>
 						<div>
 							<p className='flex items-center'>
-								<PaperAirplaneIcon aria-hidden="true" className="h-4 w-4 mr-1 stroke-red-400" />
+								<PaperAirplaneIcon aria-hidden="true" className="h-3 w-3 marker:mr-1 stroke-red-400" />
 								{post.nomor_aju}
 							</p>
 							<p className='flex items-center'>
-								<UserGroupIcon aria-hidden="true" className="h-4 w-4 mr-1 stroke-orange-400" />
+								<UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
 								{post.nama_entitas}
 							</p>
 							<p className='flex items-center'>
-								<PencilSquareIcon aria-hidden="true" className="h-4 w-4 mr-1 stroke-cyan-500" />
+								<PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
 								{post.nomor_daftar} /
-								<CalendarDaysIcon aria-hidden="true" className="h-4 w-4 mr-1 ml-1 stroke-blue-400" />
+								<CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
 								{post.ftanggal_daftar}
 							</p>
 						</div>
