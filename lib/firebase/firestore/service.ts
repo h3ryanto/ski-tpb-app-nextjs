@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { collection, getDocs, getFirestore, query, orderBy, limit, startAfter, endBefore, limitToLast, getCountFromServer, setDoc,doc} from "firebase/firestore";
+import { collection, getDocs, getFirestore, query, orderBy, limit, startAfter, endBefore, limitToLast, getCountFromServer, setDoc,doc, onSnapshot,where} from "firebase/firestore";
 import app from "../init";
 import json from '../../../public/header.json'
 
@@ -8,8 +8,10 @@ const firestore = getFirestore(app);
 export async function retriveDokumen() {
 
 }
+
+
 export async function retriveData(collectionName: string,) {
-    const first = query(collection(firestore, collectionName), orderBy("created_at", "desc"), limit(10));
+    const first = query(collection(firestore, collectionName), where('entitas', '==', '7'),orderBy("created_at", "desc"), limit(10));
     const allData = collection(firestore, collectionName);
     const snapshot = await getDocs(first);
     const snapshotAll= await getCountFromServer(allData);
@@ -26,7 +28,7 @@ export async function retriveData(collectionName: string,) {
 
 export async function getNextsPaginatedData(lastVisible:any) {
 
-      const query1:any = query(collection(firestore, 'header'), orderBy("created_at", "desc"), startAfter(lastVisible), limit(10));
+      const query1:any = query(collection(firestore, 'headers'), orderBy("created_at", "desc"), startAfter(lastVisible), limit(10));
       const snapshot = await getDocs(query1);
      
     const data = snapshot.docs.map((doc:any) => ({
@@ -43,7 +45,7 @@ export async function getNextsPaginatedData(lastVisible:any) {
 
 export async function getFirstsPaginatedData(firstVisible:any) {
 
-    const retrevePrev:any = query(collection(firestore, 'header'), orderBy("created_at", "desc"), endBefore(firstVisible), limitToLast(10));
+    const retrevePrev:any = query(collection(firestore, 'headers'), orderBy("created_at", "desc"), endBefore(firstVisible), limitToLast(10));
     const snapshotPrev = await getDocs(retrevePrev);    
     const data = snapshotPrev.docs.map((doc:any) => ({
       id: doc.id,
@@ -58,28 +60,27 @@ export async function getFirstsPaginatedData(firstVisible:any) {
   };
 
 
-  export async function tambahData() {
-    // const data: any = json;
-    // const posts = data.data
+  export async function tambahData(posts:any) {
+    
 
-  //   posts.map((post: any) => (
-      
-  // ));
-// const posts = {
-//   food: "Pizza",
-//   color: "Blue",
-//   subject: "Recess"
-// }
+      posts.forEach((post:any) => {
 
-      // posts.forEach((post:any) => {
-
-      //   const frankDocRef = doc(collection(firestore, "header"));
-      //   setDoc(frankDocRef,post)
-      // });
+        const frankDocRef = doc(collection(firestore, "headers"));
+        setDoc(frankDocRef,post)
+      });
       
 
    
   
   };
+  export async function retriveJoin() {
+    const q = query(collection(firestore, "headers"), limit(10));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const cities:any = [];
+      querySnapshot.forEach((doc) => {
+          cities.push(doc.data().nomor_aju);
+      });
+      console.log("Current cities in CA: ", cities.join(", "));
+    });
 
-
+}

@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
-        <SessionProvider>
+        <SessionProvider refetchInterval={60}>
           <Header />
           {children}
         </SessionProvider>

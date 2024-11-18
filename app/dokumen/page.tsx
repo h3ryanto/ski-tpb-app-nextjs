@@ -1,58 +1,42 @@
-import { sql } from "@vercel/postgres";
-import Pagination from '@/components/elements/Pagination/page';
+// import Pagination from '@/components/elements/Pagination/page';
 import Table from '@/components/elements/Table/page';
 import { Suspense } from "react";
+import { getHeaderPost } from "@/lib/prisma/service";
+import Link from 'next/link';
+
+
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function Dokumen(props: {
 	searchParams: SearchParams
 }) {
 	const { page } = await props.searchParams;
+	const currenPage = Number(page) || 1;
+	const limit = 10;
+	const skip = (currenPage - 1) * limit;
 
-	const { rows } = await sql`SELECT headers.id,headers.kode_dokumen,headers.nomor_aju,headers.nomor_daftar, 
-								TO_CHAR(headers.tanggal_daftar, 'DD/MM/YYYY') AS ftanggal_daftar,entitas.nama_entitas
-								FROM headers 
-								INNER JOIN entitas ON entitas.nomor_aju = headers.nomor_aju 
-								WHERE entitas.kode_entitas = 
-								(CASE
-									WHEN headers.kode_dokumen ='23' THEN '3'
-									WHEN headers.kode_dokumen ='40' THEN '5'
-									WHEN headers.kode_dokumen ='27' THEN '3'
-									WHEN headers.kode_dokumen ='30' THEN '6'
-									WHEN headers.kode_dokumen ='262' THEN '9'
-									WHEN headers.kode_dokumen ='261' THEN '8'
-									WHEN headers.kode_dokumen ='41' THEN '8'
-									WHEN headers.kode_dokumen ='25' THEN '8'
-									WHEN headers.kode_dokumen ='33' THEN '8'
-								END)
-								ORDER BY headers.created_at DESC
-								LIMIT 10 offset ${Number(page) * 10 - 10}`;
-	const count: any = await sql`SELECT count(*)
-								FROM headers 
-								INNER JOIN entitas ON entitas.nomor_aju = headers.nomor_aju 
-								WHERE entitas.kode_entitas = 
-								(CASE
-									WHEN headers.kode_dokumen ='23' THEN '3'
-									WHEN headers.kode_dokumen ='40' THEN '5'
-									WHEN headers.kode_dokumen ='27' THEN '3'
-									WHEN headers.kode_dokumen ='30' THEN '6'
-									WHEN headers.kode_dokumen ='262' THEN '9'
-									WHEN headers.kode_dokumen ='261' THEN '8'
-									WHEN headers.kode_dokumen ='41' THEN '8'
-									WHEN headers.kode_dokumen ='25' THEN '8'
-									WHEN headers.kode_dokumen ='33' THEN '8'
-								END)`;
-	const countrResults: any = count.rows[0].count;
-	console.log(countrResults);
+	const resultData = await getHeaderPost(limit, skip);
+	console.log(resultData)
 
+	const dataEntry = resultData.headerCount;
+	const totalPage = Math.round(dataEntry / 10)
 
 	return (
-		<Pagination dataEntry={countrResults}>
-			<Suspense >
-				<Table posts={rows} />
+		<>
+			{/* <Pagination dataEntry={10}> */}
+			<Suspense>
+				<Table posts={resultData.posts} page={currenPage} />
 			</Suspense >
 
-		</Pagination>
+			{/* </Pagination> */}
+			<div className='flex justify-center mx-auto bg-slate-800 min-w-full py-2'>
+				<div className="relative flex items-center justify-between max-w-md mx-auto text-slate-100 px-2">
+					<Link href={currenPage == 1 ? '/dokumen' : `/dokumen?page=${(currenPage - 1)}`} className={`p-2 rounded-md border-2 ${currenPage == 1 ? 'hover:border-gray-700 hover:text-gray-700 text-gray-700 border-gray-500' : 'hover:border-blue-500  hover:text-blue-500'}`}>Prev</Link>
+					<div className='mx-2'>Page : {page || 1}	 to {totalPage} of	{dataEntry} data entris </div>
+					<Link href={`/dokumen?page=${currenPage == totalPage ? currenPage : (currenPage + 1)}`} className={`p-2 rounded-md border-2 ${currenPage == totalPage ? 'hover:border-gray-700 hover:text-gray-700 text-gray-700 border-gray-500' : 'hover:border-blue-500  hover:text-blue-500'}`}>Next</Link>
+				</div>
+			</div >
+		</>
 	)
 }
 

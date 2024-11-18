@@ -49,7 +49,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/route.ts"
-  ],
+, "app/dokumen/loading.js"  ],
   "exclude": [
     "node_modules"
   ]
