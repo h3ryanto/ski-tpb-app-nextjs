@@ -4,7 +4,7 @@ export default function Page() {
 
         <div>
             <label>
-                Text input: <input name="myInput" />
+                Text input: <input name="myInput" value={'test'} />
             </label>
 
         </div>

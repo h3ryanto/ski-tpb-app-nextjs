@@ -9,137 +9,149 @@ generator client {
   previewFeatures = ["typedSql"]
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-// }
-
+// prisma/schema.prisma
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  profile Profile?
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
 }
 
 model Header {
-id		                    BigInt		@id @default(autoincrement())
-nomor_aju		              String		
-kode_dokumen		          String		
-kode_kantor		            String		
-kode_kantor_bongkar		    String		
-kode_kantor_periksa		    String		
-kode_kantor_tujuan		    String		
-kode_kantor_ekspor		    String		
-kode_jenis_impor		      String		
-kode_jenis_ekspor		      String		
-kode_jenis_tpb		        String		
-kode_jenis_plb		        String		
-kode_jenis_prosedur		    String		
-kode_tujuan_pemasukan		  String		
-kode_tujuan_pengiriman		String		
-kode_tujuan_tpb		        String		
-kode_cara_dagang		      String		
-kode_cara_bayar		        String		
-kode_cara_bayar_lainnya		String		
-kode_gudang_asal		      String		
-kode_gudang_tujuan		    String		
-kode_jenis_kirim		      String		
-kode_jenis_pengiriman		  String		
-kode_kategori_ekspor		  String		
-kode_kategori_masuk_ftz		String		
-kode_kategori_keluar_ftz	String		
-kode_kategori_barang_ftz	String		
-kode_lokasi		            String		
-kode_lokasi_bayar		      String		
-lokasi_asal		            String		
-lokasi_tujuan		          String		
-kode_daerah_asal		      String		
-kode_negara_tujuan		    String		
-kode_tutup_pu		          String		
-nomor_bc11		            String		
-tanggal_bc11		          String		
-nomor_pos		              String		
-nomor_sub_pos		          String		
-kode_pelabuhan_bongkar		String		
-kode_pelabuhan_muat		    String		
-kode_pelabuhan_muat_akhir	String		
-kode_pelabuhan_transit		String		
-kode_pelabuhan_tujuan		  String		
-kode_pelabuhan_ekspor		  String		
-kode_tps		              String		
-tanggal_berangkat		      String		
-tanggal_ekspor		        String		
-tanggal_masuk		          String		
-tanggal_muat		          String		
-tanggal_tiba		          String		
-tanggal_periksa		        String		
-tempat_stuffing		        String		
-tanggal_stuffing		      String		
-kode_tanda_pengaman		    String		
-jumlah_tanda_pengaman		  String		
-flag_curah		            String		
-flag_sda		              String		
-flag_vd		                String		
-flag_ap_bk		            String		
-flag_migas		            String		
-kode_asuransi		          String		
-asuransi		              Decimal		
-nilai_barang		          Decimal		
-nilai_incoterm		        Decimal		
-nilai_maklon		          Decimal		
-freight		                Decimal		
-fob		                    Decimal		
-biaya_tambahan		        Decimal		
-biaya_pengurang		        Decimal		
-vd		                    Decimal		
-cif		                    Decimal		
-harga_penyerahan		      Decimal		
-ndpbm		                  Decimal		
-total_dana_sawit		      Decimal		
-dasar_pengenaan_pajak		  Decimal		
-nilai_jasa		            Decimal		
-uang_muka		              Int		    
-bruto		                  Int		    
-netto		                  Int		    
-volume		                Int		    
-kota_pernyataan		        String		
-tanggal_pernyataan		    String		
-nama_pernyataan		        String		
-jabatan_pernyataan		    String		
-kode_valuta		            String		
-kode_incoterm		          String		
-kode_jasa_kena_pajak		  String		
-nomor_bukti_bayar		      String		
-tanggal_bukti_bayar		    String		
-kode_jenis_nilai		      String		
-nomor_daftar		          String		
-tanggal_daftar		        DateTime		
-create_by		              String		
-created_at		            DateTime		
-updated_at		            DateTime		
+id		                    BigInt	@id @default(autoincrement())
+nomor_aju		              String		@unique
+entitas                   Entitas[]
+kode_dokumen		          String?	
+kode_kantor		            String?		
+kode_kantor_bongkar		    String?		
+kode_kantor_periksa		    String?		
+kode_kantor_tujuan		    String?		
+kode_kantor_ekspor		    String?		
+kode_jenis_impor		      String?		
+kode_jenis_ekspor		      String?		
+kode_jenis_tpb		        String?		
+kode_jenis_plb		        String?		
+kode_jenis_prosedur		    String?		
+kode_tujuan_pemasukan		  String?		
+kode_tujuan_pengiriman		String?		
+kode_tujuan_tpb		        String?		
+kode_cara_dagang		      String?		
+kode_cara_bayar		        String?		
+kode_cara_bayar_lainnya		String?		
+kode_gudang_asal		      String?		
+kode_gudang_tujuan		    String?		
+kode_jenis_kirim		      String?		
+kode_jenis_pengiriman		  String?		
+kode_kategori_ekspor		  String?		
+kode_kategori_masuk_ftz		String?		
+kode_kategori_keluar_ftz	String?		
+kode_kategori_barang_ftz	String?		
+kode_lokasi		            String?		
+kode_lokasi_bayar		      String?		
+lokasi_asal		            String?		
+lokasi_tujuan		          String?		
+kode_daerah_asal		      String?		
+kode_negara_tujuan		    String?		
+kode_tutup_pu		          String?		
+nomor_bc11		            String?		
+tanggal_bc11		          String?		
+nomor_pos		              String?		
+nomor_sub_pos		          String?		
+kode_pelabuhan_bongkar		String?		
+kode_pelabuhan_muat		    String?		
+kode_pelabuhan_muat_akhir	String?		
+kode_pelabuhan_transit		String?		
+kode_pelabuhan_tujuan		  String?		
+kode_pelabuhan_ekspor		  String?		
+kode_tps		              String?		
+tanggal_berangkat		      String?		
+tanggal_ekspor		        String?		
+tanggal_masuk		          String?		
+tanggal_muat		          String?		
+tanggal_tiba		          String?		
+tanggal_periksa		        String?		
+tempat_stuffing		        String?		
+tanggal_stuffing		      String?		
+kode_tanda_pengaman		    String?		
+jumlah_tanda_pengaman		  String?		
+flag_curah		            String?		
+flag_sda		              String?		
+flag_vd		                String?		
+flag_ap_bk		            String?		
+flag_migas		            String?		
+kode_asuransi		          String?		
+asuransi		              Decimal?		
+nilai_barang		          Decimal?		
+nilai_incoterm		        Decimal?		
+nilai_maklon		          Decimal?		
+freight		                Decimal?		
+fob		                    Decimal?		
+biaya_tambahan		        Decimal?		
+biaya_pengurang		        Decimal?		
+vd		                    Decimal?		
+cif		                    Decimal?		
+harga_penyerahan		      Decimal?		
+ndpbm		                  Decimal?		
+total_dana_sawit		      Decimal?		
+dasar_pengenaan_pajak		  Decimal?		
+nilai_jasa		            Decimal?		
+uang_muka		              Int?	    
+bruto		                  Int?	    
+netto		                  Int?	    
+volume		                Int?	    
+kota_pernyataan		        String?		
+tanggal_pernyataan		    String?		
+nama_pernyataan		        String?		
+jabatan_pernyataan		    String?		
+kode_valuta		            String?		
+kode_incoterm		          String?		
+kode_jasa_kena_pajak		  String?		
+nomor_bukti_bayar		      String?		
+tanggal_bukti_bayar		    String?		
+kode_jenis_nilai		      String?		
+nomor_daftar		          String?		
+tanggal_daftar		        DateTime @default(now())		
+create_by		              String?		
+created_at		            DateTime @default(now())		
+updated_at		            DateTime @updatedAt		
 }
 
 model Entitas {
 id	                      BigInt @id
-nomor_aju	                String 
-seri	                    String 
-kode_entitas	            String 
-kode_jenis_identitas	    String 
-nomor_identitas	          String 
-nama_entitas	            String 
-alamat_entitas	          String 
-nib_entitas	              String 
-kode_jenis_api	          String 
-kode_status	              String 
-nomor_ijin_entitas	      String 
-tanggal_ijin_entitas	    String 
-kode_negara	              String 
-niper_entitas	            String 
-created_at	              DateTime
-updated_at	              DateTime
+nomor_aju                 String    
+header_id                 Header @relation(fields: [nomor_aju], references: [nomor_aju])          
+seri	                    String? 
+kode_entitas	            String? 
+kode_jenis_identitas	    String? 
+nomor_identitas	          String? 
+nama_entitas	            String? 
+alamat_entitas	          String? 
+nib_entitas	              String? 
+kode_jenis_api	          String? 
+kode_status	              String? 
+nomor_ijin_entitas	      String? 
+tanggal_ijin_entitas	    String? 
+kode_negara	              String? 
+niper_entitas	            String? 
+created_at	              DateTime @default(now())
+updated_at	              DateTime @updatedAt
 }

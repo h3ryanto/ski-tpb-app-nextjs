@@ -5,6 +5,7 @@ import { logOut, Update } from '@/lib/firebase/authentication/service'
 import profile from '@/public/img/user.jpg'
 import { signOut } from "next-auth/react"
 import { useSession } from 'next-auth/react';
+// import { create } from '@/lib/prisma/service'
 
 
 
@@ -46,7 +47,7 @@ const UserProfil = () => {
                     <div className=" block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 border-b-2 border-gray-200">{session.data?.user?.name}</div>
                 </MenuItem>
                 <MenuItem>
-                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={Update}>
+                    <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" >
                         Your Profile
                     </button>
                 </MenuItem>
