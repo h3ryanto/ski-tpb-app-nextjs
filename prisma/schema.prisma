@@ -136,7 +136,7 @@ updated_at		            DateTime @updatedAt
 }
 
 model Entitas {
-id	                      BigInt @id
+id	                      BigInt @id @default(autoincrement())
 nomor_aju                 String    
 header_id                 Header @relation(fields: [nomor_aju], references: [nomor_aju])          
 seri	                    String? 

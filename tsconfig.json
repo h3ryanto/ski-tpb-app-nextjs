@@ -48,7 +48,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/api/route.ts"
+    "app/api/posts/route.ts"
 , "app/dokumen/loading.js"  ],
   "exclude": [
     "node_modules"
