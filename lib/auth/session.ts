@@ -3,23 +3,24 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 
- 
+
 const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
- 
-export async function encrypt(payload:any) {
+
+export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setExpirationTime('1h')
     .sign(encodedKey)
 
 }
- 
-export async function decrypt(session: string | undefined = '') {
-  if(session){
+
+export async function decrypt(token: string | undefined = '', secret: string | undefined) {
+  const verifyScret = new TextEncoder().encode(secret)
+  if (token) {
     try {
-      const { payload } = await jwtVerify(session, encodedKey, {
+      const { payload } = await jwtVerify(token, verifyScret, {
         algorithms: ['HS256'],
       })
       return payload
@@ -32,13 +33,13 @@ export async function decrypt(session: string | undefined = '') {
 
 
 export async function createSession(userId: string) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+  const expiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000)
   const session = await encrypt({ userId, expiresAt })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const cookieStore = (await cookies()).set('session', session, {
     httpOnly: true,
     secure: true,
-    expires: expiresAt ,
+    expires: expiresAt,
     path: '/',
   })
 }
@@ -50,5 +51,5 @@ export async function deleteSession() {
 
 }
 
-    
-  
+
+

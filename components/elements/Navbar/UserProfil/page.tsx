@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react';
 
 const UserProfil = () => {
     const session = useSession();
-
+    // console.log(session)
     const handleLogout = async () => {
         try {
             await signOut()

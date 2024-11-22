@@ -22,19 +22,6 @@ datasource db {
 //   url      = env("DATABASE_URL")
 // }
 
-model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  profile Profile?
-}
-
-model Profile {
-  id     Int    @id @default(autoincrement())
-  bio    String
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int    @unique
-}
 
 model Header {
 id		                    BigInt	@id @default(autoincrement())
@@ -152,6 +139,6 @@ nomor_ijin_entitas	      String?
 tanggal_ijin_entitas	    String? 
 kode_negara	              String? 
 niper_entitas	            String? 
-created_at	              DateTime @default(now())
-updated_at	              DateTime @updatedAt
+created_at		            DateTime @default(now())		
+updated_at		            DateTime @updatedAt
 }
