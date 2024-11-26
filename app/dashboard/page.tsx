@@ -14,7 +14,7 @@ export default function PaginationComponent() {
   let i: number = 1
 
   const load = async () => {
-    const data: any = await retriveData('headers');
+    const data: any = await retriveData('header');
     console.log(data)
     const newLastVisible = data.newLastVisible;
     setData(data.data);
@@ -81,7 +81,7 @@ export default function PaginationComponent() {
               <div>
                 <p>{post.nomor_aju}</p>
                 <p>{post.nomor_daftar} / {post.tanggal_daftar}</p>
-                <p>{post.entitas[0]['nama_entitas']}</p>
+                <p>{ }</p>
               </div>
             </div>
           ))}

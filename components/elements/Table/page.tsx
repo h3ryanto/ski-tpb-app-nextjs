@@ -1,6 +1,5 @@
 
 import style from './styles.module.css';
-import moment from 'moment';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 
 export default async function Table({ posts, page }: { posts: any, page: number }) {
@@ -43,7 +42,7 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 								<PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
 								{post.nomor_daftar} /
 								<CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
-								{moment(post.tanggal_daftar.toString()).format("YYYY-MM-DD")}
+								{post.ftanggal_daftar}
 							</p>
 						</div>
 					</div>
@@ -55,6 +54,7 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 						<th scope="col">No.</th>
 						<th scope="col">Dok</th>
 						<th scope="col">Nomor Aju</th>
+						<th scope="col">Supllier / Customers</th>
 						<th scope="col">Nomor Daftar</th>
 						<th scope="col">Tanggal Daftar</th>
 					</tr>
@@ -65,8 +65,9 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							<td>{((page * 10) - 10) + i++}.</td>
 							<td>{post.kode_dokumen}</td>
 							<td>{post.nomor_aju}</td>
+							<td>{ }</td>
 							<td>{post.nomor_daftar}</td>
-							<td>{moment(post.tanggal_daftar.toString()).format("YYYY-MM-DD")}</td>
+							<td>{post.ftanggal_daftar}</td>
 						</tr>
 					))}
 				</tbody>

@@ -11,9 +11,8 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1h')
+    .setExpirationTime('15m')
     .sign(encodedKey)
-
 }
 
 export async function decrypt(token: string | undefined = '', secret: string | undefined) {
