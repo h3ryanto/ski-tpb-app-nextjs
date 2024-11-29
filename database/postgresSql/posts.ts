@@ -12,7 +12,7 @@ export async function getData(limit: number = 10, skip: number = 0) {
                     WHERE 
                     "Entitas".kode_entitas =
                         CASE
-                        WHEN "Header".kode_dokumen ='23' THEN '3'
+                        WHEN "Header".kode_dokumen ='23' THEN '5'
                         WHEN "Header".kode_dokumen ='40' THEN '9'
                         WHEN "Header".kode_dokumen ='27' THEN '3'
                         WHEN "Header".kode_dokumen ='30' THEN '6'
