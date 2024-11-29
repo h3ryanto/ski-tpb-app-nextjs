@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
+import Link from 'next/link'
 import Image from 'next/image'
 import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
@@ -94,9 +95,8 @@ export default function Login() {
                       text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500"
                     />
                     <div className="text-sm mt-2">
-                      <a href="#" className="font-semibold text-sky-600 hover:text-sky-500">
-                        Forgot password?
-                      </a>
+                      <Link href="/forgot_password" className='font-semibold text-sky-600 hover:text-sky-500'>Forgot password?</Link>
+
                     </div>
                   </div>
                 </label>
@@ -105,7 +105,7 @@ export default function Login() {
               <div>
                 <button
                   type="submit"
-                  className="flex mt-5 mb-5 w-24 mx-auto justify-center rounded-xl bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex mt-5 mb-5 w-full mx-auto justify-center rounded-xl bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   disabled={isLoading}>
                   {isLoading ? 'Loading...' : 'Login'}
                 </button>

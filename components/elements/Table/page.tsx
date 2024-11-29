@@ -65,7 +65,7 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							<td>{((page * 10) - 10) + i++}.</td>
 							<td>{post.kode_dokumen}</td>
 							<td>{post.nomor_aju}</td>
-							<td>{ }</td>
+							<td>{post.nama_entitas}</td>
 							<td>{post.nomor_daftar}</td>
 							<td>{post.ftanggal_daftar}</td>
 						</tr>

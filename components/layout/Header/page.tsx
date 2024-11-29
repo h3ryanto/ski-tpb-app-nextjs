@@ -25,7 +25,7 @@ export default function Header() {
     { name: 'Dokumen', href: '/dokumen?page=1', current: pathname === '/dokumen' ? true : false },
   ]
 
-  const publicRoutes = ['/login']
+  const publicRoutes = ['/login', '/forgot_password']
   const isLoginRoute = publicRoutes.includes(pathname)
 
   if (!isLoginRoute) {

@@ -27,6 +27,22 @@ model Header {
 id		                    BigInt	@id @default(autoincrement())
 nomor_aju		              String		@unique
 entitas                   Entitas[]
+barang                    Barang[]
+dokumen                   Dokumen[]
+kemasan                   Kemasan[]
+kontainer                 Kontainer[]
+bahan_baku                Bahan_Baku[]
+bahan_baku_dokumen        Bahan_Baku_Dokumen[]
+bahan_baku_tarif          Bahan_Baku_Tarif[]
+bank_devisa               Bank_Devisa[]
+barang_dokumen            Barang_Dokumen[]
+barang_entitas            Barang_Entitas[]
+barang_spek_khusus        Barang_Spek_Khusus[]
+barang_tarif              Barang_Tarif[]
+barang_vds                Barang_Vds[]
+jaminan                   Jaminan[]
+pengangkut                Pengangkut[]
+pungutan                  Pungutan[]
 kode_dokumen		          String?	
 kode_kantor		            String?		
 kode_kantor_bongkar		    String?		
@@ -125,7 +141,7 @@ updated_at		            DateTime @updatedAt
 model Entitas {
 id	                      BigInt @id @default(autoincrement())
 nomor_aju                 String    
-header_id                 Header @relation(fields: [nomor_aju], references: [nomor_aju])          
+header                    Header @relation(fields: [nomor_aju], references: [nomor_aju])          
 seri	                    String? 
 kode_entitas	            String? 
 kode_jenis_identitas	    String? 
@@ -140,5 +156,337 @@ tanggal_ijin_entitas	    String?
 kode_negara	              String? 
 niper_entitas	            String? 
 created_at		            DateTime @default(now())		
-updated_at		            DateTime @updatedAt
+updated_at		            DateTime @default(now())	
+}
+
+model Barang {
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String   
+  seri_barang             String?
+  hs                      String?
+  kode_barang             String?
+  uraian                  String?
+  merek                   String?
+  tipe                    String?
+  ukuran                  String?
+  spesifikasi_lain        String?
+  kode_satuan             String?
+  jumlah_satuan           Decimal?
+  kode_kemasan            String?
+  jumlah_kemasan          String?
+  kode_dokumen_asal       String?
+  kode_kantor_asal        String?
+  nomor_daftar_asal       String?
+  tanggal_daftar_asal     String?
+  nomor_aju_asal          String?
+  seri_barang_asal        String?
+  netto                   String?
+  bruto                   String?
+  volume                  String?
+  saldo_awal              String?
+  saldo_akhir             String?
+  jumlah_realisasi        String?
+  cif                     String?
+  cif_rupiah              String?
+  ndpbm                   String?
+  fob                     String?
+  asuransi                String?
+  freight                 String?
+  nilai_tambah            String?
+  diskon                  String?
+  harga_penyerahan        String?
+  harga_perolehan         String?
+  harga_satuan            String?
+  harga_ekspor            String?
+  harga_patokan           String?
+  nilai_barang            String?
+  nilai_jasa              String?
+  nilai_dana_sawit        String?
+  nilai_devisa            String?
+  persentase_impor        String?
+  kode_asal_barang        String?
+  kode_daerah_asal        String?
+  kode_guna_barang        String?
+  kode_jenis_nilai        String?
+  jatuh_tempo_royalti     String?
+  kode_kategori_barang    String?
+  kode_kondisi_barang     String?
+  kode_negara_asal        String?
+  kode_perhitungan        String?
+  pernyataan_lartas       String?
+  flag_4_tahun            String?
+  seri_izin               String?
+  tahun_pembuatan         String?
+  kapasitas_silinder      String?
+  kode_bkc                String?
+  kode_komoditi_bkc       String?
+  kode_sub_komoditi_bkc   String?
+  flag_tis                String?
+  isi_per_kemasan         String?
+  umlah_dilekatkan        String?
+  jumlah_pita_cukai       String?
+  hje_cukai               String?
+  tarif_cukai             String?
+  stok                    Decimal?
+  created_at              DateTime @default(now())	
+  updated_at              DateTime @default(now())	
+}
+
+model Dokumen{
+  id                      BigInt @id @default(autoincrement()) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  nomor_aju               String  
+  seri                    String?
+  kode_dokumen            String?
+  nomor_dokumen           String?
+  tanggal_dokumen         DateTime?
+  kode_fasilitas          String?
+  kode_ijin               String?
+  created_at              DateTime @default(now())	
+  updated_at              DateTime @default(now())	
+}
+
+model Kemasan{
+  id                      BigInt @id @default(autoincrement()) 
+  nomor_aju               String 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  seri                    String?
+  kode_kemasan            String?
+  jumlah_kemasan          String?
+  merek                   String?
+  created_at              DateTime @default(now())	
+  updated_at              DateTime @default(now())	
+}
+
+model Kontainer{
+  id                      BigInt @id @default(autoincrement()) 
+  nomor_aju               String 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  seri                    String?
+  nomor_kontiner          String?
+  kode_ukuran_kontainer   String?
+  kode_jenis_kontainer    String?
+  kode_tipe_kontainer     String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Bahan_Baku{
+  id                      BigInt @id @default(autoincrement()) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  nomor_aju               String 
+  seri_barang             String?
+  seri_bahan_baku         String?
+  kode_asal_bahan_baku    String?
+  hs                      String?
+  kode_barang             String?
+  uraian                  String?
+  merek                   String?
+  tipe                    String?
+  ukuran                  String?
+  spesifikasi_lain        String?
+  kode_satuan             String?
+  jumlah_satuan           String?
+  kode_kemasan            String?
+  jumlah_kemasan          String?
+  kode_dokumen_asal       String?
+  kode_kantor_asal        String?
+  nomor_daftar_asal       String?
+  tanggal_daftar_asal     DateTime?
+  nomor_aju_asal          String?
+  seri_barang_asal        String?
+  netto                   String?
+  bruto                   String?
+  volume                  String?
+  cif                     String?
+  cif_rupiah              String?
+  ndpbm                   String?
+  harga_penyerahan        String?
+  harga_perolehan         String?
+  nilai_jasa              String?
+  seri_izin               String?
+  kode_bkc                String?
+  kode_komoditi_bkc       String?
+  kode_sub_komoditi_bkc   String?
+  flag_tis                String?
+  isi_per_kemasan         String?
+  jumlah_dilekatkan       String?
+  jumlah_pita_cukai       String?
+  hje_cukai               String?
+  tarif_cukai             String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Bahan_Baku_Dokumen {
+  id                      BigInt @id @default(autoincrement())
+  nomor_aju               String
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  seri_barang             String?
+  seri_bahan_baku         String?
+  kode_asal_bahan_baku    String?
+  seri_dokumen            String?
+  seri_izin               String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Bahan_Baku_Tarif{
+  id                      BigInt @id @default(autoincrement())
+  nomor_aju               String
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  seri_barang             String?
+  seri_bahan_baku         String?
+  kode_asal_bahan_baku    String?
+  kode_pungutan           String?
+  kode_tarif              String?
+  tarif                   String?
+  kode_fasilitas          String?
+  tarif_fasilitas         String?
+  nilai_bayar             String?
+  nilai_fasilitas         String?
+  nilai_sudah_dilunasi    String?
+  kode_satuan             String?
+  jumlah_satuan           String?
+  flag_bmt_sementara      String?
+  kode_komoditi_cukai     String?
+  kode_sub_komoditi_cukai String?
+  flag_tis                String?
+  flag_pelekatan          String?
+  kode_kemasan            String?
+  jumlah_kemasan          String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Bank_Devisa {
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri                    String?
+  kode                    String?
+  nama                    String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Barang_Dokumen{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri_barang             String?
+  seri_dokumen            String?
+  seri_izin               String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Barang_Entitas{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri_barang             String?
+  seri_dokumen            String?
+  seri_izin               String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Barang_Spek_Khusus{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri_barang             String?
+  kode                    String?
+  uraian                  String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Barang_Tarif{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri_barang             String?
+  kode_pungutan           String?
+  kode_tarif              String?
+  tarif                   String?
+  kode_fasilitas          String?
+  tarif_fasilitas         String?
+  nilai_bayar             String?
+  nilai_fasilitas         String?
+  nilai_sudah_dilunasi    String?
+  kode_satuan             String?
+  jumlah_satuan           String?
+  flag_bmt_sementara      String?
+  kode_komoditi_cukai     String?
+  kode_sub_komoditi_cukai String?
+  flag_tis                String?
+  flag_pelekatan          String?
+  kode_kemasan            String?
+  jumlah_kemasan          String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Barang_Vds{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri_barang             String?
+  kode_vd                 String?
+  nilai_barang            String?
+  biaya_tambahan          String?
+  biaya_pengurang         String?
+  jatuh_tempo             String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Jaminan{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  kode_fasilitas_tarif    String?
+  kode_jenis_pungutan     String?
+  nilai_pungutan          String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Pengangkut{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  seri                    String?
+  kode_cara_angkut        String?
+  nama_pengangkut         String?
+  nomor_pengangkut        String?
+  kode_bendera            String?
+  call_sign               String?
+  flag_angkut_plb         String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Pungutan{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  nomor_aju               String
+  kode_fasilitas_tarif    String?
+  kode_jenis_pungutan     String?
+  nilai_pungutan          String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
+}
+
+model Tarif{
+  id                      BigInt @id @default(autoincrement())
+  hs                      String?
+  bm                      String?
+  ppn                     String?
+  pph                     String?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @default(now())
 }

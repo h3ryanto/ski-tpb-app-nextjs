@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma/db'
 import { decrypt } from "@/lib/auth/session"
+// import { createEntitas, createHeader } from '@/database/prisma/create';
 
 
 export async function POST(request: Request) {
@@ -13,6 +14,8 @@ export async function POST(request: Request) {
 
       const body = await request.json();
       const doc = body[0]
+      // console.log(doc)
+
 
       const Entitas = body[0].entitas.map((item: any) => ({
         seri: item.seri,
@@ -32,7 +35,303 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       }))
 
+      const Barang = body[0].barang.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        hs: item.hs,
+        kode_barang: item.kode_barang,
+        uraian: item.uraian,
+        merek: item.merek,
+        tipe: item.tipe,
+        ukuran: item.ukuran,
+        spesifikasi_lain: item.spesifikasi_lain,
+        kode_satuan: item.kode_satuan,
+        jumlah_satuan: item.jumlah_satuan,
+        kode_kemasan: item.kode_kemasan,
+        jumlah_kemasan: item.jumlah_kemasan,
+        kode_dokumen_asal: item.kode_dokumen_asal,
+        kode_kantor_asal: item.kode_kantor_asal,
+        nomor_daftar_asal: item.nomor_daftar_asal,
+        tanggal_daftar_asal: item.tanggal_daftar_asal,
+        nomor_aju_asal: item.nomor_aju_asal,
+        seri_barang_asal: item.seri_barang_asal,
+        netto: item.netto,
+        bruto: item.bruto,
+        volume: item.volume,
+        saldo_awal: item.saldo_awal,
+        saldo_akhir: item.saldo_akhir,
+        jumlah_realisasi: item.jumlah_realisasi,
+        cif: item.cif,
+        cif_rupiah: item.cif_rupiah,
+        ndpbm: item.ndpbm,
+        fob: item.fob,
+        asuransi: item.asuransi,
+        freight: item.freight,
+        nilai_tambah: item.nilai_tambah,
+        diskon: item.diskon,
+        harga_penyerahan: item.harga_penyerahan,
+        harga_perolehan: item.harga_perolehan,
+        harga_satuan: item.harga_satuan,
+        harga_ekspor: item.harga_ekspor,
+        harga_patokan: item.harga_patokan,
+        nilai_barang: item.nilai_barang,
+        nilai_jasa: item.nilai_jasa,
+        nilai_dana_sawit: item.nilai_dana_sawit,
+        nilai_devisa: item.nilai_devisa,
+        persentase_impor: item.persentase_impor,
+        kode_asal_barang: item.kode_asal_barang,
+        kode_daerah_asal: item.kode_daerah_asal,
+        kode_guna_barang: item.kode_guna_barang,
+        kode_jenis_nilai: item.kode_jenis_nilai,
+        jatuh_tempo_royalti: item.jatuh_tempo_royalti,
+        kode_kategori_barang: item.kode_kategori_barang,
+        kode_kondisi_barang: item.kode_kondisi_barang,
+        kode_negara_asal: item.kode_negara_asal,
+        kode_perhitungan: item.kode_perhitungan,
+        pernyataan_lartas: item.pernyataan_lartas,
+        flag_4_tahun: item.flag_4_tahun,
+        seri_izin: item.seri_izin,
+        tahun_pembuatan: item.tahun_pembuatan,
+        kapasitas_silinder: item.kapasitas_silinder,
+        kode_bkc: item.kode_bkc,
+        kode_komoditi_bkc: item.kode_komoditi_bkc,
+        kode_sub_komoditi_bkc: item.kode_sub_komoditi_bkc,
+        flag_tis: item.flag_tis,
+        isi_per_kemasan: item.isi_per_kemasan,
+        umlah_dilekatkan: item.umlah_dilekatkan,
+        jumlah_pita_cukai: item.jumlah_pita_cukai,
+        hje_cukai: item.hje_cukai,
+        tarif_cukai: item.tarif_cukai,
+        stok: item.stok,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+
+      }))
+      // console.log(body[0].dokumen)
+      const Dokumen = body[0].dokumen.map((item: any) => ({
+        seri: item.seri,
+        kode_dokumen: item.kode_dokumen,
+        nomor_dokumen: item.nomor_dokumen,
+        tanggal_dokumen: item.tanggal_dokumen + "T00:00:00.000000Z",
+        kode_fasilitas: item.kode_fasilitas,
+        kode_ijin: item.kode_ijin,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      }))
+
+      const Kemasan = body[0].kemasan.map((item: any) => ({
+        seri: item.seri,
+        kode_kemasan: item.kode_kemasan,
+        jumlah_kemasan: item.jumlah_kemasan,
+        merek: item.merek,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      }))
+
+      const BahanBakuTarif = body[0].BahanBakuTarif && body[0].BahanBakuTarif.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        seri_bahan_baku: item.seri_bahan_baku,
+        kode_asal_bahan_baku: item.kode_asal_bahan_baku,
+        kode_pungutan: item.kode_pungutan,
+        kode_tarif: item.kode_tarif,
+        tarif: item.tarif,
+        kode_fasilitas: item.kode_fasilitas,
+        tarif_fasilitas: item.tarif_fasilitas,
+        nilai_bayar: item.nilai_bayar,
+        nilai_fasilitas: item.nilai_fasilitas,
+        nilai_sudah_dilunasi: item.nilai_sudah_dilunasi,
+        kode_satuan: item.kode_satuan,
+        jumlah_satuan: item.jumlah_satuan,
+        flag_bmt_sementara: item.flag_bmt_sementara,
+        kode_komoditi_cukai: item.kode_komoditi_cukai,
+        kode_sub_komoditi_cukai: item.kode_sub_komoditi_cukai,
+        flag_tis: item.flag_tis,
+        flag_pelekatan: item.flag_pelekatan,
+        kode_kemasan: item.kode_kemasan,
+        jumlah_kemasan: item.jumlah_kemasan,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+
+      })) || []
+
+      const BahanBakuDokumen = body[0].BahanBakuDokumen && body[0].BahanBakuDokumen.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        seri_bahan_baku: item.seri_bahan_baku,
+        kode_asal_bahan_baku: item.kode_asal_bahan_baku,
+        seri_dokumen: item.seri_dokumen,
+        seri_izin: item.seri_izin,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+
+      const BahanBaku = body[0].BahanBaku && body[0].BahanBaku.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        seri_bahan_baku: item.seri_bahan_baku,
+        kode_asal_bahan_baku: item.kode_asal_bahan_baku,
+        hs: item.hs,
+        kode_barang: item.kode_barang,
+        uraian: item.uraian,
+        merek: item.merek,
+        tipe: item.tipe,
+        ukuran: item.ukuran,
+        spesifikasi_lain: item.spesifikasi_lain,
+        kode_satuan: item.kode_satuan,
+        jumlah_satuan: item.jumlah_satuan,
+        kode_kemasan: item.kode_kemasan,
+        jumlah_kemasan: item.jumlah_kemasan,
+        kode_dokumen_asal: item.kode_dokumen_asal,
+        kode_kantor_asal: item.kode_kantor_asal,
+        nomor_daftar_asal: item.nomor_daftar_asal,
+        tanggal_daftar_asal: item.tanggal_daftar_asal,
+        nomor_aju_asal: item.nomor_aju_asal,
+        seri_barang_asal: item.seri_barang_asal,
+        netto: item.netto,
+        bruto: item.bruto,
+        volume: item.volume,
+        cif: item.cif,
+        cif_rupiah: item.cif_rupiah,
+        ndpbm: item.ndpbm,
+        harga_penyerahan: item.harga_penyerahan,
+        harga_perolehan: item.harga_perolehan,
+        nilai_jasa: item.nilai_jasa,
+        seri_izin: item.seri_izin,
+        kode_bkc: item.kode_bkc,
+        kode_komoditi_bkc: item.kode_komoditi_bkc,
+        kode_sub_komoditi_bkc: item.kode_sub_komoditi_bkc,
+        flag_tis: item.flag_tis,
+        isi_per_kemasan: item.isi_per_kemasan,
+        jumlah_dilekatkan: item.jumlah_dilekatkan,
+        jumlah_pita_cukai: item.jumlah_pita_cukai,
+        hje_cukai: item.hje_cukai,
+        tarif_cukai: item.tarif_cukai,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+
+      const Kontainer = body[0].kontainer.map((item: any) => ({
+        seri: item.seri,
+        nomor_kontiner: item.nomor_kontiner,
+        kode_ukuran_kontainer: item.kode_ukuran_kontainer,
+        kode_jenis_kontainer: item.kode_jenis_kontainer,
+        kode_tipe_kontainer: item.kode_tipe_kontainer,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+
+      }))
+
+      const BankDevisa = body[0].BankDevisa && body[0].BankDevisa.map((item: any) => ({
+        seri: item.seri,
+        kode: item.kode,
+        nama: item.nama,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+
+      const BarangDokumen = body[0].BarangDokumen && body[0].BarangDokumen.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        seri_dokumen: item.seri_dokumen,
+        seri_izin: item.seri_izin,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+
+      const BarangEntitas = body[0].BarangEntitas && body[0].BarangEntitas.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        seri_dokumen: item.seri_dokumen,
+        seri_izin: item.seri_izin,
+        created_at: item.created_at,
+        updated_a: item.updated_at,
+
+      })) || []
+
+
+      const BarangSpekKhusus = body[0].BarangSpekKhusus && body[0].BarangSpekKhusus.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        kode: item.kode,
+        uraian: item.uraian,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+      const BarangTarif = body[0].BarangTarif && body[0].BarangTarif.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        kode_pungutan: item.kode_pungutan,
+        kode_tarif: item.kode_tarif,
+        tarif: item.tarif,
+        kode_fasilitas: item.kode_fasilitas,
+        tarif_fasilitas: item.tarif_fasilitas,
+        nilai_bayar: item.nilai_bayar,
+        nilai_fasilitas: item.nilai_fasilitas,
+        nilai_sudah_dilunasi: item.nilai_sudah_dilunasi,
+        kode_satuan: item.kode_satuan,
+        jumlah_satuan: item.jumlah_satuan,
+        flag_bmt_sementara: item.flag_bmt_sementara,
+        kode_komoditi_cukai: item.kode_komoditi_cukai,
+        kode_sub_komoditi_cukai: item.kode_sub_komoditi_cukai,
+        flag_tis: item.flag_tis,
+        flag_pelekatan: item.flag_pelekatan,
+        kode_kemasan: item.kode_kemasan,
+        jumlah_kemasan: item.jumlah_kemasan,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+      const BarangVd = body[0].BarangVd && body[0].BarangVd.map((item: any) => ({
+        seri_barang: item.seri_barang,
+        kode_vd: item.kode_vd,
+        nilai_barang: item.nilai_barang,
+        biaya_tambahan: item.biaya_tambahan,
+        biaya_pengurang: item.biaya_pengurang,
+        jatuh_tempo: item.jatuh_tempo,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+
+      const Jaminan = body[0].Jaminan && body[0].Jaminan.map((item: any) => ({
+        id: item.id,
+        header: item.header,
+        nomor_aju: item.nomor_aju,
+        kode_fasilitas_tarif: item.kode_fasilitas_tarif,
+        kode_jenis_pungutan: item.kode_jenis_pungutan,
+        nilai_pungutan: item.nilai_pungutan,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+      const Pengangkut = body[0].Pengangkut && body[0].Pengangkut.map((item: any) => ({
+        seri: item.seri,
+        kode_cara_angkut: item.kode_cara_angkut,
+        nama_pengangkut: item.nama_pengangkut,
+        nomor_pengangkut: item.nomor_pengangkut,
+        kode_bendera: item.kode_bendera,
+        call_sign: item.call_sign,
+        flag_angkut_plb: item.flag_angkut_plb,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+      const Pungutan = body[0].Pungutan && body[0].Pungutan.map((item: any) => ({
+        kode_fasilitas_tarif: item.kode_fasilitas_tarif,
+        kode_jenis_pungutan: item.kode_jenis_pungutan,
+        nilai_pungutan: item.nilai_pungutan,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+      })) || []
+
+
+
+
       try {
+
+        // const header = await createHeader(doc)
+        // console.log(header);
+
+        // const entitas = await createEntitas(doc.entitas)
+        // console.log(entitas);
         await prisma.header.create({
           data: {
             id: doc.id,
@@ -135,15 +434,111 @@ export async function POST(request: Request) {
               createMany: {
                 data: Entitas
               }
+            },
+            barang:
+            {
+              createMany: {
+                data: Barang
+              }
+            },
+            dokumen:
+            {
+              createMany: {
+                data: Dokumen
+              }
+            },
+            kemasan:
+            {
+              createMany: {
+                data: Kemasan
+              }
+            },
+            kontainer:
+            {
+              createMany: {
+                data: Kontainer
+              }
+            },
+            bahan_baku:
+            {
+              createMany: {
+                data: BahanBaku
+              }
+            },
+            bahan_baku_dokumen:
+            {
+              createMany: {
+                data: BahanBakuDokumen
+              }
+            },
+            bahan_baku_tarif:
+            {
+              createMany: {
+                data: BahanBakuTarif
+              }
+            },
+            bank_devisa:
+            {
+              createMany: {
+                data: BankDevisa
+              }
+            },
+            barang_dokumen:
+            {
+              createMany: {
+                data: BarangDokumen
+              }
+            },
+            barang_entitas:
+            {
+              createMany: {
+                data: BarangEntitas
+              }
+            },
+            barang_spek_khusus:
+            {
+              createMany: {
+                data: BarangSpekKhusus
+              }
+            },
+            barang_tarif:
+            {
+              createMany: {
+                data: BarangTarif
+              }
+            },
+            barang_vds:
+            {
+              createMany: {
+                data: BarangVd
+              }
+            },
+            jaminan:
+            {
+              createMany: {
+                data: Jaminan
+              }
+            },
+            pengangkut:
+            {
+              createMany: {
+                data: Pengangkut
+              }
+            },
+            pungutan:
+            {
+              createMany: {
+                data: Pungutan
+              }
             }
 
           }
         })
-
+        // console.log(result);
         return Response.json({ message: "Success", status: true }, { status: 200 })
       } catch (error) {
 
-        return Response.json({ message: error, status: false }, { status: 400 })
+        return Response.json({ error, status: false }, { status: 400 })
       }
     } else {
       return Response.json({ message: 'Token Tidak Valid', status: false }, { status: 403 })
