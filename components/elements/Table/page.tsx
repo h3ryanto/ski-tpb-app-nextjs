@@ -25,6 +25,20 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 
 	return (
 		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
+			<div className=' bg-slate-700 px-2 py-2 md:bg-inherit border-b-2 border-slate-400'>
+				<label className="flex flex-row-reverse w-full ">
+					<input
+						id="search"
+						type="text"
+						name="search"
+						placeholder="Search.."
+						autoComplete="current-search"
+						className="w-auto rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
+                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
+                      text-sm px-2 focus:w-full"
+					/>
+				</label>
+			</div>
 			<div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
 				{posts && posts.map((post: any) => (
 					<div key={post.nomor_aju} className='flex items-center hover:bg-blue-400/50'>
@@ -48,20 +62,7 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 					</div>
 				))}
 			</div>
-			<div className='my-3'>
-				<label className="flex flex-row-reverse mt-2 w-full">
-					<input
-						id="search"
-						type="text"
-						name="search"
-						placeholder="Search.."
-						autoComplete="current-search"
-						className="w-auto rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
-                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
-                      text-sm px-2 focus:w-full"
-					/>
-				</label>
-			</div>
+
 			<table id={style.table} className="table-auto hidden md:table">
 				<thead>
 					<tr className="border-b-2 border-y-slate-400 ">
