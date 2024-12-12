@@ -22,7 +22,7 @@ export default function Header() {
   const navigation = [
     { name: 'Home', href: '/', current: pathname === '/' ? true : false },
     { name: 'Dashboard', href: 'dashboard', current: pathname === '/dashboard' ? true : false },
-    { name: 'Dokumen', href: '/dokumen?page=1', current: pathname === '/dokumen' ? true : false },
+    { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false },
   ]
 
   const publicRoutes = ['/login', '/forgot_password']

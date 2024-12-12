@@ -26,3 +26,12 @@ export async function getData(limit: number = 10, skip: number = 0) {
     const headerCount = await prisma.header.count()
     return { posts, headerCount };
 }
+
+
+// export async function retriveData(limit: number = 10, skip: number = 0) {
+
+//     const sql = neon(`${process.env.DATABASE_URL}`);
+
+//     const posts = await sql`SELECT * FROM "Header" LIMIT ${limit} OFFSET ${skip}`;
+//     return { posts, headerCount };
+// }

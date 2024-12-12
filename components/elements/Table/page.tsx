@@ -27,9 +27,9 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
 			<div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
 				{posts && posts.map((post: any) => (
-					<div key={post.id} className='flex items-center hover:bg-blue-400/50'>
+					<div key={post.nomor_aju} className='flex items-center hover:bg-blue-400/50'>
 						<div className={`flex justify-center items-center border-2 ${borderColor(post.kode_dokumen)} w-12 h-12 rounded-full mr-3`}>{post.kode_dokumen}</div>
-						<div>
+						<div >
 							<p className='flex items-center'>
 								<PaperAirplaneIcon aria-hidden="true" className="h-3 w-3 marker:mr-1 stroke-red-400" />
 								{post.nomor_aju}
@@ -48,20 +48,70 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 					</div>
 				))}
 			</div>
+			<div className='my-3'>
+				<label className="flex flex-row-reverse mt-2 w-full">
+					<input
+						id="search"
+						type="text"
+						name="search"
+						placeholder="Search.."
+						autoComplete="current-search"
+						className="w-auto rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
+                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
+                      text-sm px-2 focus:w-full"
+					/>
+				</label>
+			</div>
 			<table id={style.table} className="table-auto hidden md:table">
 				<thead>
 					<tr className="border-b-2 border-y-slate-400 ">
 						<th scope="col">No.</th>
-						<th scope="col">Dok</th>
-						<th scope="col">Nomor Aju</th>
-						<th scope="col">Supllier / Customers</th>
-						<th scope="col">Nomor Daftar</th>
+						<th scope="col">
+							<div>Dok</div>
+							<input
+								id="dokumen"
+								type="text"
+								name="dokumen"
+								autoComplete="current-dokumen"
+								className="w-10 font-normal rounded-md border-0 py-1 px-1 shadow-sm ring-1 ring-inset ring-blue-300 focus:ring-1 focus:ring-inset focus:ring-blue-400 my-1"
+							/>
+						</th>
+						<th scope="col">
+							<div>Nomor Aju</div>
+							<input
+								id="nomorAju"
+								type="text"
+								name="nomorAju"
+								autoComplete="current-dokumen"
+								className="w-auto font-normal rounded-md border-0 py-1 px-1 shadow-sm ring-1 ring-inset ring-blue-300 focus:ring-1 focus:ring-inset focus:ring-blue-400 my-1"
+							/>
+						</th>
+						<th scope="col">
+							<div>Supllier / Customers</div>
+							<input
+								id="supllier"
+								type="text"
+								name="supllier"
+								autoComplete="current-dokumen"
+								className="w-auto font-normal rounded-md border-0 py-1 px-1 shadow-sm ring-1 ring-inset ring-blue-300 focus:ring-1 focus:ring-inset focus:ring-blue-400 my-1"
+							/>
+						</th>
+						<th scope="col">
+							<div>Nomor Daftar</div>
+							<input
+								id="nomorDaftar"
+								type="text"
+								name="nomorDaftar"
+								autoComplete="current-dokumen"
+								className="w-24 rounded-md border-0 py-1 px-1 shadow-sm ring-1 ring-inset ring-blue-300 focus:ring-1 focus:ring-inset focus:ring-blue-400 my-1"
+							/>
+						</th>
 						<th scope="col">Tanggal Daftar</th>
 					</tr>
 				</thead>
 				<tbody >
 					{posts && posts.map((post: any) => (
-						<tr key={post.id}>
+						<tr key={post.nomor_aju}>
 							<td>{((page * 10) - 10) + i++}.</td>
 							<td>{post.kode_dokumen}</td>
 							<td>{post.nomor_aju}</td>

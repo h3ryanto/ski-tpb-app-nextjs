@@ -7,7 +7,7 @@ import authConfig from "./auth.config"
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 60 * 15,
+    maxAge: 60 * 10,
   },
   secret: process.env.AUTH_SECRET,
   ...authConfig,

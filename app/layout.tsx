@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "../components/layout/Header/page";
 import { SessionProvider } from 'next-auth/react';
+// import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+// import { AppSidebar } from "@/components/ui/app-sidebar"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,13 +29,23 @@ export default function RootLayout({
 }>,
 ) {
 
-
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
         <SessionProvider refetchInterval={60}>
-          <Header />
-          {children}
+          {/* <SidebarProvider >
+            <AppSidebar />
+            <SidebarTrigger /> */}
+
+          <div className="flex flex-1 flex-col ">
+
+            <Header />
+
+            {children}
+          </div>
+
+
+          {/* </SidebarProvider> */}
         </SessionProvider>
       </body>
     </html>

@@ -15,7 +15,7 @@ export default function PaginationComponent() {
 
   const load = async () => {
     const data: any = await retriveData('header');
-    console.log(data)
+    // console.log(data)
     const newLastVisible = data.newLastVisible;
     setData(data.data);
     setLastVisible(newLastVisible);
