@@ -23,8 +23,7 @@ export async function getData(limit: number = 10, skip: number = 0) {
                         WHEN "Header".kode_dokumen ='33' THEN '8'
                         END
                     ORDER BY "Header".id DESC
-                    LIMIT ${limit} OFFSET ${skip}
-                    ORDER BY "Header".created_at DESC`;
+                    LIMIT ${limit} OFFSET ${skip}`;
     const headerCount = await prisma.header.count()
     return { posts, headerCount };
 }
