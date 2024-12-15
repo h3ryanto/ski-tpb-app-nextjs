@@ -1,5 +1,5 @@
 'use client'
-import { useSearchParams, usePathname, redirect } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter, redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -9,7 +9,7 @@ export default function Search({ children }: Props) {
 
     const searchParams = useSearchParams();
     const pathName = usePathname();
-    // const { replace } = useRouter();
+    const { replace } = useRouter();
     const onSearch = useDebouncedCallback((term: any) => {
 
         const params = new URLSearchParams(searchParams.toString())
@@ -18,7 +18,7 @@ export default function Search({ children }: Props) {
         } else {
             params.delete("query")
         }
-        redirect(`${pathName}?${params.toString()}`)
+        replace(`${pathName}?${params.toString()}`)
     }, 300);
     return (
         <>
