@@ -1,5 +1,5 @@
 'use client'
-import { useSearchParams, usePathname, useRouter, redirect } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
