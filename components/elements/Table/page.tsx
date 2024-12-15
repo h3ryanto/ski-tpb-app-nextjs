@@ -53,7 +53,7 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 
 	return (
 		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
-			<Search />
+			{/* <Search /> */}
 			<div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
 				{posts && posts.map((post: any) => (
 					<div key={post.nomor_aju} className='flex items-center hover:bg-blue-400/50'>
