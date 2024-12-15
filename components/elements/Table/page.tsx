@@ -24,33 +24,33 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 		}
 	}
 
-	// const entitas = (posts: any) => {
-	// 	const namaEntitas = posts.entitas.filter((item: any) => {
-	// 		if (posts.kode_dokumen == '40') {
-	// 			return item.kode_entitas == "9"
-	// 		} else if ((posts.kode_dokumen == '23')) {
-	// 			return item.kode_entitas == "5"
-	// 		} else if ((posts.kode_dokumen == '27')) {
-	// 			return item.kode_entitas == "3"
-	// 		} else if ((posts.kode_dokumen == '30')) {
-	// 			return item.kode_entitas == "6"
-	// 		} else if ((posts.kode_dokumen == '262')) {
-	// 			return item.kode_entitas == "9"
-	// 		} else if ((posts.kode_dokumen == '261')) {
-	// 			return item.kode_entitas == "8"
-	// 		} else if ((posts.kode_dokumen == '41')) {
-	// 			return item.kode_entitas == "8"
-	// 		} else if ((posts.kode_dokumen == '25')) {
-	// 			return item.kode_entitas == "8"
-	// 		} else if ((posts.kode_dokumen == '33')) {
-	// 			return item.kode_entitas == "8"
-	// 		}
+	const entitas = (posts: any) => {
+		const namaEntitas = posts.entitas.filter((item: any) => {
+			if (posts.kode_dokumen == '40') {
+				return item.kode_entitas == "9"
+			} else if ((posts.kode_dokumen == '23')) {
+				return item.kode_entitas == "5"
+			} else if ((posts.kode_dokumen == '27')) {
+				return item.kode_entitas == "3"
+			} else if ((posts.kode_dokumen == '30')) {
+				return item.kode_entitas == "6"
+			} else if ((posts.kode_dokumen == '262')) {
+				return item.kode_entitas == "9"
+			} else if ((posts.kode_dokumen == '261')) {
+				return item.kode_entitas == "8"
+			} else if ((posts.kode_dokumen == '41')) {
+				return item.kode_entitas == "8"
+			} else if ((posts.kode_dokumen == '25')) {
+				return item.kode_entitas == "8"
+			} else if ((posts.kode_dokumen == '33')) {
+				return item.kode_entitas == "8"
+			}
 
-	// 	}
-	// 	)
-	// 	// console.log(namaEntitas[0].nama_entitas)
-	// 	return namaEntitas[0].nama_entitas
-	// }
+		}
+		)
+		// console.log(namaEntitas[0].nama_entitas)
+		return namaEntitas[0].nama_entitas
+	}
 
 	return (
 		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
@@ -66,13 +66,13 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 								</p>
 								<p className='flex items-center'>
 									<UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
-									{/* {entitas(post)} */}
+									{entitas(post)}
 								</p>
 								<p className='flex items-center'>
 									<PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
 									{post.nomor_daftar} /
 									<CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
-									{/* {post.tanggal_daftar.toLocaleDateString("id-ID")} */}
+									{post.tanggal_daftar.toLocaleDateString("id-ID")}
 								</p>
 							</div>
 						</div>
@@ -132,9 +132,9 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 								<td>{((page * 10) - 10) + i++}.</td>
 								<td>{post.kode_dokumen}</td>
 								<td>{post.nomor_aju}</td>
-								{/* <td>{entitas(post)}</td> */}
+								<td>{entitas(post)}</td>
 								<td>{post.nomor_daftar}</td>
-								{/* <td>{post.tanggal_daftar.toLocaleDateString("id-ID")}</td> */}
+								<td>{post.tanggal_daftar.toLocaleDateString("id-ID")}</td>
 							</tr>
 						))}
 					</tbody>
