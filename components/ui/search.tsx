@@ -3,12 +3,10 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function Search({
-    children,
-}: {
-    children: React.ReactNode
-}) {
-    const childern = children;
+type Props = { children: ReactNode }
+
+export default function Search({ children }: Props) {
+
     const searchParams = useSearchParams();
     const pathName = usePathname();
     const { replace } = useRouter();
@@ -40,7 +38,7 @@ export default function Search({
                     />
                 </label>
             </div>
-            {childern}
+            {children}
         </>
     )
 }

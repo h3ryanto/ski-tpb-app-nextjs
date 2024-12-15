@@ -1,4 +1,5 @@
 
+'use server'
 import Search from '@/components/ui/search';
 import style from './styles.module.css';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
