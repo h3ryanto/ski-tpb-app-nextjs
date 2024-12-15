@@ -1,4 +1,5 @@
 
+import Search from '@/components/ui/search';
 import style from './styles.module.css';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 
@@ -22,23 +23,37 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 		}
 	}
 
+	const entitas = (posts: any) => {
+		const namaEntitas = posts.entitas.filter((item: any) => {
+			if (posts.kode_dokumen == '40') {
+				return item.kode_entitas == "9"
+			} else if ((posts.kode_dokumen == '23')) {
+				return item.kode_entitas == "5"
+			} else if ((posts.kode_dokumen == '27')) {
+				return item.kode_entitas == "3"
+			} else if ((posts.kode_dokumen == '30')) {
+				return item.kode_entitas == "6"
+			} else if ((posts.kode_dokumen == '262')) {
+				return item.kode_entitas == "9"
+			} else if ((posts.kode_dokumen == '261')) {
+				return item.kode_entitas == "8"
+			} else if ((posts.kode_dokumen == '41')) {
+				return item.kode_entitas == "8"
+			} else if ((posts.kode_dokumen == '25')) {
+				return item.kode_entitas == "8"
+			} else if ((posts.kode_dokumen == '33')) {
+				return item.kode_entitas == "8"
+			}
+
+		}
+		)
+		// console.log(namaEntitas[0].nama_entitas)
+		return namaEntitas[0].nama_entitas
+	}
 
 	return (
 		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
-			<div className=' bg-slate-700 px-2 py-2 md:bg-inherit border-b-2 border-slate-400'>
-				<label className="flex flex-row-reverse w-full ">
-					<input
-						id="search"
-						type="text"
-						name="search"
-						placeholder="Search.."
-						autoComplete="current-search"
-						className="w-auto rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
-                      placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
-                      text-sm px-2 focus:w-full"
-					/>
-				</label>
-			</div>
+			<Search />
 			<div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
 				{posts && posts.map((post: any) => (
 					<div key={post.nomor_aju} className='flex items-center hover:bg-blue-400/50'>
@@ -50,7 +65,7 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							</p>
 							<p className='flex items-center'>
 								<UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
-								{post.nama_entitas}
+								{entitas(post)}
 							</p>
 							<p className='flex items-center'>
 								<PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
