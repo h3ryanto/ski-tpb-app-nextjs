@@ -45,7 +45,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: strin
                 entitas: {
                     some: {
                         nama_entitas: {
-                            contains: query || {},
+                            contains: {query},
                             mode: 'insensitive',
                         }
 
@@ -54,13 +54,13 @@ export async function getData(limit: number = 10, skip: number = 0, query: strin
             },
             {
                 nomor_daftar: {
-                    contains: query || {},
+                    contains: {query},
                     mode: 'insensitive',
                 }
             },
             {
                 nomor_aju: {
-                    contains: `%${query}%`,
+                    contains: {query},
                     mode: 'insensitive',
                 }
             },
