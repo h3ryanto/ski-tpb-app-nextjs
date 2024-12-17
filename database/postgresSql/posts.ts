@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma/db'
 
 export async function getData(limit: number = 10, skip: number = 0, query: string = "") {
 
-    const sql = neon(`${process.env.DATABASE_URL}`);
+    //const sql = neon(`${process.env.DATABASE_URL}`);
 
     // const posts = await sql`SELECT "Header".kode_dokumen, "Header".nomor_aju, "Entitas".kode_entitas,"Entitas".nama_entitas, "Header".nomor_daftar, TO_CHAR("Header".tanggal_daftar,'YYYY-MM-DD') AS ftanggal_daftar 
     //                 FROM "Header" 
