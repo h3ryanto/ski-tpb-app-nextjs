@@ -2,7 +2,7 @@ import Table from '@/components/elements/Table/page';
 import { Suspense } from "react";
 import { getData } from "@/database/postgresSql/posts";
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-// import Link from 'next/link';
+import Search from '@/components/ui/search';
 
 
 
@@ -28,7 +28,9 @@ export default async function Dokumen(props: {
 
 		<div>
 			<Suspense>
-				<Table posts={resultData.posts} page={currenPage} />
+				<Search>
+					<Table posts={resultData.posts} page={currenPage} />
+				</Search>
 			</Suspense >
 
 			{/* <div className='flex justify-center mx-auto bg-slate-800 min-w-full py-2 md:hidden'>
