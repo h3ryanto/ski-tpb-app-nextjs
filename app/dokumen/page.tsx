@@ -16,7 +16,7 @@ export default async function Dokumen(props: {
 	const limit = Number(pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
 
-	const resultData = await getData(limit, skip, query?.toString() || null);
+	const resultData = await getData(limit, skip, query?.toString());
 	console.log(resultData)
 
 	const dataEntry = resultData.headerCount || 1;
