@@ -2,7 +2,7 @@
 import { neon } from "@neondatabase/serverless";
 import { prisma } from '@/lib/prisma/db'
 
-export async function getData(limit: number = 10, skip: number = 0, query: string = "") {
+export async function getData(limit: number = 10, skip: number = 0, query: string || null) {
 
     //const sql = neon(`${process.env.DATABASE_URL}`);
 
