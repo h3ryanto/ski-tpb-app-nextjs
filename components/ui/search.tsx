@@ -19,7 +19,7 @@ export default function Search({ children }: Props) {
             params.delete("query")
         }
         replace(`${pathName}?${params.toString()}`)
-    }, 300);
+    }, 200);
     return (
         <>
             <div className='container mx-auto bg-slate-700 px-2 py-2 md:bg-inherit border-b-2 border-slate-400'>

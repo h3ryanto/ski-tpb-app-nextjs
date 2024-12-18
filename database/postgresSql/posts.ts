@@ -1,8 +1,8 @@
 "use server";
-import { neon } from "@neondatabase/serverless";
+// import { neon } from "@neondatabase/serverless";
 import { prisma } from '@/lib/prisma/db'
 
-export async function getData(limit: number = 10, skip: number = 0, query: string|undefined ='') {
+export async function getData(limit: number = 10, skip: number = 0, query: string | undefined = '') {
 
     //const sql = neon(`${process.env.DATABASE_URL}`);
 
@@ -99,7 +99,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: strin
                 entitas: {
                     some: {
                         nama_entitas: {
-                            contains: `%${query}%`,
+                            contains: query,
                             mode: 'insensitive',
                         }
 
@@ -108,13 +108,13 @@ export async function getData(limit: number = 10, skip: number = 0, query: strin
             },
             {
                 nomor_daftar: {
-                    contains: `%${query}%`,
+                    contains: query,
                     mode: 'insensitive',
                 }
             },
             {
                 nomor_aju: {
-                    contains: `%${query}%`,
+                    contains: query,
                     mode: 'insensitive',
                 }
             },
