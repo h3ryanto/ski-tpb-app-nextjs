@@ -25,110 +25,113 @@ export async function getData(limit: number = 10, skip: number = 0, query: strin
     //                 AND "Entitas".nama_entitas LIKE ${"%" + query + "%"}
     //                 ORDER BY "Header".id DESC
     //                 LIMIT ${limit} OFFSET ${skip}`;
-    const posts = await prisma.header.findMany({
-        relationLoadStrategy: 'join',
-        select: {
-            kode_dokumen: true,
-            nomor_aju: true,
-            nomor_daftar: true,
-            tanggal_daftar: true,
-            entitas: {
+    try {
 
-                select: {
-                    kode_entitas: true,
-                    nama_entitas: true
-                }
-            },
-        },
-        where: {
-            OR: [{
+
+        const posts = await prisma.header.findMany({
+            relationLoadStrategy: 'join',
+            select: {
+                kode_dokumen: true,
+                nomor_aju: true,
+                nomor_daftar: true,
+                tanggal_daftar: true,
                 entitas: {
-                    some: {
-                        nama_entitas: {
-                            contains: query,
-                            mode: 'insensitive',
-                        }
 
+                    select: {
+                        kode_entitas: true,
+                        nama_entitas: true
+                    }
+                },
+
+            },
+            where: {
+                OR: [{
+                    entitas: {
+                        some: {
+                            nama_entitas: {
+                                contains: query,
+                                mode: 'insensitive',
+                            }
+
+                        }
+                    },
+                },
+                {
+                    nomor_daftar: {
+                        contains: query,
+                        mode: 'insensitive',
+                    }
+                },
+                {
+                    nomor_aju: {
+                        contains: query,
+                        mode: 'insensitive',
+                    }
+                },
+                ],
+            },
+            orderBy: {
+                created_at: 'desc',
+            },
+            skip: skip,
+            take: limit,
+        });
+
+        const postsAll = await prisma.header.findMany({
+            relationLoadStrategy: 'join',
+            select: {
+                kode_dokumen: true,
+                nomor_aju: true,
+                nomor_daftar: true,
+                tanggal_daftar: true,
+                entitas: {
+
+                    select: {
+                        kode_entitas: true,
+                        nama_entitas: true
                     }
                 },
             },
-            {
-                nomor_daftar: {
-                    contains: query,
-                    mode: 'insensitive',
-                }
-            },
-            {
-                nomor_aju: {
-                    contains: query,
-                    mode: 'insensitive',
-                }
-            },
-            ],
+            where: {
+                OR: [{
+                    entitas: {
+                        some: {
+                            nama_entitas: {
+                                contains: query,
+                                mode: 'insensitive',
+                            }
 
-        },
-
-        orderBy: {
-            created_at: 'desc',
-        },
-        skip: skip,
-        take: limit,
-
-
-
-
-    });
-
-    const postsAll = await prisma.header.findMany({
-        relationLoadStrategy: 'join',
-        select: {
-            kode_dokumen: true,
-            nomor_aju: true,
-            nomor_daftar: true,
-            tanggal_daftar: true,
-            entitas: {
-
-                select: {
-                    kode_entitas: true,
-                    nama_entitas: true
-                }
-            },
-        },
-        where: {
-            OR: [{
-                entitas: {
-                    some: {
-                        nama_entitas: {
-                            contains: query,
-                            mode: 'insensitive',
                         }
-
+                    },
+                },
+                {
+                    nomor_daftar: {
+                        contains: query,
+                        mode: 'insensitive',
                     }
                 },
-            },
-            {
-                nomor_daftar: {
-                    contains: query,
-                    mode: 'insensitive',
-                }
-            },
-            {
-                nomor_aju: {
-                    contains: query,
-                    mode: 'insensitive',
-                }
-            },
-            ],
+                {
+                    nomor_aju: {
+                        contains: query,
+                        mode: 'insensitive',
+                    }
+                },
+                ],
 
-        },
+            },
 
-        orderBy: {
-            created_at: 'desc',
-        },
-    });
+            orderBy: {
+                created_at: 'desc',
+            },
+        });
 
-    const headerCount = postsAll.length
-    return { posts, headerCount };
+        const headerCount = postsAll.length;
+        return { posts, headerCount };
+    } catch (error) {
+        return { error };
+    }
+
+
 }
 
 
