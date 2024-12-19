@@ -9,7 +9,7 @@ import Search from '@/components/ui/search';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function Dokumen(props: {
-	searchParams: SearchParams
+	searchParams?: SearchParams
 }) {
 	const { query, page, pageSize } = await props.searchParams;
 	const currenPage = Number(page) || 1;
