@@ -10,7 +10,6 @@ export async function GET(request: NextRequest, req: Request) {
         const jwtVerify = await decrypt(token, `${secretKey}`)
         // console.log(jwtVerify)
         if (jwtVerify) {
-            const body = await req.json();
             try {
                 const searchParams = request.nextUrl.searchParams
                 const term = searchParams.get('search') || '';
