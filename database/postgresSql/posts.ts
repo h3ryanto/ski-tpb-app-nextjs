@@ -127,6 +127,51 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         ON 
             "Entitas".nomor_aju = "Header".nomor_aju
         WHERE 
+        "Entitas".kode_entitas = 
+                CASE
+                    WHEN "Header".kode_dokumen = '23' THEN '5'
+                    WHEN "Header".kode_dokumen = '40' THEN '9'
+                    WHEN "Header".kode_dokumen = '27' THEN '3'
+                    WHEN "Header".kode_dokumen = '30' THEN '6'
+                    WHEN "Header".kode_dokumen = '262' THEN '9'
+                    WHEN "Header".kode_dokumen = '261' THEN '8'
+                    WHEN "Header".kode_dokumen = '41' THEN '8'
+                    WHEN "Header".kode_dokumen = '25' THEN '8'
+                    WHEN "Header".kode_dokumen = '33' THEN '8'
+                END                
+        AND "Header".nomor_aju ILIKE ${'%' + query + '%'}
+        OR "Header".nomor_daftar ILIKE ${'%' + query + '%'}
+        OR "Entitas".nama_entitas ILIKE ${'%' + query + '%'}            
+            
+        ORDER BY 
+            "Header".id DESC
+        LIMIT 
+            ${limit} 
+        OFFSET 
+            ${skip}`;
+
+    return posts;
+}
+
+export async function countData(query: any = '') {
+
+    const sql = neon(`${process.env.DATABASE_URL}`);
+
+    const count = await sql`
+        SELECT 
+            "Header".kode_dokumen, 
+            "Header".nomor_aju, 
+            "Entitas".kode_entitas,
+            "Entitas".nama_entitas, 
+            "Header".nomor_daftar, 
+            TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar 
+        FROM 
+            "Header" 
+        LEFT JOIN 
+            "Entitas" 
+        ON 
+            "Entitas".nomor_aju = "Header".nomor_aju
+        WHERE            
             "Entitas".kode_entitas = 
                 CASE
                     WHEN "Header".kode_dokumen = '23' THEN '5'
@@ -138,14 +183,11 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                     WHEN "Header".kode_dokumen = '41' THEN '8'
                     WHEN "Header".kode_dokumen = '25' THEN '8'
                     WHEN "Header".kode_dokumen = '33' THEN '8'
-                END
-            AND "Entitas".nama_entitas ILIKE ${'%' + query + '%'}
+                END                
+        AND "Header".nomor_aju ILIKE ${'%' + query + '%'}
+        OR "Header".nomor_daftar ILIKE ${'%' + query + '%'}
+        OR "Entitas".nama_entitas ILIKE ${'%' + query + '%'}    
         ORDER BY 
-            "Header".id DESC
-        LIMIT 
-            ${limit} 
-        OFFSET 
-            ${skip}`;
-
-    return posts;
+            "Header".id DESC`;
+    return count;
 }
