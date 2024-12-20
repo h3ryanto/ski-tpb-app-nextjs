@@ -34,11 +34,8 @@ export default function Search({ children }: Props) {
                         placeholder="Search.."
                         autoComplete="current-search"
                         onChange={(e) => onSearch(e.target.value)}
-<<<<<<< HEAD
                         defaultValue={searchParams.get('query')?.toString() || ""}
-=======
-                        defaultValue={params && searchParams.get('query')?.toString()}
->>>>>>> caf63c7d0bdb16a4c8d5b79d16b7f021d8bfc418
+
                         className="w-auto rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300
                 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300
                 text-sm px-2 focus:w-full"
