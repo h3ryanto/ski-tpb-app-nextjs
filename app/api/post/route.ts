@@ -2,8 +2,8 @@ import { retriveData, countData } from "@/database/postgresSql/posts";
 import { type NextRequest } from 'next/server'
 import { decrypt } from "@/lib/auth/session"
 
-export async function GET(request: NextRequest, req: Request) {
-    const token = await req.headers.get('Authorization')?.split(' ')[1];
+export async function GET(request: NextRequest) {
+    const token = await request.headers.get('Authorization')?.split(' ')[1];
     // console.log(token)
     if (token) {
         const secretKey = process.env.SESSION_SECRET
