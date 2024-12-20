@@ -139,10 +139,14 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                     WHEN "Header".kode_dokumen = '25' THEN '8'
                     WHEN "Header".kode_dokumen = '33' THEN '8'
                 END                
-        AND "Header".nomor_aju ILIKE ${'%' + query + '%'}
-        OR "Header".nomor_daftar ILIKE ${'%' + query + '%'}
-        OR "Entitas".nama_entitas ILIKE ${'%' + query + '%'}            
-            
+        AND
+        ( 
+        "Entitas".nama_entitas ILIKE ${'%' + query + '%'}  
+        OR 
+        "Header".nomor_aju ILIKE ${'%' + query + '%'}
+        OR 
+        "Header".nomor_daftar ILIKE ${'%' + query + '%'}         
+        ) 
         ORDER BY 
             "Header".id DESC
         LIMIT 
@@ -183,10 +187,15 @@ export async function countData(query: any = '') {
                     WHEN "Header".kode_dokumen = '41' THEN '8'
                     WHEN "Header".kode_dokumen = '25' THEN '8'
                     WHEN "Header".kode_dokumen = '33' THEN '8'
-                END                
-        AND "Header".nomor_aju ILIKE ${'%' + query + '%'}
-        OR "Header".nomor_daftar ILIKE ${'%' + query + '%'}
-        OR "Entitas".nama_entitas ILIKE ${'%' + query + '%'}    
+                END
+        AND
+        (
+        "Entitas".nama_entitas ILIKE ${'%' + query + '%'}  
+        OR 
+        "Header".nomor_aju ILIKE ${'%' + query + '%'}
+        OR 
+        "Header".nomor_daftar ILIKE ${'%' + query + '%'}         
+        )  
         ORDER BY 
             "Header".id DESC`;
     return count;

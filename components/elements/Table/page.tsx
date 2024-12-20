@@ -64,13 +64,15 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							</p>
 							<p className='flex items-center'>
 								<UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
-								{entitas(post)}
+								{/* {entitas(post)} */}
+								{post.nama_entitas}
 							</p>
 							<p className='flex items-center'>
 								<PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
 								{post.nomor_daftar} /
 								<CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
-								{post.tanggal_daftar.toLocaleDateString("id-ID")}
+								{/* {post.tanggal_daftar.toLocaleDateString("id-ID")} */}
+								{post.ftanggal_daftar}
 							</p>
 						</div>
 					</div>
@@ -130,9 +132,11 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							<td>{((page * 10) - 10) + i++}.</td>
 							<td>{post.kode_dokumen}</td>
 							<td>{post.nomor_aju}</td>
-							<td>{entitas(post)}</td>
+							{/* <td>{entitas(post)}</td> */}
+							<td>{post.nama_entitas}</td>
 							<td>{post.nomor_daftar}</td>
-							<td>{post.tanggal_daftar.toLocaleDateString("id-ID")}</td>
+							{/* <td>{post.tanggal_daftar.toLocaleDateString("id-ID")}</td> */}
+							<td>{post.ftanggal_daftar}</td>
 						</tr>
 					))}
 				</tbody>
