@@ -23,33 +23,33 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 		}
 	}
 
-	const entitas = (posts: any) => {
-		const namaEntitas = posts.entitas.filter((item: any) => {
-			if (posts.kode_dokumen == '40') {
-				return item.kode_entitas == "9"
-			} else if ((posts.kode_dokumen == '23')) {
-				return item.kode_entitas == "5"
-			} else if ((posts.kode_dokumen == '27')) {
-				return item.kode_entitas == "3"
-			} else if ((posts.kode_dokumen == '30')) {
-				return item.kode_entitas == "6"
-			} else if ((posts.kode_dokumen == '262')) {
-				return item.kode_entitas == "9"
-			} else if ((posts.kode_dokumen == '261')) {
-				return item.kode_entitas == "8"
-			} else if ((posts.kode_dokumen == '41')) {
-				return item.kode_entitas == "8"
-			} else if ((posts.kode_dokumen == '25')) {
-				return item.kode_entitas == "8"
-			} else if ((posts.kode_dokumen == '33')) {
-				return item.kode_entitas == "8"
-			}
+	// const entitas = (posts: any) => {
+	// 	const namaEntitas = posts.entitas.filter((item: any) => {
+	// 		if (posts.kode_dokumen == '40') {
+	// 			return item.kode_entitas == "9"
+	// 		} else if ((posts.kode_dokumen == '23')) {
+	// 			return item.kode_entitas == "5"
+	// 		} else if ((posts.kode_dokumen == '27')) {
+	// 			return item.kode_entitas == "3"
+	// 		} else if ((posts.kode_dokumen == '30')) {
+	// 			return item.kode_entitas == "6"
+	// 		} else if ((posts.kode_dokumen == '262')) {
+	// 			return item.kode_entitas == "9"
+	// 		} else if ((posts.kode_dokumen == '261')) {
+	// 			return item.kode_entitas == "8"
+	// 		} else if ((posts.kode_dokumen == '41')) {
+	// 			return item.kode_entitas == "8"
+	// 		} else if ((posts.kode_dokumen == '25')) {
+	// 			return item.kode_entitas == "8"
+	// 		} else if ((posts.kode_dokumen == '33')) {
+	// 			return item.kode_entitas == "8"
+	// 		}
 
-		}
-		)
-		// console.log(namaEntitas[0].nama_entitas)
-		return namaEntitas[0].nama_entitas
-	}
+	// 	}
+	// 	)
+	// 	// console.log(namaEntitas[0].nama_entitas)
+	// 	return namaEntitas[0].nama_entitas
+	// }
 
 	return (
 		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm relative">
