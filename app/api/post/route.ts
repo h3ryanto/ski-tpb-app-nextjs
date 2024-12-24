@@ -1,4 +1,4 @@
-import { retriveData, countData } from "@/database/postgresSql/posts";
+import { getData } from "@/database/postgresSql/posts";
 import { type NextRequest } from 'next/server'
 import { decrypt } from "@/lib/auth/session"
 
@@ -18,12 +18,14 @@ export async function GET(request: NextRequest) {
                 const skip = (currenPage - 1) * limit;
                 console.log(term);
 
-                const posts = await retriveData(limit, skip, term);
-                const count = await countData(term);
+                // const posts = await retriveData(limit, skip, term);
+                // const count = await countData(term);
+                const posts = await getData(limit, skip, term);
+
                 return Response.json(
                     {
                         posts: posts,
-                        count: count.length
+                        // count: count.length
                     },
                     {
                         status: 200, statusText: 'OK',

@@ -15,6 +15,7 @@ export default function Search({ children }: Props) {
         console.log(term);
 
         if (term) {
+            params.delete("page")
             params.set("query", term)
         } else {
             params.delete("query")
