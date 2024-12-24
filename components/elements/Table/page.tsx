@@ -1,5 +1,6 @@
 
 'use server'
+import kodeDokumen from '@/app/utils/kodeDokumen';
 import style from './styles.module.css';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 
@@ -124,6 +125,16 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							/>
 						</th>
 						<th scope="col">Tanggal Daftar</th>
+						<th scope="col">
+							<div>Dokumen</div>
+							<input
+								id="dokumen"
+								type="text"
+								name="dokumen"
+								autoComplete="current-dokumen"
+								className="w-24 rounded-md border-0 py-1 px-1 shadow-sm ring-1 ring-inset ring-blue-300 focus:ring-1 focus:ring-inset focus:ring-blue-400 my-1"
+							/>
+						</th>
 					</tr>
 				</thead>
 				<tbody >
@@ -137,6 +148,15 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 							<td>{post.nomor_daftar}</td>
 							{/* <td>{post.tanggal_daftar.toLocaleDateString("id-ID")}</td> */}
 							<td>{post.ftanggal_daftar}</td>
+							<td>{
+								post.dokumens.map((dok: any) => (
+									<div key={dok.id}>
+										{kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
+									</div>
+								))
+
+
+							}</td>
 						</tr>
 					))}
 				</tbody>

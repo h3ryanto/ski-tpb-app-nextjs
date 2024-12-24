@@ -119,13 +119,34 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
             "Entitas".kode_entitas,
             "Entitas".nama_entitas, 
             "Header".nomor_daftar, 
-            TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar 
+            TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar, 
+            (
+            SELECT 
+                json_agg(json_build_object('id',"Dokumen".id,'kode_dokumen',"Dokumen".kode_dokumen,'nomor', "Dokumen".nomor_dokumen)) 
+            from 
+                "Dokumen" 
+            WHERE 
+                "Dokumen".nomor_aju = "Header".nomor_aju
+            )
+            AS
+                Dokumens,
+            (
+            SELECT 
+                json_agg(json_build_object('kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian)) 
+            from 
+                "Barang" 
+            WHERE 
+                "Barang".nomor_aju = "Header".nomor_aju
+            )
+            AS
+                Barang
         FROM 
             "Header" 
+        
         LEFT JOIN 
             "Entitas" 
         ON 
-            "Entitas".nomor_aju = "Header".nomor_aju
+            "Header".nomor_aju = "Entitas".nomor_aju
         WHERE 
         "Entitas".kode_entitas = 
                 CASE
@@ -175,6 +196,7 @@ export async function countData(query: any = '') {
             "Entitas" 
         ON 
             "Entitas".nomor_aju = "Header".nomor_aju
+        
         WHERE            
             "Entitas".kode_entitas = 
                 CASE
@@ -194,7 +216,7 @@ export async function countData(query: any = '') {
         OR 
         "Header".nomor_aju ILIKE ${'%' + query + '%'}
         OR 
-        "Header".nomor_daftar ILIKE ${'%' + query + '%'}         
+        "Header".nomor_daftar ILIKE ${'%' + query + '%'}        
         )  
         ORDER BY 
             "Header".id DESC`;
