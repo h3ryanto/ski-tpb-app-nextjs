@@ -8,9 +8,12 @@ import { signIn } from "next-auth/react"
 import login_sm from "@/public/svg/login_sm.svg"
 import login_md from "@/public/svg/login_md.svg"
 
+import { useToast } from "@/hooks/use-toast"
+
 
 
 export default function Login() {
+  const { toast } = useToast()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -30,9 +33,18 @@ export default function Login() {
 
       if (!res?.error) {
         router.replace('/dashboard')
+        toast({
+          title: "Login Success",
+          description: "Berhasil masuk ke SSO",
+        })
       } else {
         console.log(res.error)
-        setError("Email atau Password salah!")
+        toast({
+          variant: "destructive",
+          title: "Login Faild",
+          description: "Email atau pasword yang anda masukan salah!",
+        })
+        // setError("Email atau Password salah!")
       }
     } catch (error: any) {
       console.log(error)

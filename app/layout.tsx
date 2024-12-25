@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "../components/layout/Header/page";
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from "@/components/ui/toaster"
 // import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 // import { AppSidebar } from "@/components/ui/app-sidebar"
 
@@ -42,6 +43,7 @@ export default function RootLayout({
             <Header />
 
             {children}
+            <Toaster />
           </div>
 
 

@@ -132,7 +132,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                 Dokumens,
             (
             SELECT 
-                json_agg(json_build_object('kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian)) 
+                json_agg(json_build_object('id',"Barang".id,'kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian,'satuan',"Barang".jumlah_satuan,'kode_satuan',"Barang".kode_satuan)) 
             from 
                 "Barang" 
             WHERE 

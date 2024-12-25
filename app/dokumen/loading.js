@@ -1,8 +1,11 @@
+import { Skeleton } from "@/components/ui/skeleton"
+
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
   return (
-    <div className="flex flex-wrap justify-center md:hidden">
-      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto my-2">
+    <>
+    <div className="flex flex-wrap justify-center md:hidden mx-3">
+      <div className="rounded-md p-4 max-w-sm w-full mx-auto my-1">
         <div className="animate-pulse flex space-x-4">
           <div className="rounded-full bg-slate-200 h-10 w-10"></div>
           <div className="flex-1 space-y-6 py-1">
@@ -17,7 +20,7 @@ export default function Loading() {
           </div>
         </div>
       </div>
-      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto my-2">
+      <div className="rounded-md p-4 max-w-sm w-full mx-auto my-1">
         <div className="animate-pulse flex space-x-4">
           <div className="rounded-full bg-slate-200 h-10 w-10"></div>
           <div className="flex-1 space-y-6 py-1">
@@ -32,7 +35,7 @@ export default function Loading() {
           </div>
         </div>
       </div>
-      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto my-2">
+      <div className="rounded-md p-4 max-w-sm w-full mx-auto my-1">
         <div className="animate-pulse flex space-x-4">
           <div className="rounded-full bg-slate-200 h-10 w-10"></div>
           <div className="flex-1 space-y-6 py-1">
@@ -47,7 +50,7 @@ export default function Loading() {
           </div>
         </div>
       </div>
-      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto my-2">
+      <div className="rounded-md p-4 max-w-sm w-full mx-auto my-1">
         <div className="animate-pulse flex space-x-4">
           <div className="rounded-full bg-slate-200 h-10 w-10"></div>
           <div className="flex-1 space-y-6 py-1">
@@ -62,7 +65,7 @@ export default function Loading() {
           </div>
         </div>
       </div>
-      <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto my-2">
+      <div className="rounded-md p-4 max-w-sm w-full mx-auto my-1">
         <div className="animate-pulse flex space-x-4">
           <div className="rounded-full bg-slate-200 h-10 w-10"></div>
           <div className="flex-1 space-y-6 py-1">
@@ -78,5 +81,24 @@ export default function Loading() {
         </div>
       </div>
     </div>
+    <div className="container flex justify-right mx-auto my-5">
+       
+
+      <div className="space-y-2 border border-slate-300 p-3 rounded-lg">
+        <Skeleton className="container h-4 w-[250px]" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+        <Skeleton className="container h-4 w-screen" />
+      </div>      
+    </div>
+    </>
   );
 }
