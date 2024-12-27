@@ -89,31 +89,44 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 								</div>
 							</AccordionTrigger>
 							<AccordionContent>
-								<div className='underline'>Dokumen:</div>
-								{post.dokumens.map((dok: any) => (
-									<div key={dok.id} className='mx-3'>
-										{kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
-									</div>
-								))}
-								<br></br>
-								<div className='underline'>Barang:</div>
-								<div className='divide-y-2 divide-slate-400'>
-									{post.barang.map((barang: any) => (
-										<div className='flex flex-col items-start mx-3' key={barang.id}>
-
-											<p className='flex items-center'>
-												Kode Barang : {barang.kode_barang}
-											</p>
-											<p className='flex items-center'>
-												Uraian : {barang.uraian}
-											</p>
-											<p className='flex items-center'>
-												Jumlah : {barang.satuan} {barang.kode_satuan}
-											</p>
+								<div className='bg-slate-600 w-full p-3'>
+									<div className='underline'>Dokumen:</div>
+									{post.dokumens.map((dok: any) => (
+										<div key={dok.id} className='mx-3'>
+											{kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
 										</div>
 									))}
-								</div>
+									<br></br>
+									<div className='underline'>Barang:</div>
+									<div className='divide-y-2 divide-slate-400'>
+										{post.barang.map((barang: any) => (
+											<div className='flex flex-col items-start mx-3' key={barang.id}>
 
+												<p className='flex items-center'>
+													HS Code : {barang.hs_code}
+												</p>
+												<p className='flex items-center'>
+													Kode Barang : {barang.kode_barang}
+												</p>
+												<p className='flex items-center'>
+													Uraian : {barang.uraian}
+												</p>
+												<p className='flex items-center'>
+													Jumlah : {barang.satuan} {barang.kode_satuan}
+												</p>
+												<p className='flex items-center'>
+													CIF : {barang.cif}
+												</p>
+												<p className='flex items-center'>
+													Harga Penyerahan : {barang.harga_penyerahan}
+												</p>
+												<p className='flex items-center'>
+													FOB : {barang.fob}
+												</p>
+											</div>
+										))}
+									</div>
+								</div>
 							</AccordionContent>
 						</AccordionItem>
 					))}
