@@ -34,14 +34,14 @@ export default function Login() {
       if (!res?.error) {
         router.replace('/dashboard')
         toast({
-          title: "Login Success",
+          title: "Login Berhasil",
           description: "Berhasil masuk ke SSO",
         })
       } else {
         console.log(res.error)
         toast({
           variant: "destructive",
-          title: "Login Faild",
+          title: "Login Gagal",
           description: "Email atau pasword yang anda masukan salah!",
         })
         // setError("Email atau Password salah!")

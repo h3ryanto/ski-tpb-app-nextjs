@@ -3,12 +3,7 @@
 import kodeDokumen from '@/app/utils/kodeDokumen';
 import style from './styles.module.css';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 
 export default async function Table({ posts, page }: { posts: any, page: number }) {
@@ -30,7 +25,6 @@ export default async function Table({ posts, page }: { posts: any, page: number 
 			return 'border-orange-400';
 		}
 	}
-
 	// const entitas = (posts: any) => {
 	// 	const namaEntitas = posts.entitas.filter((item: any) => {
 	// 		if (posts.kode_dokumen == '40') {
