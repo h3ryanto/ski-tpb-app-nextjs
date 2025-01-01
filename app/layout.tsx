@@ -4,8 +4,9 @@ import "./globals.css";
 import Header from "../components/layout/Header/page";
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from "@/components/ui/toaster"
-// import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-// import { AppSidebar } from "@/components/ui/app-sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/ui/app-sidebar"
+import AppBreadCrumb from "@/components/ui/app-bredcrumb";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,16 +36,21 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
         <SessionProvider refetchInterval={60}>
 
-          {/* <SidebarProvider >
-            <AppSidebar />
-            <SidebarTrigger /> */}
-          <main>
-            <Header />
-            {children}
-            <Toaster />
-          </main>
+          <SidebarProvider >
+            <div className="grid grid-cols-[auto,1fr] w-full">
+              <AppSidebar />
+              <main className="">
+                {/* <Header /> */}
+                <div className="flex sticky top-0 z-50 mt-3">
+                  <SidebarTrigger className="mr-3" />
+                  <AppBreadCrumb />
+                </div>
 
-          {/* </SidebarProvider> */}
+                {children}
+                <Toaster />
+              </main>
+            </div>
+          </SidebarProvider>
         </SessionProvider>
       </body>
     </html>

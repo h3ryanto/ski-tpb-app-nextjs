@@ -110,7 +110,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: any) 
 
 export async function retriveData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     // console.log(filter)
-    const termEntitas = filter.entitas && filter.entitas || query;
+    const termEntitas = filter.entitas ? filter.entitas : query;
     console.log(termEntitas)
     const sql = neon(`${process.env.DATABASE_URL}`);
 
@@ -164,20 +164,20 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                 END                
         AND
         ( 
-        "Entitas".nama_entitas ILIKE ${'%' + termEntitas + '%'
-        }
-OR
-"Header".nomor_aju ILIKE ${'%' + query + '%'}
-OR
-"Header".nomor_daftar ILIKE ${'%' + query + '%'}
-OR
-"Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + query + '%'})
-OR
-"Header".nomor_aju = ANY(SELECT nomor_aju FROM "Barang" WHERE uraian ILIKE ${'%' + query + '%'})       
-        ) 
-        ORDER BY
-"Header".id DESC
-LIMIT 
+        "Entitas".nama_entitas ILIKE ${'%' + termEntitas + '%'}
+        OR
+        ("Header".nomor_aju ILIKE ${'%' + query + '%'}
+        OR
+        "Header".nomor_daftar ILIKE ${'%' + query + '%'}
+        OR
+        "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + query + '%'})
+        OR
+        "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Barang" WHERE uraian ILIKE ${'%' + query + '%'})
+        )
+                ) 
+                ORDER BY
+        "Header".id DESC
+        LIMIT 
             ${limit}
 OFFSET 
             ${skip} `;

@@ -2,7 +2,6 @@
 
 'use client'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
