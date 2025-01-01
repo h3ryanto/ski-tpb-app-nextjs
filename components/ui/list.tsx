@@ -1,7 +1,6 @@
 import kodeDokumen from '@/app/utils/kodeDokumen';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Currency } from 'lucide-react';
 import { formatCurrency } from '@/app/utils/currency';
 
 const List = ({ posts, page }: { posts: any, page: number }) => {
