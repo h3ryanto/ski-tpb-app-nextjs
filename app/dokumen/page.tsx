@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { countData, retriveData } from "@/database/postgresSql/posts";
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import Search from '@/components/ui/search';
-
+import List from '@/components/ui/list';
 
 
 
@@ -11,25 +11,28 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function Dokumen(props: {
 	searchParams: SearchParams
 }) {
-	const { query, page, pageSize } = await props.searchParams;
+	const { query, page, pageSize, kodeDokumen, nomorAju, suplier, nomorDaftar, dokumen } = await props.searchParams;
 	const search = query?.toString() || '';
+	const kode_dokumen = kodeDokumen?.toString() || '';
+	const nomor_aju = nomorAju?.toString() || '';
+	const entitas = suplier?.toString() || false;
+	const nomor_daftar = nomorDaftar?.toString() || '';
+	const nomor_dokumen = dokumen?.toString() || '';
+	const filter = { kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen }
 	const currenPage = Number(page) || 1;
 	const limit = Number(pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
 
-	// const resultData = await getData(limit, skip, search);
-	// const data = await fetch('https://api.vercel.app/blog')
-	const posts = await retriveData(limit, skip, search)
+	const posts = await retriveData(limit, skip, search, filter)
+	console.log(posts)
 	const count = await countData(search)
-	console.log(posts);
-	console.log(count.length);
-	// const dataEntry = resultData.headerCount || 1;
 	const dataEntry = count.length || 1;
 
 	return (
 		<div>
 			<Suspense>
 				<Search>
+					<List posts={posts} page={currenPage} />
 					<Table posts={posts} page={currenPage} />
 				</Search>
 			</Suspense >

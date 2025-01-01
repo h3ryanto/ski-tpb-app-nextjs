@@ -73,7 +73,7 @@ export default function Header() {
                   <span className="sr-only">View notifications</span>
                   <BellIcon aria-hidden="true" className="h-6 w-6" />
                 </button>
-                <div className="hidden sm:ml-6 sm:block rounded-md px-3 py-2 text-sm font-medium text-white">Hai!, {session.data?.user?.name}</div>
+                <div className="hidden sm:ml-6 sm:block rounded-md px-3 py-2 text-sm font-medium text-white">Hi!, {session.data?.user?.name}</div>
                 {/* Profile dropdown */}
                 <UserProfil />
               </div>

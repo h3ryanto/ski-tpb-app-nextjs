@@ -34,18 +34,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
         <SessionProvider refetchInterval={60}>
+
           {/* <SidebarProvider >
             <AppSidebar />
             <SidebarTrigger /> */}
-
-          <div className="flex flex-1 flex-col ">
-
+          <main>
             <Header />
-
             {children}
             <Toaster />
-          </div>
-
+          </main>
 
           {/* </SidebarProvider> */}
         </SessionProvider>
