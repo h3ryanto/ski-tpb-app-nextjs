@@ -32,7 +32,7 @@ export default async function Dokumen(props: {
 		<div>
 			<Suspense>
 				<Search>
-					<List posts={posts} page={currenPage} />
+					<List posts={posts} />
 					<Table posts={posts} page={currenPage} />
 				</Search>
 			</Suspense >

@@ -3,7 +3,7 @@ import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { formatCurrency } from '@/app/utils/currency';
 
-const List = ({ posts, page }: { posts: any, page: number }) => {
+const List = ({ posts }: { posts: any }) => {
 
     const borderColor = (kode_dokumen: string) => {
         if (kode_dokumen == '30') {
