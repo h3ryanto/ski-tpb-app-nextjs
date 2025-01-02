@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "../components/layout/Header/page";
+// import Header from "../components/layout/Header/page";
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from "@/components/ui/toaster"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import AppBreadCrumb from "@/components/ui/app-bredcrumb";
 
@@ -35,20 +35,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
         <SessionProvider refetchInterval={60}>
-
           <SidebarProvider >
             <div className="grid grid-cols-[auto,1fr] w-full">
               <AppSidebar />
-              <main className="">
-                {/* <Header /> */}
-                <div className="flex sticky top-0 z-50 mt-3">
-                  <SidebarTrigger className="mr-3" />
-                  <AppBreadCrumb />
-                </div>
 
-                {children}
-                <Toaster />
-              </main>
+              <SidebarInset>
+                <AppBreadCrumb />
+                <main>
+
+                  {children}
+                  <Toaster />
+                </main>
+              </SidebarInset>
             </div>
           </SidebarProvider>
         </SessionProvider>

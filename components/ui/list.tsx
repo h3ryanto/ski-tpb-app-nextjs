@@ -3,9 +3,12 @@ import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { formatCurrency } from '@/app/utils/currency';
 import Search from './search';
+import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+import { InboxIcon } from "lucide-react"
+import { count } from 'console';
 
-const List = ({ posts }: { posts: any }) => {
-
+const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
+    const countData = posts.length;
     const borderColor = (kode_dokumen: string) => {
         if (kode_dokumen == '30') {
             return 'border-yellow-400';
@@ -27,7 +30,7 @@ const List = ({ posts }: { posts: any }) => {
         <div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
             <Search>
                 <Accordion type="single" collapsible>
-                    {posts && posts.map((post: any) => (
+                    {countData && posts.map((post: any) => (
                         <AccordionItem value={post.nomor_aju} key={post.nomor_aju}>
                             <AccordionTrigger>
                                 <div className='flex items-center hover:bg-blue-400/50'>
@@ -93,9 +96,12 @@ const List = ({ posts }: { posts: any }) => {
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
-                    ))}
+                    )) || <span className='flex flex-col items-center'><InboxIcon />Data tidak ditemukan</span>}
                 </Accordion>
             </Search>
+            <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
+                <PaginationWithLinks page={page} pageSize={limit} totalCount={dataEntry} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
+            </div>
         </div>
     )
 };

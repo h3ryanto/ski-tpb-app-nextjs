@@ -1,7 +1,6 @@
 import Table from '@/components/elements/Table/page';
 import { Suspense } from "react";
 import { countData, retriveData } from "@/database/postgresSql/posts";
-import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import List from '@/components/ui/list';
 
 
@@ -31,13 +30,11 @@ export default async function Dokumen(props: {
 		<div>
 			<Suspense>
 
-				<List posts={posts} />
-				<Table posts={posts} page={currenPage} />
+				<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
+				<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
 
 			</Suspense >
-			<div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
-				<PaginationWithLinks page={currenPage} pageSize={limit} totalCount={dataEntry} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
-			</div>
+
 		</div>
 
 	)

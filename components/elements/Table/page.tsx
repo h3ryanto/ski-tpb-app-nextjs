@@ -4,29 +4,31 @@ import Filter from '@/components/ui/filter';
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { InboxIcon } from "lucide-react"
 import Search from '@/components/ui/search';
+import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 
 
 
-export default function Table({ posts, page }: { posts: any, page: number }) {
+
+export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
 	let i = 1;
-
+	const countData = posts.length;
 	return (
-		<div className="container flex flex-col mx-auto justify-center rounded-md font-sans text-sm p-6">
+		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
 			<Card>
-				<CardHeader>
-					<CardTitle>Dokumen Pabean</CardTitle>
-
+				<CardHeader className='pb-2'>
+					<CardTitle></CardTitle>
 				</CardHeader>
-				<CardContent>
+				<CardContent className='overflow-y-auto h-96'>
 					<Search>
-						<table id={style.table} className="table-auto hidden md:table">
-							<thead>
+
+						<table id={style.table} className="table-auto hidden md:table ">
+							<thead className='top-10'>
 								<tr className="border-b-2 border-y-slate-400 ">
 									<th scope="col">No.</th>
 									<th scope="col">
@@ -58,8 +60,9 @@ export default function Table({ posts, page }: { posts: any, page: number }) {
 									</th>
 								</tr>
 							</thead>
+
 							<tbody >
-								{posts && posts.map((post: any) => (
+								{countData && posts.map((post: any) => (
 									<tr key={post.nomor_aju}>
 										<td>{((page * 10) - 10) + i++}.</td>
 										<td>{post.kode_dokumen}</td>
@@ -75,13 +78,16 @@ export default function Table({ posts, page }: { posts: any, page: number }) {
 											))
 										}</td>
 									</tr>
-								))}
+								)) || <tr><td colSpan={7} className="text-center text-slate-700"><span className='flex flex-col items-center'><InboxIcon />Data tidak ditemukan</span></td></tr>}
 							</tbody>
 						</table>
+
 					</Search>
 				</CardContent>
 				<CardFooter>
-					<p>Card Footer</p>
+					<div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
+						<PaginationWithLinks page={page} pageSize={limit} totalCount={dataEntry} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
+					</div>
 				</CardFooter>
 			</Card>
 

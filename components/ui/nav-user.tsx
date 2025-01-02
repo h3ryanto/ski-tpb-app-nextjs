@@ -29,6 +29,8 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { logOut, Update } from '@/lib/firebase/authentication/service'
+import { signOut } from "next-auth/react"
 
 export function NavUser({
     user,
@@ -40,7 +42,15 @@ export function NavUser({
     }
 }) {
     const { isMobile } = useSidebar()
+    const handleLogout = async () => {
+        try {
+            await signOut()
+            await logOut()
 
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -104,7 +114,9 @@ export function NavUser({
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
                             <LogOut />
-                            Log out
+                            <button type="button" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 " onClick={() => handleLogout()}>
+                                Sign out
+                            </button>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

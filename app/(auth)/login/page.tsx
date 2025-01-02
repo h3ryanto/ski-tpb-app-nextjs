@@ -54,7 +54,7 @@ export default function Login() {
   }
 
   return (
-    <div className="container h-svh mx-auto flex flex-col items-center md:justify-center">
+    <div className="w-screen h-svh mx-auto flex flex-col items-center md:justify-center">
 
 
       <div className="container mx-auto flex flex-col items-center py-10 z-20
