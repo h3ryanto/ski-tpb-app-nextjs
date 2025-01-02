@@ -5,7 +5,7 @@ import { formatCurrency } from '@/app/utils/currency';
 import Search from './search';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { InboxIcon } from "lucide-react"
-import { count } from 'console';
+
 
 const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
     const countData = posts.length;

@@ -29,7 +29,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import { logOut, Update } from '@/lib/firebase/authentication/service'
+import { logOut} from '@/lib/firebase/authentication/service'
 import { signOut } from "next-auth/react"
 
 export function NavUser({
