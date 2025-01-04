@@ -166,7 +166,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         ( 
         "Entitas".nama_entitas ILIKE ${'%' + termEntitas + '%'}
         OR
-        ("Header".nomor_aju ILIKE ${'%' + query + '%'}
+        "Header".nomor_aju ILIKE ${'%' + query + '%'}
         OR
         "Header".nomor_daftar ILIKE ${'%' + query + '%'}
         OR
@@ -174,7 +174,6 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         OR
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Barang" WHERE uraian ILIKE ${'%' + query + '%'})
         )
-                ) 
                 ORDER BY
         "Header".id DESC
         LIMIT 

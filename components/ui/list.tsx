@@ -27,7 +27,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
         }
     }
     return (
-        <div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100  px-3 md:hidden'>
+        <div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100 w-screen px-3 md:hidden'>
             <Search>
                 <Accordion type="single" collapsible>
                     {countData && posts.map((post: any) => (
@@ -96,13 +96,13 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
-                    )) || <span className='flex flex-col items-center'><InboxIcon />Data tidak ditemukan</span>}
+                    )) || (<span className='flex flex-col items-center py-3'><InboxIcon className='my-2' />Data tidak ditemukan</span>)}
                 </Accordion>
             </Search>
             <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
                 <PaginationWithLinks page={page} pageSize={limit} totalCount={dataEntry} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
             </div>
-        </div>
+        </div >
     )
 };
 export default List;
