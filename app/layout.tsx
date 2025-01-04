@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import AppBreadCrumb from "@/components/ui/app-bredcrumb";
+import { ThemeProvider } from "@/components/ui/theme-provider"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,23 +33,30 @@ export default function RootLayout({
 ) {
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
         <SessionProvider refetchInterval={60}>
-          <SidebarProvider >
-            <div className="grid grid-cols-[auto,1fr] w-full">
-              <AppSidebar />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SidebarProvider >
+              <div className="grid grid-cols-[auto,1fr] w-full">
+                <AppSidebar />
 
-              <SidebarInset>
-                <AppBreadCrumb />
-                <main>
+                <SidebarInset>
+                  <AppBreadCrumb />
+                  <main>
 
-                  {children}
-                  <Toaster />
-                </main>
-              </SidebarInset>
-            </div>
-          </SidebarProvider>
+                    {children}
+                    <Toaster />
+                  </main>
+                </SidebarInset>
+              </div>
+            </SidebarProvider>
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>
