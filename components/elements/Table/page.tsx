@@ -1,5 +1,5 @@
 import kodeDokumen from '@/app/utils/kodeDokumen';
-import style from '@/styles.module.css';
+import style from './styles.module.css'
 import Filter from '@/components/ui/filter';
 import {
 	Card,
