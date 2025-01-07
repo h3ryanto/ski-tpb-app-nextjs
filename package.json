@@ -26,6 +26,7 @@
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.1.4",
+    "@vercel/blob": "^0.27.0",
     "@vercel/postgres": "^0.10.0",
     "@vercel/stega": "^0.1.2",
     "axios": "^1.7.7",
