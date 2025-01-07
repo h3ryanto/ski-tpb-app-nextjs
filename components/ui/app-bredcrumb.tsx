@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation'
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { useSession } from 'next-auth/react';
 import DarkModeToggle from "./darfkmode"
+import { OpenTrigger } from "./open-trigger-sidebar"
 
 
 const AppBreadCrumb = () => {
@@ -20,9 +21,10 @@ const AppBreadCrumb = () => {
     const session = useSession();
     if (session.data) {
         return (
-            <header className="flex h-9 shrink-0 items-center justify-between px-6 gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+            <header className="flex h-12 sticky top-0  dark:bg-slate-800 shrink-0 items-center justify-between px-6 gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 md:bg-white bg-slate-50">
                 <div className="flex items-center gap-2 px-4">
-                    <SidebarTrigger className="-ml-1" />
+                    <SidebarTrigger className="hidden md:block" />
+                    <OpenTrigger />
                     <Separator orientation="vertical" className="mr-2 h-4" />
                     <Breadcrumb>
                         <BreadcrumbList>
@@ -31,7 +33,7 @@ const AppBreadCrumb = () => {
                                     Home
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
-                            <BreadcrumbSeparator className="hidden md:block" />
+                            {pathname == '/' ? '' : <BreadcrumbSeparator className="hidden md:block" />}
                             <BreadcrumbItem>
                                 <BreadcrumbPage className="capitalize">{pathname.split('/').slice(1)}</BreadcrumbPage>
                             </BreadcrumbItem>

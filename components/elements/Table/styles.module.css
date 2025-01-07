@@ -11,7 +11,7 @@
   
   /* #table tr:nth-child(even){background-color: #fcfafa;} */
   
-  #table tr:hover {background-color: #bed8f5;}
+  #table tbody tr:hover {background-color: #bed8f5;}
   
   #table th {
     padding-top: 12px;

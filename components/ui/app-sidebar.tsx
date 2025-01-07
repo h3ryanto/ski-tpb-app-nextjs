@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react';
 import { NavUser } from "./nav-user"
+import { CloseTrigger } from "./close-trigger-sidebar"
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
     return classes.filter(Boolean).join(' ');
@@ -44,8 +45,16 @@ export function AppSidebar() {
     if (session.data) {
         return (
             <Sidebar collapsible="icon">
-                <SidebarHeader>PT</SidebarHeader>
+                <SidebarHeader>
+
+                    {/* <SidebarMenu><Inbox /></SidebarMenu> */}
+
+                </SidebarHeader>
                 <SidebarContent>
+                    <div className="grid items-center justify-start px-4 md:hidden">
+                        <CloseTrigger />
+                    </div>
+
                     <SidebarGroup>
                         <SidebarGroupLabel>Application</SidebarGroupLabel>
                         <SidebarGroupContent>

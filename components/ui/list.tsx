@@ -28,77 +28,83 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
     }
     return (
         <div className='columns-1 bg-slate-700 divide-y-2 divide-slate-400 text-slate-100 w-screen px-3 md:hidden'>
-            <Search>
-                <Accordion type="single" collapsible>
-                    {countData && posts.map((post: any) => (
-                        <AccordionItem value={post.nomor_aju} key={post.nomor_aju}>
-                            <AccordionTrigger>
-                                <div className='flex items-center hover:bg-blue-400/50'>
-                                    <div className={`flex justify-center items-center border-2 ${borderColor(post.kode_dokumen)} w-12 h-12 rounded-full mr-3`}>{post.kode_dokumen}</div>
-                                    <div >
-                                        <p className='flex items-center'>
-                                            <PaperAirplaneIcon aria-hidden="true" className="h-3 w-3 marker:mr-1 stroke-red-400" />
-                                            {post.nomor_aju}
-                                        </p>
-                                        <p className='flex items-center'>
-                                            <UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
-                                            {/* {entitas(post)} */}
-                                            {post.nama_entitas}
-                                        </p>
-                                        <p className='flex items-center'>
-                                            <PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
-                                            {post.nomor_daftar} /
-                                            <CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
-                                            {/* {post.tanggal_daftar.toLocaleDateString("id-ID")} */}
-                                            {post.ftanggal_daftar}
-                                        </p>
-                                    </div>
+            <div className=''>
+                <Search><></></Search>
+            </div>
+
+            <Accordion type="single" collapsible>
+                {countData && posts.map((post: any) => (
+                    <AccordionItem value={post.nomor_aju} key={post.nomor_aju}>
+                        <AccordionTrigger>
+                            <div className='flex items-center hover:bg-blue-400/50'>
+                                <div className={`flex justify-center items-center border-2 ${borderColor(post.kode_dokumen)} w-12 h-12 rounded-full mr-3`}>{post.kode_dokumen}</div>
+                                <div >
+                                    <p className='flex items-center'>
+                                        <PaperAirplaneIcon aria-hidden="true" className="h-3 w-3 marker:mr-1 stroke-red-400" />
+                                        {post.nomor_aju}
+                                    </p>
+                                    <p className='flex items-center'>
+                                        <UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
+                                        {/* {entitas(post)} */}
+                                        {post.nama_entitas}
+                                    </p>
+                                    <p className='flex items-center'>
+                                        <PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
+                                        {post.nomor_daftar} /
+                                        <CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
+                                        {/* {post.tanggal_daftar.toLocaleDateString("id-ID")} */}
+                                        {post.ftanggal_daftar}
+                                    </p>
                                 </div>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <div className='bg-slate-600 w-full p-3'>
-                                    <div className='underline'>Dokumen:</div>
-                                    {post.dokumens.map((dok: any) => (
-                                        <div key={dok.id} className='mx-3'>
-                                            {kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
+                            </div>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <div className='bg-slate-600 w-full p-3'>
+                                <div className='underline'>Dokumen:</div>
+                                {post.dokumens.map((dok: any) => (
+                                    <div key={dok.id} className='mx-3'>
+                                        {kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
+                                    </div>
+                                ))}
+                                <br></br>
+                                <div className='underline'>Barang:</div>
+                                <div className='divide-y-2 divide-slate-400'>
+                                    {post.barang.map((barang: any) => (
+                                        <div className='flex flex-col items-start mx-3' key={barang.id}>
+
+                                            <p className='flex items-center'>
+                                                HS Code : {barang.hs_code}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                Kode Barang : {barang.kode_barang}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                Uraian : {barang.uraian}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                Jumlah : {barang.satuan} {barang.kode_satuan}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                CIF : {formatCurrency(barang.cif, 'en-US', barang.valuta || 'IDR')}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                Harga Penyerahan : {formatCurrency(barang.harga_penyerahan, 'id-ID', 'IDR')}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                FOB : {formatCurrency(barang.fob, 'en-US', barang.valuta || 'IDR')}
+                                            </p>
                                         </div>
                                     ))}
-                                    <br></br>
-                                    <div className='underline'>Barang:</div>
-                                    <div className='divide-y-2 divide-slate-400'>
-                                        {post.barang.map((barang: any) => (
-                                            <div className='flex flex-col items-start mx-3' key={barang.id}>
-
-                                                <p className='flex items-center'>
-                                                    HS Code : {barang.hs_code}
-                                                </p>
-                                                <p className='flex items-center'>
-                                                    Kode Barang : {barang.kode_barang}
-                                                </p>
-                                                <p className='flex items-center'>
-                                                    Uraian : {barang.uraian}
-                                                </p>
-                                                <p className='flex items-center'>
-                                                    Jumlah : {barang.satuan} {barang.kode_satuan}
-                                                </p>
-                                                <p className='flex items-center'>
-                                                    CIF : {formatCurrency(barang.cif, 'en-US', barang.valuta || 'IDR')}
-                                                </p>
-                                                <p className='flex items-center'>
-                                                    Harga Penyerahan : {formatCurrency(barang.harga_penyerahan, 'id-ID', 'IDR')}
-                                                </p>
-                                                <p className='flex items-center'>
-                                                    FOB : {formatCurrency(barang.fob, 'en-US', barang.valuta || 'IDR')}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
                                 </div>
-                            </AccordionContent>
-                        </AccordionItem>
-                    )) || (<span className='flex flex-col items-center py-3'><InboxIcon className='my-2' />Data tidak ditemukan</span>)}
-                </Accordion>
-            </Search>
+                                <a href={`https://xjmmjizaw0muiipq.public.blob.vercel-storage.com/pdf/2024/${post.kode_dokumen}/${post.nomor_daftar}.pdf`} target="_blank" rel="noopener noreferrer"
+                                    className='flex justify-center items-center mt-3 border bg-red-500 rounded-md p-2 text-white hover:bg-red-600'>
+                                    View PDF
+                                </a>
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                )) || (<span className='flex flex-col items-center py-3'><InboxIcon className='my-2' />Data tidak ditemukan</span>)}
+            </Accordion>
             <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
                 <PaginationWithLinks page={page} pageSize={limit} totalCount={dataEntry} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
             </div>
