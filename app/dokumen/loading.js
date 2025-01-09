@@ -81,8 +81,8 @@ export default function Loading() {
           </div>
         </div>
       </div>
-      <div className="container flex justify-right mx-auto my-5">
-        <div className="space-y-3 w-full h-[calc(100vh-252px)] m-6 border border-slate-300 bg-white p-3 pt-6 rounded-lg hidden md:block">
+      <div className="flex justify-right w=full h=full m-3 mx-6">
+        <div className="space-y-3 w-full h-[calc(100vh-252px)]  border border-slate-300 bg-white p-6 rounded-lg hidden md:block">
           <Skeleton className="container h-4 w-[250px]" />
           <Skeleton className="container h-4 w-full" />
           <Skeleton className="container h-4 w-full" />

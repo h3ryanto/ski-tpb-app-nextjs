@@ -36,6 +36,8 @@ const kodeDokumen = (kode: any) => {
         return "Kontrak"
     } else if (kode == '640') {
         return "Surat Jalan"
+    } else if (kode == '999') {
+        return "Lain-lain"
     }
 }
 

@@ -34,7 +34,7 @@ export default function ResetPassword() {
     }
 
     return (
-        <div className="container h-svh mx-auto flex flex-col items-center md:justify-center">
+        <div className="w-screen h-svh mx-auto flex flex-col items-center md:justify-center bg-white">
 
 
             <div className="container mx-auto flex flex-col items-center py-10 z-20

@@ -12,7 +12,7 @@ export default function Search({ children }: Props) {
     const { replace } = useRouter();
     const params = new URLSearchParams(searchParams)
     const onSearch = useDebouncedCallback((term: any) => {
-        console.log(term);
+        // console.log(term);
 
         if (term) {
             params.delete("page")

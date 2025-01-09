@@ -1,21 +1,21 @@
 import kodeDokumen from '@/app/utils/kodeDokumen';
-import style from './styles.module.css'
-import Filter from '@/components/ui/filter';
+import { AppDetailDokumen } from '@/components/ui/app-detail-dokumen';
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
 } from "@/components/ui/card";
-import { FileText, InboxIcon } from "lucide-react"
-import Search from '@/components/ui/search';
+import Filter from '@/components/ui/filter';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+import Search from '@/components/ui/search';
+import { FileText, InboxIcon } from "lucide-react";
+import style from './styles.module.css';
 
 
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
-	let i = 1;
 	const countData = posts.length;
 	return (
 		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
@@ -24,11 +24,9 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 					<Search><></></Search>
 				</CardHeader>
 				<CardContent className='overflow-y-auto h-[calc(100vh-252px)]'>
-
-
 					<table id={style.table} className="table-auto hidden md:table ">
 						<thead className='top-10'>
-							<tr className="border-b-2 border-y-slate-400 sticky top-0 bg-slate-100">
+							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
 								<th scope="col">No.</th>
 								<th scope="col">
 									<Filter id="kodeDokumen">
@@ -62,9 +60,9 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 						</thead>
 
 						<tbody >
-							{countData && posts.map((post: any) => (
+							{countData && posts.map((post: any, index: number) => (
 								<tr key={post.nomor_aju}>
-									<td>{((page * 10) - 10) + i++}.</td>
+									<td>{((page * 10) - 10) + index + 1}.</td>
 									<td>{post.kode_dokumen}</td>
 									<td>{post.nomor_aju}</td>
 									<td>{post.nama_entitas}</td>
@@ -73,12 +71,19 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 									<td>{
 										post.dokumens.map((dok: any) => (
 											<div key={dok.id}>
-												{kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
+												{kodeDokumen(dok.kode_dokumen)} : {dok.nomor_dokumen}
 											</div>
 										))
 									}</td>
 
-									<td><a href={`https://xjmmjizaw0muiipq.public.blob.vercel-storage.com/pdf/2024/${post.kode_dokumen}/${post.nomor_daftar}.pdf`} target="_blank" rel="noopener noreferrer"><FileText size={16} className='stroke-red-500' /></a></td>
+									<td>
+										<div className='flex w-auto gap-x-2 items-center mx-2'>
+											<a href={`https://xjmmjizaw0muiipq.public.blob.vercel-storage.com/pdf/${post.tahun}/${post.kode_dokumen}/${post.nomor_daftar}.pdf`} target="_blank" rel="noopener noreferrer"><FileText size={16} className='hover:stroke-red-600' /></a>
+											{/* <ActionMenu post={posts}><Button variant="ghost" className='group w-5 h-10 hover:bg-inherit'><EllipsisVertical size={16} className='group-hover:stroke-cyan-500' /></Button></ActionMenu> */}
+											<AppDetailDokumen posts={post} />
+										</div>
+
+									</td>
 								</tr>
 							)) || <tr><td colSpan={7} className="text-center text-slate-700"><span className='flex flex-col items-center'><InboxIcon />Data tidak ditemukan</span></td></tr>}
 						</tbody>
@@ -89,6 +94,7 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 				<CardFooter>
 					<div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
 						<PaginationWithLinks page={page} pageSize={limit} totalCount={dataEntry} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
+
 					</div>
 				</CardFooter>
 			</Card >
@@ -101,5 +107,4 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 
 	)
 }
-
 

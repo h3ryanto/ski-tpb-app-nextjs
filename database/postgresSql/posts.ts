@@ -119,12 +119,15 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
             "Header".kode_dokumen, 
             "Header".nomor_aju, 
             "Entitas".kode_entitas,
-            "Entitas".nama_entitas, 
+            "Entitas".nama_entitas,
+            "Entitas".alamat_entitas, 
+            "Entitas".nomor_identitas,  
             "Header".nomor_daftar, 
+            TO_CHAR("Header".tanggal_daftar, 'YYYY') AS tahun, 
             TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar, 
             (
             SELECT 
-                json_agg(json_build_object('id',"Dokumen".id,'kode_dokumen',"Dokumen".kode_dokumen,'nomor', "Dokumen".nomor_dokumen)) 
+                json_agg(json_build_object('id',"Dokumen".id,'kode_dokumen',"Dokumen".kode_dokumen,'nomor_dokumen', "Dokumen".nomor_dokumen,'tanggal_dokumen',TO_CHAR("Dokumen".tanggal_dokumen, 'YYYY-MM-DD'))) 
             from 
                 "Dokumen" 
             WHERE 
@@ -134,7 +137,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                 Dokumens,
             (
             SELECT 
-                json_agg(json_build_object('hs_code',"Barang".hs,'id',"Barang".id,'kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian,
+                json_agg(json_build_object('hs',"Barang".hs,'id',"Barang".id,'kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian,
                 'satuan',"Barang".jumlah_satuan,'kode_satuan',"Barang".kode_satuan,'cif',"Barang".cif,'harga_penyerahan',"Barang".harga_penyerahan,'fob',"Barang".fob,'valuta',"Header".kode_valuta)) 
             FROM "Barang" 
             WHERE 

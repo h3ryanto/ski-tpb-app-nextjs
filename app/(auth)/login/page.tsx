@@ -55,7 +55,7 @@ export default function Login() {
   }
   if (!session.data) {
     return (
-      <div className="w-screen h-svh mx-auto flex flex-col items-center md:justify-center">
+      <div className="w-screen h-svh mx-auto flex flex-col items-center md:justify-center bg-white">
 
 
         <div className="container mx-auto flex flex-col items-center py-10 z-20
@@ -135,7 +135,7 @@ export default function Login() {
           height={500}
           className='bg-transparent z-10 max-w-56 fixed bottom-0 md:hidden' />
         <div className='bg-blue-400 w-[110vw] h-[110vw] rounded-r-full rounded-l-full fixed -bottom-[50vw] z-0
-                      md:-left-[65vw] md:w-[110vw] md:h-[110vw] md:-bottom-[25vw]'></div>
+                      md:-left-[65vw] md:w-[110vw] md:h-[110vw] md:-bottom-[25vw] '></div>
 
       </div >
 

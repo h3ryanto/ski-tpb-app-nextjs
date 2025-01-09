@@ -73,7 +73,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                         <div className='flex flex-col items-start mx-3' key={barang.id}>
 
                                             <p className='flex items-center'>
-                                                HS Code : {barang.hs_code}
+                                                HS Code : {barang.hs}
                                             </p>
                                             <p className='flex items-center'>
                                                 Kode Barang : {barang.kode_barang}
