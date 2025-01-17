@@ -1,6 +1,6 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
-import { prisma } from '@/lib/prisma/db'
+import { prisma } from '@/lib/prisma/init'
 
 export async function getData(limit: number = 10, skip: number = 0, query: any) {
 
@@ -110,8 +110,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: any) 
 
 export async function retriveData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     // console.log(filter)
-    const termEntitas = filter.entitas ? filter.entitas : query;
-    console.log(termEntitas)
+    // console.log(termEntitas)
     const sql = neon(`${process.env.DATABASE_URL}`);
 
     const posts = await sql`
@@ -137,8 +136,8 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                 Dokumens,
             (
             SELECT 
-                json_agg(json_build_object('hs',"Barang".hs,'id',"Barang".id,'kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian,
-                'satuan',"Barang".jumlah_satuan,'kode_satuan',"Barang".kode_satuan,'cif',"Barang".cif,'harga_penyerahan',"Barang".harga_penyerahan,'fob',"Barang".fob,'valuta',"Header".kode_valuta)) 
+                json_agg(json_build_object('hs',"Barang".hs,'id',"Barang".id,'kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian, 'tipe',"Barang".tipe,
+                'jumlah_satuan',"Barang".jumlah_satuan,'kode_satuan',"Barang".kode_satuan,'cif',"Barang".cif,'harga_penyerahan',"Barang".harga_penyerahan,'fob',"Barang".fob,'valuta',"Header".kode_valuta)) 
             FROM "Barang" 
             WHERE 
                 "Barang".nomor_aju = "Header".nomor_aju
@@ -167,7 +166,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                 END                
         AND
         ( 
-        "Entitas".nama_entitas ILIKE ${'%' + termEntitas + '%'}
+        "Entitas".nama_entitas ILIKE ${'%' + query + '%'}
         OR
         "Header".nomor_aju ILIKE ${'%' + query + '%'}
         OR
@@ -177,7 +176,17 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         OR
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Barang" WHERE uraian ILIKE ${'%' + query + '%'})
         )
-                ORDER BY
+        AND
+        "Header".kode_dokumen LIKE ${'%' + filter.kode_dokumen + '%'}
+        AND
+        "Entitas".nama_entitas ILIKE ${'%' + filter.entitas + '%'}
+        AND
+        "Header".nomor_aju ILIKE ${'%' + filter.nomor_aju + '%'}
+        AND
+        "Header".nomor_daftar ILIKE ${'%' + filter.nomor_daftar + '%'}
+        AND
+        "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
+        ORDER BY
         "Header".id DESC
         LIMIT 
             ${limit}
@@ -187,7 +196,7 @@ OFFSET
     return posts;
 }
 
-export async function countData(query: any = '') {
+export async function countData(query: any = '', filter: any = '') {
 
     const sql = neon(`${process.env.DATABASE_URL} `);
 
@@ -231,6 +240,16 @@ AND
         OR
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Barang" WHERE uraian ILIKE ${'%' + query + '%'})
     )  
+    AND
+        "Header".kode_dokumen LIKE ${'%' + filter.kode_dokumen + '%'}
+        AND
+        "Entitas".nama_entitas ILIKE ${'%' + filter.entitas + '%'}
+        AND
+        "Header".nomor_aju ILIKE ${'%' + filter.nomor_aju + '%'}
+        AND
+        "Header".nomor_daftar ILIKE ${'%' + filter.nomor_daftar + '%'}
+        AND
+        "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
         ORDER BY
 "Header".id DESC`;
     return count;

@@ -23,20 +23,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (user.photo) {
           token.photo = user.photo;
         }
+        if (user.photo) {
+          token.isAdmin = user.isAdmin;
+        }
       }
       return token
     },
     async session({ session, token }: any) {
       // Send properties to the client, like an access_token from a provider.
-      if (token.id) {
+      // if (token.id) {
+      //   session.accessToken = token.accessToken
+      //   session.user.email = token.email
+      //   session.user.image = token.photo
+      // }
+      if (token) {
         session.accessToken = token.accessToken
-        session.user.email = token.email
-        if (token.name) {
-          session.user.name = token.name
-        }
-        if (token.photo) {
-          session.user.photo = token.photo
-        }
+        session.user = {
+          email: token.email,
+          name: token.name,
+          image: token.photo,
+          isAdmin: token.isAdmin,
+        };
       }
 
       return session

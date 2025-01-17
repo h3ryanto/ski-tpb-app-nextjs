@@ -1,7 +1,7 @@
-import kodeDokumen from '@/app/utils/kodeDokumen';
+import kodeDokumen from '@/utils/kodeDokumen';
 import { CalendarDaysIcon, PaperAirplaneIcon, PencilSquareIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { formatCurrency } from '@/app/utils/currency';
+import { formatCurrency } from '@/utils/currency';
 import Search from './search';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { InboxIcon } from "lucide-react"
@@ -63,7 +63,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                 <div className='underline'>Dokumen:</div>
                                 {post.dokumens.map((dok: any) => (
                                     <div key={dok.id} className='mx-3'>
-                                        {kodeDokumen(dok.kode_dokumen)} : {dok.nomor}
+                                        {kodeDokumen(dok.kode_dokumen)} : {dok.nomor_dokumen}
                                     </div>
                                 ))}
                                 <br></br>
@@ -82,16 +82,16 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                                 Uraian : {barang.uraian}
                                             </p>
                                             <p className='flex items-center'>
-                                                Jumlah : {barang.satuan} {barang.kode_satuan}
+                                                Jumlah : {barang.jumlah_satuan} {barang.kode_satuan}
                                             </p>
                                             <p className='flex items-center'>
-                                                CIF : {formatCurrency(barang.cif, 'en-US', barang.valuta || 'IDR')}
+                                                CIF : {formatCurrency(barang.cif, barang.valuta || 'IDR')}
                                             </p>
                                             <p className='flex items-center'>
-                                                Harga Penyerahan : {formatCurrency(barang.harga_penyerahan, 'id-ID', 'IDR')}
+                                                Harga Penyerahan : {formatCurrency(barang.harga_penyerahan, 'IDR')}
                                             </p>
                                             <p className='flex items-center'>
-                                                FOB : {formatCurrency(barang.fob, 'en-US', barang.valuta || 'IDR')}
+                                                FOB : {formatCurrency(barang.fob, barang.valuta || 'IDR')}
                                             </p>
                                         </div>
                                     ))}

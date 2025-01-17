@@ -26,7 +26,10 @@ export function AppDetailDokumen(posts: any) {
                 <Tabs defaultValue="header" className="w-auto h-[80vh]">
                     <TabsList className="w-full bg-white p-3 " >
                         <TabsTrigger value="header" className="w-full">Header</TabsTrigger>
+                        <TabsTrigger value="entitas" className="w-full">Entitas</TabsTrigger>
+                        <TabsTrigger value="keamsan" className="w-full">Kemasan</TabsTrigger>
                         <TabsTrigger value="barang" className="w-full">Barang</TabsTrigger>
+                        <TabsTrigger value="bahan_baku" className="w-full">Bahan Baku</TabsTrigger>
                     </TabsList>
                     <TabsContent value="header">
                         <TabsHeader posts={posts.posts} />

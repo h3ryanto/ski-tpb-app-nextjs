@@ -1,19 +1,21 @@
 import { encrypt } from "@/lib/auth/session"
-import { SignIn } from '@/lib/firebase/authentication/service'
+import { SignIn } from '@/lib/database/neon_postgresSql/authentication'
 
 
 export async function POST(request: Request) {
   const body = await request.json()
   const credentials = await SignIn(body.email, body.password)
 
-  if (credentials.uid) {
-    const token = await encrypt({ email: credentials.email, nama: credentials.displayName })
+  if (credentials) {
+    const token = await encrypt({ email: credentials.email, name: credentials.name, photo: credentials.photo, isAdmin: credentials.isAdmin })
     return Response.json(
       {
         email: credentials.email,
-        nama: credentials.displayName,
+        nama: credentials.name,
+        image: credentials.photo,
+        isAdmin: credentials.isAdmin,
         status: true,
-        token
+        token,
       }
 
 

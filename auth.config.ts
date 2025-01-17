@@ -1,7 +1,6 @@
-
 import type { NextAuthConfig } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { SignIn } from "@/lib/firebase/authentication/service"
+import { SignIn } from "@/lib/database/neon_postgresSql/authentication"
 
 export default {
     providers: [
@@ -20,32 +19,30 @@ export default {
                 };
 
                 try {
-                    const res = await SignIn(email, password)
+                    const users = await SignIn(email, password)
+                    if (users) {
+                        if (users.email = email) {
+                            const user = {
+                                email: users.email,
+                                name: users.name,
+                                photo: users.photo,
+                                isAdmin: users.isAdmin
+                            }
+                            return user
 
-                    if (res.auth.currentUser.email = email) {
-                        const user = {
-                            email: res.auth.currentUser.email,
-                            name: res.auth.currentUser.displayName,
-                            photo: res.auth.currentUser.photoURL
+                        } else {
+                            return null
                         }
-                        return user
                     } else {
                         return null
                     }
+
+
 
                 } catch (error) {
                     console.log(error)
                     return null
                 }
-
-
-                // await Authentication().onAuthStateChanged((user) => {
-                //     if (user) {
-                //         return user
-                //     }else{
-                //         throw new Error("Invalid credentials.")
-                //     }
-                // });
 
             },
 

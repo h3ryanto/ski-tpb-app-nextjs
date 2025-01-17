@@ -2,10 +2,10 @@ import {
     Card,
     CardContent,
     CardFooter,
-} from "@/components/ui/card"
-import type { Header, Entitas, Barang } from "@prisma/client";
+} from "@/components/ui/card";
+import type { Barang, Entitas, Header } from "@prisma/client";
 import { DialogClose } from "./dialog";
-import { Button } from "./button";
+import { formatCurrency } from "@/utils/currency";
 
 
 const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
@@ -15,9 +15,9 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
 
             <CardContent className="space-y-2 text-sm my-1 ">
                 <div className="p-3">
-                    <div className="font-semibold">Dokumen :</div>
-                    <div className="overflow-y-auto h-40 w-auto">
-                        <table className="table-auto ml-4">
+                    <div className="font-semibold">Barang :</div>
+                    <div className="overflow-y-auto h-[60vh] w-auto my-3">
+                        <table className="table-auto">
                             <thead className="border border-slate-300 bg-slate-200 sticky top-0">
                                 <tr>
                                     <td className="p-2">#</td>
@@ -33,17 +33,18 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {'barang' in posts && Array.isArray(posts.barang) && posts.barang.map((barang: Barang, index) => (
+                                {'barang' in posts && Array.isArray(posts.barang) && posts.barang.map((barang: Barang & { valuta: string }, index) => (
                                     <tr key={barang.id} className="border-x border-b">
                                         <td className="p-2">{index + 1}.</td>
                                         <td className="p-2">{barang.hs}</td>
                                         <td className="p-2">{barang.kode_barang}</td>
                                         <td className="p-2">{barang.uraian}</td>
-                                        <td className="p-2">{barang.jumlah_satuan?.toString()}</td>
+                                        <td className="p-2">{barang.tipe}</td>
+                                        <td className="p-2">{barang.jumlah_satuan ? barang.jumlah_satuan.toString() : 0}</td>
                                         <td className="p-2">{barang.kode_satuan}</td>
-                                        <td className="p-2">{barang.fob}</td>
-                                        <td className="p-2">{barang.cif}</td>
-                                        <td className="p-2">{barang.harga_penyerahan}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.fob) || 0, barang.valuta || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.cif) || 0, barang.valuta || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.harga_penyerahan) || 0, 'IDR')}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -54,7 +55,7 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
             </CardContent>
             <CardFooter>
                 <DialogClose asChild>
-                    <Button variant="outline">Cancel</Button>
+                    {/* <Button variant="outline">Cancel</Button> */}
                 </DialogClose>
             </CardFooter>
         </Card>

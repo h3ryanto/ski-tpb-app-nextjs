@@ -1,4 +1,4 @@
-import { retriveData, countData } from "@/database/postgresSql/posts";
+import { retriveData, countData } from "@/lib/database/neon_postgresSql/posts";
 import { type NextRequest } from 'next/server'
 import { decrypt } from "@/lib/auth/session"
 

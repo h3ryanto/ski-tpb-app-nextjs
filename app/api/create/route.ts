@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma/db'
+import { prisma } from '@/lib/prisma/init'
 import { decrypt } from "@/lib/auth/session"
 // import { createEntitas, createHeader } from '@/database/prisma/create';
 

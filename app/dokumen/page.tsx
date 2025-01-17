@@ -1,8 +1,9 @@
 'use client'
 import Table from '@/components/elements/Table/page';
 import List from '@/components/ui/list';
-import { countData, retriveData } from "@/database/postgresSql/posts";
+import { countData, retriveData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useEffect, useMemo, useState } from "react";
+
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
@@ -12,7 +13,7 @@ export default function Dokumen(props: {
 	const search = searchParams?.query?.toString() || '';
 	const kode_dokumen = searchParams?.kodeDokumen?.toString() || '';
 	const nomor_aju = searchParams?.nomorAju?.toString() || '';
-	const entitas = searchParams?.suplier?.toString() || false;
+	const entitas = searchParams?.suplier?.toString() || '';
 	const nomor_daftar = searchParams?.nomorDaftar?.toString() || '';
 	const nomor_dokumen = searchParams?.dokumen?.toString() || '';
 	const filter = useMemo(() => ({ kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen }), [kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen])
@@ -26,7 +27,7 @@ export default function Dokumen(props: {
 	const getDokumen = async (limit: number, skip: number, search: any, filter: any) => {
 		const posts = await retriveData(limit, skip, search, filter)
 		setPosts(posts);
-		const count = await countData(search)
+		const count = await countData(search, filter)
 		setDataEntry(count.length || 1);
 	}
 

@@ -9,7 +9,7 @@ import login_sm from "@/public/svg/login_sm.svg"
 import login_md from "@/public/svg/login_md.svg"
 import { useSession } from 'next-auth/react';
 import { useToast } from "@/hooks/use-toast"
-import { LoaderCircle } from "lucide-react"
+import { Key, LoaderCircle, User } from "lucide-react"
 
 
 export default function Login() {
@@ -77,8 +77,9 @@ export default function Login() {
             </div>
             <div className="mt-5 mx-auto ">
               <form onSubmit={onSubmit}>
-                <div>
+                <div className='relative'>
                   <label className="block">
+                    <User className='absolute pointer-events-none stroke-slate-500 m-1.5' />
                     <input
                       id="email"
                       name="email"
@@ -86,7 +87,7 @@ export default function Login() {
                       required
                       autoComplete="email"
                       placeholder="Email"
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
+                      className="block w-full rounded-md border-0 py-1.5 pl-9 shadow-sm ring-1 ring-inset ring-gray-300 
                       placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
                       text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500 
                             "/>
@@ -95,7 +96,8 @@ export default function Login() {
 
                 <div>
                   <label className="block mt-2">
-                    <div >
+                    <div className='relative'>
+                      <Key className='absolute pointer-events-none stroke-slate-500 m-1.5' />
                       <input
                         id="password"
                         type="password"
@@ -103,7 +105,7 @@ export default function Login() {
                         required
                         placeholder="Password"
                         autoComplete="current-password"
-                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
+                        className="block w-full rounded-md border-0 py-1.5 pl-9 shadow-sm ring-1 ring-inset ring-gray-300 
                       placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
                       text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500"
                       />
