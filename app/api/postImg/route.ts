@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const file_pdf = fileBuffer
     const sql = neon(`${process.env.DATABASE_URL}`);
     try {
-        await sql`INSERT INTO Files ('file_name','file_data') VALUE ("test",${file_pdf})`
+        await sql`INSERT INTO Files ('file_name','file_data') VALUE (${name},${file_pdf})`
         return Response.json({ message: "File Berhasil disimpan", status: true }, { status: 201 })
     } catch (error) {
         return Response.json({ message: error, data: file_pdf, status: false }, { status: 400 })
