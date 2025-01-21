@@ -22,10 +22,10 @@ const AppBreadCrumb = () => {
     if (session.data) {
         return (
             <header className="flex h-12 sticky top-0  dark:bg-slate-800 shrink-0 items-center justify-between px-6 gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 md:bg-white bg-slate-50">
-                <div className="flex items-center gap-2 px-4">
+                <div className="flex items-center gap-2 md:px-2">
                     <SidebarTrigger className="hidden md:block" />
                     <OpenTrigger />
-                    <Separator orientation="vertical" className="mr-2 h-4" />
+                    <Separator orientation="vertical" className="mr-2 h-4 hidden md:block" />
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem className="hidden md:block">
@@ -34,8 +34,8 @@ const AppBreadCrumb = () => {
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                             {pathname == '/' ? '' : <BreadcrumbSeparator className="hidden md:block" />}
-                            <BreadcrumbItem>
-                                <BreadcrumbPage className="capitalize">{pathname.split('/').slice(1)}</BreadcrumbPage>
+                            <BreadcrumbItem className="flex justify-center w-[75vw] md:flex-none md:w-auto">
+                                <BreadcrumbPage className="capitalize text-xl md:text-sm">{pathname.split('/').slice(1)}</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
