@@ -3,7 +3,6 @@ import { neon } from "@neondatabase/serverless";
 import { prisma } from '@/lib/prisma/init'
 
 export async function getData(limit: number = 10, skip: number = 0, query: any) {
-
     const posts = await prisma.header.findMany({
         relationLoadStrategy: 'join',
         select: {
@@ -109,7 +108,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: any) 
 
 
 export async function retriveData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
-    // console.log(filter)
+    console.log(filter)
     // console.log(termEntitas)
     const sql = neon(`${process.env.DATABASE_URL}`);
 

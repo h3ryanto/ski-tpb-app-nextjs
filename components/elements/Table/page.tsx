@@ -11,6 +11,7 @@ import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import Search from '@/components/ui/search';
 import { FileText, InboxIcon } from "lucide-react";
 import style from './styles.module.css';
+import { FilterDokumen } from '@/components/ui/filter-dokumen';
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
@@ -30,9 +31,9 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
 								<th scope="col">No.</th>
 								<th scope="col">
-									<Filter id="kodeDokumen">
+									<FilterDokumen>
 										<div>Dok</div>
-									</Filter>
+									</FilterDokumen>
 								</th>
 								<th scope="col">
 									<Filter id="nomorAju">

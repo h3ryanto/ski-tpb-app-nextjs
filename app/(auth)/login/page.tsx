@@ -31,6 +31,7 @@ export default function Login() {
         password: formData.get('password'),
         callbackUrl: '/dashboard',
       });
+      console.log(res)
 
       if (!res?.error) {
         router.replace('/dashboard')
@@ -71,7 +72,7 @@ export default function Login() {
           <div className="rounded-xl py-5 mb-10 w-full px-14
                         sm:max-w-md md:basis-1/2 ">
             <div className="flex justify-center items-center ">
-              <h2 className="font-sans text-blue-600 dark:text-white text-center text-xl font-bold leading-9 tracking-tight">
+              <h2 className="font-sans text-blue-600 text-center text-xl font-bold leading-9 tracking-tight">
                 Sign<span className="text-slate-500"> In</span>
               </h2>
             </div>

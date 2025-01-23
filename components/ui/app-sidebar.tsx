@@ -52,7 +52,7 @@ export function AppSidebar() {
 
                 </SidebarHeader>
                 <SidebarContent>
-                    <div className="grid items-center justify-start px-4 md:hidden">
+                    <div className="grid items-center justify-end px-4 md:hidden">
                         <CloseTrigger />
                     </div>
 
