@@ -4,11 +4,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { formatCurrency } from '@/utils/currency';
 import Search from './search';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-import { InboxIcon } from "lucide-react"
+import { FileText, InboxIcon } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 
 const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
     const countData = posts.length;
+    const { toast } = useToast()
     const borderColor = (kode_dokumen: string) => {
         if (kode_dokumen == '30') {
             return 'border-yellow-400';
@@ -24,6 +26,23 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
             return 'border-cyan-400';
         } else if (kode_dokumen == '33') {
             return 'border-orange-400';
+        }
+    }
+
+    const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
+        const data = await fetch(`http://localhost:3000/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
+        const result = await data.json()
+        console.log(data.status)
+        if (data.status === 404) {
+            toast({
+                variant: "destructive",
+                title: result.title,
+                description: result.message,
+            })
+        }
+        if ((result.url) && (data.status === 200)) {
+            window.open(result.url, '_blank', 'rel=noopener noreferrer')
+            // redirect(posts);
         }
     }
     return (
@@ -96,10 +115,11 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                         </div>
                                     ))}
                                 </div>
-                                <a href={`https://xjmmjizaw0muiipq.public.blob.vercel-storage.com/pdf/2024/${post.kode_dokumen}/${post.nomor_daftar}.pdf`} target="_blank" rel="noopener noreferrer"
-                                    className='flex justify-center items-center mt-3 border bg-red-500 rounded-md p-2 text-white hover:bg-red-600'>
-                                    View PDF
-                                </a>
+
+                                <button onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)}
+                                    className='flex justify-center items-center mt-3 mx-2 border bg-red-500 rounded-md p-2 text-white hover:bg-red-600'>
+                                    <FileText size={16} className='mx-2' />View PDF
+                                </button>
                             </div>
                         </AccordionContent>
                     </AccordionItem>

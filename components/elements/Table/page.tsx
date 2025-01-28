@@ -12,10 +12,29 @@ import Search from '@/components/ui/search';
 import { FileText, InboxIcon } from "lucide-react";
 import style from './styles.module.css';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
+import { useToast } from "@/hooks/use-toast"
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
 	const countData = posts.length;
+	const { toast } = useToast()
+
+	const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
+		const data = await fetch(`http://localhost:3000/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
+		const result = await data.json()
+		console.log(data.status)
+		if (data.status === 404) {
+			toast({
+				variant: "destructive",
+				title: result.title,
+				description: result.message,
+			})
+		}
+		if ((result.url) && (data.status === 200)) {
+			window.open(result.url, '_blank', 'rel=noopener noreferrer')
+			// redirect(posts);
+		}
+	}
 	return (
 		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
 
@@ -80,7 +99,7 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 
 									<td>
 										<div className='flex w-auto gap-x-2 items-center mx-2'>
-											<a href={`G:\My Drive/Dokumen BC/${post.tahun}/${post.kode_dokumen}/${post.nomor_daftar}.pdf`} target="_blank" rel="noopener noreferrer"><FileText size={16} className='hover:stroke-red-600' /></a>
+											<FileText size={16} className='hover:stroke-red-600' onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)} />
 											{/* <ActionMenu post={posts}><Button variant="ghost" className='group w-5 h-10 hover:bg-inherit'><EllipsisVertical size={16} className='group-hover:stroke-cyan-500' /></Button></ActionMenu> */}
 											<AppDetailDokumen posts={post} />
 										</div>
