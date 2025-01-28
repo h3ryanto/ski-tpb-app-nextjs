@@ -22,7 +22,7 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 	const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
 		const data = await fetch(`http://localhost:3000/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
 		const result = await data.json()
-		console.log(data.status)
+		// console.log(result)
 		if (data.status === 404) {
 			toast({
 				variant: "destructive",

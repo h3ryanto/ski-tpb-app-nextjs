@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
         return Response.json({ url: results.resources[0].url }, { status: 200 });
     } catch (error) {
-        return Response.json({ title: "File PDF tidak ditemukan", message: "Silahkan Upload File PDF terlebihdaulu" }, { status: 404 });
+        return Response.json({ title: "File PDF tidak ditemukan", message: "Silahkan Upload File PDF terlebihdaulu", error }, { status: 404 });
     }
 
 }
