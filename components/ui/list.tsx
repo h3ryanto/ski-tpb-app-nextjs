@@ -30,7 +30,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
     }
 
     const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
-        const data = await fetch(`http://localhost:3000/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
+        const data = await fetch(`https://ski-tpb-app-nextjs.vercel.app/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
         const result = await data.json()
         console.log(data.status)
         if (data.status === 404) {
