@@ -34,7 +34,7 @@ const AppBreadCrumb = () => {
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                             {pathname == '/' ? '' : <BreadcrumbSeparator className="hidden md:block" />}
-                            <BreadcrumbItem className="flex justify-center w-[75vw] md:flex-none md:w-auto">
+                            <BreadcrumbItem className="flex justify-center w-[50vw] md:flex-none md:w-auto">
                                 <BreadcrumbPage className="capitalize text-xl md:text-sm">{pathname.split('/').slice(1)}</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>

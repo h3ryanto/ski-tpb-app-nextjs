@@ -41,7 +41,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
             })
         }
         if ((result.url) && (data.status === 200)) {
-            window.open(result.url, '_blank', 'rel=noopener noreferrer')
+            window.open(result.url)
             // redirect(posts);
         }
     }

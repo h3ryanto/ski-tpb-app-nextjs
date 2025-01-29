@@ -31,7 +31,7 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 			})
 		}
 		if ((result.url) && (data.status === 200)) {
-			window.open(result.url, '_blank', 'rel=noopener noreferrer')
+			window.open(result.url)
 			// redirect(posts);
 		}
 	}
