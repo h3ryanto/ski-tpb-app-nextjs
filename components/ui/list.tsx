@@ -41,12 +41,14 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
             })
         }
         if ((result.url) && (data.status === 200)) {
-    // Create a temporary anchor element
-        const a = document.createElement('a');
-        a.href = result.url;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.click();
+            window.open(`${result.url}`)
+            // Create a temporary anchor element
+            // const a = document.createElement('a');
+            // a.href = result.url;
+            // a.target = '_blank';
+            // a.rel = 'noopener noreferrer';
+            // a.click();
+            // }
         }
     }
     return (
