@@ -15,7 +15,6 @@ import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { useToast } from "@/hooks/use-toast"
 import WidgetCloudinary from '@/components/ui/widget-cloudinary';
 import AppTooltip from '@/components/ui/app-tool-tip';
-import App from 'next/app';
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
