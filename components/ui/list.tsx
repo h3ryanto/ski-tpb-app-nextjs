@@ -4,8 +4,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { formatCurrency } from '@/utils/currency';
 import Search from './search';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-import { FileText, InboxIcon } from "lucide-react"
+import { FileText, InboxIcon, UploadCloud } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import WidgetCloudinary from './widget-cloudinary';
 
 
 const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
@@ -121,11 +122,18 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                         </div>
                                     ))}
                                 </div>
-
-                                <button onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)}
-                                    className='flex justify-center items-center mt-3 mx-2 border bg-red-500 rounded-md p-2 text-white hover:bg-red-600'>
-                                    <FileText size={16} className='mx-2' />View PDF
-                                </button>
+                                <div className='flex flex-row gap-2 w-auto gap-x-2 items-center mx-2'>
+                                    <WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${post.tahun}/${post.kode_dokumen}`}>
+                                        <div className='flex justify-center items-center  gap-2 mt-3 mx-2 border bg-blue-500 rounded-md p-2 text-white hover:bg-blue-600'>
+                                            <UploadCloud size={16} className='hover:stroke-blue-600' />
+                                            Upload
+                                        </div>
+                                    </WidgetCloudinary>
+                                    <button onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)}
+                                        className='flex justify-center items-center mt-3 mx-2 border bg-red-500 rounded-md p-2 text-white hover:bg-red-600'>
+                                        <FileText size={16} className='mx-2' />View PDF
+                                    </button>
+                                </div>
                             </div>
                         </AccordionContent>
                     </AccordionItem>
