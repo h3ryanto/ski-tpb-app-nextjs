@@ -9,11 +9,10 @@ import {
 import Filter from '@/components/ui/filter';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import Search from '@/components/ui/search';
-import { FileText, InboxIcon } from "lucide-react";
+import { FileText, InboxIcon, UploadCloud } from "lucide-react";
 import style from './styles.module.css';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { useToast } from "@/hooks/use-toast"
-import DatePickerWithRange from '@/components/ui/app-date';
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
@@ -102,10 +101,20 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 									}</td>
 
 									<td>
-										<div className='flex w-auto gap-x-2 items-center mx-2'>
-											<FileText size={16} className='hover:stroke-red-600' onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)} />
-											{/* <ActionMenu post={posts}><Button variant="ghost" className='group w-5 h-10 hover:bg-inherit'><EllipsisVertical size={16} className='group-hover:stroke-cyan-500' /></Button></ActionMenu> */}
-											<AppDetailDokumen posts={post} />
+										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
+											<AppTooltip title='Upload Dokumen' >
+												<WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${post.tahun}/${post.kode_dokumen}`}>
+													<UploadCloud size={16} className='hover:stroke-blue-600' />
+												</WidgetCloudinary>
+											</AppTooltip>
+
+											<AppTooltip title='Lihat Dokumen' >
+												<FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)} />
+											</AppTooltip>
+											<AppTooltip title='Detail Dokumen' >
+												<AppDetailDokumen posts={post} />
+											</AppTooltip>
+
 										</div>
 
 									</td>
