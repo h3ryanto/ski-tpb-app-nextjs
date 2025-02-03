@@ -13,6 +13,9 @@ import { FileText, InboxIcon, UploadCloud } from "lucide-react";
 import style from './styles.module.css';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { useToast } from "@/hooks/use-toast"
+import DatePickerWithRange from '@/components/ui/app-date';
+import AppTooltip from '@/components/ui/app-tool-tip';
+import WidgetCloudinary from '@/components/ui/widget-cloudinary';
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
