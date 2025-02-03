@@ -109,7 +109,19 @@ export async function getData(limit: number = 10, skip: number = 0, query: any) 
 
 export async function retriveData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     console.log(filter)
-    // console.log(termEntitas)
+
+    let date_from: string;
+    let date_to: string;
+
+    if (filter.date_from && filter.date_to) {
+        date_from = filter.date_from;
+        date_to = filter.date_to;
+    } else {
+        date_from = '1900-01-01';
+        date_to = new Date().toISOString().split('T')[0];
+        // console.log(date_to)
+    }
+
     const sql = neon(`${process.env.DATABASE_URL}`);
 
     const posts = await sql`
@@ -185,6 +197,8 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         "Header".nomor_daftar ILIKE ${'%' + filter.nomor_daftar + '%'}
         AND
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
+        AND
+        "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
         ORDER BY
         "Header".id DESC
         LIMIT 
@@ -196,7 +210,17 @@ OFFSET
 }
 
 export async function countData(query: any = '', filter: any = '') {
+    let date_from: string;
+    let date_to: string;
 
+    if (filter.date_from && filter.date_to) {
+        date_from = filter.date_from;
+        date_to = filter.date_to;
+    } else {
+        date_from = '1900-01-01';
+        date_to = new Date().toISOString().split('T')[0];
+        // console.log(date_to)
+    }
     const sql = neon(`${process.env.DATABASE_URL} `);
 
     const count = await sql`
@@ -249,6 +273,8 @@ AND
         "Header".nomor_daftar ILIKE ${'%' + filter.nomor_daftar + '%'}
         AND
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
+        AND
+        "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
         ORDER BY
 "Header".id DESC`;
     return count;

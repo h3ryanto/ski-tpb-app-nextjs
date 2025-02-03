@@ -31,7 +31,7 @@ export default function Login() {
         password: formData.get('password'),
         callbackUrl: '/dashboard',
       });
-      console.log(res)
+      // console.log(res)
 
       if (!res?.error) {
         router.replace('/dashboard')
@@ -40,7 +40,7 @@ export default function Login() {
           description: "Berhasil masuk ke SSO",
         })
       } else {
-        console.log(res.error)
+        // console.log(res.error)
         toast({
           variant: "destructive",
           title: "Login Gagal",

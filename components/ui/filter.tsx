@@ -25,10 +25,10 @@ export default function Filter({ children, id }: Props) {
 
 
     return (
-        <>
+        <div className='flex flex-col gap-4'>
             {children}
             <div className=''>
-                <label className="flex flex-row-reverse w-full ">
+                <label className="flex flex-row-reverse w-full">
                     <input
                         id={id}
                         type="text"
@@ -43,7 +43,6 @@ export default function Filter({ children, id }: Props) {
                     />
                 </label>
             </div>
-
-        </>
+        </div>
     )
 }

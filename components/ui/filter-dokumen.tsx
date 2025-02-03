@@ -71,7 +71,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
     const searchParams = useSearchParams();
     const pathName = usePathname();
     const { replace } = useRouter();
-    const params = new URLSearchParams(searchParams)
+    const params = React.useMemo(() => new URLSearchParams(searchParams), [searchParams]);
 
     useEffect(() => {
         // alert(value)
@@ -86,9 +86,9 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
             setValue("")
         }
         replace(`${pathName}?${params.toString()}`)
-    }, [value])
+    }, [value, params, pathName, replace, searchParams])
     return (
-        <>
+        <div className='flex flex-col gap-4'>
             {children}
 
             <Popover open={open} onOpenChange={setOpen}>
@@ -134,6 +134,6 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                     </Command>
                 </PopoverContent>
             </Popover>
-        </>
+        </div>
     )
 }

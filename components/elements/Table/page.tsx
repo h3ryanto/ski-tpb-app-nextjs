@@ -13,6 +13,7 @@ import { FileText, InboxIcon } from "lucide-react";
 import style from './styles.module.css';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { useToast } from "@/hooks/use-toast"
+import DatePickerWithRange from '@/components/ui/app-date';
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
@@ -43,8 +44,6 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 					<Search><></></Search>
 				</CardHeader>
 				<CardContent className='overflow-y-auto h-[calc(100vh-252px)]'>
-
-
 					<table id={style.table} className="table-auto hidden md:table ">
 						<thead className='top-10'>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
@@ -70,7 +69,12 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 										<div>Nomor Daftar</div>
 									</Filter>
 								</th>
-								<th scope="col">Tanggal Daftar</th>
+								<th scope="col">
+									<div className='flex flex-col gap-4'>
+										Tanggal Daftar
+										<DatePickerWithRange />
+									</div>
+								</th>
 								<th scope="col">
 									<Filter id="dokumen">
 										<div>Dokumen</div>
@@ -82,7 +86,7 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 						<tbody >
 
 							{countData && posts.map((post: any, index: number) => (
-								<tr key={post.nomor_aju}>
+								<tr key={post.nomor_aju} className='align-top'>
 									<td>{((page * 10) - 10) + index + 1}.</td>
 									<td>{post.kode_dokumen}</td>
 									<td>{post.nomor_aju}</td>

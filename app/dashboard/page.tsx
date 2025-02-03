@@ -35,12 +35,9 @@ export default function PaginationComponent() {
   };
 
   const loadPrev = async () => {
-    // console.log(firstVisible._document.data.value.mapValue.fields.nomor_aju)
     const data: any = await getFirstsPaginatedData(firstVisible);
     const newFirstVisible = data.newFirstVisible;
     const newLastVisible = data.newLastVisible;
-    // console.log("next ", newLastVisible._document.data.value.mapValue.fields.nomor_aju)
-    // console.log("prev ", data.newFirstVisible)
     setData(data.data);
     setFirstVisible(newFirstVisible);
     setLastVisible(newLastVisible);
