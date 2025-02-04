@@ -120,7 +120,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         // console.log(date_to)
     }
 const sortColumn = '"Header".id'; // Default ke 'Header.id' jika tidak ada
-const sortOrder = 'DESC'
+
 
     const sql = neon(`${process.env.DATABASE_URL}`);
 
@@ -203,9 +203,8 @@ const sortOrder = 'DESC'
         AND
         "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
         ORDER BY
-       ${sql`${sortColumn}`} ${sql`${sortOrder}`}          
-
-        DESC
+       ${sql`${sortColumn}`} 
+       DESC
         LIMIT 
         ${limit}
     OFFSET 
