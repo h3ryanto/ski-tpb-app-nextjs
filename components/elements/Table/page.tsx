@@ -107,21 +107,37 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 											<div className="font-semibold">{post.nama_entitas}</div>
 											{post.nomor_identitas &&
 												<div className='text-xs'>
-													<p>NPWP 15 DIGIT : {post.nomor_identitas}</p>
-													<p>NPWP 16 DIGIT : {'0' + post.nomor_identitas}</p>
-													<p className='flex flex-row'>
-														NITKU :
-														<AppCopyText textToCopy={'0' + post.nomor_identitas + '000000'}>
-															{'0' + post.nomor_identitas + '000000'}
-														</AppCopyText>
-													</p>
+													{((post.nomor_identitas).length === 15) ?
+														(<div>
+															<p>NPWP 15 DIGIT : {post.nomor_identitas}</p>
+															<p>NPWP 16 DIGIT : {'0' + post.nomor_identitas}</p>
+															<p className='flex flex-row'>
+																NITKU :
+																<AppCopyText textToCopy={'0' + post.nomor_identitas + '000000'}>
+																	{'0' + post.nomor_identitas + '000000'}
+																</AppCopyText>
+															</p>
+														</div>)
+														:
+														(<div>
+															<p className='flex flex-row'>
+																NITKU :
+																<AppCopyText textToCopy={post.nomor_identitas}>
+																	{post.nomor_identitas}
+																</AppCopyText>
+															</p>
+														</div>)
+													}
+
 													{post.nib_entitas &&
-														<p className='flex flex-row'>
-															NIB :
-															<AppCopyText textToCopy={post.nib_entitas}>
-																{post.nib_entitas}
-															</AppCopyText>
-														</p>
+														<div>
+															<p className='flex flex-row'>
+																NIB :
+																<AppCopyText textToCopy={post.nib_entitas}>
+																	{post.nib_entitas}
+																</AppCopyText>
+															</p>
+														</div>
 													}
 												</div>
 											}
