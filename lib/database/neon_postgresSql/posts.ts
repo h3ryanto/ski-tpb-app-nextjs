@@ -129,8 +129,10 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
             "Header".nomor_aju, 
             "Entitas".kode_entitas,
             "Entitas".nama_entitas,
+            "Entitas".nomor_identitas,
             "Entitas".alamat_entitas, 
             "Entitas".nomor_identitas,  
+            "Entitas".nib_entitas,
             "Header".nomor_daftar, 
             TO_CHAR("Header".tanggal_daftar, 'YYYY') AS tahun, 
             TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar, 
@@ -144,6 +146,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
             )
             AS
                 Dokumens,
+                
             (
             SELECT 
                 json_agg(json_build_object('hs',"Barang".hs,'id',"Barang".id,'kode_barang',"Barang".kode_barang,'uraian', "Barang".uraian, 'tipe',"Barang".tipe,

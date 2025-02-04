@@ -23,7 +23,7 @@ import AppCopyText from '@/components/ui/app-copy-text';
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
 	const countData = posts.length;
 	const { toast } = useToast()
-
+	// console.log(posts)
 	const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
 		const data = await fetch(`/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
 		const result = await data.json()
@@ -102,7 +102,31 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 									<td>{((page * 10) - 10) + index + 1}.</td>
 									<td>{post.kode_dokumen}</td>
 									<td><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
-									<td>{post.nama_entitas}</td>
+									<td>
+										<div className='flex flex-col gap-2'>
+											<div className="font-semibold">{post.nama_entitas}</div>
+											{post.nomor_identitas &&
+												<div className='text-xs'>
+													<p>NPWP 15 DIGIT : {post.nomor_identitas}</p>
+													<p>NPWP 16 DIGIT : {'0' + post.nomor_identitas}</p>
+													<p className='flex flex-row'>
+														NITKU :
+														<AppCopyText textToCopy={'0' + post.nomor_identitas + '000000'}>
+															{'0' + post.nomor_identitas + '000000'}
+														</AppCopyText>
+													</p>
+													{post.nib_entitas &&
+														<p className='flex flex-row'>
+															NIB :
+															<AppCopyText textToCopy={post.nib_entitas}>
+																{post.nib_entitas}
+															</AppCopyText>
+														</p>
+													}
+												</div>
+											}
+										</div>
+									</td>
 									<td><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
 									<td>{post.ftanggal_daftar}</td>
 									<td>{
