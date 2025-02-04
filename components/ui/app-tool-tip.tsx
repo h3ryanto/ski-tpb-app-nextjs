@@ -5,7 +5,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export default function AppTooltip({ children, title }: { children: any, title: string }) {
+export default function AppTooltip({ children, title, sideAlign }: { children: any, title: string, sideAlign?: "top" | "right" | "bottom" | "left" | undefined }) {
     return (
         <TooltipProvider>
             <Tooltip>
@@ -14,7 +14,7 @@ export default function AppTooltip({ children, title }: { children: any, title: 
                         {children}
                     </div>
                 </TooltipTrigger>
-                <TooltipContent side="left">
+                <TooltipContent side={sideAlign}>
                     <p>{title}</p>
                 </TooltipContent>
             </Tooltip>

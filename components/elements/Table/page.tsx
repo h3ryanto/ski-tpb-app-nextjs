@@ -16,6 +16,8 @@ import { useToast } from "@/hooks/use-toast"
 import DatePickerWithRange from '@/components/ui/app-date';
 import AppTooltip from '@/components/ui/app-tool-tip';
 import WidgetCloudinary from '@/components/ui/widget-cloudinary';
+import SortBy from '@/components/ui/sortBy';
+import AppCopyText from '@/components/ui/app-copy-text';
 
 
 export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
@@ -49,37 +51,45 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 					<table id={style.table} className="table-auto hidden md:table ">
 						<thead className='top-10'>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
-								<th scope="col">No.</th>
+								<th scope="col" className='align-top'><div className='pt-2'>No.</div></th>
 								<th scope="col">
 									<FilterDokumen>
-										<div>Dok</div>
+										<SortBy sortBy='kode_dokumen'>
+											<div>Dok</div>
+										</SortBy>
 									</FilterDokumen>
 								</th>
 								<th scope="col">
 									<Filter id="nomorAju">
-										<div>Nomor Aju</div>
+										<SortBy sortBy='nomor_aju'>
+											<div>Nomor Aju</div>
+										</SortBy>
 									</Filter>
 								</th>
 								<th scope="col">
 
 									<Filter id="suplier">
-										<div>Supllier / Customers</div>
+										<SortBy sortBy='nama_entitas'>
+											<div>Supllier / Customers</div>
+										</SortBy>
 									</Filter>
 								</th>
 								<th scope="col">
 									<Filter id="nomorDaftar">
-										<div>Nomor Daftar</div>
+										<div className='mb-3'>Nomor Daftar</div>
 									</Filter>
 								</th>
 								<th scope="col">
 									<div className='flex flex-col gap-4'>
-										Tanggal Daftar
+										<SortBy sortBy='tanggal_daftar'>
+											<div>Tanggal Daftar</div>
+										</SortBy>
 										<DatePickerWithRange />
 									</div>
 								</th>
 								<th scope="col">
 									<Filter id="dokumen">
-										<div>Dokumen</div>
+										<div className='mb-3'>Dokumen</div>
 									</Filter>
 								</th>
 								<th scope="col"></th>
@@ -91,30 +101,30 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 								<tr key={post.nomor_aju} className='align-top'>
 									<td>{((page * 10) - 10) + index + 1}.</td>
 									<td>{post.kode_dokumen}</td>
-									<td>{post.nomor_aju}</td>
+									<td><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
 									<td>{post.nama_entitas}</td>
-									<td>{post.nomor_daftar}</td>
+									<td><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
 									<td>{post.ftanggal_daftar}</td>
 									<td>{
 										post.dokumens.map((dok: any) => (
-											<div key={dok.id}>
-												{kodeDokumen(dok.kode_dokumen)} : {dok.nomor_dokumen}
+											<div key={dok.id} className='flex flex-row gap-1'>
+												{kodeDokumen(dok.kode_dokumen)} :<AppCopyText textToCopy={dok.nomor_dokumen}>{dok.nomor_dokumen}</AppCopyText>
 											</div>
 										))
 									}</td>
 
 									<td>
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
-											<AppTooltip title='Upload Dokumen' >
+											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${post.tahun}/${post.kode_dokumen}`}>
 													<UploadCloud size={16} className='hover:stroke-blue-600' />
 												</WidgetCloudinary>
 											</AppTooltip>
 
-											<AppTooltip title='Lihat Dokumen' >
+											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
 												<FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)} />
 											</AppTooltip>
-											<AppTooltip title='Detail Dokumen' >
+											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />
 											</AppTooltip>
 

@@ -108,11 +108,9 @@ export async function getData(limit: number = 10, skip: number = 0, query: any) 
 
 
 export async function retriveData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
-    console.log(filter)
-
     let date_from: string;
     let date_to: string;
-
+    console.log(filter)
     if (filter.date_from && filter.date_to) {
         date_from = filter.date_from;
         date_to = filter.date_to;
@@ -121,6 +119,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         date_to = new Date().toISOString().split('T')[0];
         // console.log(date_to)
     }
+
 
     const sql = neon(`${process.env.DATABASE_URL}`);
 
@@ -168,7 +167,7 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
                     WHEN "Header".kode_dokumen = '23' THEN '5'
                     WHEN "Header".kode_dokumen = '40' THEN '9'
                     WHEN "Header".kode_dokumen = '27' THEN '3'
-                    WHEN "Header".kode_dokumen = '30' THEN '6'
+                    WHEN "Header".kode_dokumen = '30' THEN '8'
                     WHEN "Header".kode_dokumen = '262' THEN '9'
                     WHEN "Header".kode_dokumen = '261' THEN '8'
                     WHEN "Header".kode_dokumen = '41' THEN '8'
@@ -200,11 +199,14 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         AND
         "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
         ORDER BY
-        "Header".id DESC
+       "Header".id          
+
+        DESC
         LIMIT 
-            ${limit}
-OFFSET 
-            ${skip} `;
+        ${limit}
+    OFFSET 
+        ${skip}
+        `;
 
     return posts;
 }
@@ -213,6 +215,7 @@ export async function countData(query: any = '', filter: any = '') {
     let date_from: string;
     let date_to: string;
 
+    console.log(filter)
     if (filter.date_from && filter.date_to) {
         date_from = filter.date_from;
         date_to = filter.date_to;
@@ -221,39 +224,40 @@ export async function countData(query: any = '', filter: any = '') {
         date_to = new Date().toISOString().split('T')[0];
         // console.log(date_to)
     }
+
     const sql = neon(`${process.env.DATABASE_URL} `);
 
     const count = await sql`
-SELECT
-"Header".kode_dokumen,
-    "Header".nomor_aju,
-    "Entitas".kode_entitas,
-    "Entitas".nama_entitas,
-    "Header".nomor_daftar,
-    TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar
-FROM
-"Header" 
+    SELECT
+    "Header".kode_dokumen,
+        "Header".nomor_aju,
+        "Entitas".kode_entitas,
+        "Entitas".nama_entitas,
+        "Header".nomor_daftar,
+        TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar
+    FROM
+    "Header" 
         LEFT JOIN
-"Entitas"
-ON
-"Entitas".nomor_aju = "Header".nomor_aju
+    "Entitas"
+    ON
+    "Entitas".nomor_aju = "Header".nomor_aju
 
-WHERE
-"Entitas".kode_entitas =
-    CASE
+    WHERE
+    "Entitas".kode_entitas =
+        CASE
                     WHEN "Header".kode_dokumen = '23' THEN '5'
                     WHEN "Header".kode_dokumen = '40' THEN '9'
                     WHEN "Header".kode_dokumen = '27' THEN '3'
-                    WHEN "Header".kode_dokumen = '30' THEN '6'
+                    WHEN "Header".kode_dokumen = '30' THEN '8'
                     WHEN "Header".kode_dokumen = '262' THEN '9'
                     WHEN "Header".kode_dokumen = '261' THEN '8'
                     WHEN "Header".kode_dokumen = '41' THEN '8'
                     WHEN "Header".kode_dokumen = '25' THEN '8'
                     WHEN "Header".kode_dokumen = '33' THEN '8'
-END
-AND
-    (
-        "Entitas".nama_entitas ILIKE ${'%' + query + '%'}  
+    END
+    AND
+        (
+            "Entitas".nama_entitas ILIKE ${'%' + query + '%'}  
         OR 
         "Header".nomor_aju ILIKE ${'%' + query + '%'}
         OR 
@@ -262,20 +266,20 @@ AND
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + query + '%'}) 
         OR
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Barang" WHERE uraian ILIKE ${'%' + query + '%'})
-    )  
+        )
     AND
-        "Header".kode_dokumen LIKE ${'%' + filter.kode_dokumen + '%'}
-        AND
-        "Entitas".nama_entitas ILIKE ${'%' + filter.entitas + '%'}
-        AND
-        "Header".nomor_aju ILIKE ${'%' + filter.nomor_aju + '%'}
-        AND
-        "Header".nomor_daftar ILIKE ${'%' + filter.nomor_daftar + '%'}
-        AND
-        "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
-        AND
-        "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
+    "Header".kode_dokumen LIKE ${'%' + filter.kode_dokumen + '%'}
+    AND
+    "Entitas".nama_entitas ILIKE ${'%' + filter.entitas + '%'}
+    AND
+    "Header".nomor_aju ILIKE ${'%' + filter.nomor_aju + '%'}
+    AND
+    "Header".nomor_daftar ILIKE ${'%' + filter.nomor_daftar + '%'}
+    AND
+    "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
+    AND
+    "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
         ORDER BY
-"Header".id DESC`;
+    "Header".id DESC`;
     return count;
 }
