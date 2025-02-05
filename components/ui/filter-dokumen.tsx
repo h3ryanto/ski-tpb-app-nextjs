@@ -79,7 +79,6 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
             setValue(searchParams.get('kodeDokumen')?.toString() || "")
         }
         if (value != "") {
-            params.delete("page")
             params.set('kodeDokumen', value)
         } else if ((value === "") || (searchParams.get('kodeDokumen')?.toString() === "all")) {
             params.delete('kodeDokumen')
@@ -118,6 +117,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                                         onSelect={(currentValue) => {
                                             setValue(currentValue === value ? "" : currentValue)
                                             setOpen(false)
+                                            params.delete("page")
                                         }}
                                     >
                                         {dokumen.label}

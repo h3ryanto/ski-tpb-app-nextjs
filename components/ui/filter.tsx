@@ -13,9 +13,8 @@ export default function Filter({ children, id }: Props) {
     const params = new URLSearchParams(searchParams)
     const onSearch = useDebouncedCallback((term: any, id: string) => {
         // console.log(term);
-
         if (term) {
-            params.delete("page")
+            // params.delete("page")
             params.set(id, term)
         } else {
             params.delete(id)
@@ -34,7 +33,7 @@ export default function Filter({ children, id }: Props) {
                         type="text"
                         name={id}
                         autoComplete="current-search"
-                        onChange={(e) => onSearch(e.target.value, id)}
+                        onChange={(e) => { onSearch(e.target.value, id); params.delete("page") }}
                         defaultValue={searchParams.get(id)?.toString() || ""}
 
                         className="w-full rounded-md border-0 py-1.5 font-normal shadow-sm ring-1 ring-inset ring-gray-300
