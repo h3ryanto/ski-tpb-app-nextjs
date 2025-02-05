@@ -119,8 +119,8 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         date_to = new Date().toISOString().split('T')[0];
         // console.log(date_to)
     }
-const sortColumn = `"Header".id`; // Default ke 'Header.id' jika tidak ada
-const sortOrder = 'DESC'
+    // const sortColumn = `"Header".id`; // Default ke 'Header.id' jika tidak ada
+    // const sortOrder = 'DESC'
 
     const sql = neon(`${process.env.DATABASE_URL}`);
 
@@ -135,6 +135,7 @@ const sortOrder = 'DESC'
             "Entitas".nomor_identitas,  
             "Entitas".nib_entitas,
             "Header".nomor_daftar, 
+            dense_rank() OVER (ORDER BY "Header".id DESC) AS sortColumn,
             TO_CHAR("Header".tanggal_daftar, 'YYYY') AS tahun, 
             TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar, 
             (
@@ -202,8 +203,7 @@ const sortOrder = 'DESC'
         "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
         AND
         "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
-        ORDER BY
-       ${sql`${sortColumn}`} ${sql`${sortOrder}`}
+       
         LIMIT 
         ${limit}
     OFFSET 

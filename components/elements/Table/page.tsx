@@ -111,32 +111,32 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 														(<div>
 															<p>NPWP 15 DIGIT : {post.nomor_identitas}</p>
 															<p>NPWP 16 DIGIT : {'0' + post.nomor_identitas}</p>
-															<p className='flex flex-row'>
+															<div className='flex flex-row'>
 																NITKU :
 																<AppCopyText textToCopy={'0' + post.nomor_identitas + '000000'}>
 																	{'0' + post.nomor_identitas + '000000'}
 																</AppCopyText>
-															</p>
+															</div>
 														</div>)
 														:
 														(<div>
-															<p className='flex flex-row'>
+															<div className='flex flex-row'>
 																NITKU :
 																<AppCopyText textToCopy={post.nomor_identitas}>
 																	{post.nomor_identitas}
 																</AppCopyText>
-															</p>
+															</div>
 														</div>)
 													}
 
 													{post.nib_entitas &&
 														<div>
-															<p className='flex flex-row'>
+															<div className='flex flex-row'>
 																NIB :
 																<AppCopyText textToCopy={post.nib_entitas}>
 																	{post.nib_entitas}
 																</AppCopyText>
-															</p>
+															</div>
 														</div>
 													}
 												</div>
