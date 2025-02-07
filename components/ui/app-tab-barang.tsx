@@ -18,7 +18,7 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
                     <div className="font-semibold">Barang :</div>
                     <div className="overflow-y-auto h-[60vh] w-auto my-3">
                         <table className="table-auto">
-                            <thead className="border border-slate-300 bg-slate-200 sticky top-0">
+                            <thead className="border border-slate-300 bg-slate-200 sticky -top-1">
                                 <tr>
                                     <td className="p-2">#</td>
                                     <td className="p-2">HS Code</td>

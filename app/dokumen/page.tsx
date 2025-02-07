@@ -3,12 +3,13 @@ import Table from '@/components/elements/Table/page';
 import List from '@/components/ui/list';
 import { countData, retriveData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useEffect, useMemo, useState } from "react";
-
+import { useToast } from "@/hooks/use-toast"
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
 	searchParams: SearchParams
 }) {
+	const { toast } = useToast()
 	const searchParams = use(props.searchParams)
 	const search = searchParams?.query?.toString() || '';
 	const kode_dokumen = searchParams?.kodeDokumen?.toString() || '';
@@ -29,10 +30,20 @@ export default function Dokumen(props: {
 	const [dataEntry, setDataEntry] = useState<number>(1);
 
 	const getDokumen = async (limit: number, skip: number, search: any, filter: any) => {
-		const posts = await retriveData(limit, skip, search, filter)
-		setPosts(posts);
-		const count = await countData(search, filter)
-		setDataEntry(count.length || 1);
+		try {
+			const posts = await retriveData(limit, skip, search, filter)
+			setPosts(posts);
+			const count = await countData(search, filter)
+			setDataEntry(count.length || 1);
+		} catch (error) {
+			console.error(error)
+			toast({
+				variant: 'destructive',
+				title: "Error Conecting Server Database",
+				description: `Silahkan periksa sambungan internet Anda!.`,
+			})
+		}
+
 	}
 
 	useEffect(() => {
@@ -41,13 +52,13 @@ export default function Dokumen(props: {
 
 	// console.log(posts)
 	return (
-		<div>
-			<Suspense>
-				<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
-				<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
-			</Suspense >
 
-		</div>
+		<Suspense>
+			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
+			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
+		</Suspense >
+
+
 
 	)
 }
