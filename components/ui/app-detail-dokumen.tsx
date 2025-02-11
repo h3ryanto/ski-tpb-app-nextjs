@@ -12,10 +12,10 @@ import TabsHeader from "./app-tab-header"
 import TabsBarang from "./app-tab-barang"
 import TabsDokumen from "./app-tab-dokumen"
 import TabsTransaksi from "./app-tab-pungutan"
+import TabsEntitas from "./app-tab-entitas"
 
 
 export function AppDetailDokumen(posts: any) {
-    // console.log(posts)
     return (
         <Dialog >
             <DialogTrigger asChild>
@@ -38,6 +38,9 @@ export function AppDetailDokumen(posts: any) {
                     </TabsList>
                     <TabsContent value="header">
                         <TabsHeader posts={posts.posts} />
+                    </TabsContent>
+                    <TabsContent value="entitas">
+                        <TabsEntitas posts={posts.posts} />
                     </TabsContent>
                     <TabsContent value="dokumen">
                         <TabsDokumen posts={posts.posts} />

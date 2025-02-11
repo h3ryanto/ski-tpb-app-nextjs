@@ -1,6 +1,103 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
+import { prisma } from '@/lib/prisma/init';
 
+
+export async function getData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
+    let date_from: string;
+    let date_to: string;
+    // console.log(filter)
+    if (filter.date_from && filter.date_to) {
+        date_from = filter.date_from;
+        date_to = filter.date_to;
+    } else {
+        date_from = '1900-01-01';
+        date_to = new Date().toISOString().split('T')[0];
+    }
+    const posts = await prisma.header.findMany({
+        select: {
+            id: true,
+            kode_dokumen: true,
+            nomor_aju: true,
+            nomor_daftar: true,
+            tanggal_daftar: true,
+            entitas: {
+                select: {
+                    id: true,
+                    nama_entitas: true,
+                    alamat_entitas: true,
+                    nomor_identitas: true,
+                    nib_entitas: true,
+                }
+            },
+            dokumen: {
+                select: {
+                    id: true,
+                    kode_dokumen: true,
+                    nomor_dokumen: true,
+                    tanggal_dokumen: true,
+                },
+            },
+        },
+        where: {
+            kode_dokumen: {
+                contains: filter.kode_dokumen,
+                mode: 'insensitive',
+            },
+            nomor_aju: {
+                contains: filter.nomor_aju,
+                mode: 'insensitive',
+            },
+            nomor_daftar: {
+                contains: filter.nomor_daftar,
+                mode: 'insensitive',
+            },
+            tanggal_daftar: {
+                gte: new Date(date_from),
+                lte: new Date(date_to),
+            },
+            entitas: {
+                some: {
+                    nama_entitas: { contains: filter.entitas, mode: 'insensitive' },
+                },
+            },
+            OR: [
+                { nomor_aju: { contains: query, mode: 'insensitive' } },
+                { nomor_daftar: { contains: query, mode: 'insensitive' } },
+                {
+                    dokumen: {
+                        some: {
+                            nomor_dokumen: { contains: query, mode: 'insensitive' },
+                        },
+                    },
+                },
+                {
+                    barang: {
+                        some: {
+                            uraian: { contains: query, mode: 'insensitive' },
+                            tipe: { contains: query, mode: 'insensitive' },
+                            kode_barang: { contains: query, mode: 'insensitive' },
+                        },
+                    },
+                },
+                {
+                    entitas: {
+                        some: {
+                            nama_entitas: { contains: query, mode: 'insensitive' },
+                        },
+                    },
+                },
+            ],
+        },
+        orderBy: {
+            [filter.sortBy || 'id']: filter.asc === true ? 'asc' : 'desc',
+        },
+        take: limit,
+        skip: skip,
+    });
+
+    return posts;
+}
 
 export async function retriveData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     let date_from: string;
@@ -40,6 +137,17 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         "Header".biaya_tambahan,
         TO_CHAR("Header".tanggal_daftar, 'YYYY') AS tahun, 
         TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar, 
+        (
+        SELECT 
+            json_agg(json_build_object('id',"Entitas".id,'kode_entitas',"Entitas".kode_Entitas,'nama_entitas', "Entitas".nama_entitas,'nomor_identitas',"Entitas".nomor_identitas,'alamat_entitas',"Entitas".alamat_entitas,
+            'nomor_ijin_entitas',"Entitas".nomor_ijin_entitas,'nib_entitas',"Entitas".nib_entitas)) 
+        from 
+            "Entitas" 
+        WHERE 
+            "Entitas".nomor_aju = "Header".nomor_aju     
+        )
+        AS
+            DetailEntitas,
         (
         SELECT 
             json_agg(json_build_object('id',"Dokumen".id,'kode_dokumen',"Dokumen".kode_dokumen,'nomor_dokumen', "Dokumen".nomor_dokumen,'tanggal_dokumen',TO_CHAR("Dokumen".tanggal_dokumen, 'YYYY-MM-DD'))) 

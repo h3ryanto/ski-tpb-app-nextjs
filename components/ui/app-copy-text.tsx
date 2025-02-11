@@ -12,7 +12,7 @@ const AppCopyText = ({ textToCopy, children }: { textToCopy: string, children?: 
             toast({
                 variant: 'default',
                 title: "Copy Success",
-                description: `Text ${textToCopy} Berhasil dicopy`,
+                description: `Text "${textToCopy}" Berhasil dicopy`,
             })
         } catch (error: any) {
             toast({
@@ -27,8 +27,8 @@ const AppCopyText = ({ textToCopy, children }: { textToCopy: string, children?: 
         <div className='flex flex-row items-center gap-2'>
 
             {children}
-            <AppTooltip title='Copy' >
-                <Copy size={12} className='hover:stroke-blue-600 cursor-pointer' onClick={() => handleCopy(textToCopy)} />
+            <AppTooltip title='Copy Text' >
+                <Copy size={12} className='hover:stroke-blue-600 cursor-pointer align-top' onClick={() => handleCopy(textToCopy)} />
             </AppTooltip>
         </div>
 

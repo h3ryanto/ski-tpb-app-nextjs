@@ -2,7 +2,7 @@
 import Table from '@/components/elements/Table/page';
 import List from '@/components/ui/list';
 import { countData, retriveData } from "@/lib/database/neon_postgresSql/posts";
-import { Suspense, use, useEffect, useMemo, useState } from "react";
+import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -29,10 +29,13 @@ export default function Dokumen(props: {
 	const [posts, setPosts] = useState<any[]>([]);
 	const [dataEntry, setDataEntry] = useState<number>(1);
 
-	const getDokumen = async (limit: number, skip: number, search: any, filter: any) => {
+	const getDokumen = useCallback(async (limit: number, skip: number, search: any, filter: any) => {
 		try {
+			// const result = await getData(limit, skip, search, filter)
+			// console.log(result);
 			const posts = await retriveData(limit, skip, search, filter)
 			setPosts(posts);
+			console.log(posts);
 			const count = await countData(search, filter)
 			setDataEntry(count.length || 1);
 		} catch (error) {
@@ -44,11 +47,11 @@ export default function Dokumen(props: {
 			})
 		}
 
-	}
+	}, [toast])
 
 	useEffect(() => {
 		getDokumen(limit, skip, search, filter)
-	}, [limit, skip, search, filter])
+	}, [limit, skip, search, filter, getDokumen])
 
 	// console.log(posts)
 	return (

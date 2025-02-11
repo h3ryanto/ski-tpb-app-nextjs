@@ -24,10 +24,6 @@ import {
 
 const dokumens = [
     {
-        value: "%",
-        label: "All",
-    },
-    {
         value: "23",
         label: "BC 2.3",
     },
@@ -80,7 +76,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
         }
         if (value != "") {
             params.set('kodeDokumen', value)
-        } else if ((value === "") || (searchParams.get('kodeDokumen')?.toString() === "all")) {
+        } else if (value === "") {
             params.delete('kodeDokumen')
             setValue("")
         }
@@ -110,6 +106,21 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                         <CommandList>
                             <CommandEmpty>No dokumen found.</CommandEmpty>
                             <CommandGroup>
+                                <CommandItem
+                                    value={'all'}
+                                    onSelect={(currentValue) => {
+                                        setValue(currentValue === 'all' ? "" : 'all')
+                                        setOpen(false)
+                                    }}
+                                >
+                                    All
+                                    <Check
+                                        className={cn(
+                                            "ml-auto",
+                                            value === '' ? "opacity-100" : "opacity-0"
+                                        )}
+                                    />
+                                </CommandItem>
                                 {dokumens.map((dokumen) => (
                                     <CommandItem
                                         key={dokumen.value}
