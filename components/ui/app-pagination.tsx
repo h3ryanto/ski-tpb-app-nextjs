@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { usePathname, useRouter } from 'next/navigation'
 
-const Pagination = (props: {
+const AppPagination = (props: {
     children: React.ReactNode,
     page: number,
     dataEntry: number,
@@ -45,4 +45,4 @@ const Pagination = (props: {
     )
 }
 
-export default Pagination;
+export default AppPagination;

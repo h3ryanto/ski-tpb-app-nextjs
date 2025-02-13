@@ -1,6 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-export default function ShowPage() {
+export default function AppShowPage() {
     const handleStringToInt = (value: string) => {
         console.log(value)
     }

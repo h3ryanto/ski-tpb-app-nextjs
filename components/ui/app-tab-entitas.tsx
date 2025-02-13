@@ -3,7 +3,7 @@ import {
     CardContent,
 } from "@/components/ui/card";
 import type { Entitas } from "@prisma/client";
-import AppTabEntitaPengusahTp from "@/components/ui/app-tab-entitas-pengusaha-tpb";
+import AppTabEntitaPengusahTp from "@/components/ui/app-tab-card-entitas";
 
 const TabsEntitas = ({ posts }: { posts: Entitas }) => {
     return (

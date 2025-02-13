@@ -10,7 +10,6 @@ import Filter from '@/components/ui/filter';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import Search from '@/components/ui/search';
 import { FileText, InboxIcon, UploadCloud } from "lucide-react";
-import style from './styles.module.css';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { useToast } from "@/hooks/use-toast"
 import DatePickerWithRange from '@/components/ui/app-date';
@@ -20,7 +19,7 @@ import SortBy from '@/components/ui/sortBy';
 import AppCopyText from '@/components/ui/app-copy-text';
 
 
-export default function Table({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
+export default function AppTable({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
 	const countData = posts.length;
 	const { toast } = useToast()
 	// console.log(posts)
@@ -48,25 +47,25 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 					<Search><></></Search>
 				</CardHeader>
 				<CardContent className='overflow-y-auto h-[calc(100vh-252px)]'>
-					<table id={style.table} className="table-auto hidden md:table ">
-						<thead className='top-10'>
+					<table className="table-auto hidden md:table w-full">
+						<thead className='top-10 '>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
-								<th scope="col" className='align-top'><div className='pt-2'>No.</div></th>
-								<th scope="col">
+								<th scope="col" className='align-top p-2'><div className='pt-2'>No.</div></th>
+								<th scope="col" className='p-2'>
 									<FilterDokumen>
 										<SortBy sortBy='kode_dokumen'>
 											<div>Dok</div>
 										</SortBy>
 									</FilterDokumen>
 								</th>
-								<th scope="col">
+								<th scope="col" className='p-2'>
 									<Filter id="nomorAju">
 										<SortBy sortBy='nomor_aju'>
 											<div>Nomor Aju</div>
 										</SortBy>
 									</Filter>
 								</th>
-								<th scope="col">
+								<th scope="col" className='p-2'>
 
 									<Filter id="suplier">
 										<SortBy sortBy='nama_entitas'>
@@ -74,12 +73,12 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 										</SortBy>
 									</Filter>
 								</th>
-								<th scope="col">
+								<th scope="col" className='p-2'>
 									<Filter id="nomorDaftar">
 										<div className='mb-3'>Nomor Daftar</div>
 									</Filter>
 								</th>
-								<th scope="col">
+								<th scope="col" className='p-2'>
 									<div className='flex flex-col gap-4'>
 										<SortBy sortBy='tanggal_daftar'>
 											<div>Tanggal Daftar</div>
@@ -87,22 +86,22 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 										<DatePickerWithRange />
 									</div>
 								</th>
-								<th scope="col">
+								<th scope="col" className='p-2'>
 									<Filter id="dokumen">
 										<div className='mb-3'>Dokumen</div>
 									</Filter>
 								</th>
-								<th scope="col"></th>
+								<th scope="col" className='p-2'></th>
 							</tr>
 						</thead>
 						<tbody >
 
 							{countData && posts.map((post: any, index: number) => (
-								<tr key={post.nomor_aju} className='align-top'>
-									<td>{((page * 10) - 10) + index + 1}.</td>
-									<td>{post.kode_dokumen}</td>
-									<td><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
-									<td>
+								<tr key={post.nomor_aju} className='align-top hover:bg-slate-100/65'>
+									<td className='p-2'>{((page * 10) - 10) + index + 1}.</td>
+									<td className='p-2'>{post.kode_dokumen}</td>
+									<td className='p-2'><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
+									<td className='p-2'>
 										<div className='flex flex-col gap-2'>
 											<div className="font-semibold">{post.nama_entitas}</div>
 											{post.nomor_identitas &&
@@ -143,9 +142,9 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 											}
 										</div>
 									</td>
-									<td><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
-									<td>{post.ftanggal_daftar}</td>
-									<td>{
+									<td className='p-2'><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
+									<td className='p-2'>{post.ftanggal_daftar}</td>
+									<td className='p-2'>{
 										post.dokumens.map((dok: any) => (
 											<div key={dok.id} className='flex flex-row gap-1'>
 												{kodeDokumen(dok.kode_dokumen)} :<AppCopyText textToCopy={dok.nomor_dokumen}>{dok.nomor_dokumen}</AppCopyText>
@@ -153,7 +152,7 @@ export default function Table({ posts, page, limit, dataEntry }: { posts: any, p
 										))
 									}</td>
 
-									<td>
+									<td className='p-2'>
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${post.tahun}/${post.kode_dokumen}`}>

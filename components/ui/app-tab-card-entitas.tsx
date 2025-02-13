@@ -7,7 +7,7 @@ import {
 import type { Entitas } from "@prisma/client";
 import AppCopyText from './app-copy-text';
 
-const appTabEntitaPengusahTpb = ({ post }: { post: Entitas }) => {
+const AppTabCardEntitas = ({ post }: { post: Entitas }) => {
     return (
         <Card className='w-[460] bg-white'>
             <CardHeader className='bg-slate-200 font-semibold m-2 p-3'>
@@ -19,7 +19,13 @@ const appTabEntitaPengusahTpb = ({ post }: { post: Entitas }) => {
                             'Pemilik Barang'
                             : post.kode_entitas === '8' ?
                                 'Penerima Barang'
-                                : ''
+                                : post.kode_entitas === '2' ?
+                                    'Eksportir'
+                                    : post.kode_entitas === '6' ?
+                                        'Pembeli'
+                                        : post.kode_entitas === '4' ?
+                                            'PPJK'
+                                            : ''
                 }
 
             </CardHeader>
@@ -63,4 +69,4 @@ const appTabEntitaPengusahTpb = ({ post }: { post: Entitas }) => {
         </Card >
     )
 }
-export default appTabEntitaPengusahTpb
+export default AppTabCardEntitas

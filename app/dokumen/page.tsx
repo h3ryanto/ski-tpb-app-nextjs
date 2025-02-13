@@ -1,9 +1,10 @@
 'use client'
-import Table from '@/components/elements/Table/page';
+import Table from '@/components/ui/app-table';
 import List from '@/components/ui/list';
 import { countData, retriveData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
+import AppLoading from '@/components/app-loading';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
@@ -28,22 +29,28 @@ export default function Dokumen(props: {
 
 	const [posts, setPosts] = useState<any[]>([]);
 	const [dataEntry, setDataEntry] = useState<number>(1);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const getDokumen = useCallback(async (limit: number, skip: number, search: any, filter: any) => {
 		try {
 			// const result = await getData(limit, skip, search, filter)
 			// console.log(result);
+			setIsLoading(true);
 			const posts = await retriveData(limit, skip, search, filter)
+			if (posts) {
+				setIsLoading(false);
+			}
 			setPosts(posts);
 			console.log(posts);
 			const count = await countData(search, filter)
 			setDataEntry(count.length || 1);
+
 		} catch (error) {
 			console.error(error)
 			toast({
 				variant: 'destructive',
 				title: "Error Conecting Server Database",
-				description: `Silahkan periksa sambungan internet Anda!.`,
+				description: `${error}`,
 			})
 		}
 
@@ -59,6 +66,7 @@ export default function Dokumen(props: {
 		<Suspense>
 			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
 			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
+			<AppLoading isLoading={isLoading} />
 		</Suspense >
 
 

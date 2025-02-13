@@ -149,7 +149,6 @@ export default function Login() {
 
         <button type="button" className="flex bg-slate-400 p-3 rounded-md text-white" disabled>
           <LoaderCircle className="animate-spin stroke-white mx-3" />
-
           <span>Processing...</span>
         </button>
       </div>

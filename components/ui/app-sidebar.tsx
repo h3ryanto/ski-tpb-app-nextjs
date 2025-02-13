@@ -84,9 +84,7 @@ export function AppSidebar() {
                     </SidebarGroup>
                 </SidebarContent>
                 <SidebarFooter>
-                    <SidebarFooter>
-                        <NavUser user={data.user} />
-                    </SidebarFooter>
+                    <NavUser user={data.user} />
                 </SidebarFooter>
             </Sidebar>
         )

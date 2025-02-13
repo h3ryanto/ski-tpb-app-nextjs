@@ -117,7 +117,10 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
     const posts = await sql`
     SELECT 
         "Header".kode_dokumen, 
-        "Header".kode_kantor, 
+        "Header".kode_kantor,
+        "Header".kode_kantor_tujuan,
+        "Header".kode_kantor_ekspor,
+        "Header".kode_kantor_bongkar, 
         "Header".nomor_aju, 
         "Entitas".kode_entitas,
         "Entitas".nama_entitas,
@@ -135,12 +138,14 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         "Header".harga_penyerahan,
         "Header".biaya_pengurang,
         "Header".biaya_tambahan,
+        "Header".kode_tujuan_tpb,
+        "Header".kode_jenis_tpb,
         TO_CHAR("Header".tanggal_daftar, 'YYYY') AS tahun, 
         TO_CHAR("Header".tanggal_daftar, 'YYYY-MM-DD') AS ftanggal_daftar, 
         (
         SELECT 
             json_agg(json_build_object('id',"Entitas".id,'kode_entitas',"Entitas".kode_Entitas,'nama_entitas', "Entitas".nama_entitas,'nomor_identitas',"Entitas".nomor_identitas,'alamat_entitas',"Entitas".alamat_entitas,
-            'nomor_ijin_entitas',"Entitas".nomor_ijin_entitas,'nib_entitas',"Entitas".nib_entitas)) 
+            'nomor_ijin_entitas',"Entitas".nomor_ijin_entitas,'nib_entitas',"Entitas".nib_entitas) ORDER BY kode_entitas ASC) 
         from 
             "Entitas" 
         WHERE 
