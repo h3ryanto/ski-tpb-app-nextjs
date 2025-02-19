@@ -10,6 +10,7 @@ import WidgetCloudinary from './widget-cloudinary';
 
 
 const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
+    console.log(posts)
     const countData = posts.length;
     const { toast } = useToast()
     const borderColor = (kode_dokumen: string) => {
@@ -72,7 +73,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                     <p className='flex items-center'>
                                         <UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
                                         {/* {entitas(post)} */}
-                                        {post.nama_entitas}
+                                        {/* {post.nama_entitas} */}
                                     </p>
                                     <p className='flex items-center'>
                                         <PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
@@ -87,7 +88,7 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                         <AccordionContent>
                             <div className='bg-slate-600 w-full p-3'>
                                 <div className='underline'>Dokumen:</div>
-                                {post.dokumens.map((dok: any) => (
+                                {post.dokumen.map((dok: any) => (
                                     <div key={dok.id} className='mx-3'>
                                         {kodeDokumen(dok.kode_dokumen)} : {dok.nomor_dokumen}
                                     </div>
@@ -108,16 +109,19 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                                 Uraian : {barang.uraian}
                                             </p>
                                             <p className='flex items-center'>
-                                                Jumlah : {barang.jumlah_satuan} {barang.kode_satuan}
+                                                Jumlah : {barang.jumlah_satuan.toString()} {barang.kode_satuan}
                                             </p>
                                             <p className='flex items-center'>
-                                                CIF : {formatCurrency(barang.cif, barang.valuta || 'IDR')}
+                                                CIF : {formatCurrency(barang.cif, barang.header.kode_valuta || 'IDR')}
                                             </p>
                                             <p className='flex items-center'>
-                                                Harga Penyerahan : {formatCurrency(barang.harga_penyerahan, 'IDR')}
+                                                Harga Penyerahan : {formatCurrency(barang.harga_penyerahan, barang.header.kode_valuta || 'IDR')}
                                             </p>
                                             <p className='flex items-center'>
-                                                FOB : {formatCurrency(barang.fob, barang.valuta || 'IDR')}
+                                                FOB : {formatCurrency(barang.fob, 'IDR')}
+                                            </p>
+                                            <p className='flex items-center'>
+                                                valuta : {barang.header.kode_valuta}
                                             </p>
                                         </div>
                                     ))}

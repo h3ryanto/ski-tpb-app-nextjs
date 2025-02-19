@@ -17,7 +17,8 @@ import AppTooltip from '@/components/ui/app-tool-tip';
 import WidgetCloudinary from '@/components/ui/widget-cloudinary';
 import SortBy from '@/components/ui/sortBy';
 import AppCopyText from '@/components/ui/app-copy-text';
-
+import { format } from "date-fns";
+import Entitas from '@/utils/entitas';
 
 export default function AppTable({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
 	const countData = posts.length;
@@ -103,49 +104,13 @@ export default function AppTable({ posts, page, limit, dataEntry }: { posts: any
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
 									<td className='p-2'>
 										<div className='flex flex-col gap-2'>
-											<div className="font-semibold">{post.nama_entitas}</div>
-											{post.nomor_identitas &&
-												<div className='text-xs'>
-													{((post.nomor_identitas).length === 15) ?
-														(<div>
-															<p>NPWP 15 DIGIT : {post.nomor_identitas}</p>
-															<p>NPWP 16 DIGIT : {'0' + post.nomor_identitas}</p>
-															<div className='flex flex-row'>
-																NITKU :
-																<AppCopyText textToCopy={'0' + post.nomor_identitas + '000000'}>
-																	{'0' + post.nomor_identitas + '000000'}
-																</AppCopyText>
-															</div>
-														</div>)
-														:
-														(<div>
-															<div className='flex flex-row'>
-																NITKU :
-																<AppCopyText textToCopy={post.nomor_identitas}>
-																	{post.nomor_identitas}
-																</AppCopyText>
-															</div>
-														</div>)
-													}
-
-													{post.nib_entitas &&
-														<div>
-															<div className='flex flex-row'>
-																NIB :
-																<AppCopyText textToCopy={post.nib_entitas}>
-																	{post.nib_entitas}
-																</AppCopyText>
-															</div>
-														</div>
-													}
-												</div>
-											}
+											<div className="font-semibold"><Entitas getEntitas={post.entitas} /></div>
 										</div>
 									</td>
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
-									<td className='p-2'>{post.ftanggal_daftar}</td>
+									<td className='p-2'>{format(post.tanggal_daftar, "yyyy-MM-dd")}</td>
 									<td className='p-2'>{
-										post.dokumens.map((dok: any) => (
+										post.dokumen.map((dok: any) => (
 											<div key={dok.id} className='flex flex-row gap-1'>
 												{kodeDokumen(dok.kode_dokumen)} :<AppCopyText textToCopy={dok.nomor_dokumen}>{dok.nomor_dokumen}</AppCopyText>
 											</div>

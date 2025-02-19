@@ -102,21 +102,21 @@ flag_vd		                String?
 flag_ap_bk		            String?		
 flag_migas		            String?		
 kode_asuransi		          String?		
-asuransi		              Decimal?		
-nilai_barang		          Decimal?		
-nilai_incoterm		        Decimal?		
-nilai_maklon		          Decimal?		
-freight		                Decimal?		
-fob		                    Decimal?		
-biaya_tambahan		        Decimal?		
-biaya_pengurang		        Decimal?		
-vd		                    Decimal?		
-cif		                    Decimal?		
-harga_penyerahan		      Decimal?		
-ndpbm		                  Decimal?		
-total_dana_sawit		      Decimal?		
-dasar_pengenaan_pajak		  Decimal?		
-nilai_jasa		            Decimal?		
+asuransi		              Float?		
+nilai_barang		          Float?		
+nilai_incoterm		        Float?		
+nilai_maklon		          Float?		
+freight		                Float?		
+fob		                    Float?		
+biaya_tambahan		        Float?		
+biaya_pengurang		        Float?		
+vd		                    Float?		
+cif		                    Float?		
+harga_penyerahan		      Float?		
+ndpbm		                  Float?		
+total_dana_sawit		      Float?		
+dasar_pengenaan_pajak		  Float?		
+nilai_jasa		            Float?		
 uang_muka		              Int?	    
 bruto		                  Int?	    
 netto		                  Int?	    
@@ -172,7 +172,7 @@ model Barang {
   ukuran                  String?
   spesifikasi_lain        String?
   kode_satuan             String?
-  jumlah_satuan           Decimal?
+  jumlah_satuan           Float?
   kode_kemasan            String?
   jumlah_kemasan          String?
   kode_dokumen_asal       String?
@@ -228,7 +228,7 @@ model Barang {
   jumlah_pita_cukai       String?
   hje_cukai               String?
   tarif_cukai             String?
-  stok                    Decimal?
+  stok                    Float?
   created_at              DateTime @default(now())	
   updated_at              DateTime @default(now())	
 }

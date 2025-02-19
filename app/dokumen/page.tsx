@@ -1,10 +1,11 @@
 'use client'
 import Table from '@/components/ui/app-table';
 import List from '@/components/ui/list';
-import { countData, retriveData } from "@/lib/database/neon_postgresSql/posts";
+import { countData, getData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
 import AppLoading from '@/components/app-loading';
+
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
@@ -26,7 +27,6 @@ export default function Dokumen(props: {
 	const currenPage = Number(searchParams?.page) || 1;
 	const limit = Number(searchParams?.pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
-
 	const [posts, setPosts] = useState<any[]>([]);
 	const [dataEntry, setDataEntry] = useState<number>(1);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,12 +36,14 @@ export default function Dokumen(props: {
 			// const result = await getData(limit, skip, search, filter)
 			// console.log(result);
 			setIsLoading(true);
-			const posts = await retriveData(limit, skip, search, filter)
+			// const posts = await retriveData(limit, skip, search, filter)
+			const posts = await getData(limit, skip, search, filter)
+			// console.log(posts)
 			if (posts) {
 				setIsLoading(false);
 			}
 			setPosts(posts);
-			console.log(posts);
+			// console.log(posts.leng);
 			const count = await countData(search, filter)
 			setDataEntry(count.length || 1);
 

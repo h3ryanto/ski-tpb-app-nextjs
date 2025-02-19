@@ -33,7 +33,7 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {'barang' in posts && Array.isArray(posts.barang) && posts.barang.map((barang: Barang & { valuta: string }, index) => (
+                                {'barang' in posts && Array.isArray(posts.barang) && posts.barang.map((barang: Barang & { valuta: string, header: Header }, index) => (
                                     <tr key={barang.id} className="border-x border-b">
                                         <td className="p-2">{index + 1}.</td>
                                         <td className="p-2">{barang.hs}</td>
@@ -42,8 +42,8 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
                                         <td className="p-2">{barang.tipe}</td>
                                         <td className="p-2">{barang.jumlah_satuan ? barang.jumlah_satuan.toString() : 0}</td>
                                         <td className="p-2">{barang.kode_satuan}</td>
-                                        <td className="p-2">{formatCurrency(Number(barang.fob) || 0, barang.valuta || 'IDR')}</td>
-                                        <td className="p-2">{formatCurrency(Number(barang.cif) || 0, barang.valuta || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.fob) || 0, barang.header.kode_valuta || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.cif) || 0, barang.header.kode_valuta || 'IDR')}</td>
                                         <td className="p-2">{formatCurrency(Number(barang.harga_penyerahan) || 0, 'IDR')}</td>
                                     </tr>
                                 ))}

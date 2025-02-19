@@ -7,7 +7,8 @@ export default function WidgetCloudinary({ fileName, folderName, children }: { f
                 {
                     fieldName: fileName,
                     publicId: fileName,
-                    folder: folderName
+                    folder: folderName,
+                    sources: ['local']
                 }
             }
         >

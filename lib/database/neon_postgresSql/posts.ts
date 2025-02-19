@@ -21,13 +21,34 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
             nomor_aju: true,
             nomor_daftar: true,
             tanggal_daftar: true,
+            kode_valuta: true,
+            ndpbm: true,
+            asuransi: true,
+            freight: true,
+            cif: true,
+            kode_incoterm: true,
+            harga_penyerahan: true,
+            biaya_pengurang: true,
+            biaya_tambahan: true,
+            kode_kantor: true,
+            kode_kantor_tujuan: true,
+            kode_kantor_ekspor: true,
+            kode_kantor_bongkar: true,
+            kode_tujuan_tpb: true,
+            kode_jenis_tpb: true,
             entitas: {
                 select: {
                     id: true,
+                    kode_entitas: true,
                     nama_entitas: true,
                     alamat_entitas: true,
                     nomor_identitas: true,
                     nib_entitas: true,
+                    header: {
+                        select: {
+                            kode_dokumen: true
+                        }
+                    }
                 }
             },
             dokumen: {
@@ -37,6 +58,26 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                     nomor_dokumen: true,
                     tanggal_dokumen: true,
                 },
+            },
+            barang: {
+                select: {
+                    id: true,
+                    kode_barang: true,
+                    uraian: true,
+                    hs: true,
+                    jumlah_satuan: true,
+                    kode_satuan: true,
+                    cif: true,
+                    fob: true,
+                    harga_penyerahan: true,
+                    tipe: true,
+                    ndpbm: true,
+                    header: {
+                        select: {
+                            kode_valuta: true
+                        }
+                    }
+                }
             },
         },
         where: {
@@ -60,6 +101,11 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                 some: {
                     nama_entitas: { contains: filter.entitas, mode: 'insensitive' },
                 },
+            },
+            dokumen: {
+                some: {
+                    nomor_dokumen: { contains: filter.nomor_dokumen, mode: 'insensitive' }
+                }
             },
             OR: [
                 { nomor_aju: { contains: query, mode: 'insensitive' } },
@@ -110,12 +156,28 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         date_from = '1900-01-01';
         date_to = new Date().toISOString().split('T')[0];
     }
+    let sortBy: string = `id`;
+    if (filter.sortBy === undefined) {
+        sortBy = `id`;
+    } else
+        if (filter.sortBy === 'nomor_aju') {
+            sortBy = `nomor_aju`;
+        } else if (filter.sortBy === 'kode_dokumen') {
+            sortBy = `kode_dokumen`;
+        } else if (filter.sortBy === 'nama_entitas') {
+            sortBy = `"Entitas".nama_entitas`;
+        } else if (filter.sortBy === 'tanggal_daftar') {
+            sortBy = `tanggal_daftar`;
+        }
+    console.log(sortBy)
+
 
 
     const sql = neon(`${process.env.DATABASE_URL}`);
 
     const posts = await sql`
     SELECT 
+        "Header".id,
         "Header".kode_dokumen, 
         "Header".kode_kantor,
         "Header".kode_kantor_tujuan,
@@ -218,11 +280,10 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
     "Header".nomor_aju = ANY(SELECT nomor_aju FROM "Dokumen" WHERE nomor_dokumen ILIKE ${'%' + filter.nomor_dokumen + '%'})
     AND
     "Header".tanggal_daftar between ${"'" + date_from + "'"} AND ${"'" + date_to + "'"}
-    ORDER BY "Header".id 
-   DESC
+    ORDER BY "Header".id DESC   
     LIMIT 
     ${limit}
-OFFSET 
+    OFFSET 
     ${skip}
     `;
 

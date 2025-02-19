@@ -76,8 +76,10 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
         }
         if (value != "") {
             params.set('kodeDokumen', value)
+            params.set('sortBy', 'tanggal_daftar')
         } else if (value === "") {
             params.delete('kodeDokumen')
+            // params.delete('sortBy')
             setValue("")
         }
         replace(`${pathName}?${params.toString()}`)
@@ -111,6 +113,8 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                                     onSelect={(currentValue) => {
                                         setValue(currentValue === 'all' ? "" : 'all')
                                         setOpen(false)
+                                        params.delete('sortBy')
+                                        replace(`${pathName}?${params.toString()}`)
                                     }}
                                 >
                                     All

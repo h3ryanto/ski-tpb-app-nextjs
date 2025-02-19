@@ -6,6 +6,7 @@ import {
 import type { Dokumen } from "@prisma/client";
 import { DialogClose } from "./dialog";
 import kodeDokumen from "@/utils/kodeDokumen";
+import { format } from "date-fns";
 
 const TabsDokumen = ({ posts }: { posts: Dokumen }) => {
     // console.log(posts)
@@ -26,12 +27,12 @@ const TabsDokumen = ({ posts }: { posts: Dokumen }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {'dokumens' in posts && Array.isArray(posts.dokumens) && posts.dokumens.map((dokumen: Dokumen, index) => (
+                                {'dokumen' in posts && Array.isArray(posts.dokumen) && posts.dokumen.map((dokumen: Dokumen, index) => (
                                     <tr key={dokumen.id} className="border-x border-b">
                                         <td className="p-2">{index + 1}.</td>
                                         <td className="p-2">{kodeDokumen(dokumen.kode_dokumen)}</td>
                                         <td className="p-2">{dokumen.nomor_dokumen}</td>
-                                        <td className="p-2">{dokumen.tanggal_dokumen ? dokumen.tanggal_dokumen.toString() : '-'}</td>
+                                        <td className="p-2">{dokumen.tanggal_dokumen ? format(dokumen.tanggal_dokumen, "yyyy-MM-dd") : '-'}</td>
                                     </tr>
                                 ))}
                             </tbody>

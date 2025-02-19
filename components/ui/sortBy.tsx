@@ -26,7 +26,7 @@ const SortBy = ({ sortBy, children }: { sortBy: string, children?: React.ReactNo
             setSortByState(params.get("sortBy") as string)
             setAscState(params.get("asc") === 'true')
         } else {
-            params.delete("sortBy");
+            // params.delete("sortBy");
             setSortByState(undefined)
             setAscState(false)
         }

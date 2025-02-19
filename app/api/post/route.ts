@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
                 const skip = (currenPage - 1) * limit;
                 console.log(term);
 
-                const posts = await retriveData(limit, skip, term);
-                const count = await countData(term);
+                const posts = await retriveData(limit, skip, term, '');
+                const count = await countData(term, '');
                 // const posts = await getData(limit, skip, term);
 
                 return Response.json(
