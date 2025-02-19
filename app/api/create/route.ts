@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
       const body = await request.json();
       const doc = body[0]
-      // console.log(doc)
+      console.log(body)
 
 
       const Entitas = body[0].entitas.map((item: any) => ({
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
         ukuran: item.ukuran,
         spesifikasi_lain: item.spesifikasi_lain,
         kode_satuan: item.kode_satuan,
-        jumlah_satuan: item.jumlah_satuan,
+        jumlah_satuan: parseFloat(item.jumlah_satuan),
         kode_kemasan: item.kode_kemasan,
         jumlah_kemasan: item.jumlah_kemasan,
         kode_dokumen_asal: item.kode_dokumen_asal,
@@ -101,7 +101,7 @@ export async function POST(request: Request) {
         jumlah_pita_cukai: item.jumlah_pita_cukai,
         hje_cukai: item.hje_cukai,
         tarif_cukai: item.tarif_cukai,
-        stok: item.stok,
+        stok: parseFloat(item.stok),
         created_at: item.created_at,
         updated_at: item.updated_at,
 
@@ -395,21 +395,21 @@ export async function POST(request: Request) {
             flag_ap_bk: doc.flag_ap_bk,
             flag_migas: doc.flag_migas,
             kode_asuransi: doc.kode_asuransi,
-            asuransi: doc.asuransi,
-            nilai_barang: doc.nilai_barang,
-            nilai_incoterm: doc.nilai_incoterm,
-            nilai_maklon: doc.nilai_maklon,
-            freight: doc.freight,
-            fob: doc.fob,
-            biaya_tambahan: doc.biaya_tambahan,
-            biaya_pengurang: doc.biaya_pengurang,
-            vd: doc.vd,
-            cif: doc.cif,
-            harga_penyerahan: doc.harga_penyerahan,
-            ndpbm: doc.ndpbm,
-            total_dana_sawit: doc.total_dana_sawit,
-            dasar_pengenaan_pajak: doc.dasar_pengenaan_pajak,
-            nilai_jasa: doc.nilai_jasa,
+            asuransi: parseFloat(doc.asuransi),
+            nilai_barang: parseFloat(doc.nilai_barang),
+            nilai_incoterm: parseFloat(doc.nilai_incoterm),
+            nilai_maklon: parseFloat(doc.nilai_maklon),
+            freight: parseFloat(doc.freight),
+            fob: parseFloat(doc.fob),
+            biaya_tambahan: parseFloat(doc.biaya_tambahan),
+            biaya_pengurang: parseFloat(doc.biaya_pengurang),
+            vd: parseFloat(doc.vd),
+            cif: parseFloat(doc.cif),
+            harga_penyerahan: parseFloat(doc.harga_penyerahan),
+            ndpbm: parseFloat(doc.ndpbm),
+            total_dana_sawit: parseFloat(doc.total_dana_sawit),
+            dasar_pengenaan_pajak: parseFloat(doc.dasar_pengenaan_pajak),
+            nilai_jasa: parseFloat(doc.nilai_jasa),
             uang_muka: Number(doc.uang_muka),
             bruto: Number(doc.bruto),
             netto: Number(doc.netto),
