@@ -48,7 +48,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 					{children}
 					<Search><></></Search>
 				</CardHeader>
-				<CardContent className='overflow-y-auto h-[calc(100vh-252px)]'>
+				<CardContent className='overflow-y-auto h-[calc(100vh-290px)]'>
 					<table className="table-auto hidden md:table w-full">
 						<thead className='top-10 '>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
