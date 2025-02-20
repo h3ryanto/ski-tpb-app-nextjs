@@ -5,6 +5,8 @@ import { countData, getData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
 import AppLoading from '@/components/app-loading';
+import { Button } from '@/components/ui/button';
+import { RefreshCcwIcon } from 'lucide-react';
 
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -67,7 +69,9 @@ export default function Dokumen(props: {
 
 		<Suspense>
 			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
-			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
+			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry}>
+				<Button className='flex flex-row w-fit' onClick={() => getDokumen(limit, skip, search, filter)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+			</Table>
 			<AppLoading isLoading={isLoading} />
 		</Suspense >
 

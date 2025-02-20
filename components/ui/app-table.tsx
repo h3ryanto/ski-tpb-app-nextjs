@@ -1,5 +1,7 @@
-import kodeDokumen from '@/utils/kodeDokumen';
+import AppCopyText from '@/components/ui/app-copy-text';
+import DatePickerWithRange from '@/components/ui/app-date';
 import { AppDetailDokumen } from '@/components/ui/app-detail-dokumen';
+import AppTooltip from '@/components/ui/app-tool-tip';
 import {
 	Card,
 	CardContent,
@@ -7,20 +9,18 @@ import {
 	CardHeader,
 } from "@/components/ui/card";
 import Filter from '@/components/ui/filter';
+import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import Search from '@/components/ui/search';
-import { FileText, InboxIcon, UploadCloud } from "lucide-react";
-import { FilterDokumen } from '@/components/ui/filter-dokumen';
-import { useToast } from "@/hooks/use-toast"
-import DatePickerWithRange from '@/components/ui/app-date';
-import AppTooltip from '@/components/ui/app-tool-tip';
-import WidgetCloudinary from '@/components/ui/widget-cloudinary';
 import SortBy from '@/components/ui/sortBy';
-import AppCopyText from '@/components/ui/app-copy-text';
-import { format } from "date-fns";
+import WidgetCloudinary from '@/components/ui/widget-cloudinary';
+import { useToast } from "@/hooks/use-toast";
 import Entitas from '@/utils/entitas';
+import kodeDokumen from '@/utils/kodeDokumen';
+import { format } from "date-fns";
+import { FileText, InboxIcon, UploadCloud } from "lucide-react";
 
-export default function AppTable({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) {
+export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
 	const { toast } = useToast()
 	// console.log(posts)
@@ -45,6 +45,7 @@ export default function AppTable({ posts, page, limit, dataEntry }: { posts: any
 
 			<Card>
 				<CardHeader className='pb-2'>
+					{children}
 					<Search><></></Search>
 				</CardHeader>
 				<CardContent className='overflow-y-auto h-[calc(100vh-252px)]'>
