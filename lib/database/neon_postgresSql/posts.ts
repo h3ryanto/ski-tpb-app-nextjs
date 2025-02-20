@@ -121,7 +121,21 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                     barang: {
                         some: {
                             uraian: { contains: query, mode: 'insensitive' },
+                            // tipe: { contains: `%${query}%`, mode: 'insensitive' },
+                            // kode_barang: { contains: `%${query}%`, mode: 'insensitive' },
+                        },
+                    },
+                },
+                {
+                    barang: {
+                        some: {
                             tipe: { contains: query, mode: 'insensitive' },
+                        },
+                    },
+                },
+                {
+                    barang: {
+                        some: {
                             kode_barang: { contains: query, mode: 'insensitive' },
                         },
                     },
