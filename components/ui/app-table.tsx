@@ -121,13 +121,13 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 									<td className='p-2'>
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
-												<WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${post.tahun}/${post.kode_dokumen}`}>
+												<WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${format(post.tanggal_daftar, "yyyy")}/${post.kode_dokumen}`}>
 													<UploadCloud size={16} className='hover:stroke-blue-600' />
 												</WidgetCloudinary>
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
-												<FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)} />
+												<FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, format(post.tanggal_daftar, "yyyy"), post.kode_dokumen)} />
 											</AppTooltip>
 											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />

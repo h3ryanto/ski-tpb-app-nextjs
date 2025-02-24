@@ -1,6 +1,8 @@
-import { retriveData, countData } from "@/lib/database/neon_postgresSql/posts";
+'use server'
+import { getData, countData } from "@/lib/database/neon_postgresSql/posts";
 import { type NextRequest } from 'next/server'
 import { decrypt } from "@/lib/auth/session"
+import { format } from "date-fns";
 
 export async function GET(request: NextRequest) {
     const token = await request.headers.get('Authorization')?.split(' ')[1];
@@ -8,7 +10,7 @@ export async function GET(request: NextRequest) {
     if (token) {
         const secretKey = process.env.SESSION_SECRET
         const jwtVerify = await decrypt(token, `${secretKey}`)
-        console.log(jwtVerify)
+        // console.log(jwtVerify)
         if (jwtVerify) {
             try {
                 const searchParams = request.nextUrl.searchParams
@@ -16,15 +18,28 @@ export async function GET(request: NextRequest) {
                 const currenPage = Number(searchParams.get('page')) || 1;
                 const limit = Number(searchParams.get('pageSize')) || 10;
                 const skip = (currenPage - 1) * limit;
-                console.log(term);
+                // console.log(searchParams);
 
-                const posts = await retriveData(limit, skip, term, '');
+                // const posts = await retriveData(limit, skip, term, '');
                 const count = await countData(term, '');
-                // const posts = await getData(limit, skip, term);
+                const posts = await getData(limit, skip, term, []);
+
+                const convertBigInt = (obj: any): any => {
+                    if (Array.isArray(obj)) {
+                        return obj.map(convertBigInt);
+                    } else if (typeof obj === 'object' && obj !== null) {
+                        const result: { [key: string]: any } = {};
+                        for (const [key, value] of Object.entries(obj)) {
+                            result[key] = typeof value === 'bigint' ? value.toString() : value instanceof Date ? format(value, "yyyy-MM-dd") : convertBigInt(value);
+                        }
+                        return result;
+                    }
+                    return obj;
+                };
 
                 return Response.json(
                     {
-                        posts: posts,
+                        posts: convertBigInt(posts),
                         count: count.length
                     },
                     {

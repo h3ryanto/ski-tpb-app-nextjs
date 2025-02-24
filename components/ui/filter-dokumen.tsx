@@ -76,7 +76,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
         }
         if (value != "") {
             params.set('kodeDokumen', value)
-            params.set('sortBy', 'tanggal_daftar')
+            // params.set('sortBy', 'tanggal_daftar')
         } else if (value === "") {
             params.delete('kodeDokumen')
             // params.delete('sortBy')

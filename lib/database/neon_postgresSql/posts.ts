@@ -100,8 +100,10 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
             entitas: {
                 some: {
                     nama_entitas: { contains: filter.entitas, mode: 'insensitive' },
+                    // kode_entitas: { in: filter.entitas ? ['9'] : [], mode: 'insensitive' },
                 },
             },
+
             dokumen: {
                 some: {
                     nomor_dokumen: { contains: filter.nomor_dokumen, mode: 'insensitive' }
@@ -121,8 +123,6 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                     barang: {
                         some: {
                             uraian: { contains: query, mode: 'insensitive' },
-                            // tipe: { contains: `%${query}%`, mode: 'insensitive' },
-                            // kode_barang: { contains: `%${query}%`, mode: 'insensitive' },
                         },
                     },
                 },

@@ -7,7 +7,8 @@ import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { FileText, InboxIcon, UploadCloud } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import WidgetCloudinary from './widget-cloudinary';
-
+import { format } from "date-fns";
+import Entitas from '@/utils/entitas';
 
 const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
     console.log(posts)
@@ -67,20 +68,20 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                 <div className={`flex justify-center items-center border-2 ${borderColor(post.kode_dokumen)} w-12 h-12 rounded-full mr-3`}>{post.kode_dokumen}</div>
                                 <div >
                                     <p className='flex items-center'>
-                                        <PaperAirplaneIcon aria-hidden="true" className="h-3 w-3 marker:mr-1 stroke-red-400" />
+                                        <PaperAirplaneIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-red-400" />
                                         {post.nomor_aju}
                                     </p>
-                                    <p className='flex items-center'>
+                                    <div className='flex flex-row'>
                                         <UserGroupIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-orange-400" />
                                         {/* {entitas(post)} */}
-                                        {/* {post.nama_entitas} */}
-                                    </p>
+                                        <Entitas getEntitas={post.entitas} />
+                                    </div>
                                     <p className='flex items-center'>
                                         <PencilSquareIcon aria-hidden="true" className="h-3 w-3 mr-1 stroke-cyan-500" />
                                         {post.nomor_daftar} /
                                         <CalendarDaysIcon aria-hidden="true" className="h-3 w-3 mr-1 ml-1 stroke-blue-400" />
                                         {/* {post.tanggal_daftar.toLocaleDateString("id-ID")} */}
-                                        {post.ftanggal_daftar}
+                                        {format(post.tanggal_daftar, "yyyy-MM-dd")}
                                     </p>
                                 </div>
                             </div>
@@ -127,13 +128,13 @@ const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, lim
                                     ))}
                                 </div>
                                 <div className='flex flex-row gap-2 w-auto gap-x-2 items-center mx-2'>
-                                    <WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${post.tahun}/${post.kode_dokumen}`}>
+                                    <WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${format(post.tanggal_daftar, "yyyy")}/${post.kode_dokumen}`}>
                                         <div className='flex justify-center items-center  gap-2 mt-3 mx-2 border bg-blue-500 rounded-md p-2 text-white hover:bg-blue-600'>
                                             <UploadCloud size={16} className='hover:stroke-blue-600' />
                                             Upload
                                         </div>
                                     </WidgetCloudinary>
-                                    <button onClick={() => pdfUrl(post.nomor_daftar, post.tahun, post.kode_dokumen)}
+                                    <button onClick={() => pdfUrl(post.nomor_daftar, format(post.tanggal_daftar, "yyyy"), post.kode_dokumen)}
                                         className='flex justify-center items-center mt-3 mx-2 border bg-red-500 rounded-md p-2 text-white hover:bg-red-600'>
                                         <FileText size={16} className='mx-2' />View PDF
                                     </button>
