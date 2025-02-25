@@ -2,21 +2,46 @@ import {
     Card,
     CardContent,
     CardFooter,
+    CardHeader,
 } from "@/components/ui/card";
 import type { Barang, Entitas, Header } from "@prisma/client";
 import { DialogClose } from "./dialog";
 import { formatCurrency } from "@/utils/currency";
+import { useState, useEffect } from "react";
+
 
 
 const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
-    // console.log(posts)
+    const [postsBarang, setPostsBarang] = useState<any[]>([]);
+    const filterBarang = (value: string) => {
+        if ('barang' in posts) {
+            if (Array.isArray(posts.barang)) {
+                setPostsBarang((posts.barang.filter(e => e.uraian.toUpperCase().includes(value.toUpperCase()) || e.kode_barang.toUpperCase().includes(value.toUpperCase()))));
+            }
+        }
+    }
+
+    useEffect(() => {
+        if ('barang' in posts) {
+            setPostsBarang(posts.barang as any[]);
+        }
+    }, [posts])
+
     return (
         <Card className=' overflow-y-auto w-full h-[75vh]'>
-
+            <CardHeader className="bg-slate-200 h-10 p-2 px-10">
+                <div className="font-semibold">Barang</div>
+            </CardHeader>
             <CardContent className="space-y-2 text-sm my-1 ">
                 <div className="p-3">
-                    <div className="font-semibold">Barang :</div>
-                    <div className="overflow-y-auto h-[60vh] w-auto my-3">
+                    <div>
+                        <input type="text"
+                            placeholder="Search.."
+                            className="border border-gray-300 rounded-md px-2 py-1 text-sm placeholder:text-gray-400"
+                            onChange={(e) => filterBarang(e.target.value)}
+                        />
+                    </div>
+                    <div className="overflow-y-auto h-[55vh] w-auto my-3">
                         <table className="table-auto">
                             <thead className="border border-slate-300 bg-slate-200 sticky -top-1">
                                 <tr>
@@ -33,7 +58,7 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {'barang' in posts && Array.isArray(posts.barang) && posts.barang.map((barang: Barang & { valuta: string, header: Header }, index) => (
+                                {postsBarang.map((barang: Barang & { valuta: string, header: Header }, index) => (
                                     <tr key={barang.id} className="border-x border-b">
                                         <td className="p-2">{index + 1}.</td>
                                         <td className="p-2">{barang.hs}</td>

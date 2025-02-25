@@ -15,10 +15,11 @@ import Search from '@/components/ui/search';
 import SortBy from '@/components/ui/sortBy';
 import WidgetCloudinary from '@/components/ui/widget-cloudinary';
 import { useToast } from "@/hooks/use-toast";
+import downloadExcelFile from '@/utils/downloadExcel';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { FileText, InboxIcon, UploadCloud } from "lucide-react";
+import { DownloadCloud, FileText, InboxIcon, UploadCloud } from "lucide-react";
 
 export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
@@ -132,6 +133,10 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />
 											</AppTooltip>
+											<AppTooltip title='Download Excel' sideAlign='left'>
+												<DownloadCloud size={16} className='hover:stroke-green-600 cursor-pointer' onClick={() => downloadExcelFile(posts)} />
+											</AppTooltip>
+
 
 										</div>
 

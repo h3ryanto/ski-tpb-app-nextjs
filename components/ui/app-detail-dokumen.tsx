@@ -11,7 +11,7 @@ import { Eye } from "lucide-react"
 import TabsHeader from "./app-tab-header"
 import TabsBarang from "./app-tab-barang"
 import TabsDokumen from "./app-tab-dokumen"
-import TabsTransaksi from "./app-tab-pungutan"
+import TabsTransaksi from "./app-tab-transaksi"
 import TabsEntitas from "./app-tab-entitas"
 
 
