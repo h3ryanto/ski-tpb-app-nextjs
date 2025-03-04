@@ -1,5 +1,5 @@
 'use client'
-import { Dock } from "lucide-react"
+import { Dock, Inbox } from "lucide-react"
 
 import {
     Sidebar,
@@ -30,7 +30,7 @@ export function AppSidebar() {
     // Menu items.
     const items = [
         // { name: 'Home', href: '/', current: pathname === '/' ? true : false, icon: Home },
-        // { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: Inbox },
+        { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: Inbox },
         { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: Dock },
         // { name: 'User', href: '/user', current: pathname === '/user' ? true : false, icon: User2 },
     ]

@@ -4,7 +4,7 @@ import List from '@/components/ui/list';
 import { countData, getData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
-import AppLoading from '@/components/app-loading';
+import AppLoading from '@/components/ui/app-loading';
 import { Button } from '@/components/ui/button';
 import { RefreshCcwIcon } from 'lucide-react';
 

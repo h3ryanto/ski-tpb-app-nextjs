@@ -29,12 +29,12 @@ export default function Login() {
         redirect: false,
         email: formData.get('email'),
         password: formData.get('password'),
-        callbackUrl: '/dokumen',
+        callbackUrl: '/dashboard',
       });
       // console.log(res)
 
       if (!res?.error) {
-        router.replace('/dokumen')
+        router.replace('/dashboard')
         toast({
           title: "Login Berhasil",
           description: "Berhasil masuk ke SSO",

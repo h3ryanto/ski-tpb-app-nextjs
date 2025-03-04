@@ -134,7 +134,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 												<AppDetailDokumen posts={post} />
 											</AppTooltip>
 											<AppTooltip title='Download Excel' sideAlign='left'>
-												<DownloadCloud size={16} className='hover:stroke-green-600 cursor-pointer' onClick={() => downloadExcelFile(posts)} />
+												<DownloadCloud size={16} className='hover:stroke-green-600 cursor-pointer' onClick={() => downloadExcelFile(post.nomor_aju)} />
 											</AppTooltip>
 
 
