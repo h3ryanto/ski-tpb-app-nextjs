@@ -46,10 +46,10 @@ export async function retriveDataStatikChart({ date_from, date_to }: { date_from
     END)::numeric AS harga,
    
     (CASE 
-        WHEN "Header".kode_dokumen = '23' THEN 'var(--color-chrome)' 
-        WHEN "Header".kode_dokumen = '27' THEN 'var(--color-firefox)'
-        WHEN "Header".kode_dokumen = '30' THEN 'var(--color-edge)'
-        WHEN "Header".kode_dokumen = '33' THEN 'var(--color-safari)'
+        WHEN "Header".kode_dokumen = '23' THEN 'var(--color-23)' 
+        WHEN "Header".kode_dokumen = '27' THEN 'var(--color-27)'
+        WHEN "Header".kode_dokumen = '30' THEN 'var(--color-30)'
+        WHEN "Header".kode_dokumen = '33' THEN 'var(--color-33)'
         ELSE 'var(--color-other)'
     END) AS fill
     FROM "Header"

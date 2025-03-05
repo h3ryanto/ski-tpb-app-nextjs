@@ -5,35 +5,38 @@ import AppChartRadial from '@/components/ui/app-chart-radial'
 import DatePickerWithRange from '@/components/ui/app-date'
 import { CardHeader } from '@/components/ui/card'
 import { retriveDataChart, retriveDataStatikChart } from '@/lib/database/neon_postgresSql/chart'
-import { useEffect, useState } from "react";
-import { useSearchParams } from 'next/navigation';
+import { use, useEffect, useState } from "react";
+
 import React from 'react'
 import { format } from "date-fns";
 
-const Dashboard = () => {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+const Dashboard = (props: {
+    searchParams: SearchParams
+}) => {
     const [dataChart, setDataChart] = useState<any[]>([]);
     const [dataChartStatistic, setDataChartStatistic] = useState<any[]>([]);
     const [dateFrom, setDateFrom] = useState<string>(format(`${format(new Date().toISOString(), "yyyy")}-01-01`, "yyyy-MM-dd"));
     const [dateTo, setDateTo] = useState<string>(format(new Date().toISOString(), "yyyy-MM-dd"));
-    const searchParams = useSearchParams();
-    const params = React.useMemo(() => new URLSearchParams(searchParams), [searchParams]);
+    const searchParams = use(props.searchParams)
     const getData = async (date_from: string, date_to: string) => {
         const result = await retriveDataChart({ date_from, date_to })
         const Statistic = await retriveDataStatikChart({ date_from, date_to })
         setDataChartStatistic(Statistic)
         setDataChart(result)
     }
+
     useEffect(() => {
-        if (params.has("date_from") && params.has("date_to")) {
-            setDateFrom(`${params.get("date_from")}`)
-            setDateTo(`${params.get("date_to")}`)
-            getData(params.get("date_from") || "", params.get("date_to") || "")
+        if (searchParams?.date_from && searchParams?.date_to) {
+            setDateFrom(`${searchParams?.date_from?.toString() || ''}`)
+            setDateTo(`${searchParams?.date_to?.toString() || ''}`)
+            getData(searchParams?.date_from?.toString() || '', searchParams?.date_to?.toString() || '')
         } else {
             setDataChart([])
             getData("2025-01-01", "2025-03-04")
         }
 
-    }, [params])
+    }, [searchParams])
     return (
         <div>
             <AppCardDekstop >

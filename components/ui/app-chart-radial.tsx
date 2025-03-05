@@ -25,9 +25,41 @@ const chartConfig = {
     jumlah: {
         label: "Jumlah",
     },
-    safari: {
-        label: "Safari",
+    23: {
+        label: "23",
+        color: "hsl(var(--chart-1))",
+    },
+    27: {
+        label: "27",
         color: "hsl(var(--chart-2))",
+    },
+    40: {
+        label: "40",
+        color: "hsl(var(--chart-3))",
+    },
+    30: {
+        label: "30",
+        color: "hsl(var(--chart-4))",
+    },
+    25: {
+        label: "25",
+        color: "hsl(var(--chart-5))",
+    },
+    41: {
+        label: "41",
+        color: "hsl(var(--chart-6))",
+    },
+    262: {
+        label: "262",
+        color: "hsl(var(--chart-7))",
+    },
+    261: {
+        label: "261",
+        color: "hsl(var(--chart-8))",
+    },
+    33: {
+        label: "33",
+        color: "hsl(var(--chart-9))",
     },
 } satisfies ChartConfig
 
@@ -35,8 +67,9 @@ const AppChartRadial = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string }
 >(({ className, data = [], periode, ...props }, ref) => {
+
     const chartData = [
-        { kode_dokumen: data.kode_dokumen, jumlah: data.jumlah, fill: "var(--color-safari)" },
+        { kode_dokumen: data.kode_dokumen, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dokumen + ")" },
     ]
     return (
         <Card
@@ -59,7 +92,7 @@ const AppChartRadial = React.forwardRef<
                     <RadialBarChart
                         data={chartData}
                         startAngle={0}
-                        endAngle={250}
+                        endAngle={Number(data.jumlah)}
                         innerRadius={80}
                         outerRadius={110}
                     >
