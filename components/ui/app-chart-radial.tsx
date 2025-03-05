@@ -22,7 +22,7 @@ import {
 
 
 const chartConfig = {
-    visitors: {
+    jumlah: {
         label: "Jumlah",
     },
     safari: {
@@ -34,7 +34,7 @@ const chartConfig = {
 const AppChartRadial = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string }
->(({ className, data = [], periode = 'Januari-Desember', ...props }, ref) => {
+>(({ className, data = [], periode, ...props }, ref) => {
     const chartData = [
         { kode_dokumen: data.kode_dokumen, jumlah: data.jumlah, fill: "var(--color-safari)" },
     ]

@@ -18,13 +18,8 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
+
+
 
 const chartConfig = {
     visitors: {
@@ -54,11 +49,35 @@ const chartConfig = {
 
 const AppChartPie = React.forwardRef<
     HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+    React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string }
+>(({ className, data = [], periode, ...props }, ref) => {
+    // console.log(data)
+    const chartData = React.useMemo(() => {
+        const mappedData = data.map((dat: any) => {
+            return { dat }
+        }
+        )
+        // data.forEach((dat: any, index: number) => {
+        //     console.log(`Data item ${index}:`, dat);
+        //     { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" }
+        // });
+        // const mappedData = data.map((dat: any) => {
+        //     return { browser: dat.dokumen, visitors: Number(dat.harga), fill: dat.fill }
+        // });
+        // console.log("Mapped Data:", mappedData[0].dat);
+        return [
+            ...mappedData,
+            { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+            { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+            { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
+            { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+            { browser: "other", visitors: 190, fill: "var(--color-other)" },
+        ];
+    }, [data]);
+
     const totalVisitors = React.useMemo(() => {
-        return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-    }, [])
+        return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
+    }, [chartData]);
 
     return (
         <Card
@@ -67,11 +86,10 @@ const AppChartPie = React.forwardRef<
                 "flex flex-col",
                 className
             )}
-
             {...props}>
             <CardHeader className="items-center pb-0">
                 <CardTitle>Keberhasilan Pemberian Fasilitas</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardDescription>{periode}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer

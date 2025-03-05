@@ -4,7 +4,7 @@ import AppChartPie from '@/components/ui/app-chart-pie'
 import AppChartRadial from '@/components/ui/app-chart-radial'
 import DatePickerWithRange from '@/components/ui/app-date'
 import { CardHeader } from '@/components/ui/card'
-import { retriveDataChart } from '@/lib/database/neon_postgresSql/chart'
+import { retriveDataChart, retriveDataStatikChart } from '@/lib/database/neon_postgresSql/chart'
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
 import React from 'react'
@@ -12,12 +12,15 @@ import { format } from "date-fns";
 
 const Dashboard = () => {
     const [dataChart, setDataChart] = useState<any[]>([]);
+    const [dataChartStatistic, setDataChartStatistic] = useState<any[]>([]);
     const [dateFrom, setDateFrom] = useState<string>(format(`${format(new Date().toISOString(), "yyyy")}-01-01`, "yyyy-MM-dd"));
     const [dateTo, setDateTo] = useState<string>(format(new Date().toISOString(), "yyyy-MM-dd"));
     const searchParams = useSearchParams();
     const params = React.useMemo(() => new URLSearchParams(searchParams), [searchParams]);
     const getData = async (date_from: string, date_to: string) => {
         const result = await retriveDataChart({ date_from, date_to })
+        const Statistic = await retriveDataStatikChart({ date_from, date_to })
+        setDataChartStatistic(Statistic)
         setDataChart(result)
     }
     useEffect(() => {
@@ -43,7 +46,7 @@ const Dashboard = () => {
                 </CardHeader>
                 <div className='flex flex-wrap gap-3'>
 
-                    <AppChartPie className='w-65 h-85' />
+                    <AppChartPie className='w-65 h-85' data={dataChartStatistic} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`} />
                     {dataChart.map((data: any, index) => {
                         return <AppChartRadial className='w-60 h-85' data={data} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`} key={index} />
                     })}
