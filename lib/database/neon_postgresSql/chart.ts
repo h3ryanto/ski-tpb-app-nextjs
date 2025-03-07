@@ -15,11 +15,8 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
     SUM(CASE WHEN "Barang".kode_barang NOT LIKE '%1-0%' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS cif_idr_lainnya,
     SUM(CASE WHEN "Barang".kode_barang LIKE '%1-0%' THEN "Barang".harga_penyerahan::numeric ELSE 0 END) AS penyerahan_bahan_baku,
     SUM(CASE WHEN "Barang".kode_barang NOT LIKE '%1-0%' THEN "Barang".harga_penyerahan::numeric ELSE 0 END) AS penyerahan_lainnya,
-    SUM("Header".cif*"Header".ndpbm) AS cif_rupiah,
-    SUM("Header".cif) AS cif,
-    SUM("Header".fob) AS fob,
-    SUM("Header".fob*"Header".ndpbm) AS fob_rupiah,
-    SUM("Header".harga_penyerahan) AS penyerahan,
+    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric ELSE 0 END) AS fob,
+    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS fob_rupiah,
     "Header".kode_valuta
     FROM "Header"
     inner JOIN "Barang" ON "Barang".nomor_aju = "Header".nomor_aju
@@ -60,7 +57,7 @@ export async function retriveDataStatikChart({ date_from, date_to }: { date_from
     "Header".kode_dokumen IN ('23','27','30','33')
     GROUP BY "Header".kode_dokumen
     ORDER BY "Header".kode_dokumen`
-    const chartData = [
+    const chartData =
         posts.map((data: any) => {
             return {
                 browser: data.dokumen,
@@ -69,6 +66,22 @@ export async function retriveDataStatikChart({ date_from, date_to }: { date_from
             }
         })
 
-    ]
+
     return chartData;
+}
+
+export async function countData({ date_from, date_to }: { date_from?: string, date_to?: string }) {
+    const sql = neon(`${process.env.DATABASE_URL}`);
+    const count = await sql`
+    SELECT
+    COUNT("Header".kode_dokumen) AS jumlah
+    FROM "Header"
+    WHERE
+    "Header".tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}
+    GROUP BY kode_dokumen
+    ORDER BY jumlah DESC
+    LIMIT 1`
+
+    return count;
+
 }

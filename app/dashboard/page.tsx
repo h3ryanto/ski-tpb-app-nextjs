@@ -4,7 +4,7 @@ import AppChartPie from '@/components/ui/app-chart-pie'
 import AppChartRadial from '@/components/ui/app-chart-radial'
 import DatePickerWithRange from '@/components/ui/app-date'
 import { CardHeader } from '@/components/ui/card'
-import { retriveDataChart, retriveDataStatikChart } from '@/lib/database/neon_postgresSql/chart'
+import { retriveDataChart, retriveDataStatikChart, countData } from '@/lib/database/neon_postgresSql/chart'
 import { use, useEffect, useState } from "react";
 
 import React from 'react'
@@ -14,6 +14,7 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Dashboard = (props: {
     searchParams: SearchParams
 }) => {
+    const [dataCount, setDataCount] = useState<number>(0);
     const [dataChart, setDataChart] = useState<any[]>([]);
     const [dataChartStatistic, setDataChartStatistic] = useState<any[]>([]);
     const [dateFrom, setDateFrom] = useState<string>(format(`${format(new Date().toISOString(), "yyyy")}-01-01`, "yyyy-MM-dd"));
@@ -22,10 +23,14 @@ const Dashboard = (props: {
     const getData = async (date_from: string, date_to: string) => {
         const result = await retriveDataChart({ date_from, date_to })
         const Statistic = await retriveDataStatikChart({ date_from, date_to })
+        const count = await countData({ date_from, date_to });
+        setDataCount(count[0].jumlah);
         setDataChartStatistic(Statistic)
         setDataChart(result)
+        // setCountData(count)
+        // console.log(count[0].jumlah)
     }
-
+    console.log(dataCount)
     useEffect(() => {
         if (searchParams?.date_from && searchParams?.date_to) {
             setDateFrom(`${searchParams?.date_from?.toString() || ''}`)
@@ -51,7 +56,8 @@ const Dashboard = (props: {
 
                     <AppChartPie className='w-65 h-85' data={dataChartStatistic} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`} />
                     {dataChart.map((data: any, index) => {
-                        return <AppChartRadial className='w-60 h-85' data={data} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`} key={index} />
+                        return <AppChartRadial className='w-60 h-85' data={data} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`}
+                            jumlahDok={dataCount} key={index} />
                     })}
 
                 </div>

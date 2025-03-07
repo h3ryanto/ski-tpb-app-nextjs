@@ -65,8 +65,8 @@ const chartConfig = {
 
 const AppChartRadial = React.forwardRef<
     HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string }
->(({ className, data = [], periode, ...props }, ref) => {
+    React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string, jumlahDok?: number }
+>(({ className, data = [], periode, jumlahDok, ...props }, ref) => {
 
     const chartData = [
         { kode_dokumen: data.kode_dokumen, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dokumen + ")" },
@@ -92,7 +92,7 @@ const AppChartRadial = React.forwardRef<
                     <RadialBarChart
                         data={chartData}
                         startAngle={0}
-                        endAngle={Number(data.jumlah)}
+                        endAngle={(360 / (jumlahDok || 1)) * Number(data.jumlah)}
                         innerRadius={80}
                         outerRadius={110}
                     >
@@ -167,7 +167,7 @@ const AppChartRadial = React.forwardRef<
                             <div>
                                 <div>Bahan baku :</div>
                                 <div className="leading-none text-muted-foreground font-normal">
-                                    <div>Harga Penyeragan : {formatCurrency(data.penyerahan_bahan_baku, "IDR")}</div>
+                                    <div>Harga Penyerahan : {formatCurrency(data.penyerahan_bahan_baku, "IDR")}</div>
                                 </div>
                                 <div>Barang Lainnya :</div>
                                 <div className="leading-none text-muted-foreground font-normal">

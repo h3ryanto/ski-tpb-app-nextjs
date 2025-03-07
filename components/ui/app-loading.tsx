@@ -1,28 +1,18 @@
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
 import { LoaderCircle } from "lucide-react"
 
 
 const AppLoading = ({ isLoading = false }: { isLoading: boolean }) => {
     return (
-        <AlertDialog open={isLoading}>
-            <AlertDialogContent className="bg-transparent border-none w-auto">
-                <AlertDialogTitle><></></AlertDialogTitle>
-                <AlertDialogDescription>
-
-                    <button type="button" className="flex bg-slate-400 p-3 rounded-md text-white" disabled>
-                        <LoaderCircle className="animate-spin stroke-white mx-3" />
-                        <span>Processing...</span>
+        <>
+            {isLoading &&
+                (<div className="flex justify-center items-center w-screen h-screen bg-black bg-opacity-40 fixed top-0 left-0 z-50">
+                    <button type="button" className="flex bg-white p-3 rounded-md" disabled>
+                        <LoaderCircle className="animate-spin stroke-red-500 mx-3" />
+                        <span className="animate-pulse">Processing...</span>
                     </button>
-
-                </AlertDialogDescription>
-            </AlertDialogContent>
-        </AlertDialog>
-
+                </div>)
+            }
+        </>
     )
 }
 
