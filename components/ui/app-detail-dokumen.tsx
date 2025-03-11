@@ -13,6 +13,7 @@ import TabsBarang from "./app-tab-barang"
 import TabsDokumen from "./app-tab-dokumen"
 import TabsTransaksi from "./app-tab-transaksi"
 import TabsEntitas from "./app-tab-entitas"
+import TabsKemasan from "./app-tab-kemasan"
 
 
 export function AppDetailDokumen(posts: any) {
@@ -31,7 +32,7 @@ export function AppDetailDokumen(posts: any) {
                         {/* <TabsTrigger value="header" className="w-full">Header</TabsTrigger> */}
                         <TabsTrigger value="entitas" className="w-full">Entitas</TabsTrigger>
                         <TabsTrigger value="dokumen" className="w-full">Dokumen</TabsTrigger>
-                        {/* <TabsTrigger value="keamsan" className="w-full">Kemasan</TabsTrigger> */}
+                        <TabsTrigger value="kemasan" className="w-full">Kemasan</TabsTrigger>
                         <TabsTrigger value="transaksi" className="w-full">Transaksi</TabsTrigger>
                         <TabsTrigger value="barang" className="w-full">Barang</TabsTrigger>
                         {/* <TabsTrigger value="bahan_baku" className="w-full">Bahan Baku</TabsTrigger> */}
@@ -44,6 +45,9 @@ export function AppDetailDokumen(posts: any) {
                     </TabsContent>
                     <TabsContent value="dokumen">
                         <TabsDokumen posts={posts.posts} />
+                    </TabsContent>
+                    <TabsContent value="kemasan">
+                        <TabsKemasan posts={posts.posts} />
                     </TabsContent>
                     <TabsContent value="transaksi">
                         <TabsTransaksi posts={posts.posts} />

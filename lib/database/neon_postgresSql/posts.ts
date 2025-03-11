@@ -1,7 +1,6 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
 import { prisma } from '@/lib/prisma/init';
-import { format } from "date-fns";
 
 
 export async function getData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
@@ -60,6 +59,8 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                     tanggal_dokumen: true,
                 },
             },
+            kemasan: true,
+            kontainer: true,
             barang: {
                 select: {
                     id: true,
@@ -378,121 +379,3 @@ export async function countData(query: any = '', filter: any = '') {
     return count;
 }
 
-export async function retriveHeader(aju: string) {
-    const posts = await prisma.header.findMany({
-        where: {
-            nomor_aju: aju
-        },
-    })
-
-    const data = posts.map((post) => {
-        return {
-            'NOMOR AJU': post.nomor_aju,
-            'KODE DOKUMEN': post.kode_dokumen,
-            'KODE KANTOR': post.kode_kantor,
-            'KODE KANTOR BONGKAR': post.kode_kantor_bongkar,
-            'KODE KANTOR PERIKSA': post.kode_kantor_periksa,
-            'KODE KANTOR TUJUAN': post.kode_kantor_tujuan,
-            'KODE KANTOR EKSPOR': post.kode_kantor_ekspor,
-            'KODE JENIS IMPOR': post.kode_jenis_impor,
-            'KODE JENIS EKSPOR': post.kode_jenis_ekspor,
-            'KODE JENIS TPB': post.kode_jenis_tpb,
-            'KODE JENIS PLB': post.kode_jenis_plb,
-            'KODE JENIS PROSEDUR': post.kode_jenis_prosedur,
-            'KODE TUJUAN PEMASUKAN': post.kode_tujuan_pemasukan,
-            'KODE TUJUAN PENGIRIMAN': post.kode_tujuan_pengiriman,
-            'KODE TUJUAN TPB': post.kode_tujuan_tpb,
-            'KODE CARA DAGANG': post.kode_cara_dagang,
-            'KODE CARA BAYAR': post.kode_cara_bayar,
-            'KODE CARA BAYAR LAINNYA': post.kode_cara_bayar_lainnya,
-            'KODE GUDANG ASAL': post.kode_gudang_asal,
-            'KODE GUDANG TUJUAN': post.kode_gudang_tujuan,
-            'KODE JENIS KIRIM': post.kode_jenis_kirim,
-            'KODE JENIS PENGIRIMAN': post.kode_jenis_pengiriman,
-            'KODE KATEGORI EKSPOR': post.kode_kategori_ekspor,
-            'KODE KATEGORI MASUK FTZ': post.kode_kategori_masuk_ftz,
-            'KODE KATEGORI KELUAR FTZ': post.kode_kategori_keluar_ftz,
-            'KODE KATEGORI BARANG FTZ': post.kode_kategori_barang_ftz,
-            'KODE LOKASI': post.kode_lokasi,
-            'KODE LOKASI BAYAR': post.kode_lokasi_bayar,
-            'LOKASI ASAL': post.lokasi_asal,
-            'LOKASI TUJUAN': post.lokasi_tujuan,
-            'KODE DAERAH ASAL': post.kode_daerah_asal,
-            'KODE GUDANG ASAL ': post.kode_gudang_asal,
-            'KODE GUDANG TUJUAN ': post.kode_gudang_tujuan,
-            'KODE NEGARA TUJUAN': post.kode_negara_tujuan,
-            'KODE TUTUP PU': post.kode_tutup_pu,
-            'NOMOR BC11': post.nomor_bc11,
-            'TANGGAL BC11': post.tanggal_bc11,
-            'NOMOR POS': post.nomor_pos,
-            'NOMOR SUB POS': post.nomor_sub_pos,
-            'KODE PELABUHAN BONGKAR': post.kode_pelabuhan_bongkar,
-            'KODE PELABUHAN MUAT': post.kode_pelabuhan_muat,
-            'KODE PELABUHAN MUAT AKHIR': post.kode_pelabuhan_muat_akhir,
-            'KODE PELABUHAN TRANSIT': post.kode_pelabuhan_transit,
-            'KODE PELABUHAN TUJUAN': post.kode_pelabuhan_tujuan,
-            'KODE PELABUHAN EKSPOR': post.kode_pelabuhan_ekspor,
-            'KODE TPS': post.kode_tps,
-            'TANGGAL BERANGKAT': post.tanggal_berangkat,
-            'TANGGAL EKSPOR': post.tanggal_ekspor,
-            'TANGGAL MASUK': post.tanggal_masuk,
-            'TANGGAL MUAT': post.tanggal_muat,
-            'TANGGAL TIBA': post.tanggal_tiba,
-            'TANGGAL PERIKSA': post.tanggal_periksa,
-            'TEMPAT STUFFING': post.tempat_stuffing,
-            'TANGGAL STUFFING': post.tanggal_stuffing,
-            'KODE TANDA PENGAMAN': post.kode_tanda_pengaman,
-            'JUMLAH TANDA PENGAMAN': post.jumlah_tanda_pengaman,
-            'FLAG CURAH': post.flag_curah,
-            'FLAG SDA': post.flag_sda,
-            'FLAG VD': post.flag_vd,
-            'FLAG AP BK': post.flag_ap_bk,
-            'FLAG MIGAS': post.flag_migas,
-            'KODE ASURANSI': post.kode_asuransi,
-            'ASURANSI': post.asuransi,
-            'NILAI BARANG': post.nilai_barang,
-            'NILAI INCOTERM': post.nilai_incoterm,
-            'NILAI MAKLON': post.nilai_maklon,
-            'ASURANSI ': post.asuransi,
-            'FREIGHT': post.freight,
-            'FOB': post.fob,
-            'BIAYA TAMBAHAN': post.biaya_tambahan,
-            'BIAYA PENGURANG': post.biaya_pengurang,
-            'VD': post.vd,
-            'CIF': post.cif,
-            'HARGA_PENYERAHAN': post.harga_penyerahan,
-            'NDPBM': post.ndpbm,
-            'TOTAL DANA SAWIT': post.total_dana_sawit,
-            'DASAR PENGENAAN PAJAK': post.dasar_pengenaan_pajak,
-            'NILAI JASA': post.nilai_jasa,
-            'UANG MUKA': post.uang_muka,
-            'BRUTO': post.bruto,
-            'NETTO': post.netto,
-            'VOLUME': post.volume,
-            'KOTA PERNYATAAN': post.kota_pernyataan,
-            'TANGGAL PERNYATAAN': post.tanggal_pernyataan,
-            'NAMA PERNYATAAN': post.nama_pernyataan,
-            'JABATAN PERNYATAAN': post.jabatan_pernyataan,
-            'KODE VALUTA': post.kode_valuta,
-            'KODE INCOTERM': post.kode_incoterm,
-            'KODE JASA KENA PAJAK': post.kode_jasa_kena_pajak,
-            'NOMOR BUKTI BAYAR': post.nomor_bukti_bayar,
-            'TANGGAL BUKTI BAYAR': post.tanggal_bukti_bayar,
-            'KODE JENIS NILAI': post.kode_jenis_nilai,
-            'KODE KANTOR MUAT': post.kode_kantor?.toString() ?? '',
-            'NOMOR DAFTAR': post.nomor_daftar,
-            'TANGGAL DAFTAR': format(post.tanggal_daftar, "yyyy-MM-dd"),
-            'KODE ASAL BARANG FTZ': '',
-            'KODE TUJUAN PENGELUARAN': post.kode_tujuan_pengiriman?.toString() ?? '',
-            'PPN PAJAK': '',
-            'PPNBM PAJAK': '',
-            'TARIF PPN PAJAK': '',
-            'TARIF PPNBM PAJAK': '',
-            'BARANG TIDAK BERWUJUD': '',
-            'KODE JENIS PENGELUARAN': '',
-            'BARANG KIRIMAN': '',
-            'KODE JENIS PENGANGKUTAN': '',
-        }
-    })
-    return data;
-}

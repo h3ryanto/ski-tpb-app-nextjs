@@ -59,7 +59,7 @@ const TabsHeader = ({ posts }: { posts: Header & Entitas & { ftanggal_daftar: st
                             <tr className="align-top">
                                 <td>Jenis TPB Tujuan</td>
                                 <td className="px-1">:</td>
-                                <td>{posts ? posts.kode_tujuan_tpb : '-'} / {posts.ftanggal_daftar}</td>
+                                <td>{posts ? posts.kode_tujuan_tpb : '-'}</td>
                             </tr>
                             {posts.kode_tujuan_pemasukan &&
                                 <tr>

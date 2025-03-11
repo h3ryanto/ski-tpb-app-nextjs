@@ -1,4 +1,4 @@
-import { retriveHeader } from "@/lib/database/neon_postgresSql/posts";
+import { retriveHeader } from "@/lib/database/neon_postgresSql/exportDataExcel";
 import { utils, writeFile } from "xlsx";
 
 async function generateExcelData(aju: string) {

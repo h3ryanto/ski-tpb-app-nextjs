@@ -20,7 +20,7 @@ export default function DatePickerWithRange({
     className,
 }: React.HTMLAttributes<HTMLDivElement>) {
     const [date, setDate] = React.useState<DateRange | undefined>(undefined)
-
+    const [isOpen, setIsOpen] = React.useState<boolean>(false)
     const { toast } = useToast()
     const searchParams = useSearchParams();
     const pathName = usePathname();
@@ -64,8 +64,8 @@ export default function DatePickerWithRange({
 
     return (
         <div className={cn("grid gap-2", className)}>
-            <Popover >
-                <PopoverTrigger asChild>
+            <Popover open={isOpen}>
+                <PopoverTrigger asChild >
                     <Button
                         id="date"
                         variant={"outline"}
@@ -73,6 +73,7 @@ export default function DatePickerWithRange({
                             "w-[230px] justify-start text-left font-normal",
                             !date && "text-muted-foreground"
                         )}
+                        onClick={() => setIsOpen(!isOpen)}
                     >
                         <CalendarIcon />
                         {date?.from ? (
@@ -99,11 +100,11 @@ export default function DatePickerWithRange({
                         numberOfMonths={2}
                     />
                     <div className="flex justify-center gap-6">
-                        <Button variant={"outline"} onClick={() => onSetDate({ date_from: date?.from, date_to: date?.to })} className="hover:bg-blue-500 hover:text-white">Cari</Button>
-                        <Button variant={"outline"} onClick={() => onReset()} className="hover:bg-blue-500 hover:text-white">Reset</Button>
+                        <Button variant={"outline"} onClick={() => { onSetDate({ date_from: date?.from, date_to: date?.to }); setIsOpen(!isOpen) }} className="hover:bg-blue-500 hover:text-white">Cari</Button>
+                        <Button variant={"outline"} onClick={() => { onReset(); setIsOpen(!isOpen) }} className="hover:bg-blue-500 hover:text-white">Reset</Button>
                     </div>
                 </PopoverContent>
             </Popover>
-        </div>
+        </div >
     )
 }

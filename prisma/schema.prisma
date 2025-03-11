@@ -136,6 +136,7 @@ tanggal_daftar		        DateTime @default(now())
 create_by		              String?		
 created_at		            DateTime @default(now())		
 updated_at		            DateTime @updatedAt		
+@@index([kode_dokumen], type: Hash)
 }
 
 model Entitas {

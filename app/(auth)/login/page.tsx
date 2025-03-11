@@ -10,6 +10,7 @@ import login_md from "@/public/svg/login_md.svg"
 import { useSession } from 'next-auth/react';
 import { useToast } from "@/hooks/use-toast"
 import { Key, LoaderCircle, User } from "lucide-react"
+import Loading from '@/app/dokumen/loading'
 
 
 export default function Login() {
@@ -145,13 +146,7 @@ export default function Login() {
     )
   } else {
     return (
-      <div className="flex justify-center items-center h-screen ">
-
-        <button type="button" className="flex bg-slate-400 p-3 rounded-md text-white" disabled>
-          <LoaderCircle className="animate-spin stroke-white mx-3" />
-          <span>Processing...</span>
-        </button>
-      </div>
+      <Loading />
     )
   }
 }
