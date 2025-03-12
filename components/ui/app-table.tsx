@@ -13,13 +13,13 @@ import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import Search from '@/components/ui/search';
 import SortBy from '@/components/ui/sortBy';
-import WidgetCloudinary from '@/components/ui/widget-cloudinary';
 import { useToast } from "@/hooks/use-toast";
 import downloadExcelFile from '@/utils/downloadExcel';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { DownloadCloud, FileText, InboxIcon, UploadCloud } from "lucide-react";
+import { DownloadCloud, FileText, InboxIcon } from "lucide-react";
+import FileUpload from '@/components/ui/uploadCloudinary';
 
 export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
@@ -122,9 +122,8 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 									<td className='p-2'>
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
-												<WidgetCloudinary fileName={post.nomor_daftar} folderName={`Documens/${format(post.tanggal_daftar, "yyyy")}/${post.kode_dokumen}`}>
-													<UploadCloud size={16} className='hover:stroke-blue-600' />
-												</WidgetCloudinary>
+												<FileUpload
+													file_name={post.nomor_daftar} folder={`Documens/${format(post.tanggal_daftar, "yyyy")}/${post.kode_dokumen}`} />
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>

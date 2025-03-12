@@ -1,0 +1,117 @@
+'use client';
+
+import { toast } from '@/hooks/use-toast';
+import React, { useState } from 'react';
+import { Button } from './button';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog"
+import { UploadCloud } from 'lucide-react';
+
+interface FileUploadProps {
+    file_name: string;
+    folder: string;
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
+    const [file, setFile] = useState<File | null>(null);
+    const [uploading, setUploading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+            setError(null);
+        }
+    };
+
+
+
+    const handleUpload = async () => {
+        if (!file) {
+            setError('Please select a file to upload.');
+            return;
+        }
+
+        setUploading(true);
+        setError(null);
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('fileName', file_name);
+        formData.append('folderName', folder);
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                toast({
+                    title: "Upload Success",
+                    description: "File berhasil diupload",
+                })
+                setFile(null);
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Upload Failed",
+                    description: data.message,
+                })
+                setError(data.message || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            setError('An unexpected error occurred. Please try again.');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+
+        <Dialog>
+            <DialogTrigger asChild>
+                <UploadCloud size={16} className='hover:stroke-blue-600 cursor-pointer' />
+            </DialogTrigger>
+            <DialogContent className="max-w-md mx-auto top-52 bg-slate-50 text-sm">
+                <DialogHeader>
+                    <DialogTitle className='text-lg'>Upload File PDF</DialogTitle>
+                </DialogHeader>
+
+                <div className="max-w-md mx-auto bg-white p-6 rounded border border-gray-300">
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        className="mb-4 p-2 w-full border rounded"
+                    />
+                    <Button
+                        onClick={handleUpload}
+                        disabled={!file || uploading}
+                        className="w-full text-white p-2 rounded disabled:bg-gray-300"
+                    >
+                        {uploading ? 'Uploading...' : 'Upload'}
+                    </Button>
+                    {error && <p className="text-red-500 mt-2">{error}</p>}
+                </div>
+                <DialogFooter className="sm:justify-end text-sm">
+                    <DialogClose asChild>
+                        <Button>
+                            Selesai
+                        </Button>
+                    </DialogClose>
+                </DialogFooter>
+            </DialogContent >
+        </Dialog >
+    );
+};
+
+export default FileUpload;

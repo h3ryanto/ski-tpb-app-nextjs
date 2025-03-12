@@ -18,7 +18,6 @@ export default function Login() {
   const { toast } = useToast()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -126,7 +125,6 @@ export default function Login() {
                     disabled={isLoading}>
                     {isLoading ? 'Loading...' : 'Login'}
                   </button>
-                  {error && <div style={{ color: 'red' }}><small>{error}</small></div>}
                 </div>
               </form>
             </div>

@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import Entitas from '@/utils/entitas';
 
 const List = ({ posts, page, limit, dataEntry }: { posts: any, page: number, limit: number, dataEntry: number }) => {
-    console.log(posts)
+    // console.log(posts)
     const countData = posts.length;
     const { toast } = useToast()
     const borderColor = (kode_dokumen: string) => {
