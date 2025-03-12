@@ -84,7 +84,7 @@ const AppChartPie = React.forwardRef<
 
     // console.log(dataBC23, dataBC27, dataBC30, dataBC33)
     const totalVisitors = React.useMemo(() => {
-        return ((dataBC30 + dataBC33) / (dataBC23 + dataBC27)) * 100;
+        return ((dataBC30 + dataBC33) / (dataBC23 + dataBC27));
 
     }, [dataBC23, dataBC27, dataBC30, dataBC33]);
     return (
