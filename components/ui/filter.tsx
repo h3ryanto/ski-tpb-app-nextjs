@@ -30,7 +30,7 @@ export default function Filter({ children, id }: Props) {
 
 
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-1'>
             {children}
             <div className=''>
                 <label className="w-full">

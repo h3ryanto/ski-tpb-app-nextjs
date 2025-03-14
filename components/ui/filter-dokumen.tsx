@@ -85,7 +85,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
         replace(`${pathName}?${params.toString()}`)
     }, [value, params, pathName, replace, searchParams])
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-1'>
             {children}
 
             <Popover open={open} onOpenChange={setOpen}>

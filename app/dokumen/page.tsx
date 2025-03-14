@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast"
 import AppLoading from '@/components/ui/app-loading';
 import { Button } from '@/components/ui/button';
 import { RefreshCcwIcon } from 'lucide-react';
+import { Search } from '@/components/ui/app-search';
 
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -70,7 +71,12 @@ export default function Dokumen(props: {
 		<Suspense>
 			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
 			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry}>
-				<Button className='flex flex-row w-fit' onClick={() => getDokumen(limit, skip, search, filter)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+				<div className='flex flex-row gap-3'>
+					<Button className='flex flex-row w-fit' onClick={() => getDokumen(limit, skip, search, filter)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+					<div className='flex items-center'>
+						<Search />
+					</div>
+				</div>
 			</Table>
 			<AppLoading isLoading={isLoading} />
 		</Suspense >

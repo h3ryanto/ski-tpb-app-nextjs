@@ -379,3 +379,17 @@ export async function countData(query: any = '', filter: any = '') {
     return count;
 }
 
+export async function searchData(query: any = '') {
+    const sql = neon(`${process.env.DATABASE_URL} `);
+
+    const result = await sql`
+    select distinct kode_dokumen as result from "Header" where kode_dokumen ILIKE ${'%' + query + '%'} 
+    union
+    select distinct nomor_dokumen from "Dokumen" where nomor_dokumen ILIKE ${'%' + query + '%'} 
+    union
+    select distinct uraian from "Barang" where uraian ILIKE ${'%' + query + '%'}
+    union
+    select distinct nama_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} limit 20`;
+    return result;
+}
+

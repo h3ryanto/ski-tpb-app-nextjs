@@ -1,8 +1,5 @@
 'use client';
 
-import { toast } from '@/hooks/use-toast';
-import React, { useState } from 'react';
-import { Button } from './button';
 import {
     Dialog,
     DialogClose,
@@ -11,8 +8,11 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger
-} from "@/components/ui/dialog"
-import { UploadCloud } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { toast } from '@/hooks/use-toast';
+import { CircleCheckBig, UploadCloud } from 'lucide-react';
+import React, { useState } from 'react';
+import { Button } from './button';
 
 interface FileUploadProps {
     file_name: string;
@@ -23,6 +23,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isSuccess, setSuccess] = useState<boolean>(false);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -60,6 +61,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
                     description: "File berhasil diupload",
                 })
                 setFile(null);
+                setSuccess(true);
+                setFile(null);
             } else {
                 toast({
                     variant: "destructive",
@@ -92,21 +95,25 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
                         type="file"
                         onChange={handleFileChange}
                         className="mb-4 p-2 w-full border rounded"
+                        disabled={uploading}
                     />
                     <Button
                         onClick={handleUpload}
-                        disabled={!file || uploading}
+                        disabled={!file}
                         className="w-full text-white p-2 rounded disabled:bg-gray-300"
                     >
                         {uploading ? 'Uploading...' : 'Upload'}
                     </Button>
                     {error && <p className="text-red-500 mt-2">{error}</p>}
+                    {isSuccess && <p className="flex items-center gap-2 text-green-500 mt-2"><CircleCheckBig size={16} /> File Berhasil diupload</p>}
                 </div>
                 <DialogFooter className="sm:justify-end text-sm">
                     <DialogClose asChild>
-                        <Button>
-                            Selesai
-                        </Button>
+                        {isSuccess &&
+                            <Button>Selesai</Button>
+                            ||
+                            <Button>Close</Button>
+                        }
                     </DialogClose>
                 </DialogFooter>
             </DialogContent >

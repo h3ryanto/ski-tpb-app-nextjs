@@ -11,19 +11,20 @@ import {
 import Filter from '@/components/ui/filter';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-import Search from '@/components/ui/search';
 import SortBy from '@/components/ui/sortBy';
+import FileUpload from '@/components/ui/uploadCloudinary';
 import { useToast } from "@/hooks/use-toast";
 import downloadExcelFile from '@/utils/downloadExcel';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { DownloadCloud, FileText, InboxIcon } from "lucide-react";
-import FileUpload from '@/components/ui/uploadCloudinary';
+import { Circle, CircleCheckBigIcon, DownloadCloud, FileText, InboxIcon } from "lucide-react";
+import React from 'react';
 
 export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
 	const { toast } = useToast()
+	const [flag, setFlag] = React.useState<string>("")
 	// console.log(posts)
 	const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
 		const data = await fetch(`/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
@@ -47,9 +48,9 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 			<Card>
 				<CardHeader className='pb-2'>
 					{children}
-					<Search><></></Search>
+					{/* <Search><></></Search> */}
 				</CardHeader>
-				<CardContent className='overflow-y-auto h-[calc(100vh-290px)]'>
+				<CardContent className='overflow-y-auto h-[calc(100vh-240px)]'>
 					<table className="table-auto hidden md:table w-full">
 						<thead className='top-10 '>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
@@ -82,7 +83,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 									</Filter>
 								</th>
 								<th scope="col" className='p-2'>
-									<div className='flex flex-col gap-4'>
+									<div className='flex flex-col gap-1'>
 										<SortBy sortBy='tanggal_daftar'>
 											<div>Tanggal Daftar</div>
 										</SortBy>
@@ -100,9 +101,22 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 						<tbody >
 
 							{countData && posts.map((post: any, index: number) => (
-								<tr key={post.nomor_aju} className='align-top hover:bg-slate-100/65'>
+								<tr key={post.nomor_aju} className={`align-top ${flag === post.nomor_aju ? "bg-sky-400 hover:bg-sky-500" : " hover:bg-slate-100/65"}`}>
 									<td className='p-2'>{((page * 10) - 10) + index + 1}.</td>
-									<td className='p-2'>{post.kode_dokumen}</td>
+									<td className='p-2'>
+										<div className='flex flex-col gap-2'>
+											{post.kode_dokumen}
+											<div onClick={() => { return flag && flag === post.nomor_aju ? setFlag('') : setFlag(post.nomor_aju); }}>
+												{flag === post.nomor_aju
+													?
+													<CircleCheckBigIcon size={16} strokeWidth={3} className='cursor-pointer stroke-red-600' />
+													:
+													<Circle size={16} className='cursor-pointer' />
+												}
+											</div>
+
+										</div>
+									</td>
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
 									<td className='p-2'>
 										<div className='flex flex-col gap-2'>
