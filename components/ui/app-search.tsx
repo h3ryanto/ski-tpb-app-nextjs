@@ -58,6 +58,7 @@ export function Search() {
 
     const clear = React.useCallback(() => {
         setValue("");
+        setResult([]);
         params.delete("query");
         replace(`${pathName}?${params.toString()}`);
     }, [params, pathName, replace]);
@@ -78,20 +79,21 @@ export function Search() {
     }, [value, params, pathName, replace, searchParams, clear])
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            {value &&
-                <div className="flex items-center gap-1 cursor-pointer border border-slate-400 p-1 rounded-full px-3 bg-white hover:bg-slate-100">
-                    <SearchIcon />
-                    {value}
-                    <CircleXIcon size={16} className="cursor-pointer hover:stroke-red-500" onClick={() => { setValue(""); clear() }} />
-                </div>
-                ||
+            <div className="flex items-center gap-1 border border-slate-400 p-1 rounded-full px-3 bg-white hover:bg-slate-100">
                 <DialogTrigger asChild>
-                    <div className="flex items-center gap-1 cursor-pointer border border-slate-400 p-1 rounded-full px-3 bg-white hover:bg-slate-100">
+                    <div className=" flex items-center justify-center gap-1 cursor-pointer">
                         <SearchIcon />
-                        <div>Search</div>
+                        {!value && <div>Search</div>}
                     </div>
                 </DialogTrigger>
-            }
+                {value &&
+                    <div className="flex items-center justify-center gap-1 hover:bg-gray-400 px-1 rounded-full">
+                        {value}
+                        < CircleXIcon size={16} className="cursor-pointer hover:stroke-red-500" onClick={() => { setValue(""); clear() }} />
+                    </div>
+                }
+            </div>
+
             <DialogContent className="max-w-screen-lg h-[500] bg-slate-50 mx-auto top-72">
                 <DialogHeader>
                     <DialogTitle>Search</DialogTitle>

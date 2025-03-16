@@ -111,7 +111,9 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 													?
 													<CircleCheckBigIcon size={16} strokeWidth={3} className='cursor-pointer stroke-red-600' />
 													:
-													<Circle size={16} className='cursor-pointer' />
+													<AppTooltip title='Tandai Baris' sideAlign='top'>
+														<Circle size={16} className='cursor-pointer' />
+													</AppTooltip>
 												}
 											</div>
 
