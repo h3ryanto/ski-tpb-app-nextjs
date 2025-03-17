@@ -30,7 +30,7 @@ const kodeDokumen = (kode: any) => {
         return "Faktur Pajak"
     } else if (kode == '994') {
         return "BPJ"
-    } else if (kode == '204') {
+    } else if (kode == '204' || kode == '205') {
         return "Persetujuan"
     } else if (kode == '315') {
         return "Kontrak"

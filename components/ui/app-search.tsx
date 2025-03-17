@@ -94,7 +94,7 @@ export function Search() {
                 }
             </div>
 
-            <DialogContent className="max-w-screen-lg h-[500] bg-slate-50 mx-auto top-72">
+            <DialogContent className="max-w-screen-lg h-[55%] bg-slate-50 mx-auto top-[30%]">
                 <DialogHeader>
                     <DialogTitle>Search</DialogTitle>
                 </DialogHeader>
