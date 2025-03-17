@@ -28,6 +28,7 @@ import { searchData } from "@/lib/database/neon_postgresSql/posts";
 
 export function Search() {
     const [open, setOpen] = React.useState(false)
+    const [term, setTerm] = React.useState<string>("")
     const [result, setResult] = React.useState<{ result: string }[]>([])
     const [value, setValue] = React.useState("")
     const searchParams = useSearchParams();
@@ -35,6 +36,7 @@ export function Search() {
     const { replace } = useRouter();
     const params = React.useMemo(() => new URLSearchParams(searchParams), [searchParams]);
     const search = useDebouncedCallback(async (term: string, e?: any) => {
+        setTerm(term)
         if (term) {
             if (e.key === 'Enter') {
                 params.delete("page")
@@ -59,6 +61,7 @@ export function Search() {
     const clear = React.useCallback(() => {
         setValue("");
         setResult([]);
+        setTerm("");
         params.delete("query");
         replace(`${pathName}?${params.toString()}`);
     }, [params, pathName, replace]);
@@ -114,8 +117,10 @@ export function Search() {
                             defaultValue={value}
                         /> */}
                         <CommandList>
-                            <CommandEmpty>No dokumen found.</CommandEmpty>
-                            <CommandGroup>
+                            {term != "" &&
+                                < CommandEmpty className="flex items-center justify-center h-full">Dokumen  tidak ditemukan</CommandEmpty>
+                            }
+                            <CommandGroup className="h-full">
                                 {result.length > 0 && result.map((data, index) => (
                                     <CommandItem
                                         key={index}
