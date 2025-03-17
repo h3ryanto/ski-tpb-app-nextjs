@@ -109,7 +109,7 @@ export function Search() {
                             defaultValue={value}
                             className="border border-gray-300 px-2 py-1 text-sm placeholder:text-gray-400 w-full" />
                     </div>
-                    <Command className="h-[320]">
+                    <Command className="h-[300]">
                         {/* <CommandInput
                             placeholder="Silahakn ketik yang ada cari disini dan tekan enter tau pilih suggestion dibawah"
                             className="h-9"
@@ -120,7 +120,7 @@ export function Search() {
                             {term != "" &&
                                 < CommandEmpty className="flex items-center justify-center h-full">Dokumen  tidak ditemukan</CommandEmpty>
                             }
-                            <CommandGroup className="h-full">
+                            <CommandGroup className="h-[300]">
                                 {result.length > 0 && result.map((data, index) => (
                                     <CommandItem
                                         key={index}
