@@ -116,11 +116,11 @@ export function Search() {
                             onKeyUp={(e) => search(e.currentTarget.value)}
                             defaultValue={value}
                         /> */}
-                        <CommandList className="h-full">
+                        <CommandList className="h-auto">
                             {term != "" &&
                                 < CommandEmpty className="flex items-center justify-center h-full">Dokumen  tidak ditemukan</CommandEmpty>
                             }
-                            <CommandGroup className="h-[300]">
+                            <CommandGroup className="h-auto">
                                 {result.length > 0 && result.map((data, index) => (
                                     <CommandItem
                                         key={index}
