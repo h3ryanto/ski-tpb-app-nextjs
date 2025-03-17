@@ -102,7 +102,7 @@ export function Search() {
                     <DialogTitle>Search</DialogTitle>
                 </DialogHeader>
                 <div>
-                    <div className="flex items-center bg-red-500 mb-2">
+                    <div className="flex items-center mb-2">
                         <input type="text"
                             placeholder="Silahakn ketik yang ada cari disini dan tekan enter atau pilih suggestion dibawah"
                             onKeyUp={(e) => search(e.currentTarget.value, e)}
@@ -116,7 +116,7 @@ export function Search() {
                             onKeyUp={(e) => search(e.currentTarget.value)}
                             defaultValue={value}
                         /> */}
-                        <CommandList>
+                        <CommandList className="h-full">
                             {term != "" &&
                                 < CommandEmpty className="flex items-center justify-center h-full">Dokumen  tidak ditemukan</CommandEmpty>
                             }
