@@ -1,28 +1,12 @@
 "use client"
 
-import * as React from "react"
-import { CircleXIcon, SearchIcon } from "lucide-react"
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { useEffect } from "react";
+import { CircleXIcon, SearchIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import * as React from "react";
+import { useRef, useEffect } from "react";
 import { useDebouncedCallback } from 'use-debounce';
-import { Button } from "@/components/ui/button"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog"
 import { searchData } from "@/lib/database/neon_postgresSql/posts";
+import { Button } from "./button";
 
 
 
@@ -31,6 +15,7 @@ export function Search() {
     const [term, setTerm] = React.useState<string>("")
     const [result, setResult] = React.useState<{ result: string }[]>([])
     const [value, setValue] = React.useState("")
+    const inputRef = useRef<HTMLInputElement>(null);
     const searchParams = useSearchParams();
     const pathName = usePathname();
     const { replace } = useRouter();
@@ -46,7 +31,6 @@ export function Search() {
                 setOpen(false)
             } else {
                 const data = await searchData(term)
-                console.log(data)
                 const formattedResult = data.map((item: Record<string, any>) => ({
                     result: item.result
                 }))
@@ -64,31 +48,34 @@ export function Search() {
         setTerm("");
         params.delete("query");
         replace(`${pathName}?${params.toString()}`);
-    }, [params, pathName, replace]);
+    }, [params, pathName, replace, setValue, setResult, setTerm]);
 
 
     useEffect(() => {
-        // alert(value)
-        if ((searchParams.get('query')?.toString()) && (!value)) {
-            setValue(searchParams.get('query')?.toString() || "")
-        }
+        setOpen(false)
+        // if ((searchParams.get('query')?.toString()) && (!value)) {
+        //     // const a = searchParams.get('query')?.toString()
+        //     setValue(searchParams.get('query')?.toString() || "")
+        //     alert(searchParams.get('query')?.toString())
+        // }
         if (value != "") {
             params.set('query', value)
-            // params.set('sortBy', 'tanggal_daftar')
-        } else if (value === "") {
-            clear()
+            replace(`${pathName}?${params.toString()}`)
+            if (inputRef.current) {
+                inputRef.current.value = value;
+
+            }
         }
-        replace(`${pathName}?${params.toString()}`)
-    }, [value, params, pathName, replace, searchParams, clear])
+
+
+    }, [value, params, pathName, replace, searchParams, clear, inputRef])
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <>
             <div className="flex items-center gap-1 border border-slate-400 p-1 rounded-full px-3 bg-white hover:bg-slate-100">
-                <DialogTrigger asChild>
-                    <div className=" flex items-center justify-center gap-1 cursor-pointer">
-                        <SearchIcon />
-                        {!value && <div>Search</div>}
-                    </div>
-                </DialogTrigger>
+                <div className=" flex items-center justify-center gap-1 cursor-pointer" onClick={() => { setOpen(!open); inputRef.current?.focus(); }}>
+                    <SearchIcon />
+                    {!value && <div>Search</div>}
+                </div>
                 {value &&
                     <div className="flex items-center justify-center gap-1 hover:bg-gray-400 px-1 rounded-full">
                         {value}
@@ -96,59 +83,47 @@ export function Search() {
                     </div>
                 }
             </div>
+            <div className={` justify-center w-screen h-screen bg-black bg-opacity-40 fixed top-0 left-0 z-50 ${!open ? "hidden" : "flex"}`} >
+                <div className="flex flex-col gap-2 bg-white rounded-md w-2/6 h-fit mt-[5%]">
 
-            <DialogContent className="max-w-screen-lg h-[55%] bg-slate-50 mx-auto top-[30%]">
-                <DialogHeader>
-                    <DialogTitle>Search</DialogTitle>
-                </DialogHeader>
-                <div>
-                    <div className="flex items-center mb-2">
+                    <div className="flex items-center h-16 bg-white relative p-3 my-1 border-b border-gray-200">
+                        <SearchIcon className='absolute pointer-events-none stroke-slate-500 m-1.5' />
                         <input type="text"
+                            ref={inputRef}
                             placeholder="Silahakn ketik yang ada cari disini dan tekan enter atau pilih suggestion dibawah"
                             onKeyUp={(e) => search(e.currentTarget.value, e)}
-                            defaultValue={value}
-                            className="border border-gray-300 px-2 py-1 text-sm placeholder:text-gray-400 w-full" />
+                            defaultValue={"test"}
+                            className="px-2 py-1 text-sm placeholder:text-gray-400 w-full pl-9 focus:outline-none" />
                     </div>
-                    <Command className="h-[300]">
-                        {/* <CommandInput
-                            placeholder="Silahakn ketik yang ada cari disini dan tekan enter tau pilih suggestion dibawah"
-                            className="h-9"
-                            onKeyUp={(e) => search(e.currentTarget.value)}
-                            defaultValue={value}
-                        /> */}
-                        <CommandList className="h-auto">
-                            {term != "" &&
-                                < CommandEmpty className="flex items-center justify-center h-full">Dokumen  tidak ditemukan</CommandEmpty>
-                            }
-                            <CommandGroup className="h-auto">
-                                {result.length > 0 && result.map((data, index) => (
-                                    <CommandItem
-                                        key={index}
-                                        value={data.result}
-                                        onSelect={(currentValue) => {
-                                            setValue(currentValue === value ? "" : currentValue)
-                                            setOpen(false)
-                                            params.delete("page")
-                                        }}
-                                        className="cursor-pointer"
-                                    >
-                                        {data.result}
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
-                        </CommandList>
-                    </Command>
+
+                    <div className="max-h-[400px] overflow-y-auto">
+                        {term != "" && result.length === 0 &&
+                            <div className="flex items-center justify-center font-semibold text-slate-400 text-md">Dokumen  tidak ditemukan</div>
+                        }
+                        {term === "" && result.length === 0 &&
+                            <div className="flex items-center justify-center font-semibold text-slate-400 text-md h-10"></div>
+                        }
+                        <ul role="list" className="divide-y divide-gray-100">
+                            {result.length > 0 && result.map((data, index) => (
+                                <li
+                                    className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-slate-100  bg-white px-3 font-semibold text-slate-500"
+                                    key={index}
+                                    onClick={() => {
+                                        setValue(data.result)
+                                        setOpen(false)
+                                        params.delete("page")
+                                    }}
+                                >
+                                    {data.result}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="flex justify-end items-center h-10 bg-white relative p-3 my-1 border-t  border-gray-200">
+                        <Button size={"sm"} onClick={() => { setOpen(!open) }}>Close</Button>
+                    </div>
                 </div>
-                <DialogFooter className="sm:justify-end text-sm">
-                    <DialogClose asChild>
-                        <Button>
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent >
-
-        </Dialog >
-
+            </div>
+        </>
     )
 }
