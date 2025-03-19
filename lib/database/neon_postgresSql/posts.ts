@@ -389,7 +389,7 @@ export async function searchData(query: any = '') {
     const sql = neon(`${process.env.DATABASE_URL} `);
 
     const result = await sql`
-    select distinct kode_dokumen as result from "Header" where kode_dokumen ILIKE ${'%' + query + '%'} 
+    select distinct nomor_daftar as result from "Header" where nomor_daftar ILIKE ${'%' + query + '%'} 
     union
     select distinct nomor_aju as result from "Header" where nomor_aju ILIKE ${'%' + query + '%'} 
     union
@@ -399,7 +399,7 @@ export async function searchData(query: any = '') {
     OR kode_barang ILIKE ${'%' + query + '%'}
     OR tipe ILIKE ${'%' + query + '%'}
     union
-    select distinct nama_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'}`;
+    select distinct nama_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} LIMIT 20`;
     return result;
 }
 
