@@ -50,7 +50,6 @@ export function Search() {
         replace(`${pathName}?${params.toString()}`);
     }, [params, pathName, replace, setValue, setResult, setTerm]);
 
-
     useEffect(() => {
         setOpen(false)
         // if ((searchParams.get('query')?.toString()) && (!value)) {
@@ -61,18 +60,12 @@ export function Search() {
         if (value != "") {
             params.set('query', value)
             replace(`${pathName}?${params.toString()}`)
-            if (inputRef.current) {
-                inputRef.current.value = value;
-
-            }
         }
-
-
     }, [value, params, pathName, replace, searchParams, clear, inputRef])
     return (
         <>
             <div className="flex items-center gap-1 border border-slate-400 p-1 rounded-full px-3 bg-white hover:bg-slate-100">
-                <div className=" flex items-center justify-center gap-1 cursor-pointer" onClick={() => { setOpen(!open); inputRef.current?.focus(); }}>
+                <div className=" flex items-center justify-center gap-1 cursor-pointer" onClick={() => { setOpen(!open); setTimeout(() => { if (inputRef.current) inputRef.current.focus(); }, 1); }}>
                     <SearchIcon />
                     {!value && <div>Search</div>}
                 </div>
@@ -92,7 +85,7 @@ export function Search() {
                             ref={inputRef}
                             placeholder="Silahakn ketik yang ada cari disini dan tekan enter atau pilih suggestion dibawah"
                             onKeyUp={(e) => search(e.currentTarget.value, e)}
-                            defaultValue={"test"}
+                            defaultValue={value}
                             className="px-2 py-1 text-sm placeholder:text-gray-400 w-full pl-9 focus:outline-none" />
                     </div>
 
