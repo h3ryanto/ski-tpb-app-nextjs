@@ -38,10 +38,10 @@ const Dashboard = (props: {
             getData(searchParams?.date_from?.toString() || '', searchParams?.date_to?.toString() || '')
         } else {
             setDataChart([])
-            getData("2025-01-01", "2025-03-04")
+            getData(dateFrom, dateTo)
         }
 
-    }, [searchParams])
+    }, [searchParams, dateFrom, dateTo])
     return (
         <div>
             <AppCardDekstop >
@@ -56,7 +56,7 @@ const Dashboard = (props: {
 
                     <AppChartPie className='w-65 h-85' data={dataChartStatistic} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`} />
                     {dataChart.map((data: any, index) => {
-                        return <AppChartRadial className='w-60 h-85' data={data} periode={`${format(dateFrom, 'dd MMM yyyy')} - ${format(dateTo, 'dd MMM yyyy')}`}
+                        return <AppChartRadial className='w-60 h-85' data={data} dateFrom={dateFrom} dateTo={dateTo}
                             jumlahDok={dataCount} key={index} />
                     })}
 

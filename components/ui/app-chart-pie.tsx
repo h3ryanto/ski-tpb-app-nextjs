@@ -58,7 +58,7 @@ const AppChartPie = React.forwardRef<
     React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string, totalDokumen?: number }
 >(({ className, data = [], periode, totalDokumen, ...props }, ref) => {
     const [dataBC23, setBC23] = useState<number>(0);
-    const [dataBC27, setBC27] = useState<number>(0);
+    // const [dataBC27, setBC27] = useState<number>(0);
     const [dataBC33, setBC33] = useState<number>(0);
     const [dataBC30, setBC30] = useState<number>(0);
 
@@ -70,9 +70,9 @@ const AppChartPie = React.forwardRef<
             if (element.browser === '23') {
                 setBC23(Number(element.visitors));
             }
-            if (element.browser === '27') {
-                setBC27(Number(element.visitors));
-            }
+            // if (element.browser === '27') {
+            //     setBC27(Number(element.visitors));
+            // }
             if (element.browser === '33') {
                 setBC33(Number(element.visitors));
             }
@@ -84,9 +84,9 @@ const AppChartPie = React.forwardRef<
 
     // console.log(dataBC23, dataBC27, dataBC30, dataBC33)
     const totalVisitors = React.useMemo(() => {
-        return ((dataBC30 + dataBC33) / (dataBC23 + dataBC27));
+        return ((dataBC30 + dataBC33) / (dataBC23));
 
-    }, [dataBC23, dataBC27, dataBC30, dataBC33]);
+    }, [dataBC23, dataBC30, dataBC33]);
     return (
         <Card
             ref={ref}
@@ -156,6 +156,7 @@ const AppChartPie = React.forwardRef<
                 <div className="text-muted-foreground">
                     <p>Persentasi keberhasilan pemberian fasilitas minimum 1.75%</p>
                     <p>Persentasi = nilai eksport/nilai impor</p>
+                    <p>{((dataBC30 + dataBC33) / (dataBC23)).toFixed(4)} % = {(dataBC30 + dataBC33)} / {(dataBC23)}</p>
                 </div>
             </CardFooter>
         </Card>

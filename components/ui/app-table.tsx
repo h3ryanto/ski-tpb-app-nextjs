@@ -14,11 +14,11 @@ import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import SortBy from '@/components/ui/sortBy';
 import FileUpload from '@/components/ui/uploadCloudinary';
 import { useToast } from "@/hooks/use-toast";
-import downloadExcelFile from '@/utils/downloadExcel';
+// import downloadExcelFile from '@/utils/downloadExcel';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { Circle, CircleCheckBigIcon, DownloadCloud, FileText, InboxIcon } from "lucide-react";
+import { Circle, CircleCheckBigIcon, FileText, InboxIcon } from "lucide-react";
 import React from 'react';
 
 export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
@@ -148,9 +148,9 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />
 											</AppTooltip>
-											<AppTooltip title='Download Excel' sideAlign='left'>
+											{/* <AppTooltip title='Download Excel' sideAlign='left'>
 												<DownloadCloud size={16} className='hover:stroke-green-600 cursor-pointer' onClick={() => downloadExcelFile(post.nomor_aju)} />
-											</AppTooltip>
+											</AppTooltip> */}
 
 
 										</div>

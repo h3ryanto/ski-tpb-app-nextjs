@@ -87,6 +87,10 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                 contains: filter.kode_dokumen,
                 mode: 'insensitive',
             },
+            kode_valuta: {
+                contains: filter.kode_valuta,
+                mode: 'insensitive',
+            },
             nomor_aju: {
                 contains: filter.nomor_aju,
                 mode: 'insensitive',
@@ -364,6 +368,8 @@ export async function countData(query: any = '', filter: any = '') {
         )
     AND
     "Header".kode_dokumen LIKE ${'%' + filter.kode_dokumen + '%'}
+    AND
+    "Header".kode_valuta LIKE ${'%' + filter.kode_valuta + '%'}
     AND
     "Entitas".nama_entitas ILIKE ${'%' + filter.entitas + '%'}
     AND

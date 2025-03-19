@@ -11,6 +11,8 @@ import {
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
 import { formatCurrency } from "@/utils/currency"
+import { format } from "date-fns"
+import Link from "next/link"
 import React from "react"
 import {
     Label,
@@ -65,8 +67,8 @@ const chartConfig = {
 
 const AppChartRadial = React.forwardRef<
     HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string, jumlahDok?: number }
->(({ className, data = [], periode, jumlahDok, ...props }, ref) => {
+    React.HTMLAttributes<HTMLDivElement> & { data?: any, dateFrom?: string, dateTo?: string, jumlahDok?: number }
+>(({ className, data = [], dateFrom, dateTo, jumlahDok, ...props }, ref) => {
 
     const chartData = [
         { kode_dokumen: data.kode_dokumen, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dokumen + ")" },
@@ -82,9 +84,10 @@ const AppChartRadial = React.forwardRef<
             {...props}>
             <CardHeader className="items-center pb-0" >
                 <CardTitle>Dokumen BC {data.kode_dokumen} {data.kode_valuta}</CardTitle>
-                < CardDescription > {periode} </CardDescription>
+                < CardDescription > {`${format(dateFrom || new Date(), 'dd MMM yyyy')} - ${format(dateTo || new Date(), 'dd MMM yyyy')}`} </CardDescription>
             </CardHeader>
             < CardContent className="flex-1 pb-0" >
+
                 <ChartContainer
                     config={chartConfig}
                     className="mx-auto aspect-square max-h-[250px]"
@@ -105,33 +108,38 @@ const AppChartRadial = React.forwardRef<
                         />
                         <RadialBar dataKey="jumlah" background cornerRadius={10} />
                         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false} >
+
                             <Label
                                 content={
                                     ({ viewBox }) => {
                                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                             return (
-                                                <text
-                                                    x={viewBox.cx}
-                                                    y={viewBox.cy}
-                                                    textAnchor="middle"
-                                                    dominantBaseline="middle"
-                                                >
-                                                    <tspan
+                                                <Link href={`/dokumen?kodeValuta=${data.kode_valuta}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dokumen}`} className="cursor-pointer">
+                                                    <text
                                                         x={viewBox.cx}
                                                         y={viewBox.cy}
-                                                        className="fill-foreground text-4xl font-bold"
+                                                        textAnchor="middle"
+                                                        dominantBaseline="middle"
                                                     >
-                                                        {chartData[0].jumlah.toLocaleString()}
-                                                    </tspan>
-                                                    < tspan
-                                                        x={viewBox.cx}
-                                                        y={(viewBox.cy || 0) + 24
-                                                        }
-                                                        className="fill-muted-foreground"
-                                                    >
-                                                        Jumlah Dokumen
-                                                    </tspan>
-                                                </text>
+
+                                                        <tspan
+                                                            x={viewBox.cx}
+                                                            y={viewBox.cy}
+                                                            className="fill-foreground text-4xl font-bold"
+                                                        >
+                                                            {chartData[0].jumlah.toLocaleString()}
+
+                                                        </tspan>
+                                                        < tspan
+                                                            x={viewBox.cx}
+                                                            y={(viewBox.cy || 0) + 24
+                                                            }
+                                                            className="fill-muted-foreground"
+                                                        >
+                                                            Jumlah Dokumen
+                                                        </tspan>
+                                                    </text>
+                                                </Link>
                                             )
                                         }
                                     }
@@ -140,6 +148,7 @@ const AppChartRadial = React.forwardRef<
                         </PolarRadiusAxis>
                     </RadialBarChart>
                 </ChartContainer>
+
             </CardContent>
             < CardFooter className="flex-col gap-2 text-sm" >
                 <div className="flex items-center gap-2 font-medium leading-none" >

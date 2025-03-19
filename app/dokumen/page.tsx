@@ -26,7 +26,8 @@ export default function Dokumen(props: {
 	const date_to = searchParams?.date_to?.toString() || '';
 	const sortBy = searchParams?.sortBy?.toString() || '';
 	const asc = searchParams?.asc?.toString() || '';
-	const filter = useMemo(() => ({ kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen, date_from, date_to, sortBy, asc }), [kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen, date_from, date_to, sortBy, asc])
+	const kode_valuta = searchParams?.kodeValuta?.toString() || '';
+	const filter = useMemo(() => ({ kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen, date_from, date_to, sortBy, asc, kode_valuta }), [kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen, date_from, date_to, sortBy, asc, kode_valuta])
 	const currenPage = Number(searchParams?.page) || 1;
 	const limit = Number(searchParams?.pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
