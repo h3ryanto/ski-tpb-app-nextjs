@@ -390,12 +390,15 @@ export async function searchData(query: any = '') {
 
     const result = await sql`
     select distinct kode_dokumen as result from "Header" where kode_dokumen ILIKE ${'%' + query + '%'} 
+    OR nomor_aju ILIKE ${'%' + query + '%'}
     union
     select distinct nomor_dokumen from "Dokumen" where nomor_dokumen ILIKE ${'%' + query + '%'} 
     union
     select distinct uraian from "Barang" where uraian ILIKE ${'%' + query + '%'}
+    OR kode_barang ILIKE ${'%' + query + '%'}
+    OR tipe ILIKE ${'%' + query + '%'}
     union
-    select distinct nama_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} limit 20`;
+    select distinct nama_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'}`;
     return result;
 }
 
