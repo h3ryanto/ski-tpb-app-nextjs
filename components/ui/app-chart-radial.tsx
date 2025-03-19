@@ -12,7 +12,7 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
 import { formatCurrency } from "@/utils/currency"
 import { format } from "date-fns"
-import Link from "next/link"
+// import Link from "next/link"
 import React from "react"
 import {
     Label,
@@ -114,7 +114,9 @@ const AppChartRadial = React.forwardRef<
                                     ({ viewBox }) => {
                                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                             return (
-                                                <Link href={`/dokumen?kodeValuta=${data.kode_valuta}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dokumen}`} className="cursor-pointer">
+                                                <a
+                                                    href={`/dokumen?kodeValuta=${data.kode_valuta}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dokumen}`} className="cursor-pointer"
+                                                >
                                                     <text
                                                         x={viewBox.cx}
                                                         y={viewBox.cy}
@@ -139,7 +141,7 @@ const AppChartRadial = React.forwardRef<
                                                             Jumlah Dokumen
                                                         </tspan>
                                                     </text>
-                                                </Link>
+                                                </a>
                                             )
                                         }
                                     }
