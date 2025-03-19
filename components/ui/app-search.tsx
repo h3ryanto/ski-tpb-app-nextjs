@@ -60,6 +60,7 @@ export function Search() {
         if (value != "") {
             params.set('query', value)
             replace(`${pathName}?${params.toString()}`)
+            if (inputRef.current) inputRef.current.value = value;
         }
     }, [value, params, pathName, replace, searchParams, clear, inputRef])
     return (
