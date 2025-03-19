@@ -390,7 +390,8 @@ export async function searchData(query: any = '') {
 
     const result = await sql`
     select distinct kode_dokumen as result from "Header" where kode_dokumen ILIKE ${'%' + query + '%'} 
-    OR nomor_aju ILIKE ${'%' + query + '%'}
+    union
+    select distinct kode_dokumen as result from "Header" where nomor_aju ILIKE ${'%' + query + '%'} 
     union
     select distinct nomor_dokumen from "Dokumen" where nomor_dokumen ILIKE ${'%' + query + '%'} 
     union
