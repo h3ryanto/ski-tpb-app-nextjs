@@ -62,6 +62,7 @@ const dokumens = [
 ]
 
 export function FilterDokumen({ children }: { children: ReactNode }) {
+    const [isAll, setIsAll] = React.useState(false)
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
     const searchParams = useSearchParams();
@@ -71,19 +72,18 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         // alert(value)
-        if ((searchParams.get('kodeDokumen')?.toString()) && (!value)) {
+        if ((searchParams.get('kodeDokumen')?.toString()) && (!value) && (!isAll)) {
             setValue(searchParams.get('kodeDokumen')?.toString() || "")
         }
-        if (value != "") {
+        if ((value !== "") && (!isAll)) {
             params.set('kodeDokumen', value)
             // params.set('sortBy', 'tanggal_daftar')
-        } else if (value === "" && !searchParams.get('kodeDokumen')) {
+        } else if (isAll) {
             params.delete('kodeDokumen')
-            // params.delete('sortBy')
             setValue("")
         }
         replace(`${pathName}?${params.toString()}`)
-    }, [value, params, pathName, replace, searchParams])
+    }, [value, params, pathName, replace, searchParams, isAll])
     return (
         <div className='flex flex-col gap-1'>
             {children}
@@ -110,11 +110,9 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                             <CommandGroup>
                                 <CommandItem
                                     value={'all'}
-                                    onSelect={(currentValue) => {
-                                        setValue(currentValue === 'all' ? "" : 'all')
+                                    onSelect={() => {
+                                        setIsAll(true)
                                         setOpen(false)
-                                        params.delete('sortBy')
-                                        replace(`${pathName}?${params.toString()}`)
                                     }}
                                 >
                                     All
@@ -130,6 +128,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                                         key={dokumen.value}
                                         value={dokumen.value}
                                         onSelect={(currentValue) => {
+                                            if (isAll) setIsAll(false)
                                             setValue(currentValue === value ? "" : currentValue)
                                             setOpen(false)
                                             params.delete("page")
