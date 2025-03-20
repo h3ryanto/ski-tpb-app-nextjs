@@ -1,11 +1,11 @@
 "use client"
 
+import { searchData } from "@/lib/database/neon_postgresSql/posts";
 import { CircleXIcon, SearchIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import * as React from "react";
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDebouncedCallback } from 'use-debounce';
-import { searchData } from "@/lib/database/neon_postgresSql/posts";
 import { Button } from "./button";
 
 
@@ -84,10 +84,11 @@ export function Search() {
                         <SearchIcon className='absolute pointer-events-none stroke-slate-500 m-1.5' />
                         <input type="text"
                             ref={inputRef}
-                            placeholder="Silahakn ketik yang ada cari disini dan tekan enter atau pilih suggestion dibawah"
+                            placeholder="Silahkan ketik yang ada cari disini dan tekan enter atau pilih suggestion dibawah"
                             onKeyUp={(e) => search(e.currentTarget.value, e)}
                             defaultValue={value}
                             className="px-2 py-1 text-sm placeholder:text-gray-400 w-full pl-9 focus:outline-none" />
+                        <div className='flex justify-items-center items-center text-slate-500 border p-1 rounded-sm'>Enter</div>
                     </div>
 
                     <div className="max-h-[400px] overflow-y-auto">
@@ -100,7 +101,7 @@ export function Search() {
                         <ul role="list" className="divide-y divide-gray-100">
                             {result.length > 0 && result.map((data, index) => (
                                 <li
-                                    className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-slate-100  bg-white px-3 font-semibold text-slate-500"
+                                    className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-slate-200/30  bg-white px-3 font-semibold"
                                     key={index}
                                     onClick={() => {
                                         setValue(data.result)

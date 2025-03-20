@@ -9,6 +9,8 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
     SELECT
     "Header".kode_dokumen,
     count(CASE WHEN "Barang".seri_barang ='1' THEN "Header".kode_dokumen END) AS jumlah,
+    SUM("Barang".cif::numeric) as cif,
+    SUM("Barang".cif::numeric*"Barang".ndpbm::numeric) AS cif_idr,
     SUM(CASE WHEN "Barang".kode_barang LIKE '%1-0%' THEN "Barang".cif::numeric ELSE 0 END) AS cif_bahan_baku,
     SUM(CASE WHEN "Barang".kode_barang LIKE '%1-0%' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS cif_idr_bahan_baku,
     SUM(CASE WHEN "Barang".kode_barang NOT LIKE '%1-0%' THEN "Barang".cif::numeric ELSE 0 END) AS cif_lainnya,

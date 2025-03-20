@@ -395,11 +395,13 @@ export async function searchData(query: any = '') {
     union
     select distinct nomor_dokumen from "Dokumen" where nomor_dokumen ILIKE ${'%' + query + '%'} 
     union
-    select distinct uraian from "Barang" where uraian ILIKE ${'%' + query + '%'}
-    OR kode_barang ILIKE ${'%' + query + '%'}
-    OR tipe ILIKE ${'%' + query + '%'}
+    select distinct uraian as result from "Barang" where uraian ILIKE ${'%' + query + '%'}
     union
-    select distinct nama_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} LIMIT 20`;
+    select distinct tipe as result from "Barang" where tipe ILIKE ${'%' + query + '%'}
+    union
+    select distinct kode_barang as result from "Barang" where kode_barang ILIKE ${'%' + query + '%'}
+    union
+    select distinct nama_entitas as result from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} ORDER BY result ASC LIMIT 20`;
     return result;
 }
 

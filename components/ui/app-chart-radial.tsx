@@ -188,8 +188,8 @@ const AppChartRadial = React.forwardRef<
                         )) ||
                         (data.kode_dokumen == '261' && (
                             <div>
-                                <div>CIF : {formatCurrency(data.cif, 'USD')}</div>
-                                <div>CIF Rupiah : {formatCurrency(data.cif_rupiah, 'IDR')}</div>
+                                <div>CIF : {formatCurrency(data.cif, data.kode_valuta)}</div>
+                                <div>CIF Rupiah : {formatCurrency(data.cif_idr, 'IDR')}</div>
 
                             </div>
                         ))

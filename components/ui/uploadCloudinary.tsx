@@ -99,20 +99,21 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
                     />
                     <Button
                         onClick={handleUpload}
-                        disabled={!file}
+                        disabled={!file || uploading}
                         className="w-full text-white p-2 rounded disabled:bg-gray-300"
                     >
-                        {uploading ? 'Uploading...' : 'Upload'}
+                        Upload
                     </Button>
                     {error && <p className="text-red-500 mt-2">{error}</p>}
                     {isSuccess && <p className="flex items-center gap-2 text-green-500 mt-2"><CircleCheckBig size={16} /> File Berhasil diupload</p>}
+                    {uploading && <p className="animate-pulse text-gray-500 mt-2">Uploading file...</p>}
                 </div>
                 <DialogFooter className="sm:justify-end text-sm">
                     <DialogClose asChild>
                         {isSuccess &&
-                            <Button>Selesai</Button>
+                            <Button size={"sm"}>Selesai</Button>
                             ||
-                            <Button>Close</Button>
+                            <Button size={"sm"}>Close</Button>
                         }
                     </DialogClose>
                 </DialogFooter>
