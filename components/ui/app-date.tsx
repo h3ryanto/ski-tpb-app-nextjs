@@ -100,8 +100,8 @@ export default function DatePickerWithRange({
                         numberOfMonths={2}
                     />
                     <div className="flex justify-center gap-6">
-                        <Button variant={"outline"} onClick={() => { onSetDate({ date_from: date?.from, date_to: date?.to }); setIsOpen(!isOpen) }} className="hover:bg-blue-500 hover:text-white">Cari</Button>
-                        <Button variant={"outline"} onClick={() => { onReset(); setIsOpen(!isOpen) }} className="hover:bg-blue-500 hover:text-white">Reset</Button>
+                        <Button variant={"outline"} size={"sm"} onClick={() => { onSetDate({ date_from: date?.from, date_to: date?.to }); setIsOpen(!isOpen) }} className="hover:bg-black hover:text-white">Set</Button>
+                        <Button variant={"outline"} size={"sm"} onClick={() => { onReset(); setIsOpen(!isOpen) }} className="hover:bg-black hover:text-white">Reset</Button>
                     </div>
                 </PopoverContent>
             </Popover>

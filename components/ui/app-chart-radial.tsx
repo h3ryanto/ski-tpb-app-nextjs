@@ -27,12 +27,16 @@ const chartConfig = {
     jumlah: {
         label: "Jumlah",
     },
-    23: {
+    '23': {
         label: "23",
         color: "hsl(var(--chart-1))",
     },
-    27: {
-        label: "27",
+    '27_IN': {
+        label: "27_IN",
+        color: "hsl(var(--chart-1))",
+    },
+    "27_OUT": {
+        label: "27_OUT",
         color: "hsl(var(--chart-2))",
     },
     40: {
@@ -71,7 +75,7 @@ const AppChartRadial = React.forwardRef<
 >(({ className, data = [], dateFrom, dateTo, jumlahDok, ...props }, ref) => {
 
     const chartData = [
-        { kode_dokumen: data.kode_dokumen, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dokumen + ")" },
+        { kode_dokumen: data.kode_dok, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dok + ")" },
     ]
     return (
         <Card
@@ -83,7 +87,7 @@ const AppChartRadial = React.forwardRef<
 
             {...props}>
             <CardHeader className="items-center pb-0" >
-                <CardTitle>Dokumen BC {data.kode_dokumen} {data.kode_valuta}</CardTitle>
+                <CardTitle>Dokumen BC {data.kode_dok} {data.kode_valuta}</CardTitle>
                 < CardDescription > {`${format(dateFrom || new Date(), 'dd MMM yyyy')} - ${format(dateTo || new Date(), 'dd MMM yyyy')}`} </CardDescription>
             </CardHeader>
             < CardContent className="flex-1 pb-0" >
@@ -115,7 +119,7 @@ const AppChartRadial = React.forwardRef<
                                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                             return (
                                                 <a
-                                                    href={`/dokumen?kodeValuta=${data.kode_valuta}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dokumen}`} className="cursor-pointer"
+                                                    href={`/dokumen?kodeValuta=${data.kode_valuta}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`} className="cursor-pointer"
                                                 >
                                                     <text
                                                         x={viewBox.cx}
@@ -154,27 +158,27 @@ const AppChartRadial = React.forwardRef<
             </CardContent>
             < CardFooter className="flex-col gap-2 text-sm" >
                 <div className="flex items-center gap-2 font-medium leading-none" >
-                    {(data.kode_dokumen == '23' && (
+                    {(data.kode_dok == '23' && (
                         <div>
                             <div>Bahan baku :</div>
                             <div className="leading-none text-muted-foreground font-normal">
-                                <div>CIF : {formatCurrency(data.cif_bahan_baku, data.kode_valuta)}</div>
-                                <div>CIF Rupiah : {formatCurrency(data.cif_idr_bahan_baku, 'IDR')}</div>
+                                <div>CIF : {formatCurrency(data.cif_bahan_baku_bc_23, data.kode_valuta)}</div>
+                                <div>CIF Rupiah : {formatCurrency(data.cif_idr_bahan_baku_bc_23, 'IDR')}</div>
                             </div>
                             <div>Barang Lainnya :</div>
                             <div className="leading-none text-muted-foreground font-normal">
-                                <div>CIF : {formatCurrency(data.cif_lainnya, data.kode_valuta)}</div>
-                                <div>CIF Rupiah : {formatCurrency(data.cif_idr_lainnya, 'IDR')}</div>
+                                <div>CIF : {formatCurrency(data.cif_lainnya_bc_23, data.kode_valuta)}</div>
+                                <div>CIF Rupiah : {formatCurrency(data.cif_idr_lainnya_bc_23, 'IDR')}</div>
                             </div>
                         </div>
                     )) ||
-                        (data.kode_dokumen == '30' && (
+                        (data.kode_dok == '30' && (
                             <div>
                                 <div>FOB : {formatCurrency(data.fob, 'USD')}</div>
                                 <div>FOB Rupiah : {formatCurrency(data.fob_rupiah, 'IDR')}</div>
                             </div>
                         )) ||
-                        (data.kode_dokumen == '40' && (
+                        (data.kode_dok == '40' && (
                             <div>
                                 <div>Bahan baku :</div>
                                 <div className="leading-none text-muted-foreground font-normal">
@@ -186,7 +190,7 @@ const AppChartRadial = React.forwardRef<
                                 </div>
                             </div>
                         )) ||
-                        (data.kode_dokumen == '261' && (
+                        (data.kode_dok == '261' && (
                             <div>
                                 <div>CIF : {formatCurrency(data.cif, data.kode_valuta)}</div>
                                 <div>CIF Rupiah : {formatCurrency(data.cif_idr, 'IDR')}</div>
@@ -194,7 +198,7 @@ const AppChartRadial = React.forwardRef<
                             </div>
                         ))
                         ||
-                        (data.kode_dokumen == '262' && (
+                        (data.kode_dok == '262' && (
                             <div>
                                 <div>CIF : {formatCurrency(data.cif, 'USD')}</div>
                                 <div>CIF Rupiah : {formatCurrency(data.cif_rupiah, 'IDR')}</div>
@@ -202,21 +206,35 @@ const AppChartRadial = React.forwardRef<
                             </div>
                         ))
                         ||
-                        (data.kode_dokumen == '27' && (
+                        ((data.kode_dok === '27_IN') && (
                             <div>
                                 <div>Bahan baku :</div>
                                 <div className="leading-none text-muted-foreground font-normal">
-                                    <div>CIF : {formatCurrency(data.cif_bahan_baku, data.kode_valuta)}</div>
-                                    <div>CIF Rupiah : {formatCurrency(data.cif_idr_bahan_baku, 'IDR')}</div>
+                                    <div>CIF : {formatCurrency(data.cif_bahan_baku_bc_27, data.kode_valuta)}</div>
+                                    <div>CIF Rupiah : {formatCurrency(data.cif_idr_bahan_baku_bc_27, 'IDR')}</div>
                                 </div>
                                 <div>Barang Lainnya :</div>
                                 <div className="leading-none text-muted-foreground font-normal">
-                                    <div>CIF : {formatCurrency(data.cif_lainnya, data.kode_valuta)}</div>
-                                    <div>CIF Rupiah : {formatCurrency(data.cif_idr_lainnya, 'IDR')}</div>
+                                    <div>CIF : {formatCurrency(data.cif_lainnya_bc_27, data.kode_valuta)}</div>
+                                    <div>CIF Rupiah : {formatCurrency(data.cif_idr_lainnya_bc_27, 'IDR')}</div>
                                 </div>
                             </div>
                         ))
-
+                        ||
+                        ((data.kode_dok === '27_OUT') && (
+                            <div>
+                                <div>Bahan baku :</div>
+                                <div className="leading-none text-muted-foreground font-normal">
+                                    <div>CIF : {formatCurrency(data.cif_bahan_baku_bc_27_out, data.kode_valuta)}</div>
+                                    <div>CIF Rupiah : {formatCurrency(data.cif_idr_bahan_baku_bc_27_out, 'IDR')}</div>
+                                </div>
+                                <div>Barang Lainnya :</div>
+                                <div className="leading-none text-muted-foreground font-normal">
+                                    <div>CIF : {formatCurrency(data.cif_lainnya_bc_27_out, data.kode_valuta)}</div>
+                                    <div>CIF Rupiah : {formatCurrency(data.cif_idr_lainnya_bc_27_out, 'IDR')}</div>
+                                </div>
+                            </div>
+                        ))
                     }
                 </div>
                 {/* < div className="leading-none text-muted-foreground" >
