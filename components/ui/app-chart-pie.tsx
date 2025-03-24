@@ -18,6 +18,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useState, useEffect } from "react";
+import { formatCurrency } from "@/utils/currency"
 // const chartData = [
 //     { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
 //     { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
@@ -58,11 +59,11 @@ const AppChartPie = React.forwardRef<
     React.HTMLAttributes<HTMLDivElement> & { data?: any, periode?: string, totalDokumen?: number }
 >(({ className, data = [], periode, totalDokumen, ...props }, ref) => {
     const [dataBC23, setBC23] = useState<number>(0);
-    // const [dataBC27, setBC27] = useState<number>(0);
+    const [dataBC27, setBC27] = useState<number>(0);
     const [dataBC33, setBC33] = useState<number>(0);
     const [dataBC30, setBC30] = useState<number>(0);
 
-
+    // console.log(data)
     // Gunakan useEffect untuk memantau perubahan pada array data
     useEffect(() => {
         // Perbarui state berdasarkan data yang diambil dari array
@@ -70,9 +71,9 @@ const AppChartPie = React.forwardRef<
             if (element.browser === '23') {
                 setBC23(Number(element.visitors));
             }
-            // if (element.browser === '27') {
-            //     setBC27(Number(element.visitors));
-            // }
+            if (element.browser === '27') {
+                setBC27(Number(element.visitors));
+            }
             if (element.browser === '33') {
                 setBC33(Number(element.visitors));
             }
@@ -84,9 +85,9 @@ const AppChartPie = React.forwardRef<
 
     // console.log(dataBC23, dataBC27, dataBC30, dataBC33)
     const totalVisitors = React.useMemo(() => {
-        return ((dataBC30 + dataBC33) / (dataBC23));
+        return ((dataBC30 + dataBC33) / (dataBC23 + dataBC27)).toFixed(4);
 
-    }, [dataBC23, dataBC30, dataBC33]);
+    }, [dataBC23, dataBC30, dataBC33, dataBC27]);
     return (
         <Card
             ref={ref}
@@ -155,8 +156,8 @@ const AppChartPie = React.forwardRef<
                 </div> */}
                 <div className="text-muted-foreground">
                     <p>Persentasi keberhasilan pemberian fasilitas minimum 1.75%</p>
-                    <p>Persentasi = nilai eksport/nilai impor</p>
-                    <p>{((dataBC30 + dataBC33) / (dataBC23)).toFixed(4)} % = {(dataBC30 + dataBC33)} / {(dataBC23)}</p>
+                    <p>Persentasi = nilai eksport/(nilai impor (Bahan Baku) + BC 2.7)</p>
+                    <p>{((dataBC30 + dataBC33) / (dataBC23 + dataBC27)).toFixed(4)} % = {formatCurrency(Number(dataBC30 + dataBC33), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}+ {formatCurrency(Number(dataBC27), 'IDR')}</p>
                 </div>
             </CardFooter>
         </Card>

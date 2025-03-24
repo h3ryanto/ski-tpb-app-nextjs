@@ -33,7 +33,7 @@ const chartConfig = {
     },
     '27_IN': {
         label: "27_IN",
-        color: "hsl(var(--chart-1))",
+        color: "hsl(var(--chart-2))",
     },
     "27_OUT": {
         label: "27_OUT",

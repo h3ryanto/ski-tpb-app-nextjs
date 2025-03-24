@@ -56,10 +56,12 @@ export async function retriveDataStatikChart({ date_from, date_to }: { date_from
     SELECT
     "Header".kode_dokumen AS dokumen,
     (CASE
-        WHEN SUM(CASE WHEN "Barang".kode_barang LIKE '%1-0%' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END)>0 THEN
-        SUM(CASE WHEN "Barang".kode_barang LIKE '%1-0%' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END)
+        WHEN SUM(CASE WHEN "Barang".kode_kategori_barang LIKE '%11%' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END)>0 THEN
+        SUM(CASE WHEN "Barang".kode_kategori_barang LIKE '%11%' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END)
         WHEN SUM(CASE WHEN "Header".kode_tujuan_pengiriman LIKE '1' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END)>0 THEN
-        SUM(CASE WHEN "Header".kode_tujuan_pengiriman LIKE '1' THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END)
+        SUM(CASE WHEN "Header".kode_tujuan_pengiriman LIKE '1' AND ("Header".kode_valuta ='USD') THEN ("Barang".cif::numeric*"Barang".ndpbm::numeric) 
+                 WHEN ("Header".kode_tujuan_pengiriman LIKE '1') AND ("Header".kode_valuta ='IDR') THEN "Barang".harga_penyerahan::numeric
+            ELSE 0 END)
         ELSE
         SUM(CASE WHEN "Header".kode_jenis_ekspor LIKE '1' THEN "Barang".fob::numeric*"Barang".ndpbm::numeric ELSE 0 END)
     END)::numeric AS harga,
