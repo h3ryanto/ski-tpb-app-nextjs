@@ -22,6 +22,9 @@ export function Search() {
     const params = React.useMemo(() => new URLSearchParams(searchParams), [searchParams]);
     const search = useDebouncedCallback(async (term: string, e?: any) => {
         setTerm(term)
+        if (e.key === 'Escape') {
+            setOpen(false)
+        }
         if (term) {
             if (e.key === 'Enter') {
                 params.delete("page")
@@ -114,8 +117,10 @@ export function Search() {
                             ))}
                         </ul>
                     </div>
-                    <div className="flex justify-end items-center h-10 bg-white relative p-3 my-1 border-t  border-gray-200">
-                        <Button size={"sm"} onClick={() => { setOpen(!open) }}>Close</Button>
+                    <div className="flex justify-between items-center h-10 bg-white relative p-3 my-1 border-t  border-gray-200">
+                        <div className="text-gray-400 text-sm">Press <span className="font-semibold border border-gray-400 px-1 rounded-sm">Esc</span> to close</div>
+                        <div><Button size={"sm"} onClick={() => { setOpen(!open) }}>Close</Button></div>
+
                     </div>
                 </div>
             </div>

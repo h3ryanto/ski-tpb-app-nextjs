@@ -87,7 +87,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
             </DialogTrigger>
             <DialogContent className="max-w-md mx-auto top-52 bg-slate-50 text-sm">
                 <DialogHeader>
-                    <DialogTitle className='text-lg'>Upload File PDF</DialogTitle>
+                    <DialogTitle className='text-lg'>Upload File PDF - {file_name}</DialogTitle>
                 </DialogHeader>
 
                 <div className="max-w-md mx-auto bg-white p-6 rounded border border-gray-300">

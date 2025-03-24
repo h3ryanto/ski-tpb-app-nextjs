@@ -405,3 +405,35 @@ export async function searchData(query: any = '') {
     return result;
 }
 
+export async function filterNomorAju(query: any = '') {
+    const sql = neon(`${process.env.DATABASE_URL} `);
+
+    const result = await sql`
+    select distinct nomor_aju as result from "Header" where nomor_aju ILIKE ${'%' + query + '%'} ORDER BY result ASC LIMIT 20`;
+    return result;
+}
+
+export async function filterNomorDaftar(query: any = '') {
+    const sql = neon(`${process.env.DATABASE_URL} `);
+
+    const result = await sql`
+    select distinct nomor_daftar as result from "Header" where nomor_daftar ILIKE ${'%' + query + '%'} ORDER BY result ASC LIMIT 20`;
+    return result;
+}
+
+export async function filterEntitas(query: any = '') {
+    const sql = neon(`${process.env.DATABASE_URL} `);
+
+    const result = await sql`
+    select distinct nama_entitas as result from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} ORDER BY result ASC LIMIT 20`;
+    return result;
+}
+
+export async function filterDokumen(query: any = '') {
+    const sql = neon(`${process.env.DATABASE_URL} `);
+
+    const result = await sql`
+     select distinct nomor_dokumen as result from "Dokumen" where nomor_dokumen ILIKE ${'%' + query + '%'} ORDER BY result ASC LIMIT 20`;
+    return result;
+}
+
