@@ -16,7 +16,7 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
     const filterBarang = (value: string) => {
         if ('barang' in posts) {
             if (Array.isArray(posts.barang)) {
-                setPostsBarang((posts.barang.filter(e => e.uraian.toUpperCase().includes(value.toUpperCase()) || e.kode_barang.toUpperCase().includes(value.toUpperCase()))));
+                setPostsBarang((posts.barang.filter(e => (e.uraian.toUpperCase().includes(value.toUpperCase()) || e.kode_barang.toUpperCase().includes(value.toUpperCase()) || e.tipe.toUpperCase().includes(value.toUpperCase())))));
             }
         }
     }

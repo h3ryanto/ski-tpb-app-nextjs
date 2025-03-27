@@ -1,5 +1,5 @@
 'use client'
-import { Dock, Inbox } from "lucide-react"
+import { Dock, Inbox, User2 } from "lucide-react"
 
 import {
     Sidebar,
@@ -30,9 +30,9 @@ export function AppSidebar() {
     // Menu items.
     const items = [
         // { name: 'Home', href: '/', current: pathname === '/' ? true : false, icon: Home },
-        { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: Inbox },
-        { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: Dock },
-        // { name: 'User', href: '/user', current: pathname === '/user' ? true : false, icon: User2 },
+        { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: Inbox, isAdmin: false },
+        { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: Dock, isAdmin: false },
+        { name: 'User', href: '/user', current: pathname === '/users' ? true : false, icon: User2, isAdmin: true },
     ]
 
     const data = {
@@ -61,23 +61,24 @@ export function AppSidebar() {
                         <SidebarGroupContent>
                             <SidebarMenu>
                                 {items.map((item) => (
-                                    <SidebarMenuItem key={item.name}>
-                                        <SidebarMenuButton asChild>
-
-                                            <Link
-                                                key={item.name}
-                                                href={item.href} replace
-                                                aria-current={item.current ? 'page' : undefined}
-                                                className={classNames(
-                                                    item.current ? 'bg-gray-900 text-white' : '',
-                                                    'rounded-md px-3 py-2 text-sm font-medium',
-                                                )}
-                                            >
-                                                <item.icon />
-                                                <span>{item.name}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
+                                    (item.isAdmin === false || item.isAdmin === session.data?.user?.isAdmin) && (
+                                        <SidebarMenuItem key={item.name}>
+                                            <SidebarMenuButton asChild>
+                                                <Link
+                                                    key={item.name}
+                                                    href={item.href} replace
+                                                    aria-current={item.current ? 'page' : undefined}
+                                                    className={classNames(
+                                                        item.current ? 'bg-gray-900 text-white' : '',
+                                                        'rounded-md px-3 py-2 text-sm font-medium',
+                                                    )}
+                                                >
+                                                    <item.icon />
+                                                    <span>{item.name}</span>
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )
                                 ))}
                             </SidebarMenu>
                         </SidebarGroupContent>

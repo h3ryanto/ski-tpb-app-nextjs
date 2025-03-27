@@ -30,7 +30,7 @@ const Dashboard = (props: {
         // setCountData(count)
         // console.log(count[0].jumlah)
     }
-    console.log(dataCount)
+    // console.log(dataCount)
     useEffect(() => {
         if (searchParams?.date_from && searchParams?.date_to) {
             setDateFrom(`${searchParams?.date_from?.toString() || ''}`)
