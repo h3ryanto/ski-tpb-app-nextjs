@@ -437,3 +437,13 @@ export async function filterDokumen(query: any = '') {
     return result;
 }
 
+export async function getSupllier(query: any = '', limit: number = 10, skip: number = 0) {
+    const sql = neon(`${process.env.DATABASE_URL} `);
+
+    const result = await sql`
+    select distinct nama_entitas,alamat_entitas,nomor_identitas,nib_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'} ORDER BY nomor_identitas,nama_entitas,alamat_entitas,nib_entitas LIMIT ${limit} OFFSET ${skip}`;
+    const count = await sql`
+    select distinct nama_entitas,alamat_entitas,nomor_identitas,nib_entitas from "Entitas" where nama_entitas ILIKE ${'%' + query + '%'}`;
+    return { data: result, count: count.length };
+}
+

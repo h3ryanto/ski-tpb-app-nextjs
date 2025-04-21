@@ -12,17 +12,17 @@ export default function Search({ children }: Props) {
     const pathName = usePathname();
     const { replace } = useRouter();
     const params = new URLSearchParams(searchParams)
-    const onSearch = useDebouncedCallback((term: any, e?: any) => {
+    const onSearch = useDebouncedCallback((term: any) => {
         // console.log(term);
-        if (e.key === 'Enter') {
-            if (term) {
-                params.delete("page")
-                params.set("query", term)
-            } else {
-                params.delete("query")
-            }
-            replace(`${pathName}?${params.toString()}`)
+        // if (e.key === 'Enter') {
+        if (term) {
+            params.delete("page")
+            params.set("query", term)
+        } else {
+            params.delete("query")
         }
+        replace(`${pathName}?${params.toString()}`)
+        // }
     }, 200);
 
 
@@ -39,7 +39,7 @@ export default function Search({ children }: Props) {
                             placeholder="Search.."
                             autoComplete="current-search"
                             // onChange={(e) => onSearch(e.target.value)}
-                            onKeyUp={(e) => onSearch(e.currentTarget.value, e)}
+                            onKeyUp={(e) => onSearch(e.currentTarget.value)}
                             defaultValue={searchParams.get('query')?.toString() || ""}
 
                             className="w-auto rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300

@@ -67,7 +67,7 @@ export default function ResetPassword() {
                                         placeholder="Masukan Email"
                                         className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 
                       placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 
-                      text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500 
+                      text-sm sm:leading-6 text-slate-800 focus:invalid:border-red-500 focus:invalid:ring-red-500 pl-2
                             "/>
                                     <div className="text-sm mt-2">
                                         <Link href="/login" className='font-semibold text-sky-600 hover:text-sky-500'>Login</Link>

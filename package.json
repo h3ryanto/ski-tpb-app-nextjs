@@ -59,11 +59,10 @@
     "react-pdf": "^9.2.1",
     "recharts": "^2.15.1",
     "redis": "^4.7.0",
-    "swr": "^2.3.2",
+    "resend": "^4.2.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "use-debounce": "^10.0.4",
-    "xlsx": "^0.18.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

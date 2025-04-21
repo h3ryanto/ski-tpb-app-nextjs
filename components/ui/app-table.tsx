@@ -73,7 +73,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 
 									<Filter id="suplier">
 										<SortBy sortBy='nama_entitas'>
-											<div>Supllier / Customers</div>
+											<div>Supplier / Customers</div>
 										</SortBy>
 									</Filter>
 								</th>

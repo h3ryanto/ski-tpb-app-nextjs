@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToCloudinary } from '@/lib/cloudinary/uploadHelper';
+// import fs from "node:fs/promises";
 
 export async function POST(req: NextRequest) {
     if (req.method !== 'POST') {
@@ -11,6 +12,7 @@ export async function POST(req: NextRequest) {
         const file = formData.get('file') as File | null;
         const file_name = formData.get('fileName') as string | "";
         const folder = formData.get('folderName') as string | "";
+
 
         if (!file) {
             return NextResponse.json({ message: 'No file provided' }, { status: 400 });
@@ -24,6 +26,9 @@ export async function POST(req: NextRequest) {
         const folderName = `${folder}`;
 
         const uploadResult = await uploadToCloudinary(fileUri, fileName, folderName);
+
+        // await fs.mkdir(`./public/upload/${folderName}`, { recursive: true });
+        // await fs.writeFile(`./public/upload/${folderName}/${file.name}`, buffer);
 
         if (uploadResult.success && uploadResult.result) {
             return NextResponse.json({

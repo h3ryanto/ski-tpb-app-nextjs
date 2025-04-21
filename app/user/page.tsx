@@ -118,7 +118,7 @@ const User = () => {
                     </CardContent>
                     <CardFooter>
                         <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
-                            <PaginationWithLinks page={1} pageSize={10} totalCount={100} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
+                            <PaginationWithLinks page={1} pageSize={10} totalCount={data.length} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
 
                         </div>
                     </CardFooter>
