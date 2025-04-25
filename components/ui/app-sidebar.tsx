@@ -1,5 +1,5 @@
 'use client'
-import { Dock, Inbox, Truck, User2 } from "lucide-react"
+import { BookTextIcon, ChartNoAxesCombinedIcon, Truck, User2 } from "lucide-react"
 
 import {
     Sidebar,
@@ -30,8 +30,8 @@ export function AppSidebar() {
     // Menu items.
     const items = [
         // { name: 'Home', href: '/', current: pathname === '/' ? true : false, icon: Home },
-        { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: Inbox, isAdmin: false },
-        { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: Dock, isAdmin: false },
+        { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: ChartNoAxesCombinedIcon, isAdmin: false },
+        { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: BookTextIcon, isAdmin: false },
         { name: 'Supplier', href: '/supplier', current: pathname === '/supplier' ? true : false, icon: Truck, isAdmin: false },
         { name: 'User', href: '/user', current: pathname === '/users' ? true : false, icon: User2, isAdmin: true },
     ]

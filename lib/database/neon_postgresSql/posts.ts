@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma/init';
 export async function getData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     let date_from: string;
     let date_to: string;
-    // console.log(filter)
+    console.log(filter)
     if (filter.date_from && filter.date_to) {
         date_from = filter.date_from;
         date_to = filter.date_to;
@@ -176,20 +176,20 @@ export async function retriveData(limit: number = 10, skip: number = 0, query: a
         date_from = '1900-01-01';
         date_to = new Date().toISOString().split('T')[0];
     }
-    let sortBy: string = `id`;
-    if (filter.sortBy === undefined) {
-        sortBy = `id`;
-    } else
-        if (filter.sortBy === 'nomor_aju') {
-            sortBy = `nomor_aju`;
-        } else if (filter.sortBy === 'kode_dokumen') {
-            sortBy = `kode_dokumen`;
-        } else if (filter.sortBy === 'nama_entitas') {
-            sortBy = `"Entitas".nama_entitas`;
-        } else if (filter.sortBy === 'tanggal_daftar') {
-            sortBy = `tanggal_daftar`;
-        }
-    console.log(sortBy)
+    // let sortBy: string = `id`;
+    // if (filter.sortBy === undefined) {
+    //     sortBy = `id`;
+    // } else
+    //     if (filter.sortBy === 'nomor_aju') {
+    //         sortBy = `nomor_aju`;
+    //     } else if (filter.sortBy === 'kode_dokumen') {
+    //         sortBy = `kode_dokumen`;
+    //     } else if (filter.sortBy === 'nama_entitas') {
+    //         sortBy = `"Entitas".nama_entitas`;
+    //     } else if (filter.sortBy === 'tanggal_daftar') {
+    //         sortBy = `tanggal_daftar`;
+    //     }
+    // console.log(sortBy)
 
 
 

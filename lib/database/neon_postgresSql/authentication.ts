@@ -22,8 +22,28 @@ export const SignIn = async (email: string, password: string) => {
         console.error(error)
         throw new Error("Invalid credentials.")
     }
-
-
 }
 
 
+export const forgotPassword = async (email: string) => {
+    try {
+        const users = await prisma.user.findFirst({
+            where: {
+                email: email,
+                isActive: true,
+            }
+        })
+
+        if (users) {
+            return { status: true, message: "Email Found", name: users.name, email: users.email }
+        } else {
+            return { status: false, message: "Email not found" }
+        }
+
+
+    } catch (error) {
+        console.error(error)
+        throw new Error(error as string)
+    }
+
+}

@@ -2,24 +2,17 @@
 import { getData, countData } from "@/lib/database/neon_postgresSql/posts";
 import { type NextRequest } from 'next/server'
 import { format } from "date-fns";
-// import { prisma } from '@/lib/prisma/init';
-// import { NextResponse } from 'next/server'
-// import { retriveData } from '@/lib/firebase/firestore/service';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function GET(request: NextRequest) {
-    // try {
-    const searchParams = request.nextUrl.searchParams
-    const term = searchParams.get('search') || '';
-    const filter = searchParams.get('filter') || '';
-    const currenPage = Number(searchParams.get('page')) || 1;
-    const limit = Number(searchParams.get('pageSize')) || 10;
-    const skip = (currenPage - 1) * limit;
 
-    const count = await countData(term, '');
+export async function POST(Request: NextRequest) {
+    const body = await Request.json();
+    const term = body.query || '';
+    const filter = body.filter || '';;
+    const limit = Number(body.limit) || 10;
+    const skip = Number(body.skip) || 1;
+
+    const count = await countData(term, filter);
     const posts = await getData(limit, skip, term, filter);
 
-
-    console.log(posts)
     const convertBigInt = (obj: any): any => {
         if (Array.isArray(obj)) {
             return obj.map(convertBigInt);
@@ -32,10 +25,10 @@ export async function GET(request: NextRequest) {
         }
         return obj;
     };
-    console.log(convertBigInt(posts))
+    // console.log(convertBigInt(posts))
     return Response.json(
         {
-            posts: "respons",
+            posts: convertBigInt(posts),
             count: count.length
         },
         {
@@ -43,18 +36,4 @@ export async function GET(request: NextRequest) {
             headers: { 'content-type': 'application/json' }
         }
     )
-
-    // } catch (error) {
-    //     return Response.json(
-    //         {
-    //             error
-    //         },
-    //         {
-    //             status: 400, statusText: 'Credential invalid',
-    //             headers: { 'content-type': 'application/json' }
-    //         }
-    //     )
-
-    // }
-
 }

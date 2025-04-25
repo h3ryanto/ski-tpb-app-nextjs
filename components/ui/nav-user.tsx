@@ -29,7 +29,6 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import { logOut } from '@/lib/firebase/authentication/service'
 import { signOut } from "next-auth/react"
 
 export function NavUser({
@@ -45,7 +44,6 @@ export function NavUser({
     const handleLogout = async () => {
         try {
             await signOut()
-            await logOut()
 
         } catch (error) {
             console.log(error)

@@ -1,7 +1,6 @@
 'use client'
 import Table from '@/components/ui/app-table';
 import List from '@/components/ui/list';
-import { countData, getData } from "@/lib/database/neon_postgresSql/posts";
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
 import AppLoading from '@/components/ui/app-loading';
@@ -37,20 +36,26 @@ export default function Dokumen(props: {
 
 	const getDokumen = useCallback(async (limit: number, skip: number, search: any, filter: any) => {
 		try {
-			// const result = await getData(limit, skip, search, filter)
-			// console.log(result);
 			setIsLoading(true);
-			// const posts = await retriveData(limit, skip, search, filter)
-			const posts = await getData(limit, skip, search, filter)
-			// console.log(posts)
-			if (posts) {
+			const data = await fetch('/api/get', {
+				method: 'POST',
+				body: JSON.stringify({
+					query: search,
+					skip: skip,
+					limit: limit,
+					filter: filter,
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+			const posts = await data.json()
+			console.log(posts, 'posts')
+			if (posts.posts) {
 				setIsLoading(false);
+				setPosts(posts.posts);
+				setDataEntry(posts.count || 1);
 			}
-			setPosts(posts);
-			// console.log(posts.leng);
-			const count = await countData(search, filter)
-			setDataEntry(count.length || 1);
-
 		} catch (error) {
 			console.error(error)
 			toast({

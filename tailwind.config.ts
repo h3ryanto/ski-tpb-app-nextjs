@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
-import prelinePlugin from 'preline/plugin';
+
 
 const config: Config = {
 	darkMode: ["class"],
@@ -93,7 +93,6 @@ const config: Config = {
 		}
 	},
 	plugins: [
-		prelinePlugin,
 		tailwindcssAnimate
 	],
 };
