@@ -1,5 +1,6 @@
 
 import { EmailTemplate } from '@/components/ui/app-email-forgot-paasword-template';
+import { encrypt } from '@/lib/auth/session';
 import { forgotPassword } from '@/lib/database/neon_postgresSql/authentication';
 import { Resend } from 'resend';
 
@@ -12,12 +13,16 @@ export async function POST(Request: Request) {
   const getUser = await forgotPassword(email);
 
   if (getUser.status === true) {
-    console.log(getUser, 'getUser')
+    // console.log(getUser, 'getUser')
+    const token = await encrypt({ email: getUser.email, name: getUser.name })
+
     const { error } = await resend.emails.send({
       from: "no_reply <onboarding@resend.dev>",
       to: [`${getUser.email}`],
       subject: 'Reset Password',
-      react: EmailTemplate({ name: `${getUser.name}` }),
+      react: EmailTemplate({
+        name: `${getUser.name}`, token: `${token}`
+      }),
     });
 
     if (error) {

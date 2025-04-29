@@ -33,7 +33,7 @@ export function AppSidebar() {
         { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: ChartNoAxesCombinedIcon, isAdmin: false },
         { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: BookTextIcon, isAdmin: false },
         { name: 'Supplier', href: '/supplier', current: pathname === '/supplier' ? true : false, icon: Truck, isAdmin: false },
-        { name: 'User', href: '/user', current: pathname === '/users' ? true : false, icon: User2, isAdmin: true },
+        { name: 'User', href: '/user', current: pathname === '/user' ? true : false, icon: User2, isAdmin: true },
     ]
 
     const data = {

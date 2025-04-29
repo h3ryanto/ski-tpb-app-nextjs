@@ -35,7 +35,7 @@ export const forgotPassword = async (email: string) => {
         })
 
         if (users) {
-            return { status: true, message: "Email Found", name: users.name, email: users.email }
+            return { status: true, message: "Email Found", id: users.id, name: users.name, email: users.email }
         } else {
             return { status: false, message: "Email not found" }
         }

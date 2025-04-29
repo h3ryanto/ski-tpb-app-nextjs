@@ -47,3 +47,20 @@ export async function createUser(email: string, name: string, password: string) 
     }
 
 }
+
+export async function resetPassword(password: string, id: number) {
+    try {
+        await prisma.user.update({
+            where: {
+                id: id,
+            },
+            data: {
+                password: password,
+            },
+        });
+        return ({ status: true, message: "success" });
+    } catch (error) {
+        return error;
+    }
+
+}

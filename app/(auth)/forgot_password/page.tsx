@@ -29,7 +29,7 @@ export default function ResetPassword() {
         })
         const res = await data.json()
         setMessage(res.message)
-        console.log(res)
+        // console.log(res)
         setIsLoading(false)
 
     }
@@ -94,7 +94,7 @@ export default function ResetPassword() {
                                         type="submit"
                                         className="flex mt-5 mb-5 w-full mx-auto justify-center rounded-xl bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         disabled={isLoading}>
-                                        {isLoading ? 'Sedang mengirim email...' : 'Send'}
+                                        {isLoading ? 'Sedang mengirim email...' : 'Kirim email tautan reset password'}
                                     </button>
 
                                     {error && <div style={{ color: 'red' }}><small>{error}</small></div>}

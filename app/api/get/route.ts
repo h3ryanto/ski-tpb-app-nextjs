@@ -8,7 +8,7 @@ export async function POST(Request: NextRequest) {
     const term = body.query || '';
     const filter = body.filter || '';;
     const limit = Number(body.limit) || 10;
-    const skip = Number(body.skip) || 1;
+    const skip = Number(body.skip) || 0;
 
     const count = await countData(term, filter);
     const posts = await getData(limit, skip, term, filter);

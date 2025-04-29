@@ -50,7 +50,7 @@ export default function Dokumen(props: {
 				},
 			})
 			const posts = await data.json()
-			console.log(posts, 'posts')
+			// console.log(posts, 'posts')
 			if (posts.posts) {
 				setIsLoading(false);
 				setPosts(posts.posts);

@@ -34,10 +34,8 @@ export function AppAddUsers({ onUserAdded }: AppAddUsersProps) {
     })
 
     if (!validatedFields.success) {
-      console.log(validatedFields.error)
       displayValidationErrors(validatedFields.error);
     } else {
-      console.log(bcrypt.hashSync(validatedFields.data.password))
       const res = await createUser(validatedFields.data.email, validatedFields.data.name, bcrypt.hashSync(validatedFields.data.password)) as { message: string };
       if (res.message === "success") {
         onUserAdded();
