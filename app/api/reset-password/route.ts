@@ -48,9 +48,4 @@ export async function POST(request: NextRequest) {
     } else {
         return Response.json({ message: 'Akses ditolak.', status: false }, { status: 401 })
     }
-
-
-
-
-
 }

@@ -38,3 +38,9 @@ next-env.d.ts
 
 # Public upload directory
 /public/upload
+
+# Run Start for startup windows
+run-start.bat
+
+# Run Start for startup pm2
+pm2.config.js

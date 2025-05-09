@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { RefreshCcwIcon } from 'lucide-react';
 import { Search } from '@/components/ui/app-search';
 
-
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
 	searchParams: SearchParams

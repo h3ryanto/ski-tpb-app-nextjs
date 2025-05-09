@@ -1,9 +1,21 @@
-'use server'
 import { getData, countData } from "@/lib/database/neon_postgresSql/posts";
 import { type NextRequest } from 'next/server'
 import { format } from "date-fns";
+import { auth } from "@/auth"
 
 export async function POST(Request: NextRequest) {
+
+    const session = await auth()
+    if (!session) {
+        return Response.json(
+            { message: 'Unauthorized' },
+            {
+                status: 401, statusText: 'Unauthorized',
+                headers: { 'content-type': 'application/json' }
+            }
+        )
+    }
+
     const body = await Request.json();
     const term = body.query || '';
     const filter = body.filter || '';;
