@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
       const body = await request.json();
       const doc = body[0]
-      console.log(body)
+      // console.log(doc.bahan_baku)
 
 
       const Entitas = body[0].entitas.map((item: any) => ({
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       }))
 
-      const BahanBakuTarif = body[0].BahanBakuTarif && body[0].BahanBakuTarif.map((item: any) => ({
+      const BahanBakuTarif = body[0].bahan_baku_tarif && body[0].bahan_baku_tarif.map((item: any) => ({
         seri_barang: item.seri_barang,
         seri_bahan_baku: item.seri_bahan_baku,
         kode_asal_bahan_baku: item.kode_asal_bahan_baku,
@@ -153,7 +153,7 @@ export async function POST(request: Request) {
 
       })) || []
 
-      const BahanBakuDokumen = body[0].BahanBakuDokumen && body[0].BahanBakuDokumen.map((item: any) => ({
+      const BahanBakuDokumen = body[0].bahan_baku_dokumen && body[0].bahan_baku_dokumen.map((item: any) => ({
         seri_barang: item.seri_barang,
         seri_bahan_baku: item.seri_bahan_baku,
         kode_asal_bahan_baku: item.kode_asal_bahan_baku,
@@ -163,8 +163,8 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       })) || []
 
-
-      const BahanBaku = body[0].BahanBaku && body[0].BahanBaku.map((item: any) => ({
+      // console.log(body[0].bahan_baku)
+      const BahanBaku = body[0].bahan_baku && body[0].bahan_baku.map((item: any) => ({
         seri_barang: item.seri_barang,
         seri_bahan_baku: item.seri_bahan_baku,
         kode_asal_bahan_baku: item.kode_asal_bahan_baku,
@@ -182,7 +182,7 @@ export async function POST(request: Request) {
         kode_dokumen_asal: item.kode_dokumen_asal,
         kode_kantor_asal: item.kode_kantor_asal,
         nomor_daftar_asal: item.nomor_daftar_asal,
-        tanggal_daftar_asal: item.tanggal_daftar_asal,
+        tanggal_daftar_asal: item.tanggal_daftar_asal + "T00:00:00.000000Z",
         nomor_aju_asal: item.nomor_aju_asal,
         seri_barang_asal: item.seri_barang_asal,
         netto: item.netto,
@@ -220,7 +220,7 @@ export async function POST(request: Request) {
 
       }))
 
-      const BankDevisa = body[0].BankDevisa && body[0].BankDevisa.map((item: any) => ({
+      const BankDevisa = body[0].bank_devisa && body[0].bank_devisa.map((item: any) => ({
         seri: item.seri,
         kode: item.kode,
         nama: item.nama,
@@ -229,7 +229,7 @@ export async function POST(request: Request) {
       })) || []
 
 
-      const BarangDokumen = body[0].BarangDokumen && body[0].BarangDokumen.map((item: any) => ({
+      const BarangDokumen = body[0].barang_dokumen && body[0].barang_dokumen.map((item: any) => ({
         seri_barang: item.seri_barang,
         seri_dokumen: item.seri_dokumen,
         seri_izin: item.seri_izin,
@@ -238,7 +238,7 @@ export async function POST(request: Request) {
       })) || []
 
 
-      const BarangEntitas = body[0].BarangEntitas && body[0].BarangEntitas.map((item: any) => ({
+      const BarangEntitas = body[0].barang_entitas && body[0].barang_entitas.map((item: any) => ({
         seri_barang: item.seri_barang,
         seri_dokumen: item.seri_dokumen,
         seri_izin: item.seri_izin,
@@ -248,7 +248,7 @@ export async function POST(request: Request) {
       })) || []
 
 
-      const BarangSpekKhusus = body[0].BarangSpekKhusus && body[0].BarangSpekKhusus.map((item: any) => ({
+      const BarangSpekKhusus = body[0].barang_spek_khusus && body[0].barang_spek_khusus.map((item: any) => ({
         seri_barang: item.seri_barang,
         kode: item.kode,
         uraian: item.uraian,
@@ -256,7 +256,7 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       })) || []
 
-      const BarangTarif = body[0].BarangTarif && body[0].BarangTarif.map((item: any) => ({
+      const BarangTarif = body[0].barang_tarif && body[0].barang_tarif.map((item: any) => ({
         seri_barang: item.seri_barang,
         kode_pungutan: item.kode_pungutan,
         kode_tarif: item.kode_tarif,
@@ -279,7 +279,7 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       })) || []
 
-      const BarangVd = body[0].BarangVd && body[0].BarangVd.map((item: any) => ({
+      const BarangVd = body[0].barang_vds && body[0].barang_vds.map((item: any) => ({
         seri_barang: item.seri_barang,
         kode_vd: item.kode_vd,
         nilai_barang: item.nilai_barang,
@@ -291,7 +291,7 @@ export async function POST(request: Request) {
       })) || []
 
 
-      const Jaminan = body[0].Jaminan && body[0].Jaminan.map((item: any) => ({
+      const Jaminan = body[0].jaminan && body[0].jaminan.map((item: any) => ({
         id: item.id,
         header: item.header,
         nomor_aju: item.nomor_aju,
@@ -302,7 +302,7 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       })) || []
 
-      const Pengangkut = body[0].Pengangkut && body[0].Pengangkut.map((item: any) => ({
+      const Pengangkut = body[0].pengangkut && body[0].pengangkut.map((item: any) => ({
         seri: item.seri,
         kode_cara_angkut: item.kode_cara_angkut,
         nama_pengangkut: item.nama_pengangkut,
@@ -314,7 +314,7 @@ export async function POST(request: Request) {
         updated_at: item.updated_at,
       })) || []
 
-      const Pungutan = body[0].Pungutan && body[0].Pungutan.map((item: any) => ({
+      const Pungutan = body[0].pungutan && body[0].pungutan.map((item: any) => ({
         kode_fasilitas_tarif: item.kode_fasilitas_tarif,
         kode_jenis_pungutan: item.kode_jenis_pungutan,
         nilai_pungutan: item.nilai_pungutan,

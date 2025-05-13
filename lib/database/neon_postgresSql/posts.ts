@@ -79,7 +79,40 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                             kode_valuta: true
                         }
                     }
-                }
+                },
+            },
+            bahan_baku: {
+                select: {
+                    id: true,
+                    seri_barang: true,
+                    seri_bahan_baku: true,
+                    kode_dokumen_asal: true,
+                    nomor_aju_asal: true,
+                    nomor_daftar_asal: true,
+                    tanggal_daftar_asal: true,
+                    hs: true,
+                    kode_barang: true,
+                    uraian: true,
+                    merek: true,
+                    tipe: true,
+                    jumlah_satuan: true,
+                    kode_satuan: true,
+                    cif: true,
+                    header: {
+                        select: {
+                            kode_valuta: true
+                        }
+                    }
+                },
+                orderBy: [
+                    {
+                        seri_bahan_baku: 'asc',
+                    },
+                    {
+                        seri_barang: 'asc',
+                    },
+
+                ],
             },
         },
         where: {
