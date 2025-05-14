@@ -40,7 +40,7 @@ const TabsBahanBaku = ({ posts }: { posts: Header | Entitas | Bahan_Baku }) => {
     return (
         <Card className=' overflow-y-auto w-full h-[75vh]'>
             <CardHeader className="bg-slate-200 h-10 p-2 px-10">
-                <div className="font-semibold">Barang</div>
+                <div className="font-semibold">Bahan Baku</div>
             </CardHeader>
             <CardContent className="space-y-2 text-sm my-1 ">
                 <div className="p-3">

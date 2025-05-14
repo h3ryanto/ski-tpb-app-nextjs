@@ -109,3 +109,40 @@ export async function countData({ date_from, date_to }: { date_from?: string, da
     return count;
 
 }
+
+
+export async function retriveDataKontainer({ date_from, date_to }: { date_from?: string, date_to?: string }) {
+    const sql = neon(`${process.env.DATABASE_URL}`);
+
+    const posts = await sql`
+    SELECT    
+    (CASE 
+    WHEN "Header".kode_dokumen = '23' THEN 'Import' 
+    WHEN "Header".kode_dokumen = '30' OR "Header".kode_dokumen = '33' THEN 'Eksport' 
+    END) AS "kontainer",
+    COUNT(CASE WHEN "Kontainer".kode_ukuran_kontainer = '40' AND "Header".kode_dokumen ='23' THEN 1 END)::numeric AS "import_40",
+    COUNT(CASE WHEN "Kontainer".kode_ukuran_kontainer = '20' AND "Header".kode_dokumen ='23' THEN 1 END)::numeric AS "import_20",
+    COUNT(CASE WHEN "Kontainer".kode_ukuran_kontainer = '40' AND ("Header".kode_dokumen ='30' OR "Header".kode_dokumen ='33') THEN 1 END)::numeric AS "export_40",
+    COUNT(CASE WHEN "Kontainer".kode_ukuran_kontainer = '20' AND ("Header".kode_dokumen ='30' OR "Header".kode_dokumen ='33') THEN 1 END)::numeric AS "export_20",
+    COUNT(CASE 
+            WHEN ("Header".kode_dokumen ='30' OR "Header".kode_dokumen ='33') THEN 1 
+            WHEN "Header".kode_dokumen ='23'THEN 1 
+    END)::numeric AS "jumlah",
+    (CASE 
+        WHEN "Header".kode_dokumen = '23' THEN 'var(--color-23)' 
+        WHEN "Header".kode_dokumen = '30' THEN 'var(--color-30)'
+        WHEN "Header".kode_dokumen = '33' THEN 'var(--color-33)'
+        ELSE 'var(--color-other)'
+    END) AS fill
+    FROM "Header"
+    inner JOIN "Kontainer" ON "Kontainer".nomor_aju = "Header".nomor_aju
+    WHERE
+    "Header".tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}
+    AND
+    "Header".kode_dokumen IN ('23','30','33')
+    GROUP BY "Header".kode_dokumen
+    ORDER BY "Header".kode_dokumen`
+    // console.log(posts);
+    return posts;
+}
+

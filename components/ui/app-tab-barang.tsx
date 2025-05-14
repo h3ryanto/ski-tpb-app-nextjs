@@ -23,7 +23,10 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
 
     useEffect(() => {
         if ('barang' in posts) {
-            setPostsBarang(posts.barang as any[]);
+            // setPostsBarang(posts.barang as any[]);
+            const barangArray = posts.barang as Barang[];
+            const ascbarang = barangArray.sort((a, b) => Number(a.seri_barang) - Number(b.seri_barang));
+            setPostsBarang(ascbarang as any[]);
         }
     }, [posts])
 
