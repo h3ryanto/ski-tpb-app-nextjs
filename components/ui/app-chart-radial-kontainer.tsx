@@ -11,7 +11,6 @@ import {
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import Link from "next/link"
 // import Link from "next/link"
 import React from "react"
 import {
@@ -87,34 +86,32 @@ const AppChartRadialKontainer = React.forwardRef<
                                     ({ viewBox }) => {
                                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                             return (
-                                                <Link
-                                                    href={`/dokumen?kodeValuta=${data.kode_valuta}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`} className="cursor-pointer"
+
+                                                <text
+                                                    x={viewBox.cx}
+                                                    y={viewBox.cy}
+                                                    textAnchor="middle"
+                                                    dominantBaseline="middle"
                                                 >
-                                                    <text
+
+                                                    <tspan
                                                         x={viewBox.cx}
                                                         y={viewBox.cy}
-                                                        textAnchor="middle"
-                                                        dominantBaseline="middle"
+                                                        className="fill-foreground text-4xl font-bold"
                                                     >
+                                                        {chartData[0].jumlah.toLocaleString()}
 
-                                                        <tspan
-                                                            x={viewBox.cx}
-                                                            y={viewBox.cy}
-                                                            className="fill-foreground text-4xl font-bold"
-                                                        >
-                                                            {chartData[0].jumlah.toLocaleString()}
+                                                    </tspan>
+                                                    < tspan
+                                                        x={viewBox.cx}
+                                                        y={(viewBox.cy || 0) + 24
+                                                        }
+                                                        className="fill-muted-foreground"
+                                                    >
+                                                        Jumlah Kontainer
+                                                    </tspan>
+                                                </text>
 
-                                                        </tspan>
-                                                        < tspan
-                                                            x={viewBox.cx}
-                                                            y={(viewBox.cy || 0) + 24
-                                                            }
-                                                            className="fill-muted-foreground"
-                                                        >
-                                                            Jumlah Kontainer
-                                                        </tspan>
-                                                    </text>
-                                                </Link>
                                             )
                                         }
                                     }

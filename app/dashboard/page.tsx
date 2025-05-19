@@ -4,8 +4,8 @@ import AppChartPie from '@/components/ui/app-chart-pie'
 import AppChartRadial from '@/components/ui/app-chart-radial'
 import DatePickerWithRange from '@/components/ui/app-date'
 import { CardHeader } from '@/components/ui/card'
-import { retriveDataChart, retriveDataStatikChart, countData, retriveDataKontainer } from '@/lib/database/neon_postgresSql/chart'
 import { use, useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast"
 
 import React from 'react'
 import { format } from "date-fns";
@@ -15,6 +15,7 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Dashboard = (props: {
     searchParams: SearchParams
 }) => {
+    const { toast } = useToast()
     const [dataCount, setDataCount] = useState<number>(0);
     const [dataChart, setDataChart] = useState<any[]>([]);
     const [dataChartContainer, setDataChartContainer] = useState<any[]>([]);
@@ -22,19 +23,37 @@ const Dashboard = (props: {
     const [dateFrom, setDateFrom] = useState<string>(format(`${format(new Date().toISOString(), "yyyy")}-01-01`, "yyyy-MM-dd"));
     const [dateTo, setDateTo] = useState<string>(format(new Date().toISOString(), "yyyy-MM-dd"));
     const searchParams = use(props.searchParams)
-    const getData = async (date_from: string, date_to: string) => {
-        const result = await retriveDataChart({ date_from, date_to })
-        const Statistic = await retriveDataStatikChart({ date_from, date_to })
-        const count = await countData({ date_from, date_to });
-        const jlmContainer = await retriveDataKontainer({ date_from, date_to });
-        // console.log(jlmContainer)
-        setDataCount(count[0].jumlah);
-        setDataChartStatistic(Statistic)
-        setDataChartContainer(jlmContainer)
-        setDataChart(result)
-        // setCountData(count)
-        // console.log(count[0].jumlah)
-    }
+    const getData = React.useCallback(async (date_from: string, date_to: string) => {
+
+        try {
+            const data = await fetch('/api/get-chart', {
+                method: 'POST',
+                body: JSON.stringify({
+                    date_from: date_from,
+                    date_to: date_to,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            const posts = await data.json()
+            console.log(posts, 'posts')
+            if (posts.posts) {
+                setDataCount(Number(posts.count || 0));
+                setDataChartStatistic(posts.Statistic)
+                setDataChartContainer(posts.jlmContainer)
+                setDataChart(posts.posts)
+            }
+        } catch (error) {
+            console.error(error)
+            toast({
+                variant: 'destructive',
+                title: "Error Conecting Server Database",
+                description: `${error}`,
+            })
+        }
+    }, [toast])
+
     // console.log(dataCount)
     useEffect(() => {
         if (searchParams?.date_from && searchParams?.date_to) {
@@ -46,7 +65,7 @@ const Dashboard = (props: {
             getData(dateFrom, dateTo)
         }
 
-    }, [searchParams, dateFrom, dateTo])
+    }, [searchParams, dateFrom, dateTo, getData])
     return (
         <div>
             <AppCardDekstop >
