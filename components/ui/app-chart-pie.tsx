@@ -157,7 +157,7 @@ const AppChartPie = React.forwardRef<
                 <div className="text-muted-foreground">
                     <p>Persentasi keberhasilan pemberian fasilitas minimum 1.75%</p>
                     <p>Persentasi = (nilai eksport-BC 2.7 IN)/nilai impor (Bahan Baku)</p>
-                    <p>{(((dataBC30 + dataBC33) - dataBC27) / dataBC23).toFixed(4)} % = {formatCurrency(Number((dataBC30 + dataBC33) - dataBC27), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}</p>
+                    <p>{(((dataBC30 + dataBC33) - dataBC27) / dataBC23).toFixed(4)} % = {formatCurrency(Number(dataBC30 + dataBC33), 'IDR')} - {formatCurrency(Number(dataBC27), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}</p>
                 </div>
             </CardFooter>
         </Card>
