@@ -20,6 +20,7 @@ import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
 import { Circle, CircleCheckBigIcon, FileText, InboxIcon } from "lucide-react";
 import React from 'react';
+// import SheetJSReactAoO from './app-xlsx-import';
 
 export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
@@ -48,7 +49,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 			<Card>
 				<CardHeader className='pb-2'>
 					{children}
-					{/* <Search><></></Search> */}
+					{/* {SheetJSReactAoO()} */}
 				</CardHeader>
 				<CardContent className='overflow-y-auto h-[calc(100vh-240px)]'>
 					<table className="table-auto hidden md:table w-full">

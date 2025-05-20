@@ -85,7 +85,7 @@ const AppChartPie = React.forwardRef<
 
     // console.log(dataBC23, dataBC27, dataBC30, dataBC33)
     const totalVisitors = React.useMemo(() => {
-        return ((dataBC30 + dataBC33) / (dataBC23 + dataBC27)).toFixed(4);
+        return (((dataBC30 + dataBC33) - dataBC27) / dataBC23).toFixed(4);
 
     }, [dataBC23, dataBC30, dataBC33, dataBC27]);
     return (
@@ -156,8 +156,8 @@ const AppChartPie = React.forwardRef<
                 </div> */}
                 <div className="text-muted-foreground">
                     <p>Persentasi keberhasilan pemberian fasilitas minimum 1.75%</p>
-                    <p>Persentasi = nilai eksport/(nilai impor (Bahan Baku) + BC 2.7)</p>
-                    <p>{((dataBC30 + dataBC33) / (dataBC23 + dataBC27)).toFixed(4)} % = {formatCurrency(Number(dataBC30 + dataBC33), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}+ {formatCurrency(Number(dataBC27), 'IDR')}</p>
+                    <p>Persentasi = (nilai eksport-BC 2.7 IN)/nilai impor (Bahan Baku)</p>
+                    <p>{(((dataBC30 + dataBC33) - dataBC27) / dataBC23).toFixed(4)} % = {formatCurrency(Number((dataBC30 + dataBC33) - dataBC27), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}</p>
                 </div>
             </CardFooter>
         </Card>
