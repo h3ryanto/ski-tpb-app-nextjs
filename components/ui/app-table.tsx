@@ -26,7 +26,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 	const countData = posts.length;
 	const { toast } = useToast()
 	const [flag, setFlag] = React.useState<string>("")
-	// console.log(posts)
+	// console.log(Object.keys(posts[0]), 'posts')
 	const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
 		const data = await fetch(`/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
 		const result = await data.json()

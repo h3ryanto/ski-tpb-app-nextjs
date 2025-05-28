@@ -7,11 +7,14 @@ import AppLoading from '@/components/ui/app-loading';
 import { Button } from '@/components/ui/button';
 import { RefreshCcwIcon } from 'lucide-react';
 import { Search } from '@/components/ui/app-search';
+import { ImportDataExcell } from '@/components/ui/app-import-excel';
+import { useSession } from 'next-auth/react';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
 	searchParams: SearchParams
 }) {
+	const session = useSession();
 	const { toast } = useToast()
 	const searchParams = use(props.searchParams)
 	const search = searchParams?.query?.toString() || '';
@@ -78,6 +81,11 @@ export default function Dokumen(props: {
 			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry}>
 				<div className='flex flex-row gap-3'>
 					<Button className='flex flex-row w-fit' onClick={() => getDokumen(limit, skip, search, filter)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+					{session.data?.user?.isAdmin && (
+						<div className='flex items-center'>
+							<ImportDataExcell />
+						</div>
+					)}
 					<div className='flex items-center'>
 						<Search />
 					</div>

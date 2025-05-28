@@ -37,7 +37,6 @@ const Dashboard = (props: {
                 },
             })
             const posts = await data.json()
-            console.log(posts, 'posts')
             if (posts.posts) {
                 setDataCount(Number(posts.count || 0));
                 setDataChartStatistic(posts.Statistic)
@@ -54,7 +53,6 @@ const Dashboard = (props: {
         }
     }, [toast])
 
-    // console.log(dataCount)
     useEffect(() => {
         if (searchParams?.date_from && searchParams?.date_to) {
             setDateFrom(`${searchParams?.date_from?.toString() || ''}`)

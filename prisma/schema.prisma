@@ -132,7 +132,18 @@ nomor_bukti_bayar		      String?
 tanggal_bukti_bayar		    String?		
 kode_jenis_nilai		      String?		
 nomor_daftar		          String?		
-tanggal_daftar		        DateTime @default(now())		
+tanggal_daftar		        DateTime @default(now())	
+kode_kantor_muat          String?		
+kode_asal_barang_ftz      String?	
+kode_tujuan_pengeluaran   String?	
+ppn_pajak                 String?	
+ppnbm_pajak               String?	
+tarif_ppn_pajak           String?	
+tarif_ppnbm_pajak         String?	
+barang_tidak_berwujud     String?
+kode_jenis_pengeluaran    String?
+barang_kiriman            String?
+kode_jenis_pengangkut     String?
 create_by		              String?		
 created_at		            DateTime @default(now())		
 updated_at		            DateTime @updatedAt		
@@ -155,6 +166,7 @@ nomor_ijin_entitas	      String?
 tanggal_ijin_entitas	    String? 
 kode_negara	              String? 
 niper_entitas	            String? 
+kode_kategori_konsolidator String?
 created_at		            DateTime @default(now())		
 updated_at		            DateTime @default(now())	
 }
@@ -448,9 +460,15 @@ model Jaminan{
   id                      BigInt @id @default(autoincrement())
   header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
   nomor_aju               String
-  kode_fasilitas_tarif    String?
-  kode_jenis_pungutan     String?
-  nilai_pungutan          String?
+  kode_kantor             String?
+  kode_jaminan            String?
+  nomor_jaminan           String?
+  tanggal_jaminan         DateTime?
+  nilai_jaminan           String?  
+  penjamin                String?
+  tanggal_jatuh_tempo     DateTime?
+  nomor_bpj               String?
+  tanggal_bpj             DateTime?
   created_at              DateTime @default(now())
   updated_at              DateTime @default(now())
 }

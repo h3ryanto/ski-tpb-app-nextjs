@@ -291,16 +291,16 @@ export async function POST(request: Request) {
       })) || []
 
 
-      const Jaminan = body[0].jaminan && body[0].jaminan.map((item: any) => ({
-        id: item.id,
-        header: item.header,
-        nomor_aju: item.nomor_aju,
-        kode_fasilitas_tarif: item.kode_fasilitas_tarif,
-        kode_jenis_pungutan: item.kode_jenis_pungutan,
-        nilai_pungutan: item.nilai_pungutan,
-        created_at: item.created_at,
-        updated_at: item.updated_at,
-      })) || []
+      // const Jaminan = body[0].jaminan && body[0].jaminan.map((item: any) => ({
+      //   id: item.id,
+      //   header: item.header,
+      //   nomor_aju: item.nomor_aju,
+      //   kode_fasilitas_tarif: item.kode_fasilitas_tarif,
+      //   kode_jenis_pungutan: item.kode_jenis_pungutan,
+      //   nilai_pungutan: item.nilai_pungutan,
+      //   created_at: item.created_at,
+      //   updated_at: item.updated_at,
+      // })) || []
 
       const Pengangkut = body[0].pengangkut && body[0].pengangkut.map((item: any) => ({
         seri: item.seri,
@@ -426,6 +426,17 @@ export async function POST(request: Request) {
             kode_jenis_nilai: doc.kode_jenis_nilai,
             nomor_daftar: doc.nomor_daftar,
             tanggal_daftar: doc.tanggal_daftar + "T00:00:00.000000Z",
+            kode_kantor_muat: "",
+            kode_asal_barang_ftz: "",
+            kode_tujuan_pengeluaran: "",
+            ppn_pajak: "",
+            ppnbm_pajak: "",
+            tarif_ppn_pajak: "",
+            tarif_ppnbm_pajak: "",
+            barang_tidak_berwujud: "",
+            kode_jenis_pengeluaran: "",
+            barang_kiriman: "",
+            kode_jenis_pengangkut: "",
             create_by: doc.create_by,
             created_at: doc.created_at,
             updated_at: doc.updated_at,
@@ -513,12 +524,12 @@ export async function POST(request: Request) {
                 data: BarangVd
               }
             },
-            jaminan:
-            {
-              createMany: {
-                data: Jaminan
-              }
-            },
+            // jaminan:
+            // {
+            //   createMany: {
+            //     data: Jaminan
+            //   }
+            // },
             pengangkut:
             {
               createMany: {
