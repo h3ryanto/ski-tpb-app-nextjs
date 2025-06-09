@@ -52,7 +52,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 					{/* {SheetJSReactAoO()} */}
 				</CardHeader>
 				<CardContent className='overflow-y-auto h-[calc(100vh-240px)]'>
-					<table className="table-auto hidden md:table w-full">
+					<table className="table-auto hidden md:table w-full ">
 						<thead className='top-10 '>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
 								<th scope="col" className='align-top p-2'><div className='pt-2'>No.</div></th>
@@ -91,12 +91,12 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 										<DatePickerWithRange />
 									</div>
 								</th>
-								<th scope="col" className='p-2'>
+								<th scope="col" className='p-2 '>
 									<Filter id="dokumen">
 										<div className='mb-3'>Dokumen</div>
 									</Filter>
 								</th>
-								<th scope="col" className='p-2'></th>
+								<th scope="col" className='p-2 sticky right-0'></th>
 							</tr>
 						</thead>
 						<tbody >

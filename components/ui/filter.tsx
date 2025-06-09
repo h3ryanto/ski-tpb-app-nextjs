@@ -101,7 +101,7 @@ export default function Filter({ children, id }: Props) {
                 text-sm px-2"
                         />
                         {(activeId === id && result.length > 0) &&
-                            <div className='absolute bg-white rounded-sm shadow-md p-2 mt-1 top-7 left-0 w-full max-h-40 overflow-y-auto'>
+                            <div className='absolute bg-white rounded-sm shadow-md p-1 mt-1 top-7 left-0 w-auto max-h-40 overflow-y-auto'>
                                 <ul className="divide-y divide-gray-100">
                                     {activeId === id && result && result.map((item, index) => (
                                         <li

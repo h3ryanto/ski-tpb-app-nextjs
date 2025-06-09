@@ -56,7 +56,6 @@ export function AppSidebar() {
                     <div className="grid items-center justify-end px-4 md:hidden">
                         <CloseTrigger />
                     </div>
-
                     <SidebarGroup>
                         <SidebarGroupLabel>Application</SidebarGroupLabel>
                         <SidebarGroupContent>
