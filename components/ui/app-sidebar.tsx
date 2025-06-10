@@ -46,7 +46,7 @@ export function AppSidebar() {
     }
     console.log(pathname, 'pathname')
     // console.log(session.data?.user?.image)
-    if (session.data && pathname != '/pdf') {
+    if (session.data && !pathname.startsWith('/pdf')) {
         return (
             <Sidebar collapsible="icon">
                 <SidebarHeader>

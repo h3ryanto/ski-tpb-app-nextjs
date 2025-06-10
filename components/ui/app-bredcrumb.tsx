@@ -19,7 +19,7 @@ const AppBreadCrumb = () => {
     const pathname = usePathname();
     // console.log(pathname.split('/').slice(1));
     const session = useSession();
-    if (session.data && pathname != '/pdf') {
+    if (session.data && !pathname.startsWith('/pdf')) {
         return (
             <header className="flex h-12 sticky top-0  dark:bg-slate-800 shrink-0 items-center justify-between px-6 gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 md:bg-white bg-slate-50">
                 <div className="flex items-center gap-2 md:px-2">
