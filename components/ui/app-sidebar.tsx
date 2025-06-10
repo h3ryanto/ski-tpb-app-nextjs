@@ -19,6 +19,7 @@ import { useSession } from 'next-auth/react';
 import { NavUser } from "./nav-user"
 import { CloseTrigger } from "./close-trigger-sidebar"
 
+
 function classNames(...classes: (string | undefined | null | false)[]): string {
     return classes.filter(Boolean).join(' ');
 }
@@ -43,8 +44,9 @@ export function AppSidebar() {
             avatar: session.data?.user?.image || '',
         }
     }
+    console.log(pathname, 'pathname')
     // console.log(session.data?.user?.image)
-    if (session.data) {
+    if (session.data && pathname != '/pdf') {
         return (
             <Sidebar collapsible="icon">
                 <SidebarHeader>

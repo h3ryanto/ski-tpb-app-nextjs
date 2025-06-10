@@ -1,3 +1,4 @@
+
 import AppCopyText from '@/components/ui/app-copy-text';
 import DatePickerWithRange from '@/components/ui/app-date';
 import { AppDetailDokumen } from '@/components/ui/app-detail-dokumen';
@@ -19,6 +20,7 @@ import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
 import { Circle, CircleCheckBigIcon, FileText, InboxIcon } from "lucide-react";
+// import { redirect } from 'next/navigation';
 import React from 'react';
 // import SheetJSReactAoO from './app-xlsx-import';
 
@@ -39,8 +41,9 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 			})
 		}
 		if ((result.url) && (data.status === 200)) {
-			window.open(result.url)
-			// redirect(posts);
+			// window.location.href = '/pdf';
+			window.open('/pdf')
+			// redirect('/pdf');
 		}
 	}
 	return (
