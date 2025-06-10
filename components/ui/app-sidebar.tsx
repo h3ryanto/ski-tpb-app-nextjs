@@ -44,7 +44,7 @@ export function AppSidebar() {
             avatar: session.data?.user?.image || '',
         }
     }
-    console.log(pathname, 'pathname')
+    // console.log(pathname, 'pathname')
     // console.log(session.data?.user?.image)
     if (session.data && !pathname.startsWith('/pdf')) {
         return (

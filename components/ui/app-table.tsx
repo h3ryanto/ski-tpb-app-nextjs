@@ -42,8 +42,9 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 		}
 		if ((result.url) && (data.status === 200)) {
 			// window.location.href = '/pdf';
-			window.open(`/pdf/${year}/${kode_dokumen}/${q}`)
+			// window.open(`/pdf/${year}/${kode_dokumen}/${q}`)
 			// redirect('/pdf');
+			window.open(`${result.url}`)
 		}
 	}
 	return (

@@ -9,6 +9,7 @@ export default async function PdfView({
         const result = await data.json()
 
         if ((result.url) && (data.status === 200)) {
+            console.log(result.url)
       return (
         <div className="w-screen h-svh mx-auto flex flex-col items-center">
             <iframe src={result?.url} className='aspect-square w-full h-full'></iframe>
