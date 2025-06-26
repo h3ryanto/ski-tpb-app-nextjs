@@ -64,6 +64,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
             barang: {
                 select: {
                     id: true,
+                    seri_barang: true,
                     kode_barang: true,
                     uraian: true,
                     hs: true,

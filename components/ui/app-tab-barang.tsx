@@ -29,7 +29,6 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
             setPostsBarang(ascbarang as any[]);
         }
     }, [posts])
-
     return (
         <Card className=' overflow-y-auto w-full h-[75vh]'>
             <CardHeader className="bg-slate-200 h-10 p-2 px-10">
