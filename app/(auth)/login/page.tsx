@@ -26,6 +26,7 @@ export default function Login(props: {
     event.preventDefault()
     setIsLoading(true)
 
+
     try {
       const formData = new FormData(event.currentTarget)
       const res = await signIn('credentials', {
