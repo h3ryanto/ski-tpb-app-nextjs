@@ -1,19 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import React, { useState, FormEvent } from 'react'
+import React, { useState, FormEvent, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
 import login_sm from "@/public/svg/login_sm.svg"
 import login_md from "@/public/svg/login_md.svg"
 import { useSession } from 'next-auth/react';
 import { useToast } from "@/hooks/use-toast"
-import { Key, LoaderCircle, User } from "lucide-react"
+import { Key, User } from "lucide-react"
 import Loading from '@/app/dokumen/loading'
 
-
-export default function Login() {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+export default function Login(props: {
+  searchParams: SearchParams
+}) {
+  const searchParams = use(props.searchParams)
+  const url = searchParams?.from?.toString() || '/dashboard';
   const session = useSession();
   const { toast } = useToast()
   const router = useRouter()
@@ -34,7 +37,8 @@ export default function Login() {
       // console.log(res)
 
       if (!res?.error) {
-        router.replace('/dashboard')
+
+        router.replace(url)
         toast({
           title: "Login Berhasil",
           description: "Berhasil masuk ke SSO",

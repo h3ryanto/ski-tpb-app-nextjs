@@ -517,6 +517,7 @@ model User{
   photo                   String?
   isAdmin                 Boolean @default(false)
   isActive                Boolean @default(true)
+  isGuest                 Boolean @default(false)
 }
 
 model Files{

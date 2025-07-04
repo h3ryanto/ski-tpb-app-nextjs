@@ -26,7 +26,8 @@ export default {
                                 email: users.email,
                                 name: users.name,
                                 photo: users.photo,
-                                isAdmin: users.isAdmin
+                                isAdmin: users.isAdmin,
+                                isGuest: users.isGuest
                             }
                             return user
 

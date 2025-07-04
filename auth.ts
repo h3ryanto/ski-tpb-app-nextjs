@@ -23,9 +23,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (user.photo) {
           token.photo = user.photo;
         }
-        if (user.photo) {
+        // If the user is an admin or guest, add those properties to the token
+        if (user.isGuest) {
+          token.isGuest = user.isGuest;
+        }
+        if (user.isAdmin) {
           token.isAdmin = user.isAdmin;
         }
+
       }
       return token
     },
@@ -43,6 +48,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           name: token.name,
           image: token.photo,
           isAdmin: token.isAdmin,
+          isGuest: token.isGuest
         };
       }
 
