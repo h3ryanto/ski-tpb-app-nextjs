@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import React, { useState, FormEvent, use } from 'react'
+import React, { useState, FormEvent} from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
 import login_sm from "@/public/svg/login_sm.svg"
