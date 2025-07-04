@@ -17,14 +17,16 @@ export default auth((req) => {
   if (!req.auth &&
     !isPublicRoute &&
     !path.startsWith('/.well-known') &&
-    !path.startsWith('/_next')) {
+    !path.startsWith('/_next')&&
+    !path.startsWith('/api') &&
+    !path.startsWith('/favicon.ico') ){
     const newUrl = new URL('/login', req.nextUrl.origin)
     const response = NextResponse.redirect(newUrl);
 
     // Set cookie pada response
     response.cookies.set('from', path, {
       path: '/',
-      maxAge: 60 * 1, // 1 menit (opsional)
+      maxAge: 60 * 5, // 5 menit (opsional)
       // httpOnly: true, // jika ingin hanya bisa diakses server
     });
     return response;

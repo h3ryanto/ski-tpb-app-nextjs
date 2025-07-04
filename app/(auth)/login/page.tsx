@@ -10,18 +10,17 @@ import { useSession } from 'next-auth/react';
 import { useToast } from "@/hooks/use-toast"
 import { Key, User } from "lucide-react"
 import Loading from '@/app/dokumen/loading'
+import Cookies from 'js-cookie'
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-export default function Login(props: {
-  searchParams: SearchParams
-}) {
-  const searchParams = use(props.searchParams)
-  const url = searchParams?.from?.toString() || '/dashboard';
+
+export default function Login() {
+  
   const session = useSession();
   const { toast } = useToast()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+const myCookie = Cookies.get('from') 
+const url = myCookie ? myCookie : '/dashboard'
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
