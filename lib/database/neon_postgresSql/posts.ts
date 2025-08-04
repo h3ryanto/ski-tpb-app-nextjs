@@ -143,10 +143,9 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                     // kode_entitas: { in: filter.entitas ? ['9'] : [], mode: 'insensitive' },
                 },
             },
-
             dokumen: {
                 some: {
-                    nomor_dokumen: { contains: filter.nomor_dokumen, mode: 'insensitive' }
+                    nomor_dokumen: { contains: filter.dokumen, mode: 'insensitive' }
                 }
             },
             OR: [
