@@ -12,7 +12,6 @@ import {
 import Filter from '@/components/ui/filter';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-import SortBy from '@/components/ui/sortBy';
 import FileUpload from '@/components/ui/uploadCloudinary';
 import { useToast } from "@/hooks/use-toast";
 // import downloadExcelFile from '@/utils/downloadExcel';
@@ -30,17 +29,16 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 	const [flag, setFlag] = React.useState<string>("")
 	// console.log(Object.keys(posts[0]), 'posts')
 	const pdfUrl = async (q: string, year: string, kode_dokumen: string) => {
-		const data = await fetch(`/api/getPdf?q=${q}&path=Documens/${year}/${kode_dokumen}`)
-		const result = await data.json()
-		// console.log(result)
+		const data = await fetch(`/api/getPdf/${year}/${kode_dokumen}/${q}`)
+
 		if (data.status === 404) {
+			const result = await data.json()
 			toast({
 				variant: "destructive",
 				title: result.title,
 				description: result.message,
 			})
-		}
-		if ((result.url) && (data.status === 200)) {
+		} else {
 			// window.location.href = '/pdf';
 			window.open(`/pdf/${year}/${kode_dokumen}/${q}`)
 			// redirect('/pdf');
@@ -60,47 +58,40 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 						<thead className='top-10 '>
 							<tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
 								<th scope="col" className='align-top p-2'><div className='pt-2'>No.</div></th>
-								<th scope="col" className='p-2'>
+								<th scope="col" className='p-3'>
 									<FilterDokumen>
-										<SortBy sortBy='kode_dokumen'>
-											<div>Dok</div>
-										</SortBy>
+										<div className='mb-3'>Dok</div>
 									</FilterDokumen>
 								</th>
-								<th scope="col" className='p-2'>
+								<th scope="col" className='p-3'>
 									<Filter id="nomorAju">
-										<SortBy sortBy='nomor_aju'>
-											<div>Nomor Aju</div>
-										</SortBy>
+										<div className='mb-3'>Nomor Aju</div>
 									</Filter>
 								</th>
-								<th scope="col" className='p-2'>
-
+								<th scope="col" className='p-3'>
 									<Filter id="suplier">
-										<SortBy sortBy='nama_entitas'>
-											<div>Supplier / Customers</div>
-										</SortBy>
+										<div className='mb-3'>Supplier / Customers</div>
 									</Filter>
 								</th>
-								<th scope="col" className='p-2'>
+								<th scope="col" className='p-3'>
 									<Filter id="nomorDaftar">
 										<div className='mb-3'>Nomor Daftar</div>
 									</Filter>
 								</th>
 								<th scope="col" className='p-2'>
 									<div className='flex flex-col gap-1'>
-										<SortBy sortBy='tanggal_daftar'>
-											<div>Tanggal Daftar</div>
-										</SortBy>
+
+										<div className='mb-3'>Tanggal Daftar</div>
+
 										<DatePickerWithRange />
 									</div>
 								</th>
-								<th scope="col" className='p-2 '>
+								<th scope="col" className='p-2'>
 									<Filter id="dokumen">
 										<div className='mb-3'>Dokumen</div>
 									</Filter>
 								</th>
-								<th scope="col" className='p-2 sticky right-0'></th>
+								<th scope="col" className='p-3 sticky right-0'></th>
 							</tr>
 						</thead>
 						<tbody >
