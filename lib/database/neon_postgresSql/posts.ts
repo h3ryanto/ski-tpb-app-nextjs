@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma/init';
 export async function getData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     let date_from: string;
     let date_to: string;
-    //console.log(filter.no_dokumen)
+    console.log(filter)
     if (filter.date_from && filter.date_to) {
         date_from = filter.date_from;
         date_to = filter.date_to;
