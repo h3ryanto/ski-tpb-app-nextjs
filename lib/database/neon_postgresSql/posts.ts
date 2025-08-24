@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma/init';
 export async function getData(limit: number = 10, skip: number = 0, query: any = '', filter: any = '') {
     let date_from: string;
     let date_to: string;
-    // console.log(skip)
+    console.log(filter.nomor_dokumen)
     if (filter.date_from && filter.date_to) {
         date_from = filter.date_from;
         date_to = filter.date_to;
@@ -145,7 +145,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
             },
             dokumen: {
                 some: {
-                    nomor_dokumen: { contains: filter.dokumen, mode: 'insensitive' }
+                    nomor_dokumen: { contains: filter.nomor_dokumen, mode: 'insensitive' }
                 }
             },
             OR: [
