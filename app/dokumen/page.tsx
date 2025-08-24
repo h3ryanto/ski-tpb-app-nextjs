@@ -22,13 +22,13 @@ export default function Dokumen(props: {
 	const nomor_aju = searchParams?.nomorAju?.toString() || '';
 	const entitas = searchParams?.suplier?.toString() || '';
 	const nomor_daftar = searchParams?.nomorDaftar?.toString() || '';
-	const nomor_dokumen = searchParams?.dokumen?.toString() || '';
+	const no_dokumen = searchParams?.dokumen?.toString() || '';
 	const date_from = searchParams?.date_from?.toString() || '';
 	const date_to = searchParams?.date_to?.toString() || '';
 	const sortBy = searchParams?.sortBy?.toString() || '';
 	const asc = searchParams?.asc?.toString() || '';
 	const kode_valuta = searchParams?.kodeValuta?.toString() || '';
-	const filter = useMemo(() => ({ kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen, date_from, date_to, sortBy, asc, kode_valuta }), [kode_dokumen, nomor_aju, entitas, nomor_daftar, nomor_dokumen, date_from, date_to, sortBy, asc, kode_valuta])
+	const filter = useMemo(() => ({ kode_dokumen, nomor_aju, entitas, nomor_daftar, no_dokumen, date_from, date_to, sortBy, asc, kode_valuta }), [kode_dokumen, nomor_aju, entitas, nomor_daftar, no_dokumen, date_from, date_to, sortBy, asc, kode_valuta])
 	const currenPage = Number(searchParams?.page) || 1;
 	const limit = Number(searchParams?.pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
