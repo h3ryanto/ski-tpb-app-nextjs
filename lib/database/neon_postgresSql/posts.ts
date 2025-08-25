@@ -194,7 +194,7 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
         take: limit,
         skip: skip,
     });
-
+console.log(posts)
     return posts;
 }
 

@@ -179,6 +179,12 @@ const AppChartRadial = React.forwardRef<
                                 <div>FOB Rupiah : {formatCurrency(data.fob_rupiah, 'IDR')}</div>
                             </div>
                         )) ||
+                        (data.kode_dok == '33' && (
+                            <div>
+                                <div>FOB : {formatCurrency(data.fob, 'USD')}</div>
+                                <div>FOB Rupiah : {formatCurrency(data.fob_rupiah, 'IDR')}</div>
+                            </div>
+                        )) ||
                         (data.kode_dok == '40' && (
                             <div>
                                 <div>Bahan baku :</div>
