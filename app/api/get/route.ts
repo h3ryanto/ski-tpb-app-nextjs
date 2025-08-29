@@ -23,6 +23,7 @@ export async function POST(Request: NextRequest) {
     const skip = Number(body.skip) || 0;
 
     const count = await countData(term, filter);
+
     const posts = await getData(limit, skip, term, filter);
 
     const convertBigInt = (obj: any): any => {
@@ -41,7 +42,7 @@ export async function POST(Request: NextRequest) {
     return Response.json(
         {
             posts: convertBigInt(posts),
-            count: count.length
+            count: {count}
         },
         {
             status: 200, statusText: 'OK',
