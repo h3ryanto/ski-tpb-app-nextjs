@@ -51,12 +51,15 @@ export default function Dokumen(props: {
 					'Content-Type': 'application/json',
 				},
 			})
-			const posts = await data.json()
-			console.log(posts, 'posts')
+			console.log(data, 'data')
+			if (data){
+				const posts = await data.json()			
+			
 			if (posts.posts) {
 				setIsLoading(false);
 				setPosts(posts.posts);
 				setDataEntry(posts.count || 1);
+			}
 			}
 		} catch (error) {
 			console.error(error)

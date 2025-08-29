@@ -105,49 +105,45 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                         }
                     }
                 },
-                orderBy: [
-                    {
-                        seri_bahan_baku: 'asc',
-                    },
-                    {
-                        seri_barang: 'asc',
-                    },
-
-                ],
             },
         },
         where: {
-            kode_dokumen: {
-                contains: filter.kode_dokumen,
-                mode: 'insensitive',
-            },
-            kode_valuta: {
-                contains: filter.kode_valuta,
-                mode: 'insensitive',
-            },
-            nomor_aju: {
-                contains: filter.nomor_aju,
-                mode: 'insensitive',
-            },
-            nomor_daftar: {
-                contains: filter.nomor_daftar,
-                mode: 'insensitive',
-            },
-            tanggal_daftar: {
-                gte: new Date(date_from),
-                lte: new Date(date_to),
-            },
-            entitas: {
-                some: {
-                    nama_entitas: { contains: filter.entitas, mode: 'insensitive' },
-                    // kode_entitas: { in: filter.entitas ? ['9'] : [], mode: 'insensitive' },
-                },
-            },
-            dokumen: {
-                some: {
-                    nomor_dokumen: { contains: filter.no_dokumen, mode: 'insensitive' }
-                }
-            },
+       kode_dokumen: filter?.kode_dokumen
+      ? { contains: filter.kode_dokumen, mode: 'insensitive' }
+      : undefined,
+
+    kode_valuta: filter?.kode_valuta
+      ? { contains: filter.kode_valuta, mode: 'insensitive' }
+      : undefined,
+
+    nomor_aju: filter?.nomor_aju
+      ? { contains: filter.nomor_aju, mode: 'insensitive' }
+      : undefined,
+
+    nomor_daftar: filter?.nomor_daftar
+      ? { contains: filter.nomor_daftar, mode: 'insensitive' }
+      : undefined,
+
+    tanggal_daftar: date_from && date_to
+      ? { gte: new Date(date_from), lte: new Date(date_to) }
+      : undefined,
+
+    entitas: filter?.entitas
+      ? {
+          some: {
+            nama_entitas: { contains: filter.entitas, mode: 'insensitive' },
+          },
+        }
+      : undefined,
+
+    dokumen: filter?.no_dokumen
+      ? {
+          some: {
+            nomor_dokumen: { contains: filter.no_dokumen, mode: 'insensitive' },
+          },
+        }
+      : undefined,
+            
             OR: [
                 { nomor_aju: { contains: query, mode: 'insensitive' } },
                 { nomor_daftar: { contains: query, mode: 'insensitive' } },
@@ -187,9 +183,6 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                     },
                 },
             ],
-        },
-        orderBy: {
-            [filter.sortBy || 'id']: filter.asc === true ? 'asc' : 'desc',
         },
         take: limit,
         skip: skip,

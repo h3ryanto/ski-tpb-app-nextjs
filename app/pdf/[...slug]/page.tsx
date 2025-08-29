@@ -12,13 +12,13 @@ export default async function PdfView({
   //   // const url = `https://${result.url.split('//')[1]}`
   return (
     <div className="w-screen h-svh mx-auto flex flex-col items-center">
-      {/* <iframe src={url} className='aspect-square w-full h-full'></iframe> */}
-      <embed
+      <iframe src={`${process.env.URL}/api/getPdf/${slug[0]}/${slug[1]}/${slug[2]}`} className='aspect-square w-full h-full'></iframe>
+      {/* <embed
         src={`${process.env.URL}/api/getPdf/${slug[0]}/${slug[1]}/${slug[2]}`}
         type="application/pdf"
         width="100%"
         height="100%"
-      />
+      /> */}
     </div>
   )
   // } else {
