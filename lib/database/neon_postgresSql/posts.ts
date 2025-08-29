@@ -184,6 +184,9 @@ export async function getData(limit: number = 10, skip: number = 0, query: any =
                 },
             ],
         },
+        orderBy: {
+            [filter.sortBy || 'id']: filter.asc === true ? 'asc' : 'desc',
+        },
         take: limit,
         skip: skip,
     });
