@@ -201,8 +201,8 @@ export async function countData(query: any = '', filter: any = '') {
         date_from = filter.date_from;
         date_to = filter.date_to;
     } else {
-        date_from = ''
-        date_to = ''
+        date_from = '1900-01-01';
+        date_to = new Date().toISOString().split('T')[0];
     }
     const count = await prisma.header.count({
         where: {
@@ -222,9 +222,9 @@ export async function countData(query: any = '', filter: any = '') {
       ? { contains: filter.nomor_daftar, mode: 'insensitive' }
       : undefined,
 
-    // tanggal_daftar: date_from && date_to
-    //   ? { gte: new Date(date_from), lte: new Date(date_to) }
-    //   : undefined,
+    tanggal_daftar: date_from && date_to
+      ? { gte: new Date(date_from), lte: new Date(date_to) }
+      : undefined,
 
     entitas: filter?.entitas
       ? {
