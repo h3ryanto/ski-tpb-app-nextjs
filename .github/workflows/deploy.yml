@@ -14,8 +14,8 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "NODE_ENV=production" >> .env
-          echo "URL=${{ secrets.URL }}" >> .env
+          echo "NODE_ENV=production" >> .env-local
+          echo "URL=${{ secrets.URL }}" >> .env-local
 
       - name: Build & Recreate container (rolling)
         run: docker compose up -d --build --remove-orphans
