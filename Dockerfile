@@ -1,21 +1,30 @@
-FROM node:20-slim AS builder
+# Gunakan Node.js base image
+FROM node:18-alpine AS builder
+
 WORKDIR /app
 
-# Copy package.json + prisma schema
+# Copy package.json dan install dependencies
 COPY package*.json ./
-COPY prisma ./prisma
+RUN npm install
 
-# Install dependencies
-RUN apt-get update && apt-get install -y python3 make g++ \
-    && npm ci --legacy-peer-deps \
-    && apt-get purge -y --auto-remove python3 make g++ \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy semua source
+# Copy semua source code
 COPY . .
-
-# Generate prisma client
-RUN npx prisma generate
 
 # Build Next.js
 RUN npm run build
+
+# --- Production Stage ---
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+
+# Copy hasil build dari stage builder
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+# Jalankan Next.js
+EXPOSE 3000
+CMD ["npm", "start"]
