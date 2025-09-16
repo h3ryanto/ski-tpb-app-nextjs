@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted
+    runs-on: ski-server-exim
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
