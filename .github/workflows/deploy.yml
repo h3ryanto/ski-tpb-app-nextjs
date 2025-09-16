@@ -10,10 +10,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Allow PowerShell scripts
-        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-        shell: pwsh
           
       - name: Build Docker image
         run: docker build -t nextjs-app .
