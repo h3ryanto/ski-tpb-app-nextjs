@@ -12,11 +12,17 @@ WORKDIR /app
 # Salin file konfigurasi dependensi
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
+
+# Copy prisma schema & migrations
+COPY prisma ./prisma
+
 # Instal semua dependensi
 RUN npm install --frozen-lockfile
 
 # Tahap 2: Build Aplikasi
 FROM base AS builder
+
+
 
 # Salin semua file proyek dari direktori lokal ke dalam citra
 COPY . .
