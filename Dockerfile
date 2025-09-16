@@ -5,13 +5,13 @@ WORKDIR /app
 
 # Copy package.json dan install dependencies
 COPY package*.json ./
-RUN npm install
+
 
 # Copy semua source code
 COPY . .
 
 # Build Next.js
-
+RUN npm install
 RUN npm run build
 
 # --- Production Stage ---
@@ -29,5 +29,6 @@ COPY --from=builder /app/public ./public
 # Jalankan Next.js
 EXPOSE 3000
 CMD ["npm", "start"]
+
 
 
