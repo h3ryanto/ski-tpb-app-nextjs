@@ -11,7 +11,7 @@ WORKDIR /app
 
 # Salin file konfigurasi dependensi
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN npm install --include=dev
+
 
 # Copy prisma schema & migrations
 COPY prisma ./prisma
@@ -32,6 +32,7 @@ RUN npm prune --omit=dev
 
 # Jalankan prisma generate untuk membuat Prisma Client
 # Jalankan build Next.js. Pastikan next.config.js menyertakan `output: "standalone"`
+RUN NEXT_DISABLE_ESLINT=true npm run build
 RUN npm run build && \
     npx prisma generate
 
