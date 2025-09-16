@@ -4,7 +4,12 @@ FROM node:20-slim AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --legacy-peer-deps
+
+# Install build dependencies for native modules
+RUN apt-get update && apt-get install -y python3 make g++ \
+    && npm ci --legacy-peer-deps \
+    && apt-get purge -y --auto-remove python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY . .
 RUN npm run build
