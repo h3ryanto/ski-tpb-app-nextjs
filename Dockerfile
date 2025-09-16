@@ -33,6 +33,7 @@ RUN npm prune --omit=dev
 # Jalankan prisma generate untuk membuat Prisma Client
 # Jalankan build Next.js. Pastikan next.config.js menyertakan `output: "standalone"`
 RUN NEXT_DISABLE_ESLINT=true npm run build
+COPY .env-local .env-local
 RUN npm run build && \
     npx prisma generate
 

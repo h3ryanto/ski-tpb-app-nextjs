@@ -14,32 +14,8 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "NODE_ENV=.env" >> .env
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
-          echo "AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}" >> .env
-          echo "AUTH_URL=${{ secrets.AUTH_URL }}" >> .env
-          echo "URL=${{ secrets.URL }}" >> .env
-          echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
-          echo "AUTH_URL=${{ secrets.AUTH_URL }}" >> .env
-          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
-          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
-          echo "CLOUDINARY_AUTHORIZATION=${{ secrets.CLOUDINARY_AUTHORIZATION }}" >> .env
-          echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
-          echo "CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}" >> .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-          echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> .env
-          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env
-          echo "NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}" >> .env
-          echo "POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}" >> .env
-          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_PRISMA_URL=${{ secrets.POSTGRES_PRISMA_URL }}" >> .env
-          echo "POSTGRES_URL=${{ secrets.POSTGRES_URL }}" >> .env
-          echo "POSTGRES_URL_NON_POOLING=${{ secrets.POSTGRES_URL_NON_POOLING }}" >> .env
-          echo "POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}" >> .env
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "SESSION_SECRET=${{ secrets.SESSION_SECRET }}" >> .env
-
+          echo "NODE_ENV=production" >> .env-local
+          echo "URL=${{ secrets.URL }}" >> .env-local
+   
       - name: Build & Recreate container (rolling)
         run: docker compose up -d --build --remove-orphans
