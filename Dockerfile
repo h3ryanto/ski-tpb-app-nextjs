@@ -45,7 +45,7 @@ RUN addgroup --system --gid 1001 nextjs \
     && adduser --system --uid 1001 nextjs
 
 # Set variabel lingkungan untuk produksi
-ENV NODE_ENV production
+ENV NODE_ENV .env
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Tetapkan direktori kerja
