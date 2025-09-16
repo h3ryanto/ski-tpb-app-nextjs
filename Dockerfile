@@ -1,30 +1,60 @@
-# Gunakan Node.js base image
-FROM node:18-alpine AS builder
+# Tahap 1: Instalasi dependensi
+# Gunakan citra Node.js Alpine untuk ukuran yang lebih kecil
+FROM node:22-alpine AS base
 
+# Instalasi paket tambahan yang dibutuhkan Prisma
+# `libc6-compat` dibutuhkan untuk menjalankan Prisma pada Alpine
+RUN apk add --no-cache libc6-compat
+
+# Buat direktori kerja untuk aplikasi
 WORKDIR /app
 
-# Copy package.json dan install dependencies
-COPY package*.json ./
-RUN npm install
+# Salin file konfigurasi dependensi
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-# Copy semua source code
+# Instal semua dependensi
+RUN npm install --frozen-lockfile
+
+# Tahap 2: Build Aplikasi
+FROM base AS builder
+
+# Salin semua file proyek dari direktori lokal ke dalam citra
 COPY . .
 
-# Build Next.js
-RUN npm run build
+# Hapus dependensi pengembangan yang tidak diperlukan untuk build
+RUN npm prune --omit=dev
 
-# --- Production Stage ---
-FROM node:18-alpine AS runner
+# Jalankan prisma generate untuk membuat Prisma Client
+# Jalankan build Next.js. Pastikan next.config.js menyertakan `output: "standalone"`
+RUN npm run build && \
+    npx prisma generate
+
+# Tahap 3: Citra Produksi yang Sederhana
+# Gunakan kembali citra dasar Alpine untuk mengurangi ukuran
+FROM node:22-alpine AS runner
+
+# Buat pengguna non-root untuk keamanan
+RUN addgroup --system --gid 1001 nextjs \
+    && adduser --system --uid 1001 nextjs
+
+# Set variabel lingkungan untuk produksi
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Tetapkan direktori kerja
 WORKDIR /app
 
-ENV NODE_ENV production
+# Salin folder `standalone` yang dihasilkan dari tahap `builder`
+# Folder ini sudah berisi semua yang dibutuhkan untuk menjalankan aplikasi
+COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nextjs /app/public ./public
 
-# Copy hasil build dari stage builder
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
+# Tetapkan pengguna `nextjs`
+USER nextjs
 
-# Jalankan Next.js
+# Expose port yang digunakan Next.js
 EXPOSE 3000
-CMD ["npm", "start"]
+
+# Jalankan aplikasi
+CMD ["node", "server.js"]
