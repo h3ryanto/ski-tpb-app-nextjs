@@ -1,0 +1,26 @@
+name: Deploy Next.js to Windows Server with Docker
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t nextjs-app .
+
+      - name: Stop old container
+        run: |
+          if (docker ps -q --filter "name=nextjs-app") {
+            docker stop nextjs-app
+            docker rm nextjs-app
+          }
+
+      - name: Run new container
+        run: |
+          docker run -d -p 3000:3000 --name nextjs-app nextjs-app
