@@ -40,6 +40,6 @@ jobs:
           echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.local
           echo "SESSION_SECRET=${{ secrets.SESSION_SECRET }}" >> .env.local    
 
-      - name: Build & Recreate container (rolling)
-        run: docker compose up -d --build --remove-orphans
-       
+      - name: Start Docker Compose
+        run: docker compose --env-file .env.local up -d --build --remove-orphans
+
