@@ -12,13 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-
       - name: Create .env file from secrets
+        env:
+         CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
         run: |
           $utf8NoBom = New-Object System.Text.UTF8Encoding $False
-          $envContent ="CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}"
-            [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
-           
+          $envContent = "CLOUDINARY_URL=$env:CLOUDINARY_URL"
+          [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
+      
       - name: Create .env.local file from secrets
         run: |
           $utf8NoBom = New-Object System.Text.UTF8Encoding $False
