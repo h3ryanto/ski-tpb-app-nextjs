@@ -48,4 +48,4 @@ jobs:
 
       - name: Build & Recreate container (rolling)
         run: docker compose up -d --build --remove-orphans
-        shell: powershell
+       
