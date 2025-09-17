@@ -39,12 +39,12 @@ jobs:
           echo "POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}" >> .env.local
           echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.local
           echo "SESSION_SECRET=${{ secrets.SESSION_SECRET }}" >> .env.local
-        shell: powershell
+    
 
       - name: Create .env file from secrets
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
-        shell: powershell
+     
 
       - name: Build & Recreate container (rolling)
         run: docker compose up -d --build --remove-orphans
