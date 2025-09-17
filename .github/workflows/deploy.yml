@@ -39,7 +39,8 @@ jobs:
           Add-Content -Path ".env.local" "POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}" -Encoding utf8NoBOM
           Add-Content -Path ".env.local" "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" -Encoding utf8NoBOM
           Add-Content -Path ".env.local" "SESSION_SECRET=${{ secrets.SESSION_SECRET }}" -Encoding utf8NoBOM   
-
+          shell: powershell
+          
       - name: Start Docker Compose
         run: docker compose --env-file .env.local up -d --build --remove-orphans
 
