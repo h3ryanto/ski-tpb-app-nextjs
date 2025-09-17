@@ -14,7 +14,7 @@ jobs:
 
       - name: Set Execution Policy
         # Jalankan perintah PowerShell. Parameter -Force digunakan untuk menghindari konfirmasi.
-        run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -Force
+        run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
         shell: powershell
 
       - name: Create .env.local file from secrets
