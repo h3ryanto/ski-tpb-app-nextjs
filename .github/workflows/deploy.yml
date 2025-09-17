@@ -12,11 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set Execution Policy
-        # Jalankan perintah PowerShell. Parameter -Force digunakan untuk menghindari konfirmasi.
-        run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-        shell: powershell
-
       - name: Create .env.local file from secrets
         run: |
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" > .env.local
