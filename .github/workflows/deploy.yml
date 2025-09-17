@@ -14,8 +14,8 @@ jobs:
 
       - name: Create .env.local file from secrets
         run: |
-         $utf8NoBom = New-Object System.Text.UTF8Encoding $False
-         $envContent = @"
+          $utf8NoBom = New-Object System.Text.UTF8Encoding $False
+          $envContent =@"
           AUTH_SECRET=${{ secrets.AUTH_SECRET }}
           AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}
           AUTH_URL=${{ secrets.AUTH_URL }}
@@ -40,8 +40,9 @@ jobs:
           POSTGRES_URL_NON_POOLING=${{ secrets.POSTGRES_URL_NON_POOLING }}
           POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}
           POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          SESSION_SECRET=${{ secrets.SESSION_SECRET }}"@
-         [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
+          SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+          "@
+            [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
           
       - name: Start Docker Compose
         run: docker compose --env-file .env.local up -d --build --remove-orphans
