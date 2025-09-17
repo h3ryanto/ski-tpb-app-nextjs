@@ -52,5 +52,5 @@ jobs:
             [System.IO.File]::WriteAllText(".env.local", $envContent, $utf8NoBom)
           
       - name: Start Docker Compose
-        run: docker compose --env-file .env.local up -d --build --remove-orphans
+        run: docker compose --env-file [.env.local, .env] up -d --build --remove-orphans
 
