@@ -15,7 +15,7 @@ jobs:
       - name: Create .env.local file from secrets
         run: |
           Set-Content -Path ".env" -Value "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" -Encoding UTF8
-          Add-Content -Path ".env" -Value -Value "AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}" -Encoding UTF8
+          Add-Content -Path ".env" -Value "AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}" -Encoding UTF8
           Add-Content -Path ".env" -Value "AUTH_URL=${{ secrets.AUTH_URL }}" -Encoding UTF8
           Add-Content -Path ".env" -Value "URL=${{ secrets.URL }}" -Encoding UTF8
           Add-Content -Path ".env" -Value "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" -Encoding UTF8
