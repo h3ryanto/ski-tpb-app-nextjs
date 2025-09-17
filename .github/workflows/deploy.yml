@@ -12,6 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+
+      - name: Create .env file from secrets
+        run: |
+          $utf8NoBom = New-Object System.Text.UTF8Encoding $False
+          $envContent = CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}
+            [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
+           
       - name: Create .env.local file from secrets
         run: |
           $utf8NoBom = New-Object System.Text.UTF8Encoding $False
@@ -42,7 +49,7 @@ jobs:
           POSTGRES_USER=${{ secrets.POSTGRES_USER }}
           SESSION_SECRET=${{ secrets.SESSION_SECRET }}
           "@
-            [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
+            [System.IO.File]::WriteAllText(".env.local", $envContent, $utf8NoBom)
           
       - name: Start Docker Compose
         run: docker compose --env-file .env.local up -d --build --remove-orphans
