@@ -16,7 +16,7 @@ jobs:
       - name: Create .env file from secrets
         run: |
           $utf8NoBom = New-Object System.Text.UTF8Encoding $False
-          $envContent =@"CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}@"
+          $envContent ="CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}"
             [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
            
       - name: Create .env.local file from secrets
