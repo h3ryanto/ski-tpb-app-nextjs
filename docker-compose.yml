@@ -1,11 +1,15 @@
-
-
 services:
   nextjs-app:
-    build: .
     container_name: nextjs-app
+    build:
+      context: .
+      args:
+        - RESEND_API_KEY=re_Rq6bLA4K_FxnGakKoT5WLJnS889Wpdo5J
+    env_file:
+      - .env
+      - .env.local
     ports:
       - "3000:3000"
     restart: always
-    env_file:
-      - .env-local
+
+   

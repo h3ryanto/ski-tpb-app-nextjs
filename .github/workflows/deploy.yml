@@ -12,10 +12,44 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create .env file
+      - name: Set Execution Policy
+        # Jalankan perintah PowerShell. Parameter -Force digunakan untuk menghindari konfirmasi.
+        run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -Force
+        shell: powershell
+
+      - name: Create .env.local file from secrets
         run: |
-          echo "NODE_ENV='production'" >> .env-local
-          echo "URL='http://localhost:3000'" >> .env-local
+          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" > .env.local
+          echo "AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}" >> .env.local
+          echo "AUTH_URL=${{ secrets.AUTH_URL }}" >> .env.local
+          echo "URL=${{ secrets.URL }}" >> .env.local
+          echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env.local
+          echo "AUTH_URL=${{ secrets.AUTH_URL }}" >> .env.local
+          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env.local
+          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env.local
+          echo "CLOUDINARY_AUTHORIZATION=${{ secrets.CLOUDINARY_AUTHORIZATION }}" >> .env.local
+          echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env.local
+          echo "CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}" >> .env.local
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env.local
+          echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> .env.local
+          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env.local
+          echo "NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}" >> .env.local
+          echo "POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}" >> .env.local
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.local
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.local
+          echo "POSTGRES_PRISMA_URL=${{ secrets.POSTGRES_PRISMA_URL }}" >> .env.local
+          echo "POSTGRES_URL=${{ secrets.POSTGRES_URL }}" >> .env.local
+          echo "POSTGRES_URL_NON_POOLING=${{ secrets.POSTGRES_URL_NON_POOLING }}" >> .env.local
+          echo "POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}" >> .env.local
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.local
+          echo "SESSION_SECRET=${{ secrets.SESSION_SECRET }}" >> .env.local
+        shell: bash
+
+- name: Create .env file from secrets
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+        shell: bash
 
       - name: Build & Recreate container (rolling)
         run: docker compose up -d --build --remove-orphans
