@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        - RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+        - RESEND_API_KEY=${RESEND_API_KEY}
     env_file:
       - .env
       - .env.local
