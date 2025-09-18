@@ -11,7 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
+      - name: Allow PowerShell scripts
+        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+        shell: pwsh
+        
       - name: Create .env file from secrets
         env:
          DATABASE_URL: ${{ secrets.DATABASE_URL }}
