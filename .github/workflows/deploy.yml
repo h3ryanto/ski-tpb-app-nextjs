@@ -12,22 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      
-      - name: Build the image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false  # Hanya build, tidak perlu push
-          build-args: RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
-          tags: ski-tpb-app-nextjs-nextjs-app:latest # Ganti tag
-      
-      - name: Allow PowerShell scripts
-        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-        shell: powershell
-
       - name: Create .env file from secrets
         env:
          DATABASE_URL: ${{ secrets.DATABASE_URL }}
