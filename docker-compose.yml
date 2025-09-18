@@ -11,9 +11,7 @@ services:
       - .env.local
     ports:
       - "3000:3000"
-
-volumes:
-  nextjs: # Ini adalah definisi named volume di level atas
+    
 
 
    

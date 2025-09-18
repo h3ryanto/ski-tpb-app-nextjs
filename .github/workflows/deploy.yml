@@ -7,9 +7,14 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Allow PowerShell scripts
+        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+        shell: powershell
 
       - name: Create .env file from secrets
         env:
