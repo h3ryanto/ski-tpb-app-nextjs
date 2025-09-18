@@ -12,9 +12,6 @@ services:
     ports:
       - "3000:3000"
 
-    volumes:
-      - nextjs:/app/public  # Ini adalah mount, bukan definisi volume
-
 volumes:
   nextjs: # Ini adalah definisi named volume di level atas
 
