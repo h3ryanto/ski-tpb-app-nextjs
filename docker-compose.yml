@@ -5,17 +5,18 @@ services:
     build:
       context: .
       args:
-        - RESEND_API_KEY=re_Rq6bLA4K_FxnGakKoT5WLJnS889Wpdo5J
+        - RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
     env_file:
       - .env
       - .env.local
     ports:
       - "3000:3000"
-    volumes:
-      - nextjs:/app/public
 
-  volumes:
-    nextjs:
+    volumes:
+      - nextjs:/app/public  # Ini adalah mount, bukan definisi volume
+
+volumes:
+  nextjs: # Ini adalah definisi named volume di level atas
 
 
    
