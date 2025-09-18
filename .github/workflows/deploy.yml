@@ -15,6 +15,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       
+      - name: Build the image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false  # Tidak perlu push jika hanya untuk build
+          build-args: RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+          tags: nextjs-app:latest
+      
       - name: Allow PowerShell scripts
         run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
         shell: powershell
@@ -22,7 +31,6 @@ jobs:
       - name: Create .env file from secrets
         env:
          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-         RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           $utf8NoBom = New-Object System.Text.UTF8Encoding $False
           $envContent =@"
