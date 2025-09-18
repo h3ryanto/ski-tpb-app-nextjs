@@ -14,8 +14,8 @@ jobs:
       
       - name: Allow PowerShell scripts
         run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-        shell: pwsh
-        
+        shell: powershell
+
       - name: Create .env file from secrets
         env:
          DATABASE_URL: ${{ secrets.DATABASE_URL }}
