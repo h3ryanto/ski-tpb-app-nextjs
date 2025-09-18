@@ -20,9 +20,9 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: false  # Tidak perlu push jika hanya untuk build
+          push: false  # Hanya build, tidak perlu push
           build-args: RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
-          tags: nextjs-app:latest
+          tags: ski-tpb-app-nextjs-nextjs-app:latest # Ganti tag
       
       - name: Allow PowerShell scripts
         run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
