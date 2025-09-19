@@ -11,10 +11,7 @@ services:
       - .env.local
     ports:
       - "3000:3000"
-    volumes:
-      -nextjs:/app/public
-volumes:
-  nextjs:
+
     
 
 
