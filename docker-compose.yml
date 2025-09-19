@@ -12,7 +12,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      -nextjs:containerPath:ro
+      -nextjs:/app/public
 
 volumes:
   nextjs:    
