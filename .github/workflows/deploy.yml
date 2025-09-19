@@ -11,11 +11,65 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Allow PowerShell scripts
+        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+        shell: powershell
 
-      - name: Create .env file
+      - name: Create .env file from secrets
+        env:
+         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
+<<<<<<< HEAD
           echo "NODE_ENV=production" >> .env-local
           echo "URL=${{ secrets.URL }}" >> .env-local
    
       - name: Build & Recreate container (rolling)
         run: docker compose up -d --build --remove-orphans
+=======
+          $utf8NoBom = New-Object System.Text.UTF8Encoding $False
+          $envContent =@"
+          DATABASE_URL=$env:DATABASE_URL
+          NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          "@
+          [System.IO.File]::WriteAllText(".env", $envContent, $utf8NoBom)
+      
+      - name: Create .env.local file from secrets
+        run: |
+          $utf8NoBom = New-Object System.Text.UTF8Encoding $False
+          $envContent =@"
+          NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}
+          AUTH_URL=${{ secrets.AUTH_URL }}
+          URL=${{ secrets.URL }}
+          RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+          AUTH_URL=${{ secrets.AUTH_URL }}
+          CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
+          CLOUDINARY_AUTHORIZATION=${{ secrets.CLOUDINARY_AUTHORIZATION }}
+          CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          EMAIL_PASS=${{ secrets.EMAIL_PASS }}
+          EMAIL_USER=${{ secrets.EMAIL_USER }}
+          NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}
+          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}
+          POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PRISMA_URL=${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL=${{ secrets.POSTGRES_URL }}
+          POSTGRES_URL_NON_POOLING=${{ secrets.POSTGRES_URL_NON_POOLING }}
+          POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+          NODE_ENV=production
+          "@
+          [System.IO.File]::WriteAllText(".env.local", $envContent, $utf8NoBom)
+      
+    
+      - name: Start Docker Compose
+        run: docker compose --env-file .env.local --env-file .env up -d --build --remove-orphans
+
+>>>>>>> 08b989b08c08ee2d6e7605f09f99cb1abd89a98f

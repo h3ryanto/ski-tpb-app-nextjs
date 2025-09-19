@@ -2,6 +2,12 @@
 # Gunakan citra Node.js Alpine untuk ukuran yang lebih kecil
 FROM node:22-alpine AS base
 
+# Masukkan argumen build untuk kunci API Resend
+ARG RESEND_API_KEY
+
+# Gunakan argumen build sebagai variabel lingkungan selama build
+ENV RESEND_API_KEY=$RESEND_API_KEY
+
 # Instalasi paket tambahan yang dibutuhkan Prisma
 # `libc6-compat` dibutuhkan untuk menjalankan Prisma pada Alpine
 RUN apk add --no-cache libc6-compat
@@ -32,8 +38,12 @@ RUN npm prune --omit=dev
 
 # Jalankan prisma generate untuk membuat Prisma Client
 # Jalankan build Next.js. Pastikan next.config.js menyertakan `output: "standalone"`
+<<<<<<< HEAD
 RUN NEXT_DISABLE_ESLINT=true npm run build
 COPY .env-local .env-local
+=======
+
+>>>>>>> 08b989b08c08ee2d6e7605f09f99cb1abd89a98f
 RUN npm run build && \
     npx prisma generate
 
@@ -45,9 +55,6 @@ FROM node:22-alpine AS runner
 RUN addgroup --system --gid 1001 nextjs \
     && adduser --system --uid 1001 nextjs
 
-# Set variabel lingkungan untuk produksi
-ENV NODE_ENV .env
-ENV NEXT_TELEMETRY_DISABLED 1
 
 # Tetapkan direktori kerja
 WORKDIR /app
