@@ -1,7 +1,7 @@
 services:
-  nextjs-app:
-    
+  nextjs-app:    
     container_name: nextjs-app
+    restart: always
     build:
       context: .
       args:
@@ -11,13 +11,12 @@ services:
       - .env.local
     ports:
       - "3000:3000"
-    restart: always
-<<<<<<< HEAD
-    env_file:
-      - .env-local
-=======
+    volumes:
+      -nextjs:/app/public
+volumes:
+  nextjs:
+    
 
 
    
 
->>>>>>> 08b989b08c08ee2d6e7605f09f99cb1abd89a98f

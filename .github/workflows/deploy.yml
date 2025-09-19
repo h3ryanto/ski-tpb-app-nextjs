@@ -20,13 +20,6 @@ jobs:
         env:
          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-<<<<<<< HEAD
-          echo "NODE_ENV=production" >> .env-local
-          echo "URL=${{ secrets.URL }}" >> .env-local
-   
-      - name: Build & Recreate container (rolling)
-        run: docker compose up -d --build --remove-orphans
-=======
           $utf8NoBom = New-Object System.Text.UTF8Encoding $False
           $envContent =@"
           DATABASE_URL=$env:DATABASE_URL
@@ -72,4 +65,3 @@ jobs:
       - name: Start Docker Compose
         run: docker compose --env-file .env.local --env-file .env up -d --build --remove-orphans
 
->>>>>>> 08b989b08c08ee2d6e7605f09f99cb1abd89a98f
