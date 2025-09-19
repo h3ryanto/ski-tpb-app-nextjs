@@ -9,13 +9,13 @@ services:
     env_file:
       - .env
       - .env.local
-    working_dir: /app/public
-    volumes:
-      - /c/Docker
     ports:
       - "3000:3000"
+    volumes:
+      -nextjs:containerPath:ro
 
-    
+volumes:
+  nextjs:    
 
 
    
