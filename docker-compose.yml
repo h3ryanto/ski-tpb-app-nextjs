@@ -12,10 +12,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - c/nextjs:/app/public
-      - nextjs:/app/public
+      - ./c/docker/nextjs:/app/public
 
-volumes:
-  nextjs:
    
 
