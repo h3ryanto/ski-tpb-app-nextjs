@@ -12,10 +12,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /nextjs:/app/public
+      - c/nextjs:/app/public
       - nextjs:/app/public
 
-Volumes:
+volumes:
   nextjs:
    
 
