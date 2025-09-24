@@ -1,5 +1,6 @@
 import cloudinary from '@/lib/cloudinary/config';
 import { NextRequest } from "next/server";
+
 export async function GET(
     _request: NextRequest,
     context: { params: Promise<{ slug: string[] }> }
