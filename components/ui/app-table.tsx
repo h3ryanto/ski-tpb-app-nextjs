@@ -18,15 +18,14 @@ import { useToast } from "@/hooks/use-toast";
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { Circle, CircleCheckBigIcon, FileText, InboxIcon } from "lucide-react";
+import { Circle, CircleCheckBigIcon, InboxIcon } from "lucide-react";
 // import { redirect } from 'next/navigation';
 import React from 'react';
 import AppPdfLinkIcon from './app-pdf-link-icon.tsx';
 // import SheetJSReactAoO from './app-xlsx-import';
 
-export default function AppTable({ posts, page, limit, dataEntry, children }: { posts: any, page: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
+export default function AppTable({ posts, page,page_size, limit, dataEntry, children }: { posts: any, page: number, page_size: number,limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
-	const { toast } = useToast()
 	const [flag, setFlag] = React.useState<string>("")
 	// console.log(Object.keys(posts[0]), 'posts')
 	// const pdfUrl = async (file_name: string, year: string, kode_dokumen: string) => {
@@ -101,7 +100,7 @@ export default function AppTable({ posts, page, limit, dataEntry, children }: { 
 
 							{countData && posts.map((post: any, index: number) => (
 								<tr key={post.nomor_aju} className={`align-top ${flag === post.nomor_aju ? "bg-sky-400 hover:bg-sky-500" : " hover:bg-slate-100/65"}`}>
-									<td className='p-2'>{((page * 10) - 10) + index + 1}.</td>
+									<td className='p-2'>{((page * page_size) - page_size) + index + 1}.</td>
 									<td className='p-2'>
 										<div className='flex flex-col gap-2'>
 											{post.kode_dokumen}
