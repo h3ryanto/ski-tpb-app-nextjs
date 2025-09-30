@@ -38,6 +38,7 @@ next-env.d.ts
 
 # Public upload directory
 /public/upload
+/public/pdf
 
 # Run Start for startup windows
 run-start.bat
