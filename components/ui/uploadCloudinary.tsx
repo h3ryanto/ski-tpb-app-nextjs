@@ -16,10 +16,11 @@ import { Button } from './button';
 
 interface FileUploadProps {
     file_name: string;
-    folder: string;
+    tahun: string;
+    kode_dokumen: string;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen }) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -46,14 +47,16 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, folder }) => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('fileName', file_name);
-        formData.append('folderName', folder);
+        formData.append('tahun', tahun);
+        formData.append('kode_dokumen', kode_dokumen)
         try {
-            const response = await fetch('/api/upload', {
+            const response = await fetch('https://go.heryheryanto.my.id/upload-pdf', {
                 method: 'POST',
                 body: formData,
             });
 
             const data = await response.json();
+            console.log('Upload response:', data);
 
             if (response.ok) {
                 toast({

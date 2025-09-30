@@ -14,7 +14,7 @@ export default function AppPdfLinkIcon({ nomor_daftar, tahun, kode_dokumen }: { 
             const url = `https://go.heryheryanto.my.id/check-pdf?filename=${nomor_daftar}.pdf&tahun=${tahun}&kode_dokumen=${kode_dokumen}`;
             const result = await fetch(url);
             const status = await result.json();
-            console.log("PDF exists:", status);
+            // console.log("PDF exists:", status);
             setCheckLoading(false);
             return status.exists;
         };

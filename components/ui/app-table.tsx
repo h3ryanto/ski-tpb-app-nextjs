@@ -13,7 +13,7 @@ import Filter from '@/components/ui/filter';
 import { FilterDokumen } from '@/components/ui/filter-dokumen';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import FileUpload from '@/components/ui/uploadCloudinary';
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 // import downloadExcelFile from '@/utils/downloadExcel';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
@@ -24,17 +24,17 @@ import React from 'react';
 import AppPdfLinkIcon from './app-pdf-link-icon.tsx';
 // import SheetJSReactAoO from './app-xlsx-import';
 
-export default function AppTable({ posts, page,page_size, limit, dataEntry, children }: { posts: any, page: number, page_size: number,limit: number, dataEntry: number, children?: React.ReactNode }) {
+export default function AppTable({ posts, page, page_size, limit, dataEntry, children }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
 	const [flag, setFlag] = React.useState<string>("")
 	// console.log(Object.keys(posts[0]), 'posts')
 	// const pdfUrl = async (file_name: string, year: string, kode_dokumen: string) => {
 	// 	// const data = await fetch(`/api/getPdf/${year}/${kode_dokumen}/${q}`)
 	// 	const result = await fetch(`/api/check-pdf?file=${file_name}&document=${kode_dokumen}&year=${year}`)
-			
-    //             const status = await result.json()
 
-		
+	//             const status = await result.json()
+
+
 	// 	if (!status.exists) {
 	// 		toast({
 	// 			variant: "destructive",
@@ -46,7 +46,7 @@ export default function AppTable({ posts, page,page_size, limit, dataEntry, chil
 	// 	}
 	// }
 
-	
+
 	return (
 		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
 
@@ -137,12 +137,12 @@ export default function AppTable({ posts, page,page_size, limit, dataEntry, chil
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<FileUpload
-													file_name={post.nomor_daftar} folder={`Documens/${format(post.tanggal_daftar, "yyyy")}/${post.kode_dokumen}`} />
+													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} />
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
-				                              {/* <FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, format(post.tanggal_daftar, "yyyy"), post.kode_dokumen)} />								 */}
-											  <AppPdfLinkIcon nomor_daftar={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} />
+												{/* <FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, format(post.tanggal_daftar, "yyyy"), post.kode_dokumen)} />								 */}
+												<AppPdfLinkIcon nomor_daftar={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} />
 											</AppTooltip>
 											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />
