@@ -21,53 +21,52 @@ export default function Filter({ children, id }: Props) {
         params.set(id, term)
         replace(`${pathName}?${params.toString()}`)
         setResult([])
+        if (ref.current) {
+            ref.current.value = term;
+        }
     }
 
     const onSearch = useDebouncedCallback(async (term: any, id: string, e?: any) => {
-        if (e.key === 'Enter') {
-            // console.log(term);
-            if (term) {
-                // params.delete("page")
-                params.set(id, term)
-            } else {
-                params.delete(id)
-            }
-            replace(`${pathName}?${params.toString()}`)
-        }
-
+        
         if (term) {
             setActiveId(id)
-            if (id === 'nomorAju') {
-                const data = await filterNomorAju(term)
-                const formattedResult = data.map((item: Record<string, any>) => ({
+            const result = await fetch('/api/filter', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        query: term,
+                        dokumen: id,                        
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+			    })
+                const data = await result.json()
+                const filterResult = data.result.map((item: Record<string, any>) => ({
                     result: item.result
                 }));
-                setResult(formattedResult)
-            } else if (id === 'nomorDaftar') {
-                const data = await filterNomorDaftar(term)
-                const formattedResult = data.map((item: Record<string, any>) => ({
-                    result: item.result
-                }));
-                setResult(formattedResult)
-            } else if (id === 'suplier') {
-                const data = await filterEntitas(term)
-                const formattedResult = data.map((item: Record<string, any>) => ({
-                    result: item.result
-                }));
-                setResult(formattedResult)
-            }
-            else if (id === 'dokumen') {
-                const data = await filterDokumen(term)
-                const formattedResult = data.map((item: Record<string, any>) => ({
-                    result: item.result
-                }));
-                setResult(formattedResult)
-            }
+                setResult(filterResult)
 
         } else {
             setActiveId("")
             setResult([])
+            params.delete(id)
+            replace(`${pathName}?${params.toString()}`)
         }
+
+
+        if (e.key === 'Enter') {
+            setResult([])
+            // console.log(term);
+            if (term) {
+                // params.delete("page")
+                params.set(id, term)                
+            } else {
+                params.delete(id)
+            }
+            replace(`${pathName}?${params.toString()}`)
+            
+        }
+
     }, 200);
 
 
@@ -87,6 +86,7 @@ export default function Filter({ children, id }: Props) {
                         }
                         <input
                             id={id}
+                            autoComplete="off"
                             type="text"
                             name={id}
                             ref={ref}
@@ -101,7 +101,7 @@ export default function Filter({ children, id }: Props) {
                 text-sm px-2"
                         />
                         {(activeId === id && result.length > 0) &&
-                            <div className='absolute bg-white rounded-sm shadow-md p-1 mt-1 top-7 left-0 w-auto max-h-40 overflow-y-auto'>
+                            <div className='absolute bg-white rounded-sm shadow-md p-1 mt-1 top-7 left-0 w-full max-h-40 overflow-y-auto'>
                                 <ul className="divide-y divide-gray-100">
                                     {activeId === id && result && result.map((item, index) => (
                                         <li

@@ -30,6 +30,7 @@ export default function Dokumen(props: {
 	const kode_valuta = searchParams?.kodeValuta?.toString() || '';
 	const filter = useMemo(() => ({ kode_dokumen, nomor_aju, entitas, nomor_daftar, no_dokumen, date_from, date_to, sortBy, asc, kode_valuta }), [kode_dokumen, nomor_aju, entitas, nomor_daftar, no_dokumen, date_from, date_to, sortBy, asc, kode_valuta])
 	const currenPage = Number(searchParams?.page) || 1;
+	const page_size = Number(searchParams?.pageSize) || 10;
 	const limit = Number(searchParams?.pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
 	const [posts, setPosts] = useState<any[]>([]);
@@ -80,7 +81,7 @@ export default function Dokumen(props: {
 
 		<Suspense>
 			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
-			<Table posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry}>
+			<Table posts={posts} page={currenPage} page_size={page_size} limit={limit} dataEntry={dataEntry}>
 				<div className='flex flex-row gap-3'>
 					<Button className='flex flex-row w-fit' onClick={() => getDokumen(limit, skip, search, filter)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
 					{session.data?.user?.isAdmin && (

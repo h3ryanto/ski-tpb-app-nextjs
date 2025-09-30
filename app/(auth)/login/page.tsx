@@ -41,7 +41,7 @@ const url = myCookie ? myCookie : '/dashboard'
         router.replace(url)
         toast({
           title: "Login Berhasil",
-          description: "Berhasil masuk ke SSO",
+          description: "Login Berhasil",
         })
       } else {
         // console.log(res.error)

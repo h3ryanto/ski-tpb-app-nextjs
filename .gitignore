@@ -45,3 +45,6 @@ run-start.bat
 
 # Run Start for startup pm2
 pm2.config.js
+.env
+.env.local
+.env

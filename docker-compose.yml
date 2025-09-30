@@ -11,10 +11,4 @@ services:
       - .env.local
     ports:
       - "3000:3000"
-    volumes:
-      - c/nextjs:/app/public
- 
-
-
-   
-
+    
