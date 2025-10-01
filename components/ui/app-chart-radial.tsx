@@ -22,6 +22,7 @@ import {
     RadialBar,
     RadialBarChart,
 } from "recharts"
+import { useEffect, useState } from "react";
 
 
 const chartConfig = {
@@ -38,7 +39,7 @@ const chartConfig = {
     },
     "27_OUT": {
         label: "27_OUT",
-        color: "hsl(var(--chart-2))",
+        color: "hsl(var(--chart-0))",
     },
     40: {
         label: "40",
@@ -74,10 +75,44 @@ const AppChartRadial = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & { data?: any, dateFrom?: string, dateTo?: string, jumlahDok?: number }
 >(({ className, data = [], dateFrom, dateTo, jumlahDok, ...props }, ref) => {
+    const [total_dok, setTotalDok] = useState<number>(0);
+
 
     const chartData = [
         { kode_dokumen: data.kode_dok, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dok + ")" },
     ]
+
+    useEffect(() => {
+
+        if (data.kode_dok === '27_OUT') {
+            const total_dok = Number(data.total_dok_27_out || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '27_IN') {
+            const total_dok = Number(data.total_dok_27_in || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '23') {
+            const total_dok = Number(data.total_dok_23 || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '30') {
+            const total_dok = Number(data.total_dok_30 || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '40') {
+            const total_dok = Number(data.total_dok_40 || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '41') {
+            const total_dok = Number(data.total_dok_41 || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '261') {
+            const total_dok = Number(data.total_dok_261 || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '262') {
+            const total_dok = Number(data.total_dok_262 || 1)
+            setTotalDok(total_dok);
+        } else if (data.kode_dok === '25') {
+            const total_dok = Number(data.total_dok_25 || 1)
+            setTotalDok(total_dok);
+        }
+    }, [data]);
     return (
         <Card
             ref={ref}
@@ -100,7 +135,7 @@ const AppChartRadial = React.forwardRef<
                     <RadialBarChart
                         data={chartData}
                         startAngle={0}
-                        endAngle={(360 / (jumlahDok || 1)) * Number(data.jumlah)}
+                        endAngle={(360 / (total_dok || 1)) * Number(data.jumlah)}
                         innerRadius={80}
                         outerRadius={110}
                     >

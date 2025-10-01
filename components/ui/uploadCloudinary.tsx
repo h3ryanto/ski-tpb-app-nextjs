@@ -33,7 +33,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen 
         }
     };
 
-
+    // cek_pdf(file_name, tahun, kode_dokumen);
 
     const handleUpload = async () => {
         if (!file) {
@@ -56,7 +56,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen 
             });
 
             const data = await response.json();
-            console.log('Upload response:', data);
+
+
 
             if (response.ok) {
                 toast({

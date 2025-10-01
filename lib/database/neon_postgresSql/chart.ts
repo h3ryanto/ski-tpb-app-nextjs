@@ -13,6 +13,15 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
         WHEN "Header".kode_dokumen <> '27' THEN "Header".kode_dokumen
     END AS kode_dok,
     count(CASE WHEN "Barang".seri_barang ='1' THEN "Header".kode_dokumen END) AS jumlah,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='23' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_23,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='25' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_25,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='30' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_30,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='40' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_40,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='41' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_41,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='261' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_261,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='262' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_262,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE "Header".nomor_aju LIKE '%0000270219892%' AND kode_dokumen='27' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_27_out,
+    (SELECT count(kode_dokumen) FROM "Header" WHERE "Header".nomor_aju NOT LIKE '%0000270219892%' AND kode_dokumen='27' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_27_in,
     SUM("Barang".cif::numeric) as cif,
     SUM("Barang".cif::numeric*"Barang".ndpbm::numeric) AS cif_idr,
     SUM(CASE WHEN "Barang".kode_kategori_barang = '11' THEN "Barang".cif::numeric ELSE 0 END) AS cif_bahan_baku_bc_23,
@@ -116,9 +125,14 @@ export async function retriveDataKontainer({ date_from, date_to }: { date_from?:
 
     const posts = await sql`
     SELECT    
+    "Header".kode_dokumen,
+    (
+        SELECT COUNT(*) FROM "Header" 
+        inner JOIN "Kontainer" ON "Kontainer".nomor_aju = "Header".nomor_aju
+        WHERE "Header".tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_kontainer,
     (CASE 
     WHEN "Header".kode_dokumen = '23' THEN 'Import' 
-    WHEN "Header".kode_dokumen = '30' OR "Header".kode_dokumen = '33' THEN 'Eksport' 
+    WHEN "Header".kode_dokumen = '30' OR "Header".kode_dokumen = '33' THEN concat('Eksport BC ',"Header".kode_dokumen) 
     END) AS "kontainer",
     COUNT(CASE WHEN "Kontainer".kode_ukuran_kontainer = '40' AND "Header".kode_dokumen ='23' THEN 1 END)::numeric AS "import_40",
     COUNT(CASE WHEN "Kontainer".kode_ukuran_kontainer = '20' AND "Header".kode_dokumen ='23' THEN 1 END)::numeric AS "import_20",

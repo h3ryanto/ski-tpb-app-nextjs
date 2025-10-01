@@ -20,18 +20,23 @@ import {
     RadialBar,
     RadialBarChart,
 } from "recharts"
+import { useEffect, useState } from "react";
 
 
 const chartConfig = {
     jumlah: {
         label: "Jumlah",
     },
-    'Import': {
+    '23': {
         label: "Import",
         color: "hsl(var(--chart-1))",
     },
-    'Eksport': {
-        label: "Eksport",
+    '33': {
+        label: "Eksport BC 33",
+        color: "hsl(var(--chart-9))",
+    },
+    '30': {
+        label: "Eksport BC 30",
         color: "hsl(var(--chart-4))",
     },
 
@@ -42,9 +47,15 @@ const AppChartRadialKontainer = React.forwardRef<
     React.HTMLAttributes<HTMLDivElement> & { data?: any, dateFrom?: string, dateTo?: string, jumlahDok?: number }
 >(({ className, data = [], dateFrom, dateTo, jumlahDok, ...props }, ref) => {
 
+    const [totalKontainer, setTotalKontainer] = useState<number>(0);
     const chartData = [
-        { kode_dokumen: data.kontainer, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kontainer + ")" },
+        { kode_dokumen: data.kontainer, jumlah: Number(data.jumlah), fill: "var(--color-" + data.kode_dokumen + ")" },
     ]
+
+    useEffect(() => {
+        setTotalKontainer(data.total_kontainer);
+    }, [data]);
+
     return (
         <Card
             ref={ref}
@@ -67,7 +78,7 @@ const AppChartRadialKontainer = React.forwardRef<
                     <RadialBarChart
                         data={chartData}
                         startAngle={0}
-                        endAngle={(360 / (jumlahDok || 1)) * Number(data.jumlah)}
+                        endAngle={(360 / (totalKontainer || 1)) * Number(data.jumlah)}
                         innerRadius={80}
                         outerRadius={110}
                     >

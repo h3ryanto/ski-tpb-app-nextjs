@@ -83,7 +83,7 @@ const Dashboard = (props: {
                             jumlahDok={dataCount} key={index} />
                     })}
                     {dataChartContainer.map((data: any, index) => {
-                        return <AppChartRadialKontainer className='w-60 h-85 bg-sky-100' data={data} dateFrom={dateFrom} dateTo={dateTo}
+                        return <AppChartRadialKontainer className='w-60 h-85 bg-sky-100 dark:bg-slate-700' data={data} dateFrom={dateFrom} dateTo={dateTo}
                             jumlahDok={dataCount} key={index} />
                     })}
                 </div>
