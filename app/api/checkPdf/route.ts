@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
-import { NextResponse } from "next/server"
+import { NextResponse, NextRequest } from "next/server"
 import axios from "axios"
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     const body = await req.json()
 
     const filename = body.file_name;
