@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const filename = body.file_name;
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
-    const token = await auth(req);
+    const token = await auth();
     console.log(token, "token")
     console.log(process.env.AUTH_SECRET, "auth scret")
     if (!token) {
