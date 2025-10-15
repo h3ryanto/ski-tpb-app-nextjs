@@ -9,6 +9,7 @@ ARG API_URL
 # Gunakan argumen build sebagai variabel lingkungan selama build 
 ENV RESEND_API_KEY=$RESEND_API_KEY
 ENV API_URL=$API_URL
+ENV NODE_ENV=production
 # Instalasi paket tambahan yang dibutuhkan Prisma
 # `libc6-compat` dibutuhkan untuk menjalankan Prisma pada Alpine
 RUN apk add --no-cache libc6-compat
@@ -26,10 +27,10 @@ COPY prisma ./prisma
 # Instal semua dependensi
 RUN npm install --frozen-lockfile
 
+
+
 # Tahap 2: Build Aplikasi
 FROM base AS builder
-
-
 
 # Salin semua file proyek dari direktori lokal ke dalam citra
 COPY . .
@@ -60,8 +61,15 @@ COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nextjs /app/public ./public
 
+# Gunakan user non-root untuk keamanan
+RUN addgroup --system --gid 1001 nextjs \
+  && adduser --system --uid 1001 nextjs
+  
 # Tetapkan pengguna `nextjs`
 USER nextjs
+
+# Set environment untuk runtime
+ENV NODE_ENV=productio
 
 # Pastikan environment runtime tetap bisa membaca .env dan .env.local
 COPY .env .env
