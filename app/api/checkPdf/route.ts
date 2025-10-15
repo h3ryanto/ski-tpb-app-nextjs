@@ -9,6 +9,8 @@ export async function POST(req: Request) {
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
     const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    console.log(token, "token")
+    console.log(process.env.AUTH_SECRET, "auth scret")
     if (!token) {
         return NextResponse.redirect(new URL("/login", req.url));
     }

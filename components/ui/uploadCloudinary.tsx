@@ -55,7 +55,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen,
                 method: 'POST',
                 body: formData,
             });
-
+            console.log(response)
             const data = await response.json();
 
 
