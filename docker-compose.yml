@@ -5,8 +5,8 @@ services:
     build:
       context: .
       args:
-        - RESEND_API_KEY=re_Rq6bLA4K_FxnGakKoT5WLJnS889Wpdo5J
-        - API_URL=https://go.heryheryanto.my.id
+        - RESEND_API_KEY: ${RESEND_API_KEY}
+        - API_URL: ${API_URL}
     env_file:
       - .env
       - .env.local

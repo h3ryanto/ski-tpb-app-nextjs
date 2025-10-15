@@ -32,7 +32,7 @@ export default {
                     );
 
 
-
+                    console.log(`${process.env.API_URL}`)
                     // // 🍪 Ambil Set-Cookie dari response Golang
                     // const setCookie = res.headers["set-cookie"]?.values;
                     // console.log(setCookie, "dapat dari goolang")
