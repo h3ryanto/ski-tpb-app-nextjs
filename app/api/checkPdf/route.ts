@@ -1,4 +1,4 @@
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server"
 import axios from "axios"
 
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const filename = body.file_name;
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
-    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    const token = await auth(req);
     console.log(token, "token")
     console.log(process.env.AUTH_SECRET, "auth scret")
     if (!token) {
