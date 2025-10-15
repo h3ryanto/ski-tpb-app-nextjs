@@ -64,5 +64,10 @@ jobs:
       
     
       - name: Start Docker Compose
-        run: docker compose --env-file .env.local --env-file .env up -d --build --remove-orphans
+        run: |
+          docker compose build `
+            --build-arg API_URL=${{ secrets.API_URL }} `
+            --build-arg RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+          docker compose up -d --remove-orphans
+        shell: powershell
 
