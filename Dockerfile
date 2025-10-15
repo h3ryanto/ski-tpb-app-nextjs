@@ -69,7 +69,7 @@ RUN addgroup --system --gid 1001 nextjs \
 USER nextjs
 
 # Set environment untuk runtime
-ENV NODE_ENV=productio
+ENV NODE_ENV=production
 
 # Pastikan environment runtime tetap bisa membaca .env dan .env.local
 COPY .env .env
