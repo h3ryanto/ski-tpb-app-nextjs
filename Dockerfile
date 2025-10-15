@@ -9,7 +9,6 @@ ARG API_URL
 # Gunakan argumen build sebagai variabel lingkungan selama build 
 ENV RESEND_API_KEY=$RESEND_API_KEY
 ENV API_URL=$API_URL
-ENV NODE_ENV=production
 # Instalasi paket tambahan yang dibutuhkan Prisma
 # `libc6-compat` dibutuhkan untuk menjalankan Prisma pada Alpine
 RUN apk add --no-cache libc6-compat
@@ -64,10 +63,6 @@ COPY --from=builder --chown=nextjs:nextjs /app/public ./public
   
 # Tetapkan pengguna `nextjs`
 USER nextjs
-
-# Set environment untuk runtime
-ENV NODE_ENV=production
-
 
 # Expose port yang digunakan Next.js
 EXPOSE 3000
