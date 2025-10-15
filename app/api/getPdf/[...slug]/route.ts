@@ -1,8 +1,8 @@
 // import cloudinary from '@/lib/cloudinary/config';
-import { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 export async function GET(
-    _request: NextRequest,
+    req: Request,
     context: { params: Promise<{ slug: string[] }> }
 ) {
 
@@ -10,7 +10,8 @@ export async function GET(
     const [year, kode_dokumen, query] = slug;
 
     // const path = `Documens/${year}/${kode_dokumen}`;
-    const url = `https://go.heryheryanto.my.id/view-pdf?name=${query}.pdf&tahun=${year}&kode_dokumen=${kode_dokumen}`;
+    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    const url = `${process.env.API_URL}/view-pdf?name=${query}.pdf&tahun=${year}&kode_dokumen=${kode_dokumen}`;
     // try {
     // const results = await cloudinary.search
     //     .expression(`${query} AND asset_folder:${path}`)
@@ -24,7 +25,13 @@ export async function GET(
     //     );
     // }
 
-    const pdfResponse = await fetch(`${url}`);
+    const pdfResponse = await fetch(`${url}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token?.accessToken}`
+            }
+        }
+    );
     // if (!pdfResponse.ok) {
     //     return Response.json(
     //         { title: "File PDF tidak ditemukan", message: "Silahkan Upload File PDF terlebihdahulu!" },

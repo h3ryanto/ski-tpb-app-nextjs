@@ -18,9 +18,10 @@ interface FileUploadProps {
     file_name: string;
     tahun: string;
     kode_dokumen: string;
+    onUploadSuccess: () => void;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen, onUploadSuccess }) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -45,12 +46,12 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen 
         setError(null);
 
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('fileName', file_name);
+        formData.append('file', file); // file dari input
+        formData.append('fileName', `${file_name}.pdf`);
         formData.append('tahun', tahun);
-        formData.append('kode_dokumen', kode_dokumen)
+        formData.append('kode_dokumen', kode_dokumen);
         try {
-            const response = await fetch('https://go.heryheryanto.my.id/upload-pdf', {
+            const response = await fetch('/api/uploadPdf', {
                 method: 'POST',
                 body: formData,
             });
@@ -67,6 +68,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen 
                 setFile(null);
                 setSuccess(true);
                 setFile(null);
+                onUploadSuccess();
             } else {
                 toast({
                     variant: "destructive",

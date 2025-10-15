@@ -23,6 +23,12 @@ import AppPdfLinkIcon from './app-pdf-link-icon.tsx';
 export default function AppTable({ posts, page, page_size, limit, dataEntry, children }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode }) {
 	const countData = posts.length;
 	const [flag, setFlag] = React.useState<string>("")
+	const [refreshTrigger, setRefreshTrigger] = React.useState<number>(0);
+
+	const handleUploadSuccess = () => {
+		// Naikkan angka → trigger useEffect di AppPdfLinkIcon
+		setRefreshTrigger(prev => prev + 1);
+	};
 	return (
 		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
 
@@ -113,12 +119,12 @@ export default function AppTable({ posts, page, page_size, limit, dataEntry, chi
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<FileUpload
-													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} />
+													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} onUploadSuccess={handleUploadSuccess} />
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
 												{/* <FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, format(post.tanggal_daftar, "yyyy"), post.kode_dokumen)} />								 */}
-												<AppPdfLinkIcon nomor_daftar={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} />
+												<AppPdfLinkIcon nomor_daftar={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} refresh={refreshTrigger} />
 											</AppTooltip>
 											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />

@@ -42,7 +42,7 @@ export async function POST(Request: NextRequest) {
     return Response.json(
         {
             posts: convertBigInt(posts),
-            count: {count}
+            count: { count }
         },
         {
             status: 200, statusText: 'OK',

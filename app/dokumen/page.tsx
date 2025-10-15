@@ -37,6 +37,8 @@ export default function Dokumen(props: {
 	const [dataEntry, setDataEntry] = useState<number>(1);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
+
+
 	const getDokumen = useCallback(async (limit: number, skip: number, search: any, filter: any) => {
 		try {
 			setIsLoading(true);
@@ -52,14 +54,14 @@ export default function Dokumen(props: {
 					'Content-Type': 'application/json',
 				},
 			})
-			if (data){
-				const posts = await data.json()		
-			
-			if (posts.posts) {
-				setIsLoading(false);
-				setPosts(posts.posts);
-				setDataEntry(posts.count.count || 1);
-			}
+			if (data) {
+				const posts = await data.json()
+
+				if (posts.posts) {
+					setIsLoading(false);
+					setPosts(posts.posts);
+					setDataEntry(posts.count.count || 1);
+				}
 			}
 		} catch (error) {
 			console.error(error)

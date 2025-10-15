@@ -2,24 +2,39 @@ import { useEffect, useState } from "react";
 import { FileTextIcon, LoaderCircle } from "lucide-react";
 import path from "path";
 
-export default function AppPdfLinkIcon({ nomor_daftar, tahun, kode_dokumen }: { nomor_daftar: any, tahun: string, kode_dokumen: any }) {
+export default function AppPdfLinkIcon({ nomor_daftar, tahun, kode_dokumen, refresh }: { nomor_daftar: any, tahun: string, kode_dokumen: any, refresh: number }) {
     const [pdfExists, setPdfExists] = useState<boolean | null>(null);
     const [checkLoading, setCheckLoading] = useState<boolean | null>(null);
     const [pdfLinkPath, setPdfLinkPath] = useState<string>("");
+
+
     useEffect(() => {
 
         const cek_pdf = async (nomor_daftar: string, tahun: string, kode_dokumen: string) => {
             setCheckLoading(true);
-            const url = `https://go.heryheryanto.my.id/check-pdf?filename=${nomor_daftar}.pdf&tahun=${tahun}&kode_dokumen=${kode_dokumen}`;
-            const result = await fetch(url);
+            const url = `/api/checkPdf`;
+            const result = await fetch(url,
+                {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "file_name": nomor_daftar,
+                        "tahun": tahun,
+                        "kode_dokumen": kode_dokumen
+                    })
+                }
+            );
             const status = await result.json();
             setCheckLoading(false);
-            return status.exists;
+            return status.posts.exists;
         };
         const filePath = path.join(`/api/getPdf/${tahun}/${kode_dokumen}/`, `${nomor_daftar}`);
         setPdfLinkPath(filePath);
         cek_pdf(nomor_daftar, tahun, kode_dokumen).then(setPdfExists);
-    }, [nomor_daftar, tahun, kode_dokumen]);
+    }, [nomor_daftar, tahun, kode_dokumen, refresh]);
 
     return (
         checkLoading ? (

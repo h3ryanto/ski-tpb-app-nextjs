@@ -1,21 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth from "next-auth"
 import authConfig from "./auth.config"
+import refreshAccessToken from "@/utils/refreshAccessToken"
 
-
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut, } = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 60 * 10,
+    maxAge: 60 * 5,
   },
   secret: process.env.AUTH_SECRET,
   ...authConfig,
   callbacks: {
 
+
     async jwt({ token, account, user }: any) {
       if (account) {
-        token.accessToken = account.access_token
+        token.accessToken = user.accessToken
+        token.refreshAccessToken = user.refreshAccessToken
         token.email = user.email;
         if (user.name) {
           token.name = user.name;
@@ -30,19 +31,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (user.isAdmin) {
           token.isAdmin = user.isAdmin;
         }
-
+        // token.accessTokenExpires = Date.now() + 1 * 60 * 1000;
+        token.accessTokenExpires = Date.now() + 15 * 60 * 1000;
       }
-      return token
+
+      // Jika belum expire, gunakan token lama
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+      return await refreshAccessToken(token);
     },
     async session({ session, token }: any) {
-      // Send properties to the client, like an access_token from a provider.
-      // if (token.id) {
-      //   session.accessToken = token.accessToken
-      //   session.user.email = token.email
-      //   session.user.image = token.photo
-      // }
       if (token) {
-        session.accessToken = token.accessToken
         session.user = {
           email: token.email,
           name: token.name,
@@ -61,6 +61,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   // }
 });
+
+
+
+
+
 
 
 

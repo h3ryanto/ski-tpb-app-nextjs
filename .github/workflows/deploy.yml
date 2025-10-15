@@ -57,6 +57,7 @@ jobs:
           POSTGRES_URL_NO_SSL=${{ secrets.POSTGRES_URL_NO_SSL }}
           POSTGRES_USER=${{ secrets.POSTGRES_USER }}
           SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+          API_URL=${{ secrets.API_URL }}
           NODE_ENV=production
           "@
           [System.IO.File]::WriteAllText(".env.local", $envContent, $utf8NoBom)
