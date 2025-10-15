@@ -6,7 +6,7 @@ FROM node:22-alpine AS base
 ARG RESEND_API_KEY
 ARG API_URL
 
-# Gunakan argumen build sebagai variabel lingkungan selama build
+# Gunakan argumen build sebagai variabel lingkungan selama build 
 ENV RESEND_API_KEY=$RESEND_API_KEY
 ENV API_URL=$API_URL
 # Instalasi paket tambahan yang dibutuhkan Prisma
