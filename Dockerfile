@@ -63,6 +63,10 @@ COPY --from=builder --chown=nextjs:nextjs /app/public ./public
 # Tetapkan pengguna `nextjs`
 USER nextjs
 
+# Pastikan environment runtime tetap bisa membaca .env dan .env.local
+COPY .env .env
+COPY .env.local .env.local
+
 # Expose port yang digunakan Next.js
 EXPOSE 3000
 
