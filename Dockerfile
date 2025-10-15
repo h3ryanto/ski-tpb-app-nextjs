@@ -61,9 +61,6 @@ COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nextjs /app/public ./public
 
-# Gunakan user non-root untuk keamanan
-RUN addgroup --system --gid 1001 nextjs \
-  && adduser --system --uid 1001 nextjs
   
 # Tetapkan pengguna `nextjs`
 USER nextjs
