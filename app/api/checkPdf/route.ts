@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const filename = body.file_name;
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
-    const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, secureCookie: true });
+    const jwt = await getToken({ req, secret: process.env.AUTH_SECRET });
     const token = jwt?.accessToken;
     console.log("Headers:", Object.fromEntries(req.headers));
     console.log(token, "token")

@@ -7,6 +7,7 @@ services:
       args:
         - RESEND_API_KEY=re_Rq6bLA4K_FxnGakKoT5WLJnS889Wpdo5J
         - API_URL=https://go.heryheryanto.my.id
+        - AUTH_SECRET=lFGNRDyoLwMG7tu33Bm3d9yVGtDfDTdXtim5jtL6Km8=
     env_file:
       - .env
       - .env.local
