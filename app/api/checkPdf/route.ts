@@ -8,7 +8,9 @@ export async function POST(req: Request) {
     const filename = body.file_name;
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
-    const jwt = await getToken({ req, secret: process.env.AUTH_SECRET });
+
+    const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
+    const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
     console.log(jwt, "token")
     const token = jwt?.accessToken;
 
