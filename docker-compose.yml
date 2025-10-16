@@ -1,11 +1,5 @@
 services:
   nextjs-app:    
-    labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.nextjs.rule=Host(`go.heryheryanto.my.id`)"
-        - "traefik.http.routers.nextjs.entrypoints=websecure"
-        - "traefik.http.routers.nextjs.tls.certresolver=myresolver"
-        - "traefik.http.middlewares.nextjs-headers.headers.customRequestHeaders.Cookie=true"
     container_name: nextjs-app
     restart: always
     build:
