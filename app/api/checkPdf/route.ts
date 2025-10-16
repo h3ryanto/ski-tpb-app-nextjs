@@ -1,14 +1,16 @@
-import { auth } from "@/auth";
-import { NextResponse, NextRequest } from "next/server"
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server"
 import axios from "axios"
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     const body = await req.json()
 
     const filename = body.file_name;
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
-    const token = await auth();
+    const jwt = await getToken({ req, secret: process.env.AUTH_SECRET });
+    const token = jwt?.accessToken;
+    console.log("Headers:", Object.fromEntries(req.headers));
     console.log(token, "token")
     console.log(process.env.AUTH_SECRET, "auth scret")
     if (!token) {
@@ -21,7 +23,7 @@ export async function POST(req: NextRequest) {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                Authorization: `Bearer ${token?.accessToken}`,
+                Authorization: `Bearer ${token}`,
 
             }
         }
