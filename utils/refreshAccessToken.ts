@@ -13,7 +13,7 @@ async function refreshAccessToken(token: any) {
             domain: 'localhost',
             sameSite: 'none',
             path: '/',
-            maxAge: Date.now() + 2 * 60 * 1000, // 1 hari
+            maxAge: Date.now() + 2 * 60 * 1000,
         })
         // console.log(accessRefreshToken, "refresh sebelum refresh token")
         const res = await axios.post(

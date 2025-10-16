@@ -11,10 +11,7 @@ export async function POST(req: Request) {
 
     const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
     const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
-    console.log(jwt, "token")
     const token = jwt?.accessToken;
-
-    console.log(process.env.AUTH_SECRET, "auth scret")
     if (!token) {
         return NextResponse.redirect(new URL("/login", req.url));
     }

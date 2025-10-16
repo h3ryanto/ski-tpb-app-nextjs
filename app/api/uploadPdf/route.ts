@@ -17,11 +17,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'File tidak ditemukan' }, { status: 400 });
         }
 
-        const token = await getToken({ req, secret: process.env.AUTH_SECRET });
-        // console.log(token)
-        if (!token) {
-            return NextResponse.redirect(new URL("/login", req.url));
-        }
+        const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
+        const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
+        const token = jwt?.accessToken;
 
 
         // ✅ Konversi File ke Blob langsung (tanpa Buffer)
@@ -38,7 +36,7 @@ export async function POST(req: Request) {
         const response = await fetch(`${process.env.API_URL}/upload-pdf`, {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${token?.accessToken ?? ''}`,
+                Authorization: `Bearer ${token ?? ''}`,
             },
             body: golangForm as any,
         });
