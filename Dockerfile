@@ -33,6 +33,10 @@ RUN npm install --frozen-lockfile
 # Tahap 2: Build Aplikasi
 FROM base AS builder
 
+ARG AUTH_SECRET
+
+ENV AUTH_SECRET=$AUTH_SECRET
+
 # Salin semua file proyek dari direktori lokal ke dalam citra
 COPY . .
 
