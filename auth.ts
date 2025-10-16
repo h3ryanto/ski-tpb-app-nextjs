@@ -9,7 +9,6 @@ export const { handlers, auth, signIn, signOut, } = NextAuth({
     maxAge: 60 * 5,
   },
   secret: process.env.AUTH_SECRET,
-
   ...authConfig,
   callbacks: {
 
@@ -59,8 +58,6 @@ export const { handlers, auth, signIn, signOut, } = NextAuth({
   pages: {
     signIn: '/login'
   }
-
-  // }
 });
 
 
