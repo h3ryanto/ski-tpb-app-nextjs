@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const tahun = body.tahun
     const jwt = await getToken({ req, secret: process.env.AUTH_SECRET });
     const token = jwt?.accessToken;
-    console.log("Headers:", Object.fromEntries(req.headers));
+    // console.log("Headers:", Object.fromEntries(req.headers));
     console.log(token, "token")
     console.log(process.env.AUTH_SECRET, "auth scret")
     if (!token) {
