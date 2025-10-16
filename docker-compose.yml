@@ -5,14 +5,9 @@ services:
     build:
       context: .
       args:
-        - RESEND_API_KEY=${AUTH_SECRET}
-        - API_URL=${API_URL}
-        - AUTH_SECRET=${AUTH_SECRET}
-    environment:
-      - NODE_ENV: production
-      - AUTH_SECRET: ${AUTH_SECRET}
-      - API_URL: ${API_URL}
-      - RESEND_API_KEY: ${RESEND_API_KEY}
+        - RESEND_API_KEY=re_Rq6bLA4K_FxnGakKoT5WLJnS889Wpdo5J
+        - API_URL=https://go.heryheryanto.my.id
+        - AUTH_SECRET=lFGNRDyoLwMG7tu33Bm3d9yVGtDfDTdXtim5jtL6Km8=
     env_file:
       - .env
       - .env.local
