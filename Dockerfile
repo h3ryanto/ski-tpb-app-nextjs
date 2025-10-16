@@ -33,15 +33,21 @@ RUN npm install --frozen-lockfile
 # Tahap 2: Build Aplikasi
 FROM base AS builder
 
-ARG AUTH_SECRET
-
-ENV AUTH_SECRET=$AUTH_SECRET
-
 # Salin semua file proyek dari direktori lokal ke dalam citra
 COPY . .
 
 # Hapus dependensi pengembangan yang tidak diperlukan untuk build
 RUN npm prune --omit=dev
+
+# Masukkan argumen build untuk kunci API Resend
+ARG RESEND_API_KEY
+ARG API_URL
+ARG AUTH_SECRET
+
+# Gunakan argumen build sebagai variabel lingkungan selama build 
+ENV RESEND_API_KEY=$RESEND_API_KEY
+ENV AUTH_SECRET=$AUTH_SECRET
+ENV API_URL=$API_URL
 
 # Jalankan prisma generate untuk membuat Prisma Client
 # Jalankan build Next.js. Pastikan next.config.js menyertakan `output: "standalone"`
