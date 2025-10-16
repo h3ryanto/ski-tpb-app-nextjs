@@ -12,7 +12,7 @@ export default function AppPdfLinkIcon({ nomor_daftar, tahun, kode_dokumen, refr
 
         const cek_pdf = async (nomor_daftar: string, tahun: string, kode_dokumen: string) => {
             setCheckLoading(true);
-            const url = `${process.env.URL}/api/checkPdf`;
+            const url = `https://app.heryheryanto.my.id/api/checkPdf`;
             const result = await fetch(url,
                 {
                     method: 'POST',
