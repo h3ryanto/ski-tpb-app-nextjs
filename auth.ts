@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import { authConfig } from "@/auth.config" // ⬅️ ubah dari "default"
+import { authConfig } from "./auth.config" // ⬅️ ubah dari "default"
 import refreshAccessToken from "@/utils/refreshAccessToken"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
