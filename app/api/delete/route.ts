@@ -90,7 +90,7 @@ export async function DELETE(request: Request) {
                     },
                 })
 
-                const deleteBarangVds = prisma.barang_Vds.deleteMany({
+                const deleteBarangVds = prisma.barang_Vd.deleteMany({
                     where: {
                         nomor_aju: body.nomor_aju,
                     },

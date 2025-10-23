@@ -3,18 +3,11 @@ generator client {
   previewFeatures = ["relationJoins"]
 }
 
-// prisma/schema.prisma
 datasource db {
   provider  = "postgresql"
   url  	    = env("DATABASE_URL")
-  // uncomment next line if you use Prisma <5.10
-  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-// datasource db {
-//   provider = "mysql"
-//   url      = env("DATABASE_URL")
-// }
 
 
 model Header {
@@ -33,10 +26,13 @@ barang_dokumen            Barang_Dokumen[]
 barang_entitas            Barang_Entitas[]
 barang_spek_khusus        Barang_Spek_Khusus[]
 barang_tarif              Barang_Tarif[]
-barang_vds                Barang_Vds[]
+barang_vd                Barang_Vd[]
 jaminan                   Jaminan[]
 pengangkut                Pengangkut[]
 pungutan                  Pungutan[]
+komponen_biaya            Komponen_Biaya[]
+respon                    Respon[]
+// Fields
 kode_dokumen		          String?	
 kode_kantor		            String?		
 kode_kantor_bongkar		    String?		
@@ -94,7 +90,9 @@ flag_curah		            String?
 flag_sda		              String?		
 flag_vd		                String?		
 flag_ap_bk		            String?		
-flag_migas		            String?		
+flag_migas		            String?	
+flag_konsol               String?
+flag_proporsional_netto   String?
 kode_asuransi		          String?		
 asuransi		              Float?		
 nilai_barang		          Float?		
@@ -137,7 +135,7 @@ tarif_ppnbm_pajak         String?
 barang_tidak_berwujud     String?
 kode_jenis_pengeluaran    String?
 barang_kiriman            String?
-kode_jenis_pengangkut     String?
+kode_jenis_pengangkutan   String?
 create_by		              String?		
 created_at		            DateTime @default(now())		
 updated_at		            DateTime @updatedAt		
@@ -146,7 +144,7 @@ updated_at		            DateTime @updatedAt
 model Entitas {
 id	                      BigInt @id @default(autoincrement())
 nomor_aju                 String    
-header                    Header @relation(fields: [nomor_aju], references: [nomor_aju])          
+header                    Header @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)        
 seri	                    String? 
 kode_entitas	            String? 
 kode_jenis_identitas	    String? 
@@ -161,13 +159,15 @@ tanggal_ijin_entitas	    String?
 kode_negara	              String? 
 niper_entitas	            String? 
 kode_kategori_konsolidator String?
+kode_afiliasi              String?
 created_at		            DateTime @default(now())		
-updated_at		            DateTime @default(now())	
+updated_at		            DateTime @updatedAt
+@@index([nomor_aju])
 }
 
 model Barang {
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String   
   seri_barang             String?
   hs                      String?
@@ -234,14 +234,20 @@ model Barang {
   jumlah_pita_cukai       String?
   hje_cukai               String?
   tarif_cukai             String?
+  jumlah_dilekatkan       Int?
+  kode_jenis_ekspor       String?
+  metode_penentuan_nilai  String?
+  alasan_metode_penentuan_nilai String?
+  statement_perbedaan_harga String?
   stok                    Float?
   created_at              DateTime @default(now())	
-  updated_at              DateTime @default(now())	
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Dokumen{
   id                      BigInt @id @default(autoincrement()) 
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade) 
   nomor_aju               String  
   seri                    String?
   kode_dokumen            String?
@@ -250,37 +256,68 @@ model Dokumen{
   kode_fasilitas          String?
   kode_ijin               String?
   created_at              DateTime @default(now())	
-  updated_at              DateTime @default(now())	
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])	
+}
+
+model Komponen_Biaya{
+  id                      BigInt @id @default(autoincrement()) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
+  nomor_aju               String  
+  jenis_nilai	            String?
+  harga_invoice	          Float?
+  pembayaran_tidak_langsung	String?
+  diskon	                Float?
+  komisi_penjualan	      Float?
+  biaya_pengemasan	      Float?
+  biaya_pengepakan	      Float?
+  assist	                String?
+  royalti	                String?
+  proceeds	              String?
+  biaya_transportasi	    Float?
+  biaya_pemuatan	        Float?
+  asuransi	              Float?
+  garansi	                Float?
+  biaya_kepentingan_sendiri	Float?
+  biaya_pasca_impor	      Float?
+  biaya_pajak_internal	  Float?
+  bunga	                  Float?
+  deviden	                Float?
+  created_at              DateTime @default(now())	
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])	
 }
 
 model Kemasan{
   id                      BigInt @id @default(autoincrement()) 
   nomor_aju               String 
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade) 
   seri                    String?
   kode_kemasan            String?
   jumlah_kemasan          String?
   merek                   String?
   created_at              DateTime @default(now())	
-  updated_at              DateTime @default(now())	
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])	
 }
 
 model Kontainer{
   id                      BigInt @id @default(autoincrement()) 
   nomor_aju               String 
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade) 
   seri                    String?
   nomor_kontiner          String?
   kode_ukuran_kontainer   String?
   kode_jenis_kontainer    String?
   kode_tipe_kontainer     String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Bahan_Baku{
   id                      BigInt @id @default(autoincrement()) 
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju]) 
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade) 
   nomor_aju               String 
   seri_barang             String?
   seri_bahan_baku         String?
@@ -322,26 +359,28 @@ model Bahan_Baku{
   hje_cukai               String?
   tarif_cukai             String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Bahan_Baku_Dokumen {
   id                      BigInt @id @default(autoincrement())
   nomor_aju               String
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   seri_barang             String?
   seri_bahan_baku         String?
   kode_asal_bahan_baku    String?
   seri_dokumen            String?
   seri_izin               String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Bahan_Baku_Tarif{
   id                      BigInt @id @default(autoincrement())
   nomor_aju               String
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   seri_barang             String?
   seri_bahan_baku         String?
   kode_asal_bahan_baku    String?
@@ -363,56 +402,60 @@ model Bahan_Baku_Tarif{
   kode_kemasan            String?
   jumlah_kemasan          String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Bank_Devisa {
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri                    String?
   kode                    String?
   nama                    String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Barang_Dokumen{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri_barang             String?
-  seri_dokumen            String?
-  seri_izin               String?
+  seri_entitas            String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Barang_Entitas{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri_barang             String?
   seri_dokumen            String?
   seri_izin               String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Barang_Spek_Khusus{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri_barang             String?
   kode                    String?
   uraian                  String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Barang_Tarif{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri_barang             String?
   kode_pungutan           String?
@@ -433,12 +476,13 @@ model Barang_Tarif{
   kode_kemasan            String?
   jumlah_kemasan          String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
-model Barang_Vds{
+model Barang_Vd{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri_barang             String?
   kode_vd                 String?
@@ -447,12 +491,25 @@ model Barang_Vds{
   biaya_pengurang         String?
   jatuh_tempo             String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
+}
+
+model Respon{
+  id                      BigInt @id @default(autoincrement())
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
+  nomor_aju               String
+  Kode_Respon             String?
+  Nomor_Respon            String? 
+  Tanggal_Respon          DateTime?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Jaminan{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   kode_kantor             String?
   kode_jaminan            String?
@@ -464,12 +521,13 @@ model Jaminan{
   nomor_bpj               String?
   tanggal_bpj             DateTime?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Pengangkut{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade, onUpdate: Cascade)
   nomor_aju               String
   seri                    String?
   kode_cara_angkut        String?
@@ -478,19 +536,22 @@ model Pengangkut{
   kode_bendera            String?
   call_sign               String?
   flag_angkut_plb         String?
+  cara_pengangkutan_lainnya String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Pungutan{
   id                      BigInt @id @default(autoincrement())
-  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju])
+  header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   kode_fasilitas_tarif    String?
   kode_jenis_pungutan     String?
   nilai_pungutan          String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  @@index([nomor_aju])
 }
 
 model Tarif{
@@ -500,7 +561,8 @@ model Tarif{
   ppn                     String?
   pph                     String?
   created_at              DateTime @default(now())
-  updated_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  
 }
 
 model User{

@@ -3,7 +3,9 @@ import { prisma } from '@/lib/prisma/init';
 import type { Header } from "@prisma/client";
 
 export async function Validasi(header: Header | Header[]) {
-    const headersArray = Array.isArray(header) ? header : [header];
+    const headersArray = header instanceof Array ? header : [header];
+    //
+    // console.log(headersArray, 'headersArray di validasi');
     const response = await headersArray.map(async (item: any) => {
         const header = await prisma.header.findFirst({
             where: {
@@ -11,11 +13,11 @@ export async function Validasi(header: Header | Header[]) {
             }
         });
         if (header) {
-            return { message: 'Nomor Aju Sudah Ada', error: 'Nomor Aju Sudah Ada', status: 500 }
+            return { message: `Aju ${item['NOMOR AJU']} Sudah Ada`, error: 'Duplicate Data', status: 500 }
 
 
         } else {
-            return { message: 'Nomor Aju Valid', status: 200 }
+            return { message: `Nomor Aju ${item['NOMOR AJU']} Valid`, status: 200 }
         }
     });
     return Promise.all(response)

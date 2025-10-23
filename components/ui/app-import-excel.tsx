@@ -12,6 +12,7 @@ import { Button } from "./button"
 import { CircleCheckBig, UploadCloudIcon } from "lucide-react"
 import React, { useState, useRef, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
+import AlertValidasi from "./app-allert-validasi"
 
 export function ImportDataExcell() {
     const inputFile = useRef<HTMLInputElement>(null);
@@ -21,6 +22,10 @@ export function ImportDataExcell() {
     const [isSuccess, setSuccess] = useState<boolean>(false);
     const [data, setData] = useState<any[]>([]);
     const [tab, setTab] = useState<any[]>([]);
+    const [result, setResult] = useState<any>(null);
+    const [showDialog, setShowDialog] = useState(false);
+
+
 
     const handleSave = async (data: any) => {
         const result = await fetch('/api/save-data', {
@@ -33,7 +38,8 @@ export function ImportDataExcell() {
             },
         })
         const getResult = await result.json()
-        console.log(getResult)
+        setResult(getResult);
+        setShowDialog(true);
     }
 
     const handleFileChange = () => {
@@ -63,18 +69,17 @@ export function ImportDataExcell() {
             });
 
             const result = await response.json();
-            // console.log(Object.keys(data.data))
+            console.log(result.data1, 'result');
             if (response.ok) {
                 toast({
                     title: "Import Success",
                     description: "Data Berhasil diimport",
                 })
                 setData(result.data);
-                setTab(Object.keys(result.data))
+                setTab(result.data.map((item: any) => item.sheetName));
                 setFile(null);
                 setSuccess(true);
                 setFile(null);
-                console.log(tab, 'data')
             } else {
                 toast({
                     variant: "destructive",
@@ -89,7 +94,7 @@ export function ImportDataExcell() {
         } finally {
             setUploading(false);
         }
-    }, [file, setData, setTab, setFile, setSuccess, setError, setUploading, tab]);
+    }, [file]);
 
     useEffect(() => {
         if (file) {
@@ -134,7 +139,7 @@ export function ImportDataExcell() {
                     </div>
 
                 </div>
-                <Tabs defaultValue="Header" className="w-auto h-[50vh] overflow-x-auto">
+                <Tabs defaultValue="HEADER" className="w-auto h-[50vh] overflow-x-auto">
                     <TabsList className="w-auto bg-white p-3 sticky top-0" >
                         {tab && tab.map((item, index) => (
                             <TabsTrigger key={index} value={item} className="w-full">
@@ -144,33 +149,38 @@ export function ImportDataExcell() {
                     </TabsList>
 
                     {tab && tab.map((item, index) => (
-
-                        <TabsContent key={index} value={item}>
-                            <table className="table-auto w-full border-collapse border border-slate-300 font-sans text-sm m-2 p-2">
+                        <TabsContent key={index} value={item} className="w-auto p-3" >
+                            <table className="table-auto w-full border-collapse border border-slate-300 font-sans text-sm ">
                                 <thead className="border border-slate-300 bg-slate-200 sticky top-9">
                                     <tr>
-                                        {data[item] && data[item][0] && Object.keys(data[item][0]).map((key, index) => (
-                                            <td className="p-2" key={index}>{key}</td>
+                                        {data && data[index] && data[index].data[0] && Object.keys(data[index].data[0]).map((key: any, idx: number) => (
+                                            <td className="p-2" key={idx}>{key}</td>
                                         ))}
                                     </tr>
                                 </thead>
                                 <tbody className="border border-slate-300">
-                                    {data[item] && data[item].map((items: any, index: number) => (
-                                        <tr key={index} className="border-x border-b">
-                                            {data[item] && data[item][0] && Object.keys(data[item][0]).map((key, index) => (
-                                                <td className="p-2" key={index}>{items[key]}</td>
+                                    {data && data[index] && data[index].data.map((items: any, idx: number) => (
+                                        <tr key={idx} className="border-x border-b">
+                                            {Object.keys(items).map((key, kidx) => (
+                                                <td className="p-2" key={kidx}>{items[key]}</td>
                                             ))}
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </TabsContent>
-
                     ))}
                 </Tabs>
                 <DialogFooter>
+                    {result &&
+                        <AlertValidasi
+                            result={result}
+                            triggerOpenValidasi={showDialog}
+                            onClose={() => setShowDialog(false)}
+                        />
+                    }
                     {/* <Button onClick={() => setFile(null)} variant="outline" className="w-full">Batal</Button> */}
-                    <Button onClick={() => handleSave(data)} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
+                    <Button onClick={() => { handleSave(data); setShowDialog(true); }} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
                 </DialogFooter>
             </DialogContent >
         </Dialog >

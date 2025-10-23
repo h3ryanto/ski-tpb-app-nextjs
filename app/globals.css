@@ -1,6 +1,9 @@
+/* stylelint-disable at-rule-no-unknown */
+/* tailwindcss directives — processed by PostCSS/Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -8,7 +11,7 @@ body {
 
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    text-wrap: balance;    
   }
 }
 
@@ -58,6 +61,8 @@ body {
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  
   }
   .dark {
     --background: 0 0% 3.9%;

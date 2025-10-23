@@ -436,7 +436,7 @@ export async function POST(request: Request) {
             barang_tidak_berwujud: "",
             kode_jenis_pengeluaran: "",
             barang_kiriman: "",
-            kode_jenis_pengangkut: "",
+            kode_jenis_pengangkutan: "",
             create_by: doc.create_by,
             created_at: doc.created_at,
             updated_at: doc.updated_at,
@@ -518,7 +518,7 @@ export async function POST(request: Request) {
                 data: BarangTarif
               }
             },
-            barang_vds:
+            barang_vd:
             {
               createMany: {
                 data: BarangVd

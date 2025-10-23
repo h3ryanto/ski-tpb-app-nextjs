@@ -34,7 +34,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiase`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiase text-sm`}>
         <SessionProvider refetchInterval={60}>
           <ThemeProvider
             attribute="class"
