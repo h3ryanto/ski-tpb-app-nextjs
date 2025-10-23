@@ -111,7 +111,7 @@ export async function CreateHeader(header: Header | Header[]) {
                     barang_tidak_berwujud: item['BARANG TIDAK BERWUJUD']?.toString() || "",
                     kode_jenis_pengeluaran: item['KODE JENIS PENGELUARAN']?.toString() || "",
                     barang_kiriman: item['BARANG KIRIMAN']?.toString() || "",
-                    kode_jenis_pengangkut: item['KODE JENIS PENGANGKUTAN']?.toString() || "",
+                    kode_jenis_pengangkutan: item['KODE JENIS PENGANGKUTAN']?.toString() || "",
                     create_by: session?.user?.email || "",
                     created_at: item.created_at,
                     updated_at: item.updated_at,
