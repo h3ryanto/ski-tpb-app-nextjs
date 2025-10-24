@@ -38,10 +38,12 @@ export async function POST(req: Request) {
             const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
             const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
             const token = jwt?.accessToken;
+
+            console.log(token, 'token di route save-data');
+
             const data = await mergeSheetsByAju(body.result);
 
-            console.log(data, 'data di route save-data');
-            // console.log(token, 'token di route save-data');
+            console.log(JSON.stringify(data), 'data di route save-data');
             // Simpan data ke database
             const saveRes = await axios.post(
                 `${process.env.API_URL}/dokumen/save-dokumen`,
@@ -56,6 +58,7 @@ export async function POST(req: Request) {
                     }
                 }
             );
+            console.log(saveRes.data, 'saveRes di route save-data');
 
             return Response.json(
                 { message: saveRes.data.message, data: saveRes.data.data },

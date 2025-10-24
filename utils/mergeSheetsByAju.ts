@@ -12,9 +12,22 @@ interface MergedResult {
 }
 
 /**
- * Menggabungkan semua sheet berdasarkan field 'NOMOR AJU'.
- * HEADER akan menjadi sheet utama, sheet lain (ENTITAS, DOKUMEN, dsb)
- * akan dimasukkan sebagai array di dalam setiap record HEADER yang memiliki NOMOR AJU sama.
+ * Ubah key dari object jadi snake_case lowercase
+ */
+function toSnakeCaseKeys(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = {};
+  for (const key in obj) {
+    const snakeKey = key
+      .toLowerCase()
+      .replace(/\s+/g, '_') // ubah spasi jadi underscore
+      .replace(/[^\w_]/g, ''); // hilangkan karakter non-alfanumerik
+    result[snakeKey] = obj[key];
+  }
+  return result;
+}
+
+/**
+ * Gabungkan sheet berdasarkan 'nomor_aju' dan ubah key menjadi lowercase snake_case.
  */
 function mergeSheetsByAju(
   resultArray: Sheet[],
@@ -23,7 +36,7 @@ function mergeSheetsByAju(
   // buat map: sheetName -> data[]
   const sheetMap: Record<string, SheetData[]> = resultArray.reduce(
     (acc, s) => {
-      acc[s.sheetName] = s.data || [];
+      acc[s.sheetName] = s.data.map(toSnakeCaseKeys) || [];
       return acc;
     },
     {} as Record<string, SheetData[]>
@@ -31,27 +44,28 @@ function mergeSheetsByAju(
 
   const headers = sheetMap[headerSheetName] || [];
 
-  // sheet selain HEADER dianggap sebagai "anak"
+  // sheet selain HEADER dianggap anak
   const childSheetNames = Object.keys(sheetMap).filter(
     (n) => n !== headerSheetName
   );
 
-  // gabungkan berdasarkan NOMOR AJU
+  // gabungkan berdasarkan nomor_aju
   const mergedHeaders = headers.map((header) => {
     const copy = { ...header };
-    const aju = String(header['NOMOR AJU'] ?? '').trim();
+    const aju = String(header['nomor_aju'] ?? '').trim();
 
     childSheetNames.forEach((childName) => {
+      const childKey = childName.toLowerCase(); // biar entitas, dokumen, dst.
       const childData = sheetMap[childName] || [];
-      copy[childName] = childData.filter(
-        (row) => String(row['NOMOR AJU'] ?? '').trim() === aju
+      copy[childKey] = childData.filter(
+        (row) => String(row['nomor_aju'] ?? '').trim() === aju
       );
     });
 
     return copy;
   });
 
-  return { result: { [headerSheetName]: mergedHeaders } };
+  return { result: { [headerSheetName.toLowerCase()]: mergedHeaders } };
 }
 
 export default mergeSheetsByAju;
