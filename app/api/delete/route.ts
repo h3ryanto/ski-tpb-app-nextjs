@@ -116,7 +116,7 @@ export async function DELETE(request: Request) {
 
 
 
-                prisma.header.delete({
+                const deleteHeader = prisma.header.delete({
                     where: {
                         nomor_aju: body.nomor_aju,
                     },
@@ -124,7 +124,7 @@ export async function DELETE(request: Request) {
 
                 // console.log('Deleting aju:"' + deleteHeader);
 
-                // console.log(await prisma.$transaction([deleteHeader]))
+                await prisma.$transaction([deleteHeader])
                 return Response.json({ message: `Aju ${body.aju} berhasil di haspus`, status: true }, { status: 200 })
             } catch (err: any) {
                 return Response.json({ message: err.meta.cause, status: false }, { status: 400 })
