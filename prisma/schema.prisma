@@ -145,7 +145,7 @@ model Entitas {
 id	                      BigInt @id @default(autoincrement())
 nomor_aju                 String    
 header                    Header @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)        
-seri	                    Int? 
+seri	                    String?  
 kode_entitas	            String? 
 kode_jenis_identitas	    String? 
 nomor_identitas	          String? 
