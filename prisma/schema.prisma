@@ -66,7 +66,7 @@ kode_daerah_asal		      String?
 kode_negara_tujuan		    String?		
 kode_tutup_pu		          String?		
 nomor_bc11		            String?		
-tanggal_bc11		          String?		
+tanggal_bc11		          DateTime @default(now())	
 nomor_pos		              String?		
 nomor_sub_pos		          String?		
 kode_pelabuhan_bongkar		String?		
@@ -76,14 +76,14 @@ kode_pelabuhan_transit		String?
 kode_pelabuhan_tujuan		  String?		
 kode_pelabuhan_ekspor		  String?		
 kode_tps		              String?		
-tanggal_berangkat		      String?		
-tanggal_ekspor		        String?		
-tanggal_masuk		          String?		
-tanggal_muat		          String?		
-tanggal_tiba		          String?		
-tanggal_periksa		        String?		
-tempat_stuffing		        String?		
-tanggal_stuffing		      String?		
+tanggal_berangkat		      DateTime @default(now())		
+tanggal_ekspor		        DateTime @default(now())		
+tanggal_masuk		          DateTime @default(now())		
+tanggal_muat		          DateTime @default(now())		
+tanggal_tiba		          DateTime @default(now())		
+tanggal_periksa		        DateTime @default(now())		
+tempat_stuffing		        DateTime @default(now())		
+tanggal_stuffing		      DateTime @default(now())		
 kode_tanda_pengaman		    String?		
 jumlah_tanda_pengaman		  Int?		
 flag_curah		            String?		
@@ -102,7 +102,7 @@ freight		                Float?
 fob		                    Float?		
 biaya_tambahan		        Float?		
 biaya_pengurang		        Float?		
-vd		                    String?			
+vd		                    Float?		
 cif		                    Float?		
 harga_penyerahan		      Float?		
 ndpbm		                  Float?		
@@ -111,10 +111,10 @@ dasar_pengenaan_pajak		  Float?
 nilai_jasa		            Float?		
 uang_muka		              Float?	    
 bruto		                  Float?	    
-netto		                  Int?	    
+netto		                  Float?	    
 volume		                Float?	    
 kota_pernyataan		        String?		
-tanggal_pernyataan		    String?		
+tanggal_pernyataan		    DateTime @default(now())		
 nama_pernyataan		        String?		
 jabatan_pernyataan		    String?		
 kode_valuta		            String?		
@@ -145,7 +145,7 @@ model Entitas {
 id	                      BigInt @id @default(autoincrement())
 nomor_aju                 String    
 header                    Header @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)        
-seri	                    String? 
+seri	                    Int? 
 kode_entitas	            String? 
 kode_jenis_identitas	    String? 
 nomor_identitas	          String? 
