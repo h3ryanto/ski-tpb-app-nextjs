@@ -25,16 +25,16 @@ export async function POST(req: Request) {
     try {
         const result = await Validasi(body.result[0].data); // assuming Header is in the first sheet
         // console.log(result, 'result di route save-data');
+        // if (result.some((item: any) => item.status !== 200)) {
+        //     return Response.json(
+        //         { message: 'Data sudah ada', errors: result },
+        //         {
+        //             status: 400, statusText: 'Duplicate Data',
+        //             headers: { 'content-type': 'application/json' }
+        //         }
+        //     );
+        // }
         if (result.some((item: any) => item.status !== 200)) {
-            return Response.json(
-                { message: 'Data sudah ada', errors: result },
-                {
-                    status: 400, statusText: 'Duplicate Data',
-                    headers: { 'content-type': 'application/json' }
-                }
-            );
-        }
-        if (result.some((item: any) => item.status == 200)) {
             const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
             const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
             const token = jwt?.accessToken;

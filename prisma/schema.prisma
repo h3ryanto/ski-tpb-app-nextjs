@@ -111,7 +111,7 @@ dasar_pengenaan_pajak		  Float?
 nilai_jasa		            Float?		
 uang_muka		              Float?	    
 bruto		                  Float?	    
-netto		                 Float?	    
+netto		                  Float?	    
 volume		                Float?	    
 kota_pernyataan		        String?		
 tanggal_pernyataan		    String?		
