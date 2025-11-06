@@ -9,8 +9,17 @@ export async function POST(req: Request) {
     const kode_dokumen = body.kode_dokumen;
     const tahun = body.tahun
 
-    const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
-    const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
+    const jwt =
+        (await getToken({
+            req,
+            secret: process.env.AUTH_SECRET,
+            cookieName: "__Secure-authjs.session-token",
+        })) ||
+        (await getToken({
+            req,
+            secret: process.env.AUTH_SECRET,
+            cookieName: "authjs.session-token",
+        }));
     const token = jwt?.accessToken;
     if (!token) {
         return NextResponse.redirect(new URL("/login", req.url));

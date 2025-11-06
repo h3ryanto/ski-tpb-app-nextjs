@@ -23,7 +23,7 @@ const AlertValidasi: React.FC<AlertValidasiProps> = ({
     onClose,
 }) => {
     const [open, setOpen] = useState(false);
-    console.log(result, 'result di alert validasi');
+    // console.log(result, 'result di alert validasi');
     // Akan men-trigger dialog ketika prop triggerOpenValidasi berubah
     useEffect(() => {
         if (triggerOpenValidasi) {
@@ -45,30 +45,19 @@ const AlertValidasi: React.FC<AlertValidasiProps> = ({
                 </DialogHeader>
 
                 <div className="max-w-md mx-auto bg-white p-6 rounded border border-gray-300">
-                    {result && result.errors && result.errors.length > 0 ? (
-                        <div>
-                            <h2 className="text-red-600 font-semibold mb-4">
-                                Terdapat Kesalahan pada Data:
-                            </h2>
-                            <ul className="list-disc list-inside space-y-2">
-                                {result.errors.map((errorItem: any, index: number) => (
-                                    errorItem.status == 200 ? (
-                                        <li key={index} className="text-green-500">
-                                            {errorItem.message} - {errorItem.error}
-                                        </li>
-                                    ) : (
-                                        <li key={index} className="text-red-500">
-                                            {errorItem.message} - {errorItem.error}
-                                        </li>
-                                    )
-                                ))}
-                            </ul>
+
+                    {result.status == 200 ? (
+                        <div className="text-green-500">
+                            {result.message}
                         </div>
                     ) : (
-                        <div className="text-green-600 font-semibold">
-                            Semua data valid dan siap disimpan.
+                        <div className="text-red-500">
+                            {result.message}
                         </div>
-                    )}
+                    )
+                    }
+
+
                 </div>
 
                 <DialogFooter className="sm:justify-end text-sm">

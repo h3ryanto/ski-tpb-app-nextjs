@@ -23,66 +23,96 @@ export async function POST(req: Request) {
 
 
     try {
-        const result = await Validasi(body.result[0].data); // assuming Header is in the first sheet
-        // console.log(result, 'result di route save-data');
-        // if (result.some((item: any) => item.status !== 200)) {
-        //     return Response.json(
-        //         { message: 'Data sudah ada', errors: result },
-        //         {
-        //             status: 400, statusText: 'Duplicate Data',
-        //             headers: { 'content-type': 'application/json' }
-        //         }
-        //     );
-        // }
-        if (result.some((item: any) => item.status !== 200)) {
-            const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
-            const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
-            const token = jwt?.accessToken;
+        const jwt =
+            (await getToken({
+                req,
+                secret: process.env.AUTH_SECRET,
+                cookieName: "__Secure-authjs.session-token",
+            })) ||
+            (await getToken({
+                req,
+                secret: process.env.AUTH_SECRET,
+                cookieName: "authjs.session-token",
+            }));
+        const token = jwt?.accessToken;
 
-            console.log(token, 'token di route save-data');
+        const data = await mergeSheetsByAju(body.result);
 
-            const data = await mergeSheetsByAju(body.result);
+        console.log(JSON.stringify(data), 'data di route save-data');
+        // Simpan data ke database
+        const saveRes = await axios.post(
+            `${process.env.API_URL}/dokumen/save-dokumen`,
+            { data: data },
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    Authorization: `Bearer ${token}`,
 
-            console.log(JSON.stringify(data), 'data di route save-data');
-            // Simpan data ke database
-            const saveRes = await axios.post(
-                `${process.env.API_URL}/dokumen/save-dokumen`,
-                { data: data },
+                }
+            }
+        );
+        console.log('Data saved successfully:', saveRes.data);
+        return Response.json(
+            { message: saveRes.data.message, status: 200 },
+            {
+
+                status: 200, statusText: 'OK',
+                headers: { 'content-type': 'application/json' }
+            }
+        );
+    }
+    catch (error: any) {
+        if (error.response) {
+            // ✅ Server merespon dengan status error (4xx, 5xx)
+            console.error("Error Response Data:", error.response.data);
+            console.error("Error Response Status:", error.response.status);
+            console.error("Error Response Headers:", error.response.headers);
+
+            // Kalau kamu mau lempar lagi error ke UI:
+            return Response.json(
                 {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        Authorization: `Bearer ${token}`,
-
-                    }
+                    message: error.response.data.error,
+                    status: error.response.status
+                },
+                {
+                    status: 500, statusText: 'Internal Server Error',
+                    headers: { 'content-type': 'application/json' }
                 }
             );
-            console.log(saveRes.data, 'saveRes di route save-data');
 
+        } else if (error.request) {
+            // ✅ Request dikirim tapi tidak ada respons
+            console.error("No response received:", error.request);
             return Response.json(
-                { message: saveRes.data.message, data: saveRes.data.data },
+                { message: 'Internal Server Error' },
                 {
+                    status: 500, statusText: 'Internal Server Error',
+                    headers: { 'content-type': 'application/json' }
+                }
+            );
 
-                    status: 200, statusText: 'OK',
+        } else {
+            // ✅ Error lain (misal: salah setup axios)
+            console.error("Error Setup:", error.message);
+            return Response.json(
+                { message: 'Internal Server Error' },
+                {
+                    status: 500, statusText: 'Internal Server Error',
                     headers: { 'content-type': 'application/json' }
                 }
             );
         }
 
-
-
-
-    }
-    catch (error) {
-        console.error('Error saving data:', error);
-        return Response.json(
-            { message: 'Internal Server Error' },
-            {
-                status: 500, statusText: 'Internal Server Error',
-                headers: { 'content-type': 'application/json' }
-            }
-        );
+        // console.error('Error saving data:', error);
+        // return Response.json(
+        //     { message: 'Internal Server Error' },
+        //     {
+        //         status: 500, statusText: 'Internal Server Error',
+        //         headers: { 'content-type': 'application/json' }
+        //     }
+        // );
     }
 
 

@@ -38,6 +38,7 @@ export function ImportDataExcell() {
             },
         })
         const getResult = await result.json()
+        console.log(result, 'getResult di app-import-excel')
         setResult(getResult);
         setShowDialog(true);
     }
@@ -69,7 +70,7 @@ export function ImportDataExcell() {
             });
 
             const result = await response.json();
-            console.log(result.data1, 'result');
+            // console.log(result, 'result');
             if (response.ok) {
                 toast({
                     title: "Import Success",
