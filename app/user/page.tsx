@@ -15,13 +15,13 @@ import { useToast } from "@/hooks/use-toast";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
 import { ImagePlus, InboxIcon, Trash2 } from "lucide-react";
-import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+// import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 
 import React from 'react';
 
 const User = () => {
     const [data, setData] = React.useState<any[]>([]);
-    const [metaData, setMetaData] = React.useState<any>({});
+    // const [metaData, setMetaData] = React.useState<any>({});
     const { toast } = useToast()
 
     const updateData = async (email: string, atribut: string, value: string | boolean) => {
@@ -88,7 +88,7 @@ const User = () => {
                 const posts = await data.json()
                 if (posts.posts.data) {
                     setData(posts.posts.data);
-                    setMetaData(posts.posts.meta);
+                    // setMetaData(posts.posts.meta);
                     // console.log(posts.posts.meta);
                 }
             }
@@ -168,7 +168,7 @@ const User = () => {
                 </CardContent>
                 <CardFooter>
                     <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
-                        <PaginationWithLinks page={Number(metaData.page ?? 1)} pageSize={Number(metaData.size ?? 10)} totalCount={Number(metaData.total ?? 10)} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
+                        {/* <PaginationWithLinks page={Number(metaData.page | 1)} pageSize={Number(metaData.size || 10)} totalCount={Number(metaData.total | 10)} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} /> */}
                     </div>
                 </CardFooter>
             </Card >
