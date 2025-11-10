@@ -1,13 +1,20 @@
 import { getToken } from "next-auth/jwt";
-import { NextResponse } from "next/server"
 import axios from "axios"
+import { auth } from "@/auth"
+import { date } from "zod";
 
-export async function POST(req: Request) {
-    const body = await req.json()
+export async function PUT(req: Request) {
 
-    const filename = body.file_name;
-    const kode_dokumen = body.kode_dokumen;
-    const tahun = body.tahun
+    const session = await auth()
+    if (!session) {
+        return Response.json(
+            { message: 'Unauthorized' },
+            {
+                status: 401, statusText: 'Unauthorized',
+                headers: { 'content-type': 'application/json' }
+            }
+        )
+    }
 
     const jwt =
         (await getToken({
@@ -20,9 +27,14 @@ export async function POST(req: Request) {
             secret: process.env.AUTH_SECRET,
             cookieName: "authjs.session-token",
         }));
+
+    const body = await req.json();
     const token = jwt?.accessToken;
-    const res = await axios.get(
-        `${process.env.API_URL}/check-pdf?filename=${filename}.pdf&tahun=${tahun}&kode_dokumen=${kode_dokumen}`,
+    const res = await axios.put(
+        `${process.env.API_URL}/users/${body.email}`,
+        {
+            [body.atribut]: body.value
+        },
         {
             withCredentials: true,
             headers: {
@@ -35,8 +47,7 @@ export async function POST(req: Request) {
     );
     return Response.json(
         {
-            posts: res.data
-
+            data: res.data
         },
         {
             status: 200, statusText: 'OK',

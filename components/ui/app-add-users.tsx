@@ -36,7 +36,19 @@ export function AppAddUsers({ onUserAdded }: AppAddUsersProps) {
     if (!validatedFields.success) {
       displayValidationErrors(validatedFields.error);
     } else {
-      const res = await createUser(validatedFields.data.email, validatedFields.data.name, bcrypt.hashSync(validatedFields.data.password)) as { message: string };
+      // const res = await createUser(validatedFields.data.email, validatedFields.data.name, bcrypt.hashSync(validatedFields.data.password)) as { message: string };
+      const result = await fetch('/api/add-users', {
+        method: 'post',
+        body: JSON.stringify({
+          email: validatedFields.data.email,
+          name: validatedFields.data.name,
+          password: bcrypt.hashSync(validatedFields.data.password),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const res = await result.json()
       if (res.message === "success") {
         onUserAdded();
         setMassageMatch("");
@@ -52,7 +64,7 @@ export function AppAddUsers({ onUserAdded }: AppAddUsersProps) {
         toast({
           variant: "destructive",
           title: "Gagal Tambah User",
-          description: "User Gagal Ditambahkan",
+          description: res.message,
         })
       }
 

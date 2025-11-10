@@ -12,33 +12,86 @@ import {
 // import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { getUser, updateUser } from "@/lib/database/neon_postgresSql/user";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
 import { ImagePlus, InboxIcon, Trash2 } from "lucide-react";
+import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 
 import React from 'react';
 
 const User = () => {
     const [data, setData] = React.useState<any[]>([]);
+    const [metaData, setMetaData] = React.useState<any>({});
     const { toast } = useToast()
 
-    const updateData = async (id: number, nama: string, email: string, isAdmin: boolean, isActive: boolean) => {
-        const res = await updateUser(id, email, nama, isAdmin, isActive) as { message: string };
-        console.log(res)
-        if (res.message === "success") {
+    const updateData = async (email: string, atribut: string, value: string | boolean) => {
+        const result = await fetch('/api/update-users', {
+            method: 'PUT',
+            body: JSON.stringify({
+                email: email,
+                atribut: atribut,
+                value: value
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const res = await result.json()
+        if (res.data.data) {
             loadData()
             toast({
                 title: "Update Berhasil",
                 description: "Data berhasil diupdate",
+            })
+            loadData()
+        }
+    }
+
+    const deleteData = async (id: number) => {
+        const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus data ini?");
+        if (!confirmDelete) return;
+        const result = await fetch('/api/delete-users', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const res = await result.json()
+        if (res.message === "success") {
+            loadData()
+            toast({
+                title: "Delete Data Berhasil",
+                description: "Data berhasil dihapus",
+            })
+            loadData()
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Gagal Tambah User",
+                description: res.message,
             })
         }
     }
 
     const loadData = () => {
         const fetchData = async () => {
-            const res = await getUser();
-            setData(res);
+            const data = await fetch('/api/get-users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            if (data) {
+                const posts = await data.json()
+                if (posts.posts.data) {
+                    setData(posts.posts.data);
+                    setMetaData(posts.posts.meta);
+                    // console.log(posts.posts.meta);
+                }
+            }
         };
         fetchData();
     }
@@ -95,17 +148,17 @@ const User = () => {
                                     <td className='p-1'>{item.email}</td>
                                     <td className='p-1'>
                                         <div className="flex items-center space-x-2">
-                                            <Switch id="airplane-mode" checked={item.isAdmin} onClick={() => updateData(item.id, item.name, item.email, !item.isAdmin, item.isActive)} />
+                                            <Switch id="airplane-mode" checked={item.isAdmin} onClick={() => updateData(item.email, "isAdmin", !item.isAdmin)} />
                                             <Label htmlFor="airplane-mode">{item.isAdmin && 'Admin'}</Label>
                                         </div>
                                     </td>
                                     <td className='p-1'>
                                         <div className="flex items-center space-x-2">
-                                            <Switch id="airplane-mode" checked={item.isActive} onClick={() => updateData(item.id, item.name, item.email, item.isAdmin, !item.isActive)} />
+                                            <Switch id="airplane-mode" checked={item.isActive} onClick={() => updateData(item.email, "isActive", !item.isActive)} />
                                             <Label htmlFor="airplane-mode">{item.isActive && 'Active'}</Label>
                                         </div>
                                     </td>
-                                    <td className='p-1'><Trash2 size={16} className='cursor-pointer stroke-slate-500 hover:stroke-red-500' /></td>
+                                    <td className='p-1'><Trash2 size={16} className='cursor-pointer stroke-slate-500 hover:stroke-red-500' onClick={() => deleteData(item.id)} /></td>
                                 </tr>
                             )) ||
                                 <tr><td colSpan={7} className="text-center text-slate-700"><span className='flex flex-col items-center'><InboxIcon />Data tidak ditemukan</span></td></tr>
@@ -115,7 +168,7 @@ const User = () => {
                 </CardContent>
                 <CardFooter>
                     <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
-                        {/* <PaginationWithLinks page={1} pageSize={10} totalCount={Number(data.length)} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} /> */}
+                        <PaginationWithLinks page={Number(metaData.page ?? 1)} pageSize={Number(metaData.size ?? 10)} totalCount={Number(metaData.total ?? 10)} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
                     </div>
                 </CardFooter>
             </Card >

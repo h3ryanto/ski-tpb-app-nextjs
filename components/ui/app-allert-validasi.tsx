@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./button";
 import React, { useEffect, useState } from "react";
+import { Check, X } from "lucide-react";
 
 interface AlertValidasiProps {
     result: any;
@@ -40,11 +41,24 @@ const AlertValidasi: React.FC<AlertValidasiProps> = ({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="max-w-md mx-auto top-52 bg-slate-50 text-sm">
-                <DialogHeader>
-                    <DialogTitle className="text-lg">Validasi</DialogTitle>
+                <DialogHeader className="items-center">
+                    {result.status == 200 ? (
+                        <div className="text-green-500 text-center justify-items-center">
+                            <Check size={44} className="border border-green-500 rounded-full mr-2 mb-2 animate-pulse" />
+                            <DialogTitle className="text">Success</DialogTitle>
+                        </div>
+                    ) : (
+                        <div className="text-red-500 text-center justify-items-center">
+                            <X size={44} className="border border-red-500 rounded-full mr-2 mb-2 animate-bounce" />
+                            <DialogTitle>Error</DialogTitle>
+                        </div>
+                    )
+                    }
+
+
                 </DialogHeader>
 
-                <div className="max-w-md mx-auto bg-white p-6 rounded border border-gray-300">
+                <div className="my-4 text-center">
 
                     {result.status == 200 ? (
                         <div className="text-green-500">
@@ -60,10 +74,10 @@ const AlertValidasi: React.FC<AlertValidasiProps> = ({
 
                 </div>
 
-                <DialogFooter className="sm:justify-end text-sm">
+                <DialogFooter className="sm:justify-end text-sm justify-items-center">
                     <DialogClose asChild>
                         <Button size={"sm"} onClick={handleClose}>
-                            Close
+                            OK
                         </Button>
                     </DialogClose>
                 </DialogFooter>

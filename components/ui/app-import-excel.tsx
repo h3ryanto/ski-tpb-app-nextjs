@@ -24,6 +24,7 @@ export function ImportDataExcell() {
     const [tab, setTab] = useState<any[]>([]);
     const [result, setResult] = useState<any>(null);
     const [showDialog, setShowDialog] = useState(false);
+    const [isSaveSuccess, setSaveSuccess] = useState<boolean>(true);
 
 
 
@@ -41,6 +42,11 @@ export function ImportDataExcell() {
         console.log(result, 'getResult di app-import-excel')
         setResult(getResult);
         setShowDialog(true);
+        if (result.ok) {
+            setSaveSuccess(true);
+        } else {
+            setSaveSuccess(false);
+        }
     }
 
     const handleFileChange = () => {
@@ -81,6 +87,7 @@ export function ImportDataExcell() {
                 setFile(null);
                 setSuccess(true);
                 setFile(null);
+                setSaveSuccess(false);
             } else {
                 toast({
                     variant: "destructive",
@@ -106,7 +113,7 @@ export function ImportDataExcell() {
     return (
         <Dialog >
             <DialogTrigger asChild>
-                <Button><UploadCloudIcon />Impor Data</Button>
+                <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); setSaveSuccess(true) }}><UploadCloudIcon />Impor Data</Button>
             </DialogTrigger>
             <Description></Description>
             <DialogContent className="max-w-[80vw] bg-slate-50">
@@ -177,11 +184,17 @@ export function ImportDataExcell() {
                         <AlertValidasi
                             result={result}
                             triggerOpenValidasi={showDialog}
-                            onClose={() => setShowDialog(false)}
+                            onClose={() => { setShowDialog(false); setResult(undefined); setSaveSuccess(true) }}
                         />
                     }
                     {/* <Button onClick={() => setFile(null)} variant="outline" className="w-full">Batal</Button> */}
-                    <Button onClick={() => { handleSave(data); setShowDialog(true); }} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
+                    {!isSaveSuccess ?
+                        <Button onClick={() => { handleSave(data); setShowDialog(true); }} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
+                        :
+                        <DialogTrigger asChild>
+                            <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); }}>Tutup</Button>
+                        </DialogTrigger>
+                    }
                 </DialogFooter>
             </DialogContent >
         </Dialog >

@@ -60,7 +60,7 @@ const Dashboard = (props: {
             getData(searchParams?.date_from?.toString() || '', searchParams?.date_to?.toString() || '')
         } else {
             setDataChart([])
-            getData(dateFrom, dateTo)
+            getData(format(`${format(new Date().toISOString(), "yyyy")}-01-01`, "yyyy-MM-dd"), format(new Date().toISOString(), "yyyy-MM-dd"))
         }
 
     }, [searchParams, dateFrom, dateTo, getData])
