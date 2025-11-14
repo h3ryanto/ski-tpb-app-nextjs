@@ -6,7 +6,17 @@ export async function GET(
 ) {
 
     const { slug } = await context.params; // WAJIB di-await
-    const [year, kode_dokumen, query] = slug;
+    // const [year, kode_dokumen, query] = slug;
+    let path = ''
+    let filename = ''
+    if (slug.length > 2) {
+        path = `${slug[0]}/${slug[1]}`
+        filename = `${slug[2]}`
+    } else {
+        path = `${slug[0]}`
+        filename = `${slug[1]}`
+    }
+
 
     const jwt =
         (await getToken({
@@ -20,7 +30,7 @@ export async function GET(
             cookieName: "authjs.session-token",
         }));
     const token = jwt?.accessToken;
-    const url = `${process.env.API_URL}/view-pdf?name=${query}.pdf&tahun=${year}&kode_dokumen=${kode_dokumen}`;
+    const url = `${process.env.API_URL}/view-pdf?name=${filename}&path=${path}`;
 
 
     const pdfResponse = await fetch(`${url}`,
@@ -37,7 +47,7 @@ export async function GET(
         status: 200,
         headers: {
             "Content-Type": "application/pdf",
-            "Content-Disposition": `inline; filename=${query}.pdf`,
+            "Content-Disposition": `inline; filename=${filename}.pdf`,
         },
     });
 

@@ -31,7 +31,7 @@ export default function AppPdfLinkIcon({ nomor_daftar, tahun, kode_dokumen, refr
             setCheckLoading(false);
             return status.posts.exists;
         };
-        const filePath = path.join(`/api/getPdf/${tahun}/${kode_dokumen}/`, `${nomor_daftar}`);
+        const filePath = path.join(`/api/pdf/${tahun}/${kode_dokumen}/`, `${nomor_daftar}.pdf`);
         setPdfLinkPath(filePath);
         cek_pdf(nomor_daftar, tahun, kode_dokumen).then(setPdfExists);
     }, [nomor_daftar, tahun, kode_dokumen, refresh]);

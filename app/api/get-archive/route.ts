@@ -1,13 +1,24 @@
 import { getToken } from "next-auth/jwt";
-import { NextResponse } from "next/server"
 import axios from "axios"
+import { auth } from "@/auth"
 
-export async function POST(req: Request) {
-    const body = await req.json()
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
 
-    const filename = body.file_name;
-    const kode_dokumen = body.kode_dokumen;
-    const tahun = body.tahun
+    const page = searchParams.get('page');
+    const size = searchParams.get('size');
+    const search = searchParams.get('search');
+
+    const session = await auth()
+    if (!session) {
+        return Response.json(
+            { message: 'Unauthorized' },
+            {
+                status: 401, statusText: 'Unauthorized',
+                headers: { 'content-type': 'application/json' }
+            }
+        )
+    }
 
     const jwt =
         (await getToken({
@@ -22,7 +33,7 @@ export async function POST(req: Request) {
         }));
     const token = jwt?.accessToken;
     const res = await axios.get(
-        `${process.env.API_URL}/check-pdf?filename=${filename}.pdf&path=${tahun}/${kode_dokumen}`,
+        `${process.env.API_URL}/archive?page=${page}&size=${size}&search=${search}`,
         {
             withCredentials: true,
             headers: {
@@ -35,8 +46,7 @@ export async function POST(req: Request) {
     );
     return Response.json(
         {
-            posts: res.data
-
+            posts: res.data,
         },
         {
             status: 200, statusText: 'OK',

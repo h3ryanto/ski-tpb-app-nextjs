@@ -6,6 +6,21 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
     try {
+        const jwt =
+            (await getToken({
+                req,
+                secret: process.env.AUTH_SECRET,
+                cookieName: "__Secure-authjs.session-token",
+            })) ||
+            (await getToken({
+                req,
+                secret: process.env.AUTH_SECRET,
+                cookieName: "authjs.session-token",
+            }));
+        const token = jwt?.accessToken;
+
+        console.log("Token : ", token)
+
         const formData = await req.formData();
 
         const file = formData.get('file') as File | null;
@@ -17,11 +32,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'File tidak ditemukan' }, { status: 400 });
         }
 
-        const cookieKey = process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token';
-        const jwt = await getToken({ req, secret: process.env.AUTH_SECRET, salt: cookieKey, cookieName: cookieKey });
-        const token = jwt?.accessToken;
-
-
         // ✅ Konversi File ke Blob langsung (tanpa Buffer)
         const arrayBuffer = await file.arrayBuffer();
         const blob = new Blob([arrayBuffer], { type: file.type });
@@ -30,8 +40,9 @@ export async function POST(req: Request) {
         const golangForm = new FormData();
         golangForm.append('file', blob, file.name);
         golangForm.append('fileName', fileName);
-        golangForm.append('tahun', tahun);
-        golangForm.append('kode_dokumen', kode_dokumen);
+        golangForm.append('path', `${tahun}/${kode_dokumen}`);
+        // golangForm.append('tahun', tahun);
+        // golangForm.append('kode_dokumen', kode_dokumen);
 
         const response = await fetch(`${process.env.API_URL}/upload-pdf`, {
             method: 'POST',

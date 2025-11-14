@@ -89,7 +89,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ file_name, tahun, kode_dokumen,
 
         <Dialog>
             <DialogTrigger asChild>
-                <UploadCloud size={16} className='hover:stroke-blue-600 cursor-pointer' />
+                <UploadCloud size={16} className='hover:stroke-blue-600 cursor-pointer' onClick={() => setSuccess(false)} />
             </DialogTrigger>
             <DialogContent className="max-w-md mx-auto top-52 bg-slate-50 text-sm">
                 <DialogHeader>

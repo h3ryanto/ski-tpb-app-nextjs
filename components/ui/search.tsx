@@ -28,7 +28,7 @@ export default function Search({ children }: Props) {
 
     return (
         <>
-            <div className='w-full mx-auto bg-slate-700 px-2 py-2 text-slate-600 md:bg-inherit'>
+            <div className='w-full mx-auto bg-slate-700 text-slate-600 md:bg-inherit'>
                 <label className="flex flex-row-reverse w-full">
                     <div className='flex items-center relative w-full '>
                         <input
