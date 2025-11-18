@@ -10,16 +10,18 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog";
 import { toast } from '@/hooks/use-toast';
-import { CircleCheckBig, PlusCircle } from 'lucide-react';
+import { CircleCheckBig, Pencil, PlusCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from './button';
 import { z } from 'zod'
+import { format } from 'date-fns';
 
-interface AddArchiveProps {
-    onAddDataSuccess: () => void;
+interface UpdateArchiveProps {
+    onUpdateDataSuccess: () => void;
+    data: any
 }
 
-const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
+const UpdateArchive: React.FC<UpdateArchiveProps> = ({ onUpdateDataSuccess, data }) => {
     const [open, setOpen] = useState(false);
     const formRef = React.useRef<HTMLFormElement>(null); // Tambahkan ref untuk form
     const schema = z.object({
@@ -30,20 +32,6 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
         nama_dokumen: z.string().min(1),
         kategori_dokumen: z.string().min(1),
         description: z.string().min(1),
-        file: z
-            .any()
-            .refine((file) => file instanceof File, {
-                message: "File harus dipilih",
-            })
-            .refine((file) => file.size > 0, {
-                message: "File tidak boleh kosong",
-            })
-            .refine((file) => file.size < 5 * 1024 * 1024, {
-                message: "Ukuran file maksimal 5MB",
-            })
-            .refine((file) => file.type === "application/pdf", {
-                message: "Hanya file PDF yang diperbolehkan",
-            }),
 
     });
 
@@ -52,14 +40,15 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
 
 
 
-    const formAction = async (formData: FormData) => {
+    const formAction = async (formData: FormData, id: number) => {
+        const file = formData.get('file') as File
         const validatedFields = schema.safeParse({
             nomor_dokumen: formData.get('nomor_dokumen'),
             tanggal_dokumen: formData.get('tanggal_dokumen'),
             nama_dokumen: formData.get('nama_dokumen'),
             kategori_dokumen: formData.get('kategori_dokumen'),
             description: formData.get('description'),
-            file: formData.get('file') as File,
+
         })
 
         if (!validatedFields.success) {
@@ -67,7 +56,9 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
             console.log(validatedFields.error)
         } else {
             const archiveData = new FormData();
-            archiveData.append('file', validatedFields.data.file);
+            if (file) {
+                archiveData.append('file', file);
+            }
             archiveData.append('nomor_dokumen', validatedFields.data.nomor_dokumen);
             const dateObj = new Date(validatedFields.data.tanggal_dokumen);
             const isoDate = dateObj.toISOString(); // untuk dikirim ke backend
@@ -76,25 +67,28 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
             archiveData.append('kategori_dokumen', validatedFields.data.kategori_dokumen);
             archiveData.append('description', validatedFields.data.description);
             archiveData.append('filename', crypto.randomUUID());
+            archiveData.append('id', id.toString());
 
-            const result = await fetch('/api/save-archive', {
+            const result = await fetch('/api/update-archive', {
                 method: 'POST',
                 body: archiveData,
             });
 
-            const res = await result.json();
-            console.log(res, "<-res")
+
+
             console.log(result, "<-res")
 
             if (result.status === 200) {
                 formRef.current?.reset();
+                const res = await result.json();
                 toast({
                     title: "Upload Berhasil",
                     description: res.message,
                 });
-                onAddDataSuccess();
+                onUpdateDataSuccess();
                 setOpen(false)
             } else {
+                const res = await result.json();
                 toast({
                     variant: "destructive",
                     title: "Gagal Simpan Data",
@@ -139,7 +133,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size={'sm'} onClick={() => setOpen(true)}><PlusCircle /></Button>
+                <Pencil size={16} onClick={() => setOpen(true)} className='cursor-pointer stroke-slate-500 hover:stroke-yellow-500' />
             </DialogTrigger>
             <DialogContent className="max-w-md mx-auto top-96 bg-slate-50 text-sm">
                 <DialogHeader>
@@ -149,7 +143,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                     ref={formRef}
                     onSubmit={(e) => {
                         e.preventDefault();
-                        formAction(new FormData(e.currentTarget));
+                        formAction(new FormData(e.currentTarget), data.id);
 
                     }}>
                     <div className=" bg-white p-6 rounded border border-gray-300">
@@ -159,6 +153,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                                 id="nomor_dokumen"
                                 name="nomor_dokumen"
                                 type="text"
+                                defaultValue={data.nomor_dokumen}
                                 required
                                 autoComplete="nomor_dokumen"
                                 placeholder="Nomor Dokumen"
@@ -171,6 +166,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                             <input
                                 id="tanggal_dokumen"
                                 name="tanggal_dokumen"
+                                defaultValue={format(new Date(data.tanggal_dokumen), 'yyyy-MM-dd')}
                                 type="date"
                                 required
                                 className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
@@ -182,6 +178,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                             <input
                                 id="nama_dokumen"
                                 name="nama_dokumen"
+                                defaultValue={data.nama_dokumen}
                                 type="text"
                                 required
                                 autoComplete="nama_dokumen"
@@ -195,6 +192,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                             <select
                                 name="kategori_dokumen"
                                 id="kategori_dokumen"
+                                defaultValue={data.kategori_dokumen}
                                 className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
                                 onChange={() => clearValidationError("kategori_dokumen")}
                             >
@@ -210,6 +208,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                             <textarea
                                 id="description"
                                 name="description"
+                                defaultValue={data.description}
                                 required
                                 autoComplete="description"
                                 placeholder="Keterangan"
@@ -246,4 +245,4 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
     );
 };
 
-export default AddArchive;
+export default UpdateArchive;

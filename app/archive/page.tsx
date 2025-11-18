@@ -1,6 +1,5 @@
 "use client"
 
-import AppCopyText from "@/components/ui/app-copy-text";
 import {
     Card,
     CardContent,
@@ -8,11 +7,14 @@ import {
     CardHeader,
 } from "@/components/ui/card";
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links'
-import { FileTextIcon, InboxIcon } from "lucide-react";
+import { FileTextIcon, InboxIcon, Trash2Icon } from "lucide-react";
 import React, { use } from 'react';
 import { format } from 'date-fns';
 import Search from "@/components/ui/search";
 import AddArchive from "@/components/ui/app-add-archive";
+import { useToast } from "@/hooks/use-toast";
+import AppTooltip from "@/components/ui/app-tool-tip";
+import UpdateArchive from "@/components/ui/app-update-archive";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Archive = (props: {
@@ -27,6 +29,36 @@ const Archive = (props: {
     const [page, setPage] = React.useState<number>(1);
     const [totalRecord, setTotalRecord] = React.useState<number>(1);
     const [size, setSize] = React.useState<number>(10);
+    const { toast } = useToast()
+
+    const deleteData = async (id: number) => {
+        const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus data ini?");
+        if (!confirmDelete) return;
+        const result = await fetch('/api/delete-archive', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const res = await result.json()
+        if (res.message === "success") {
+            loadData(search, limit, currenPage);
+            toast({
+                title: "Delete Data Berhasil",
+                description: "Data berhasil dihapus",
+            })
+            loadData(search, limit, currenPage);
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Gagal Tambah User",
+                description: res.message,
+            })
+        }
+    }
 
     const loadData = async (search: any, limit: number, currenPage: number) => {
         const data = await fetch(`/api/get-archive?page=${currenPage}&size=${limit}&search=${search}`, {
@@ -36,7 +68,7 @@ const Archive = (props: {
             },
         })
         if (data) {
-            const posts = await data.json()
+            const posts = await data?.json()
             if (posts.posts.data) {
                 setData(posts.posts.data)
                 setPage(posts.posts.meta.page)
@@ -90,15 +122,24 @@ const Archive = (props: {
                                     <td className='p-2'>{post.nama_dokumen}</td>
                                     <td className='p-2'>{post.kategori_dokumen}</td>
                                     <td className='p-2'>{post.description}</td>
-                                    <td className='p-2'>
-                                        <FileTextIcon
-                                            size={16}
-                                            className="hover:stroke-red-500 cursor-pointer stroke-red-700"
-                                            onClick={() => {
-                                                window.open(`/api/pdf/${post.url_address}`, '_blank');
-                                            }}
-                                        />
+                                    <td className='p-2 flex gap-2'>
+                                        <AppTooltip title='Lihat Dokumen' sideAlign='left'>
+                                            <FileTextIcon
+                                                size={16}
+                                                className="hover:stroke-red-500 cursor-pointer stroke-red-700"
+                                                onClick={() => {
+                                                    window.open(`/api/pdf/${post.url_address}`, '_blank');
+                                                }}
+                                            />
+                                        </AppTooltip>
+                                        <AppTooltip title='Update Archive' sideAlign='left'>
 
+                                            <UpdateArchive onUpdateDataSuccess={async () => await loadData(search, limit, currenPage)} data={post} />
+
+                                        </AppTooltip>
+                                        <AppTooltip title='Hapus Archive' sideAlign='left'>
+                                            <Trash2Icon size={16} className='cursor-pointer stroke-slate-500 hover:stroke-red-500' onClick={() => deleteData(post.id)} />
+                                        </AppTooltip>
                                     </td>
                                 </tr>
                             )) || <tr><td colSpan={7} className="text-center text-slate-700"><span className='flex flex-col items-center'><InboxIcon />Data tidak ditemukan</span></td></tr>}

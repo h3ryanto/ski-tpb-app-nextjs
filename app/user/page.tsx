@@ -88,8 +88,6 @@ const User = () => {
                 const posts = await data.json()
                 if (posts.posts.data) {
                     setData(posts.posts.data);
-                    // setMetaData(posts.posts.meta);
-                    // console.log(posts.posts.meta);
                 }
             }
         };
