@@ -10,10 +10,11 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog";
 import { toast } from '@/hooks/use-toast';
-import { CircleCheckBig, PlusCircle } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from './button';
 import { z } from 'zod'
+import AppLoading from "./app-loading";
 
 interface AddArchiveProps {
     onAddDataSuccess: () => void;
@@ -21,6 +22,7 @@ interface AddArchiveProps {
 
 const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
     const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const formRef = React.useRef<HTMLFormElement>(null); // Tambahkan ref untuk form
     const schema = z.object({
         nomor_dokumen: z.string().min(1),
@@ -76,7 +78,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
             archiveData.append('kategori_dokumen', validatedFields.data.kategori_dokumen);
             archiveData.append('description', validatedFields.data.description);
             archiveData.append('filename', crypto.randomUUID());
-
+            setIsLoading(true)
             const result = await fetch('/api/save-archive', {
                 method: 'POST',
                 body: archiveData,
@@ -89,7 +91,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
             if (result.status === 200) {
                 formRef.current?.reset();
                 toast({
-                    title: "Upload Berhasil",
+                    title: "Tambah Archive Berhasil",
                     description: res.message,
                 });
                 onAddDataSuccess();
@@ -101,6 +103,7 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
                     description: `${res.status} -> ${res.message}`,
                 });
             }
+            setIsLoading(false)
 
         }
 
@@ -137,112 +140,115 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
     };
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button size={'sm'} onClick={() => setOpen(true)}><PlusCircle /></Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-md mx-auto top-96 bg-slate-50 text-sm">
-                <DialogHeader>
-                    <DialogTitle className='text-lg'>Entry Data</DialogTitle>
-                </DialogHeader>
-                <form
-                    ref={formRef}
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        formAction(new FormData(e.currentTarget));
+        <>
 
-                    }}>
-                    <div className=" bg-white p-6 rounded border border-gray-300">
-                        <div className="py-2">
-                            Nomor Dokumen :
-                            <input
-                                id="nomor_dokumen"
-                                name="nomor_dokumen"
-                                type="text"
-                                required
-                                autoComplete="nomor_dokumen"
-                                placeholder="Nomor Dokumen"
-                                className="block w-full rounded-md border py-1.5 pl-2 shadow-sm ring-1 ring-gray-300"
-                                onInput={() => clearValidationError("nama_dokumen")}
-                            />
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                    <Button size={'sm'} onClick={() => setOpen(true)}><PlusCircle /></Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md mx-auto top-96 bg-slate-50 text-sm">
+                    <DialogHeader>
+                        <DialogTitle className='text-lg'>Entry Data</DialogTitle>
+                    </DialogHeader>
+                    <form
+                        ref={formRef}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            formAction(new FormData(e.currentTarget));
+
+                        }}>
+                        <div className=" bg-white p-6 rounded border border-gray-300">
+                            <div className="py-2">
+                                Nomor Dokumen :
+                                <input
+                                    id="nomor_dokumen"
+                                    name="nomor_dokumen"
+                                    type="text"
+                                    required
+                                    autoComplete="nomor_dokumen"
+                                    placeholder="Nomor Dokumen"
+                                    className="block w-full rounded-md border py-1.5 pl-2 shadow-sm ring-1 ring-gray-300"
+                                    onInput={() => clearValidationError("nama_dokumen")}
+                                />
+                            </div>
+                            <div className="py-2">
+                                Tanggal Dokumen :
+                                <input
+                                    id="tanggal_dokumen"
+                                    name="tanggal_dokumen"
+                                    type="date"
+                                    required
+                                    className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
+                                    onInput={() => clearValidationError("tanggal_dokumen")}
+                                />
+                            </div>
+                            <div className="py-2">
+                                Nama Dokumen :
+                                <input
+                                    id="nama_dokumen"
+                                    name="nama_dokumen"
+                                    type="text"
+                                    required
+                                    autoComplete="nama_dokumen"
+                                    placeholder="Nama Dokumen"
+                                    className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
+                                    onInput={() => clearValidationError("nama_dokumen")}
+                                />
+                            </div>
+                            <div className="py-2">
+                                Kategori Dokumen :
+                                <select
+                                    name="kategori_dokumen"
+                                    id="kategori_dokumen"
+                                    className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
+                                    onChange={() => clearValidationError("kategori_dokumen")}
+                                >
+                                    <option value="Surat Masuk">Surat Masuk</option>
+                                    <option value="Surat Keluar">Surat Keluar</option>
+                                    <option value="SKEP">SKEP</option>
+                                    <option value="Laporan">Laporan</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div className="py-2">
+                                Keterangan :
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    required
+                                    autoComplete="description"
+                                    placeholder="Keterangan"
+                                    className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
+                                    onInput={() => clearValidationError("description")}
+                                />
+                            </div>
+
+                            <div className="py-2">
+                                Pilih File :
+                                <input
+                                    id="file"
+                                    type="file"
+                                    name="file"
+                                    className="mb-4 p-2 w-full border rounded"
+                                />
+                            </div>
                         </div>
-                        <div className="py-2">
-                            Tanggal Dokumen :
-                            <input
-                                id="tanggal_dokumen"
-                                name="tanggal_dokumen"
-                                type="date"
-                                required
-                                className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
-                                onInput={() => clearValidationError("tanggal_dokumen")}
-                            />
-                        </div>
-                        <div className="py-2">
-                            Nama Dokumen :
-                            <input
-                                id="nama_dokumen"
-                                name="nama_dokumen"
-                                type="text"
-                                required
-                                autoComplete="nama_dokumen"
-                                placeholder="Nama Dokumen"
-                                className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
-                                onInput={() => clearValidationError("nama_dokumen")}
-                            />
-                        </div>
-                        <div className="py-2">
-                            Kategori Dokumen :
-                            <select
-                                name="kategori_dokumen"
-                                id="kategori_dokumen"
-                                className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
-                                onChange={() => clearValidationError("kategori_dokumen")}
+                        <DialogFooter className="justify-end text-sm pt-3">
+                            <Button
+                                type="submit"
+                                size={"sm"}
                             >
-                                <option value="Surat Masuk">Surat Masuk</option>
-                                <option value="Surat Keluar">Surat Keluar</option>
-                                <option value="SKEP">SKEP</option>
-                                <option value="Laporan">Laporan</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                        <div className="py-2">
-                            Keterangan :
-                            <textarea
-                                id="description"
-                                name="description"
-                                required
-                                autoComplete="description"
-                                placeholder="Keterangan"
-                                className="block w-full rounded-md border py-1.5 px-2 shadow-sm ring-1 ring-gray-300"
-                                onInput={() => clearValidationError("description")}
-                            />
-                        </div>
-
-                        <div className="py-2">
-                            Pilih File :
-                            <input
-                                id="file"
-                                type="file"
-                                name="file"
-                                className="mb-4 p-2 w-full border rounded"
-                            />
-                        </div>
-                    </div>
-
-                    <DialogFooter className="justify-end text-sm pt-3">
-                        <Button
-                            type="submit"
-                            size={"sm"}
-                        >
-                            Save
-                        </Button>
-                        <DialogClose asChild>
-                            <Button size={"sm"} onClick={() => setOpen(false)}>Cancel</Button>
-                        </DialogClose>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog >
+                                Save
+                            </Button>
+                            <DialogClose asChild>
+                                <Button size={"sm"} onClick={() => setOpen(false)} >Cancel</Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog >
+            <AppLoading isLoading={isLoading} />
+        </>
     );
 };
 

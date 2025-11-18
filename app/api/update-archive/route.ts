@@ -41,9 +41,9 @@ export async function POST(req: Request) {
 
         if (file) {
             // ✅ Konversi File ke Blob langsung (tanpa Buffer)
-            const arrayBuffer = await file?.arrayBuffer();
-            const blob = new Blob([arrayBuffer], { type: file.type });
-            golangForm.append('file', blob, file.name);
+            // const arrayBuffer = await file?.arrayBuffer();
+            // const blob = new Blob([arrayBuffer], { type: file.type });
+            golangForm.append('file', file, file.name);
         }
 
         // console.log(golangForm)
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
 
         const result = await response.json(); // atau .json() kalau Golang kirim JSON
         console.log(result.data.message, "respons Berhasil dari golang")
-        return Response.json({ message: result.data.message }, { status: response.status });
+        return Response.json({ message: "Data berhasil diupdate." }, { status: response.status });
     } catch (err: any) {
         console.error(err);
         return Response.json({ error: err.error.message }, { status: 500 });
