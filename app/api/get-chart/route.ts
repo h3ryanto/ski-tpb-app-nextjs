@@ -5,16 +5,16 @@ import { auth } from "@/auth"
 
 export async function POST(Request: NextRequest) {
 
-    const session = await auth()
-    if (!session) {
-        return Response.json(
-            { message: 'Unauthorized' },
-            {
-                status: 401, statusText: 'Unauthorized',
-                headers: { 'content-type': 'application/json' }
-            }
-        )
-    }
+    // const session = await auth()
+    // if (!session) {
+    //     return Response.json(
+    //         { message: 'Unauthorized' },
+    //         {
+    //             status: 401, statusText: 'Unauthorized',
+    //             headers: { 'content-type': 'application/json' }
+    //         }
+    //     )
+    // }
 
 
     const body = await Request.json();

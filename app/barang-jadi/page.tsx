@@ -7,15 +7,15 @@ import {
     CardHeader,
 } from "@/components/ui/card";
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links'
-import { FileTextIcon, InboxIcon, Trash2Icon } from "lucide-react";
+import { InboxIcon, Trash2Icon } from "lucide-react";
 import React, { use } from 'react';
-import { format } from 'date-fns';
 import Search from "@/components/ui/search";
-import AddArchive from "@/components/ui/app-add-archive";
 import { useToast } from "@/hooks/use-toast";
 import AppTooltip from "@/components/ui/app-tool-tip";
-import UpdateArchive from "@/components/ui/app-update-archive";
 import AppLoading from "@/components/ui/app-loading";
+import UpdateBarangJadi from "@/components/ui/app-update-barang-jadi";
+import AddBarangJadi from "@/components/ui/app-add-barang-jadi";
+import { AppBom } from "@/components/ui/app-bom";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Archive = (props: {
@@ -36,7 +36,7 @@ const Archive = (props: {
     const deleteData = async (id: number) => {
         const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus data ini?");
         if (!confirmDelete) return;
-        const result = await fetch('/api/delete-archive', {
+        const result = await fetch('/api/delete-barang-jadi', {
             method: 'DELETE',
             body: JSON.stringify({
                 id: id
@@ -64,7 +64,7 @@ const Archive = (props: {
 
     const loadData = async (search: any, limit: number, currenPage: number) => {
         setIsLoading(true);
-        const data = await fetch(`/api/get-archive?page=${currenPage}&size=${limit}&search=${search}`, {
+        const data = await fetch(`/api/get-barang-jadi?page=${currenPage}&size=${limit}&search=${search}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,26 +91,27 @@ const Archive = (props: {
             <div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
                 <Card>
                     <CardHeader className='flex flex-row place-items-center gap-2'>
-                        <AddArchive onAddDataSuccess={async () => await loadData(search, limit, currenPage)} />
+                        <AppTooltip title="Tambah Barang Jadi" sideAlign="left">
+                            <AddBarangJadi onAddDataSuccess={async () => await loadData(search, limit, currenPage)} />
+                        </AppTooltip>
                         <Search ><></></Search>
                     </CardHeader>
                     <CardContent className='overflow-y-auto h-[calc(100vh-240px)]'>
-                        <table className="table-auto hidden md:table w-full">
+                        <table className="table-auto hidden md:table w-full text-left">
                             <thead className='top-10 '>
                                 <tr className="border-b-2 border-y-slate-400 sticky -top-1 bg-slate-100">
                                     <th scope="col" className='align-top p-2'><div className='pt-2'>No.</div></th>
-                                    <th scope="col" className='align-top p-2'><div className='pt-2'>Nomor Dokumen</div></th>
                                     <th scope="col" className='p-2'>
-                                        <div>Tanggal Dokumen</div>
+                                        <div>Kode barang</div>
                                     </th>
                                     <th scope="col" className='p-2'>
-                                        <div>Nama Dokumen</div>
+                                        <div>Uraian</div>
                                     </th>
                                     <th scope="col" className='p-2'>
-                                        <div className='mb-3'>Kategori Dokumen</div>
+                                        <div className='mb-3'>Type</div>
                                     </th>
                                     <th scope="col" className='p-2'>
-                                        <div className='mb-3'>Keterangan</div>
+                                        <div className='mb-3'>Satuan</div>
                                     </th>
                                     <th scope="col" className='p-2'>
                                         <div className='mb-3'></div>
@@ -122,27 +123,19 @@ const Archive = (props: {
                                 {data.length > 0 && data.map((post: any, index: number) => (
                                     <tr key={index} className=" hover:bg-slate-100/65">
                                         <td className='p-2'>{((currenPage * 10) - 10) + index + 1}.</td>
-                                        <td className='p-2'>{post.nomor_dokumen}</td>
-                                        <td className='p-2'>{format(new Date(post.tanggal_dokumen), 'dd-MM-yyyy')}</td>
-                                        <td className='p-2'>{post.nama_dokumen}</td>
-                                        <td className='p-2'>{post.kategori_dokumen}</td>
-                                        <td className='p-2'>{post.description}</td>
+                                        <td className='p-2'>{post.kode_barang}</td>
+                                        <td className='p-2'>{post.nama_barang}</td>
+                                        <td className='p-2'>{post.type}</td>
+                                        <td className='p-2'>{post.satuan}</td>
                                         <td className='p-2 flex gap-2'>
-                                            <AppTooltip title='Lihat Dokumen' sideAlign='left'>
-                                                <FileTextIcon
-                                                    size={16}
-                                                    className="hover:stroke-red-500 cursor-pointer stroke-red-700"
-                                                    onClick={() => {
-                                                        window.open(`/api/pdf/${post.url_address}`, '_blank');
-                                                    }}
-                                                />
+                                            <AppTooltip title='Lihat BOM / Formula Barang Jadi' sideAlign='left'>
+                                                <AppBom post={post} reload={async () => await loadData(search, limit, currenPage)} />
                                             </AppTooltip>
-                                            <AppTooltip title='Update Archive' sideAlign='left'>
-
-                                                <UpdateArchive onUpdateDataSuccess={async () => await loadData(search, limit, currenPage)} data={post} />
+                                            <AppTooltip title='Update Barang Jadi' sideAlign='left'>
+                                                <UpdateBarangJadi onUpdateDataSuccess={async () => await loadData(search, limit, currenPage)} data={post} />
 
                                             </AppTooltip>
-                                            <AppTooltip title='Hapus Archive' sideAlign='left'>
+                                            <AppTooltip title='Hapus Barang Jadi' sideAlign='left'>
                                                 <Trash2Icon size={16} className='cursor-pointer stroke-slate-500 hover:stroke-red-500' onClick={() => deleteData(post.id)} />
                                             </AppTooltip>
                                         </td>

@@ -98,7 +98,7 @@ const SidebarProvider = React.forwardRef<
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
-      const media = window.matchMedia('(max-width: 1713px)') // md: 1024px ke bawah
+      const media = window.matchMedia('(max-width: 1881px)') // md: 1024px ke bawah
       const handleChange = () => {
         if (media.matches) {
           setOpen(false)

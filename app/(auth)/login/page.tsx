@@ -1,26 +1,26 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import React, { useState, FormEvent} from 'react'
+import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react"
 import login_sm from "@/public/svg/login_sm.svg"
 import login_md from "@/public/svg/login_md.svg"
 import { useSession } from 'next-auth/react';
 import { useToast } from "@/hooks/use-toast"
-import { Key, User } from "lucide-react"
+import { Fingerprint, Key, User } from "lucide-react"
 import Loading from '@/app/dokumen/loading'
 import Cookies from 'js-cookie'
 
 
 export default function Login() {
-  
+
   const session = useSession();
   const { toast } = useToast()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-const myCookie = Cookies.get('from') 
-const url = myCookie ? myCookie : '/dashboard'
+  const myCookie = Cookies.get('from')
+  const url = myCookie ? myCookie : '/dashboard'
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
@@ -127,7 +127,7 @@ const url = myCookie ? myCookie : '/dashboard'
                     type="submit"
                     className="flex mt-5 mb-5 w-full mx-auto justify-center rounded-xl bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     disabled={isLoading}>
-                    {isLoading ? 'Loading...' : 'Login'}
+                    {isLoading ? 'Loading...' : <><Fingerprint className='mr-3' /> Sign In</>}
                   </button>
                 </div>
               </form>

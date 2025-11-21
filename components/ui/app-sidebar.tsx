@@ -1,5 +1,5 @@
 'use client'
-import { ArchiveRestore, BookTextIcon, ChartNoAxesCombinedIcon, User2 } from "lucide-react"
+import { ArchiveRestore, BookTextIcon, ChartNoAxesCombinedIcon, PackageOpen, User2 } from "lucide-react"
 
 import {
     Sidebar,
@@ -34,6 +34,7 @@ export function AppSidebar() {
         { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: ChartNoAxesCombinedIcon, isAdmin: false },
         { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: BookTextIcon, isAdmin: false },
         { name: 'Archive', href: '/archive', current: pathname === '/archive' ? true : false, icon: ArchiveRestore, isAdmin: false },
+        { name: 'Barang Jadi', href: '/barang-jadi', current: pathname === '/barang-jadi' ? true : false, icon: PackageOpen, isAdmin: false },
         { name: 'User', href: '/user', current: pathname === '/user' ? true : false, icon: User2, isAdmin: true },
     ]
 

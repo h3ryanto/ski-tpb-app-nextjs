@@ -16,6 +16,7 @@ import { Button } from './button';
 import { z } from 'zod'
 import AppLoading from "./app-loading";
 
+
 interface AddArchiveProps {
     onAddDataSuccess: () => void;
 }
@@ -144,8 +145,11 @@ const AddArchive: React.FC<AddArchiveProps> = ({ onAddDataSuccess }) => {
 
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button size={'sm'} onClick={() => setOpen(true)}><PlusCircle /></Button>
+                    <Button size={'sm'} onClick={() => setOpen(true)}>
+                        <PlusCircle />
+                    </Button>
                 </DialogTrigger>
+
                 <DialogContent className="max-w-md mx-auto top-96 bg-slate-50 text-sm">
                     <DialogHeader>
                         <DialogTitle className='text-lg'>Entry Data</DialogTitle>

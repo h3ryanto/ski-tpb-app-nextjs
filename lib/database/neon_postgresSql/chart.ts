@@ -12,6 +12,10 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
         WHEN "Header".nomor_aju LIKE '%0000270219892%' AND "Header".kode_dokumen = '27' THEN concat("Header".kode_dokumen,'_OUT') 
         WHEN "Header".kode_dokumen <> '27' THEN "Header".kode_dokumen
     END AS kode_dok,
+      CASE 
+        WHEN "Header".kode_dokumen = '25' THEN 'IDR' 
+        ELSE "Header".kode_valuta
+    END AS kurs,
     count(CASE WHEN "Barang".seri_barang ='1' THEN "Header".kode_dokumen END) AS jumlah,
     (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='23' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_23,
     (SELECT count(kode_dokumen) FROM "Header" WHERE kode_dokumen='25' AND tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}) AS total_dok_25,
@@ -47,13 +51,12 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
     SUM(CASE WHEN ("Header".kode_tujuan_pengiriman LIKE '1') AND ("Barang".nomor_aju NOT LIKE '%0000270219892%') THEN "Barang".harga_penyerahan::numeric ELSE 0 END) AS penyerahan_bahan_baku,
     SUM(CASE WHEN "Barang".kode_barang NOT LIKE '%1-0%' THEN "Barang".harga_penyerahan::numeric ELSE 0 END) AS penyerahan_lainnya,
     SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric ELSE 0 END) AS fob,
-    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS fob_rupiah,
-    "Header".kode_valuta
+    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS fob_rupiah
     FROM "Header"
     inner JOIN "Barang" ON "Barang".nomor_aju = "Header".nomor_aju
     WHERE
     "Header".tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}
-    GROUP BY kode_dok,"Header".kode_valuta
+    GROUP BY kode_dok,kurs
     ORDER BY kode_dok`
     return posts;
 }

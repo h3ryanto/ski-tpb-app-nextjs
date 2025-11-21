@@ -52,6 +52,7 @@ const Dashboard = (props: {
             })
         }
     }, [toast])
+    console.log(dataChart, "<-dataChartContainer")
 
     useEffect(() => {
         if (searchParams?.date_from && searchParams?.date_to) {
