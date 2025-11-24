@@ -123,7 +123,7 @@ const AppChartRadial = React.forwardRef<
 
             {...props}>
             <CardHeader className="items-center pb-0" >
-                <CardTitle>Dokumen BC {data.kode_dok} {data.kurs}</CardTitle>
+                <CardTitle>Dokumen BC {data.kode_dok} {data.kode_dok != '25' && data.kurs}</CardTitle>
                 < CardDescription > {`${format(dateFrom || new Date(), 'dd MMM yyyy')} - ${format(dateTo || new Date(), 'dd MMM yyyy')}`} </CardDescription>
             </CardHeader>
             < CardContent className="flex-1 pb-0" >
@@ -155,8 +155,13 @@ const AppChartRadial = React.forwardRef<
                                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                             return (
                                                 <Link
-                                                    href={`/dokumen?kodeValuta=${data.kurs}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`} className="cursor-pointer"
-                                                >
+                                                        href={
+                                                            data.kode_dok === '25'
+                                                            ? `/dokumen?date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`
+                                                            : `/dokumen?kodeValuta=${data.kurs}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`
+                                                        }
+                                                        className="cursor-pointer"
+                                                        >
                                                     <text
                                                         x={viewBox.cx}
                                                         y={viewBox.cy}
