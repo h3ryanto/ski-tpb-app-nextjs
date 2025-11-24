@@ -14,18 +14,17 @@ import { useToast } from "@/hooks/use-toast";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
 import { ImagePlus, InboxIcon, Trash2 } from "lucide-react";
-import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+// import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import React from 'react';
 import AppLoading from '@/components/ui/app-loading';
 
 
 const User = () => {
 
-    // const skip = (currenPage - 1) * limit;
     const [data, setData] = React.useState<any[]>([]);
-    const [page, setPage] = React.useState<number>(1);
-    const [totalRecord, setTotalRecord] = React.useState<number>(1);
-    const [size, setSize] = React.useState<number>(10);
+    // const [page, setPage] = React.useState<number>(1);
+    // const [totalRecord, setTotalRecord] = React.useState<number>(1);
+    // const [size, setSize] = React.useState<number>(10);
     const [isLoading, setIsLoading] = React.useState(false);
     const { toast } = useToast()
 
@@ -95,9 +94,9 @@ const User = () => {
                 const posts = await data.json()
                 if (posts.posts.data) {
                     setData(posts.posts.data);
-                    setPage(posts.posts.meta.page)
-                    setTotalRecord(posts.posts.meta.total)
-                    setSize(posts.posts.meta.size)
+                    // setPage(posts.posts.meta.page)
+                    // setTotalRecord(posts.posts.meta.total)
+                    // setSize(posts.posts.meta.size)
                 }
             }
             setIsLoading(false);
@@ -179,7 +178,7 @@ const User = () => {
                     </CardContent>
                     <CardFooter>
                         <div className="container flex justify-center mx-auto py-3 border-t-2 border-slate-400 md:border-t-0 text-slate-100 bg-slate-700 md:bg-inherit md:text-inherit">
-                            <PaginationWithLinks page={page} pageSize={size} totalCount={totalRecord} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} />
+                            {/* <PaginationWithLinks page={page} pageSize={size} totalCount={totalRecord} pageSizeSelectOptions={{ pageSizeOptions: [10, 20, 50, 100] }} /> */}
 
                         </div>
                     </CardFooter>
