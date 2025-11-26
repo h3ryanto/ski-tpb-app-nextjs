@@ -17,7 +17,7 @@ import { z } from 'zod'
 import AppLoading from "./app-loading";
 
 interface UpdateBomProps {
-    onUpdateDataSuccess: () => void;
+    onUpdateDataSuccess: () => Promise<void>;
     data: any
 }
 
@@ -30,8 +30,8 @@ const UpdateBom: React.FC<UpdateBomProps> = ({ onUpdateDataSuccess, data }) => {
     const schema = z.object({
         kode_barang: z.string().min(1).max(13),
         nama_barang: z.string().min(5),
-        type: z.string().min(3),
-        qty: z.number().min(1),
+        type: z.string().min(1),
+        qty: z.number(),
         satuan: z.string().min(3).max(3),
     });
 
@@ -73,8 +73,9 @@ const UpdateBom: React.FC<UpdateBomProps> = ({ onUpdateDataSuccess, data }) => {
                     title: "Update Data Berhasil",
                     description: res.message,
                 });
-                onUpdateDataSuccess();
+                setIsLoading(false)
                 setOpen(false)
+                onUpdateDataSuccess();
             } else {
                 const res = await result.json();
                 toast({
@@ -82,8 +83,9 @@ const UpdateBom: React.FC<UpdateBomProps> = ({ onUpdateDataSuccess, data }) => {
                     title: "Gagal Simpan Data",
                     description: `${res.status} -> ${res.message}`,
                 });
+                setIsLoading(false)
             }
-            setIsLoading(false)
+
         }
 
     }
@@ -128,6 +130,7 @@ const UpdateBom: React.FC<UpdateBomProps> = ({ onUpdateDataSuccess, data }) => {
                     <DialogHeader>
                         <DialogTitle className='text-lg'>Entry Data</DialogTitle>
                     </DialogHeader>
+                    {data.id}
                     <form
                         ref={formRef}
                         onSubmit={(e) => {

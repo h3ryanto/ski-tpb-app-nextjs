@@ -7,7 +7,7 @@ import {
     CardHeader,
 } from "@/components/ui/card";
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links'
-import { FileTextIcon, InboxIcon, Trash2Icon } from "lucide-react";
+import { FileTextIcon, InboxIcon, RefreshCcwIcon, Trash2Icon } from "lucide-react";
 import React, { use } from 'react';
 import { format } from 'date-fns';
 import Search from "@/components/ui/search";
@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import AppTooltip from "@/components/ui/app-tool-tip";
 import UpdateArchive from "@/components/ui/app-update-archive";
 import AppLoading from "@/components/ui/app-loading";
+import { Button } from "@/components/ui/button";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Archive = (props: {
@@ -91,6 +92,9 @@ const Archive = (props: {
             <div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
                 <Card>
                     <CardHeader className='flex flex-row place-items-center gap-2'>
+                        <AppTooltip title="Muat Ulang Data" sideAlign="top">
+                            <Button size={'sm'} className="mt-1" onClick={async () => await loadData(search, limit, currenPage)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} /></Button>
+                        </AppTooltip>
                         <AddArchive onAddDataSuccess={async () => await loadData(search, limit, currenPage)} />
                         <Search ><></></Search>
                     </CardHeader>

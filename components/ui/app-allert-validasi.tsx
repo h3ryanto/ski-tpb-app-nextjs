@@ -40,7 +40,7 @@ const AlertValidasi: React.FC<AlertValidasiProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="max-w-md mx-auto top-52 bg-slate-50 text-sm">
+            <DialogContent className="max-w-md mx-auto top-52 bg-slate-50 text-sm z-[9999]">
                 <DialogHeader className="items-center">
                     {result.status == 200 ? (
                         <div className="text-green-500 text-center justify-items-center">

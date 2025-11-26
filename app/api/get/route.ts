@@ -18,7 +18,7 @@ export async function POST(Request: NextRequest) {
 
     const body = await Request.json();
     const term = body.query || '';
-    const filter = body.filter || '';;
+    const filter = body.filter || '';
     const limit = Number(body.limit) || 10;
     const skip = Number(body.skip) || 0;
 

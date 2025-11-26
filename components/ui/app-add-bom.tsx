@@ -19,9 +19,10 @@ import AppTooltip from "./app-tool-tip";
 
 interface AddBomProps {
     onAddDataSuccess: () => void;
+    kode_barang_jadi?: string;
 }
 
-const AddBom: React.FC<AddBomProps> = ({ onAddDataSuccess }) => {
+const AddBom: React.FC<AddBomProps> = ({ onAddDataSuccess, kode_barang_jadi }) => {
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +32,7 @@ const AddBom: React.FC<AddBomProps> = ({ onAddDataSuccess }) => {
         kode_barang: z.string().min(1).max(13),
         nama_barang: z.string().min(5),
         type: z.string().min(3),
-        qty: z.number().min(1),
+        qty: z.number(),
         satuan: z.string().min(3).max(3),
     });
 
@@ -49,16 +50,28 @@ const AddBom: React.FC<AddBomProps> = ({ onAddDataSuccess }) => {
             displayValidationErrors(validatedFields.error);
             console.log(validatedFields.error)
         } else {
-            const BomData = new FormData();
-            BomData.append('kode_barang', validatedFields.data.kode_barang);
-            BomData.append('nama_barang', validatedFields.data.nama_barang);
-            BomData.append('type', validatedFields.data.type);
-            BomData.append('qty', validatedFields.data.qty.toString());
-            BomData.append('satuan', validatedFields.data.satuan);
+            const BomData = {
+                kode_barang_jadi: kode_barang_jadi,
+                kode_barang: validatedFields.data.kode_barang,
+                nama_barang: validatedFields.data.nama_barang,
+                type: validatedFields.data.type,
+                qty: validatedFields.data.qty,
+                satuan: validatedFields.data.satuan,
+            }
+            const output = {
+                result: [
+                    {
+                        nama_sheet: "sheet name",
+                        data: [BomData],
+                    }
+                ]
+            };
+
+
             setIsLoading(true)
-            const result = await fetch('/api/add-bom', {
+            const result = await fetch('/api/save-bom', {
                 method: 'POST',
-                body: BomData,
+                body: JSON.stringify(output)
             });
 
 

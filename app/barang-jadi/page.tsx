@@ -7,7 +7,7 @@ import {
     CardHeader,
 } from "@/components/ui/card";
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links'
-import { InboxIcon, Trash2Icon } from "lucide-react";
+import { InboxIcon, RefreshCcwIcon, Trash2Icon } from "lucide-react";
 import React, { use } from 'react';
 import Search from "@/components/ui/search";
 import { useToast } from "@/hooks/use-toast";
@@ -16,6 +16,7 @@ import AppLoading from "@/components/ui/app-loading";
 import UpdateBarangJadi from "@/components/ui/app-update-barang-jadi";
 import AddBarangJadi from "@/components/ui/app-add-barang-jadi";
 import { AppBom } from "@/components/ui/app-bom";
+import { Button } from "@/components/ui/button";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Archive = (props: {
@@ -91,7 +92,10 @@ const Archive = (props: {
             <div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
                 <Card>
                     <CardHeader className='flex flex-row place-items-center gap-2'>
-                        <AppTooltip title="Tambah Barang Jadi" sideAlign="left">
+                        <AppTooltip title="Muat Ulang Data" sideAlign="top">
+                            <Button size={'sm'} className="mt-1" onClick={async () => await loadData(search, limit, currenPage)}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} /></Button>
+                        </AppTooltip>
+                        <AppTooltip title="Tambah Barang Jadi" sideAlign="top">
                             <AddBarangJadi onAddDataSuccess={async () => await loadData(search, limit, currenPage)} />
                         </AppTooltip>
                         <Search ><></></Search>

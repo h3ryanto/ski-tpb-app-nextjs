@@ -1,6 +1,4 @@
 'use client'
-import Table from '@/components/ui/app-table';
-import List from '@/components/ui/list';
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast"
 import AppLoading from '@/components/ui/app-loading';
@@ -9,6 +7,7 @@ import { RefreshCcwIcon } from 'lucide-react';
 import { Search } from '@/components/ui/app-search';
 import { ImportDataExcell } from '@/components/ui/app-import-excel';
 import { useSession } from 'next-auth/react';
+import AppTableList from '@/components/ui/app-table-list';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
@@ -34,7 +33,9 @@ export default function Dokumen(props: {
 	const limit = Number(searchParams?.pageSize) || 10;
 	const skip = (currenPage - 1) * limit;
 	const [posts, setPosts] = useState<any[]>([]);
-	const [dataEntry, setDataEntry] = useState<number>(1);
+	const [total, setTotal] = useState<number>(0);
+	const [page, setPage] = useState<number>(1);
+	const [size, setSize] = useState<number>(10);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
 
@@ -45,15 +46,15 @@ export default function Dokumen(props: {
 
 
 
-	const getDokumen = useCallback(async (limit: number, skip: number, search: any, filter: any) => {
+	const getDokumen = useCallback(async (currenPage: number, page_size: number, search: any, filter: any) => {
 		try {
 			setIsLoading(true);
-			const data = await fetch('/api/get', {
-				method: 'POST',
+			const data = await fetch(`/api/get-dokumen`, {
+				method: 'post',
 				body: JSON.stringify({
-					query: search,
-					skip: skip,
-					limit: limit,
+					search: search,
+					page: currenPage,
+					size: page_size,
 					filter: filter,
 				}),
 				headers: {
@@ -65,8 +66,10 @@ export default function Dokumen(props: {
 
 				if (posts.posts) {
 					setIsLoading(false);
-					setPosts(posts.posts);
-					setDataEntry(posts.count.count || 1);
+					setPosts(posts.posts.data || []);
+					setTotal(posts.posts.meta.total || 0);
+					setPage(posts.posts.meta.page || 1);
+					setSize(posts.posts.meta.size || 10);
 				}
 			}
 		} catch (error) {
@@ -81,15 +84,14 @@ export default function Dokumen(props: {
 	}, [toast])
 
 	useEffect(() => {
-		getDokumen(limit, skip, search, filter)
-	}, [limit, skip, search, filter, getDokumen])
+		getDokumen(currenPage, page_size, search, filter);
+	}, [currenPage, page_size, search, filter, getDokumen])
 
 	// console.log(posts)
 	return (
 
 		<Suspense>
-			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
-			<Table posts={posts} page={currenPage} page_size={page_size} limit={limit} dataEntry={dataEntry} refreshTriggerHandler={refreshTriggerHandler} refreshTrigger={refreshTrigger} >
+			<AppTableList posts={posts} page={page} page_size={size} limit={limit} dataEntry={total} refreshTriggerHandler={refreshTriggerHandler} refreshTrigger={refreshTrigger} >
 				<div className='flex flex-row gap-3'>
 					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(limit, skip, search, filter); refreshTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
 					{session.data?.user?.isAdmin && (
@@ -101,7 +103,7 @@ export default function Dokumen(props: {
 						<Search />
 					</div>
 				</div>
-			</Table>
+			</AppTableList>
 			<AppLoading isLoading={isLoading} />
 		</Suspense >
 

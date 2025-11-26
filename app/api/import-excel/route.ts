@@ -21,7 +21,31 @@ export async function POST(req: NextRequest) {
         const wb = read(buffer); // parse the array buffer
         const data = wb.SheetNames.map((sheetName) => {
             const ws = wb.Sheets[sheetName];
-            return { sheetName, data: utils.sheet_to_json(ws) };
+
+            // Ambil semua baris sebagai array of arrays
+            const rows = utils.sheet_to_json(ws, { header: 1 }) as any[][];
+
+
+
+            // Ambil header dari baris pertama (pastikan ini adalah array)
+            const headers = Array.isArray(rows[0]) ? (rows[0] as (string | number)[]) : [];
+
+            // Transformasi ke array of object
+            const result = rows.slice(1).map((row) => {
+                const obj: Record<string, any> = {};
+                const cells = Array.isArray(row) ? (row as any[]) : [];
+
+                headers.forEach((header, i) => {
+                    const key = String(header ?? '');
+                    const value = cells[i];
+                    obj[key] = value !== undefined && value !== "" ? value : null;
+                });
+                return obj;
+            });
+
+            // return parsed result for this sheet
+            return { sheetName, data: result };
+            // return { sheetName, data: utils.sheet_to_json(ws, { header: 1 }) };
         });
         // console.log(data);
 

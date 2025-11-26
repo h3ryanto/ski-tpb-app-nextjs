@@ -1,26 +1,21 @@
-import { auth } from "@/auth"
-import mergeSheetsByAju from '@/utils/mergeSheetsByAju';
 import { getToken } from "next-auth/jwt";
 import axios from "axios"
+import { auth } from "@/auth"
 
 
-export async function POST(req: Request) {
-
-    const session = await auth()
-    if (!session) {
-        return Response.json(
-            { message: 'Unauthorized' },
-            {
-                status: 401, statusText: 'Unauthorized',
-                headers: { 'content-type': 'application/json' }
-            }
-        )
-    }
-
-    const body = await req.json()
-
-
+export async function DELETE(req: Request) {
     try {
+        const session = await auth()
+        if (!session) {
+            return Response.json(
+                { message: 'Unauthorized' },
+                {
+                    status: 401, statusText: 'Unauthorized',
+                    headers: { 'content-type': 'application/json' }
+                }
+            )
+        }
+
         const jwt =
             (await getToken({
                 req,
@@ -32,36 +27,31 @@ export async function POST(req: Request) {
                 secret: process.env.AUTH_SECRET,
                 cookieName: "authjs.session-token",
             }));
+
+        const body = await req.json();
         const token = jwt?.accessToken;
-
-        const data = await mergeSheetsByAju(body.result);
-
-        console.log(JSON.stringify(data), 'data di route save-data');
-        // Simpan data ke database
-        const saveRes = await axios.post(
-            `${process.env.API_URL}/dokumen/save-dokumen`,
-            { data: data },
+        const res = await axios.delete(
+            `${process.env.API_URL}/bom/${body.id}`,
             {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    Authorization: `Bearer ${token}`,
-
+                    Authorization: `Bearer ${token}`
                 }
             }
         );
-        console.log('Data saved successfully:', saveRes.data);
         return Response.json(
-            { message: saveRes.data.message, status: 200 },
             {
-
+                message: "success",
+                data: res.data
+            },
+            {
                 status: 200, statusText: 'OK',
                 headers: { 'content-type': 'application/json' }
             }
-        );
-    }
-    catch (error: any) {
+        )
+    } catch (error: any) {
         if (error.response) {
             // ✅ Server merespon dengan status error (4xx, 5xx)
             console.error("Error Response Data:", error.response.data);
@@ -103,15 +93,5 @@ export async function POST(req: Request) {
             );
         }
 
-        // console.error('Error saving data:', error);
-        // return Response.json(
-        //     { message: 'Internal Server Error' },
-        //     {
-        //         status: 500, statusText: 'Internal Server Error',
-        //         headers: { 'content-type': 'application/json' }
-        //     }
-        // );
     }
-
-
 }

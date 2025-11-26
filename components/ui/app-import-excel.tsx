@@ -13,8 +13,9 @@ import { CircleCheckBig, UploadCloudIcon } from "lucide-react"
 import React, { useState, useRef, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import AlertValidasi from "./app-allert-validasi"
+import { object } from "zod"
 
-export function ImportDataExcell() {
+export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload: () => Promise<void> }) {
     const inputFile = useRef<HTMLInputElement>(null);
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
@@ -29,7 +30,7 @@ export function ImportDataExcell() {
 
 
     const handleSave = async (data: any) => {
-        const result = await fetch('/api/save-data', {
+        const result = await fetch(`${saveUrl}`, {
             method: 'POST',
             body: JSON.stringify({
                 result: data,
@@ -44,6 +45,7 @@ export function ImportDataExcell() {
         setShowDialog(true);
         if (result.ok) {
             setSaveSuccess(true);
+            await reload();
         } else {
             setSaveSuccess(false);
         }
@@ -113,10 +115,10 @@ export function ImportDataExcell() {
     return (
         <Dialog >
             <DialogTrigger asChild>
-                <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); setSaveSuccess(true) }}><UploadCloudIcon />Impor Data</Button>
+                <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); setSaveSuccess(true) }}><UploadCloudIcon />Impor Data Excel</Button>
             </DialogTrigger>
             <Description></Description>
-            <DialogContent className="max-w-[80vw] bg-slate-50">
+            <DialogContent className="max-w-[80vw] bg-slate-50 z-[8888]">
                 <DialogHeader>
                     <DialogTitle>Impor Data Excel</DialogTitle>
                 </DialogHeader>
@@ -145,37 +147,38 @@ export function ImportDataExcell() {
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <Tabs defaultValue="HEADER" className="w-auto h-[50vh] overflow-x-auto">
-                    <TabsList className="w-auto bg-white p-3 sticky top-0" >
-                        {tab && tab.map((item, index) => (
-                            <TabsTrigger key={index} value={item} className="w-full">
+                <Tabs defaultValue="Home" className="w-auto h-[50vh] overflow-x-auto">
+                    <TabsList className="w-auto bg-white">
+                        {tab.map((item, index) => (
+                            <TabsTrigger key={index} value={index < 1 ? "Home" : item} className="w-full">
                                 {item}
                             </TabsTrigger>
                         ))}
                     </TabsList>
 
                     {tab && tab.map((item, index) => (
-                        <TabsContent key={index} value={item} className="w-auto p-3" >
-                            <table className="table-auto w-full border-collapse border border-slate-300 font-sans text-sm ">
-                                <thead className="border border-slate-300 bg-slate-200 sticky top-9">
-                                    <tr>
-                                        {data && data[index] && data[index].data[0] && Object.keys(data[index].data[0]).map((key: any, idx: number) => (
-                                            <td className="p-2" key={idx}>{key}</td>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody className="border border-slate-300">
-                                    {data && data[index] && data[index].data.map((items: any, idx: number) => (
-                                        <tr key={idx} className="border-x border-b">
-                                            {Object.keys(items).map((key, kidx) => (
-                                                <td className="p-2" key={kidx}>{items[key]}</td>
+                        <TabsContent key={index} value={index < 1 ? "Home" : item} className="w-auto p-1" >
+                            <div className="h-[42vh] overflow-x-auto">
+                                <table className="table-auto w-full border-collapse border border-slate-300 font-sans text-sm ">
+                                    <thead className="border border-slate-300 bg-slate-200 sticky top-0">
+                                        <tr>
+                                            {data && data[index] && data[index].data[0] && Object.keys(data[index].data[0]).map((key: any, idx: number) => (
+                                                <td className="p-2" key={idx}>{key}</td>
                                             ))}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="border border-slate-300">
+                                        {data && data[index] && data[index].data.map((items: any, idx: number) => (
+                                            <tr key={idx} className="border-x border-b">
+                                                {Object.keys(items).map((key, kidx) => (
+                                                    <td className="p-2" key={kidx}>{items[key]}</td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </TabsContent>
                     ))}
                 </Tabs>
