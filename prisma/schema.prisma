@@ -423,7 +423,8 @@ model Barang_Dokumen{
   header                  Header   @relation(fields: [nomor_aju], references: [nomor_aju], onDelete: Cascade)
   nomor_aju               String
   seri_barang             String?
-  seri_entitas            String?
+  seri_dokumen            String?
+  seri_izin               String?
   created_at              DateTime @default(now())
   updated_at              DateTime @updatedAt
   @@index([nomor_aju])
