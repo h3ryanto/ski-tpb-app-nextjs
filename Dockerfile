@@ -27,6 +27,7 @@ COPY prisma ./prisma
 
 # Instal semua dependensi
 RUN npm install --frozen-lockfile
+RUN npm i --save-dev @types/file-saver
 
 
 
