@@ -16,14 +16,48 @@ import FileUpload from '@/components/ui/uploadCloudinary';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { Circle, CircleCheckBigIcon, InboxIcon } from "lucide-react";
+import { Circle, CircleCheckBigIcon, FileTextIcon, InboxIcon, Trash } from "lucide-react";
 import React from 'react';
-import AppPdfLinkIcon from './app-pdf-link-icon.tsx';
+import { useToast } from "@/hooks/use-toast";
 
 export default function AppTableList({ posts, page, page_size, limit, dataEntry, children, refreshTriggerHandler, refreshTrigger }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode, refreshTriggerHandler: () => void, refreshTrigger: number }) {
 	const countData = posts.length;
 	const [flag, setFlag] = React.useState<string>("")
-
+	const { toast } = useToast()
+	const handleDelete = async (id: number) => {
+		const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus data ini?");
+		if (!confirmDelete) return;
+		try {
+			const response = await fetch(`/api/delete-dokumen`, {
+				method: 'DELETE',
+				body: JSON.stringify({
+					id: id
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			if (response.ok) {
+				toast({
+					title: "Delete Data Berhasil",
+					description: "Data berhasil dihapus",
+				})
+				refreshTriggerHandler();
+			} else {
+				toast({
+					variant: "destructive",
+					title: "Gagal Tambah User",
+					description: 'Failed to delete dokumen',
+				})
+			}
+		} catch (error) {
+			toast({
+				variant: "destructive",
+				title: "Gagal Tambah User",
+				description: error instanceof Error ? error.message : 'An unknown error occurred',
+			})
+		}
+	}
 	return (
 		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
 
@@ -97,7 +131,7 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
 									<td className='p-2'>
 										<div className='flex flex-col gap-2'>
-											{/* <div className="font-semibold"><Entitas getEntitas={post.entitas} /></div> */}
+											<div className="font-semibold"><Entitas getEntitas={post.entitas} kode_dokumen={post.kode_dokumen} /></div>
 										</div>
 									</td>
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
@@ -118,11 +152,28 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
-												{/* <FileText size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => pdfUrl(post.nomor_daftar, format(post.tanggal_daftar, "yyyy"), post.kode_dokumen)} />								 */}
-												<AppPdfLinkIcon nomor_daftar={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} refresh={refreshTrigger} />
+												{post.pdf_exists ? (
+													<FileTextIcon
+														size={16}
+														className="hover:stroke-red-500 cursor-pointer stroke-red-700"
+														onClick={() => {
+															const pdfUrl = `/api/pdf/${format(post.tanggal_daftar, "yyyy")}/${post.kode_dokumen}/${post.nomor_daftar}.pdf`;
+															window.open(pdfUrl, '_blank');
+														}}
+													/>
+												) : (
+													<FileTextIcon
+														size={16}
+														className="cursor-not-allowed stroke-gray-400 hover:stroke-gray-600"
+													/>
+												)}
+
 											</AppTooltip>
 											<AppTooltip title='Detail Dokumen' sideAlign='left'>
 												<AppDetailDokumen posts={post} />
+											</AppTooltip>
+											<AppTooltip title='Delete Dokumen' sideAlign='left'>
+												<Trash size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => handleDelete(post.id)} />
 											</AppTooltip>
 											{/* <AppTooltip title='Download Excel' sideAlign='left'>
 												<DownloadCloud size={16} className='hover:stroke-green-600 cursor-pointer' onClick={() => downloadExcelFile(post.nomor_aju)} />

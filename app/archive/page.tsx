@@ -53,7 +53,6 @@ const Archive = (props: {
                 title: "Delete Data Berhasil",
                 description: "Data berhasil dihapus",
             })
-            loadData(search, limit, currenPage);
         } else {
             toast({
                 variant: "destructive",

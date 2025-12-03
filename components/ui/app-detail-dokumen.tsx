@@ -57,7 +57,7 @@ export function AppDetailDokumen(posts: any) {
                         <TabsBarang posts={posts.posts} />
                     </TabsContent>
                     <TabsContent value="bahan_baku">
-                        <TabsBahanBaku posts={posts.posts} />
+                        <TabsBahanBaku posts={posts.posts} valuta={posts.posts.kode_valuta} />
                     </TabsContent>
 
                 </Tabs>

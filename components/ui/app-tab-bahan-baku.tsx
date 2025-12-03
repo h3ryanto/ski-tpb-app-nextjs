@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 
 
 
-const TabsBahanBaku = ({ posts }: { posts: Header | Entitas | Bahan_Baku }) => {
+const TabsBahanBaku = ({ posts, valuta }: { posts: Header | Entitas | Bahan_Baku, valuta: string }) => {
     // console.log(posts)
     const [postsBahanBaku, setPostsBahanBaku] = useState<any[]>([]);
     const filterBarang = (value: string) => {
@@ -80,7 +80,7 @@ const TabsBahanBaku = ({ posts }: { posts: Header | Entitas | Bahan_Baku }) => {
                                         <td className="p-2">{bahanBaku.jumlah_satuan ? bahanBaku.jumlah_satuan.toString() : 0}</td>
                                         <td className="p-2">{bahanBaku.kode_satuan}</td>
                                         {/* <td className="p-2">{formatCurrency(Number(bahanBaku.) || 0, bahanBaku.header.kode_valuta || 'IDR')}</td> */}
-                                        <td className="p-2">{formatCurrency(Number(bahanBaku.cif) || 0, bahanBaku.header.kode_valuta || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(bahanBaku.cif) || 0, valuta || 'IDR')}</td>
                                         <td className="p-2">{formatCurrency(Number(bahanBaku.harga_penyerahan) || 0, 'IDR')}</td>
                                     </tr>
                                 ))}

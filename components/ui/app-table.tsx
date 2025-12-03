@@ -97,7 +97,7 @@ export default function AppTable({ posts, page, page_size, limit, dataEntry, chi
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_aju}>{post.nomor_aju}</AppCopyText></td>
 									<td className='p-2'>
 										<div className='flex flex-col gap-2'>
-											<div className="font-semibold"><Entitas getEntitas={post.entitas} /></div>
+											<div className="font-semibold"><Entitas getEntitas={post.entitas} kode_dokumen={post.kode_dokumen} /></div>
 										</div>
 									</td>
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>

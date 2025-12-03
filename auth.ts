@@ -6,7 +6,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   session: {
     strategy: "jwt",
-    maxAge: 60 * 20,
+    maxAge: 60 * 15,
   },
   secret: process.env.AUTH_SECRET,
   callbacks: {
@@ -19,7 +19,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.photo = user.photo
         token.isAdmin = user.isAdmin
         token.isGuest = user.isGuest
-        token.accessTokenExpires = Date.now() + 15 * 60 * 1000
+        token.accessTokenExpires = Date.now() + 10 * 60 * 1000
       }
 
       if (Date.now() < token.accessTokenExpires) return token

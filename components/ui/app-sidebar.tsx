@@ -18,6 +18,8 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react';
 import { NavUser } from "./nav-user"
 import { CloseTrigger } from "./close-trigger-sidebar"
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
@@ -27,6 +29,8 @@ function classNames(...classes: (string | undefined | null | false)[]): string {
 export function AppSidebar() {
     const pathname = usePathname();
     const session = useSession();
+    const router = useRouter();
+    const status = session.status;
 
     // Menu items.
     const items = [
@@ -46,7 +50,16 @@ export function AppSidebar() {
             avatar: session.data?.user?.image || '',
         }
     }
-    // console.log(pathname, 'pathname')
+
+
+    useEffect(() => {
+        if ((status === "unauthenticated") && !pathname.startsWith('/login')) {
+            router.push("/login"); // redirect ke login page
+        }
+    }, [status, router]);
+
+
+
     // console.log(session.data?.user?.image)
     if (session.data?.expires && !pathname.startsWith('/pdf')) {
         return (

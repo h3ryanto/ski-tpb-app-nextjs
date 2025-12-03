@@ -93,7 +93,7 @@ export default function Dokumen(props: {
 		<Suspense>
 			<AppTableList posts={posts} page={page} page_size={size} limit={limit} dataEntry={total} refreshTriggerHandler={refreshTriggerHandler} refreshTrigger={refreshTrigger} >
 				<div className='flex flex-row gap-3'>
-					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(limit, skip, search, filter); refreshTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(currenPage, page_size, search, filter); refreshTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
 					{session.data?.user?.isAdmin && (
 						<div className='flex items-center'>
 							<ImportDataExcell saveUrl='/api/save-data' reload={async () => { refreshTriggerHandler(); }} />

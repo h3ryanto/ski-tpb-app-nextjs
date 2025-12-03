@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const size = Number(body.size) || 10;
     const page = Number(body.page) || 1;
     // log the parsed filter value
-    console.log('API get-dokumen called with params:', JSON.stringify(filter, null, 2));
+    // console.log('API get-dokumen called with params:', JSON.stringify(filter, null, 2));
 
     const session = await auth()
     if (!session) {
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         }));
     const token = jwt?.accessToken;
     const res = await axios.get(
-        `${process.env.API_URL}/dokumen?page=${page}&size=${size}&search=${search}&nomor_daftar=${filter.nomor_daftar || ''}&nomor_aju=${filter.nomor_aju || ''}&kode_dokumen=${filter.kode_dokumen || ''}&entitas=${filter.entitas || ''}&no_dokumen=${filter.no_dokumen || ''}&date_from=${filter.date_from || ''}&date_to=${filter.date_to || ''}&sortBy=${filter.sortBy || ''}&asc=${filter.asc || ''}&kode_valuta=${filter.kode_valuta || ''}`,
+        `${process.env.API_URL}/dokumen?page=${page}&size=${size}&search=${search}&nomor_daftar=${filter.nomor_daftar || ''}&nomor_aju=${filter.nomor_aju || ''}&kode_dokumen=${filter.kode_dokumen || ''}&nama_entitas=${filter.entitas || ''}&nomor_dokumen=${filter.no_dokumen || ''}&date_from=${filter.date_from || ''}&date_to=${filter.date_to || ''}&sortBy=${filter.sortBy || ''}&asc=${filter.asc || ''}&kode_valuta=${filter.kode_valuta || ''}`,
         {
             withCredentials: true,
             headers: {

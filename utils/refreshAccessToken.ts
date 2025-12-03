@@ -9,8 +9,8 @@ async function refreshAccessToken(token: any) {
         const accessRefreshToken = token.refreshAccessToken
         const cookie = serialize('refresh_token', accessRefreshToken, {
             httpOnly: true,
-            secure: false,
-            domain: 'localhost',
+            secure: process.env.NODE_ENV == 'production' ? true : false,
+            domain: `${process.env.NODE_ENV == 'production' ? 'app.heryheryanto.my.id' : 'localhost'}`,
             sameSite: 'none',
             path: '/',
             maxAge: Date.now() + 2 * 60 * 1000,
@@ -36,7 +36,7 @@ async function refreshAccessToken(token: any) {
             ...token,
             accessToken: data.accessToken,
             refreshAccessToken: data.refreshAccessToken,
-            accessTokenExpires: Date.now() + 15 * 60 * 1000,
+            accessTokenExpires: Date.now() + 10 * 60 * 1000,
         };
     } catch (error: any) {
         console.error("Error refreshing token:", error.response?.data || error.message);
