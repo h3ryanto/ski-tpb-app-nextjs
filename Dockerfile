@@ -27,7 +27,7 @@ COPY prisma ./prisma
 
 # Instal semua dependensi
 RUN npm install --frozen-lockfile
-RUN npm i --save-dev @types/file-saver
+
 
 
 
@@ -39,7 +39,7 @@ COPY . .
 
 # Hapus dependensi pengembangan yang tidak diperlukan untuk build
 RUN npm prune --omit=dev
-
+RUN npm i --save-dev @types/file-saver
 # Masukkan argumen build untuk kunci API Resend
 ARG RESEND_API_KEY
 ARG API_URL
