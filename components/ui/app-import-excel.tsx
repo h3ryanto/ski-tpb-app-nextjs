@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Description } from "@radix-ui/react-dialog"
-import { Button } from "./button"
 import { CircleCheckBig, UploadCloudIcon } from "lucide-react"
-import React, { useState, useRef, useEffect } from 'react';
-import { toast } from '@/hooks/use-toast';
-import AlertValidasi from "./app-allert-validasi"
-import { object } from "zod"
+import React, { useEffect, useRef, useState } from 'react'
+import AppSwalError from "./allert-swal-error"
+import AppSwalSuccess from "./allert-swal-success"
+import { Button } from "./button"
+import AppSwalToasSuccess from "./toas-swal-success"
+import Swal from "sweetalert2"
 
 export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload: () => Promise<void> }) {
     const inputFile = useRef<HTMLInputElement>(null);
@@ -23,8 +24,6 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
     const [isSuccess, setSuccess] = useState<boolean>(false);
     const [data, setData] = useState<any[]>([]);
     const [tab, setTab] = useState<any[]>([]);
-    const [result, setResult] = useState<any>(null);
-    const [showDialog, setShowDialog] = useState(false);
     const [isSaveSuccess, setSaveSuccess] = useState<boolean>(true);
 
 
@@ -40,13 +39,23 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
             },
         })
         const getResult = await result.json()
-        console.log(result, 'getResult di app-import-excel')
-        setResult(getResult);
-        setShowDialog(true);
         if (result.ok) {
-            setSaveSuccess(true);
-            await reload();
+            Swal.fire({
+                title: "Success!",
+                text: 'Data Berhasil Disimpan',
+                icon: "success",
+                confirmButtonText: "OK",
+                position: "top",
+                customClass: {
+                    container: 'swal2-container',
+                    popup: "swal-mini",
+                },
+            }).then(() => {
+                setSaveSuccess(true);
+                reload();
+            });
         } else {
+            AppSwalError({ message: getResult.message || 'Terjadi Kesalahan Saat Menyimpan Data' });
             setSaveSuccess(false);
         }
     }
@@ -80,10 +89,7 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
             const result = await response.json();
             // console.log(result, 'result');
             if (response.ok) {
-                toast({
-                    title: "Import Success",
-                    description: "Data Berhasil diimport",
-                })
+                AppSwalToasSuccess({ message: 'Data Berhasil diimport' })
                 setData(result.data);
                 setTab(result.data.map((item: any) => item.sheetName));
                 setFile(null);
@@ -91,11 +97,7 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
                 setFile(null);
                 setSaveSuccess(false);
             } else {
-                toast({
-                    variant: "destructive",
-                    title: "Import Failed",
-                    description: result.message,
-                })
+                AppSwalError({ message: result.message || 'Import failed' });
                 setError(result.message || 'Import failed');
             }
         } catch (error) {
@@ -113,16 +115,16 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
     }, [file, handleUpload]);
 
     return (
-        <Dialog >
+        <Dialog>
             <DialogTrigger asChild>
                 <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); setSaveSuccess(true) }}><UploadCloudIcon />Impor Data Excel</Button>
             </DialogTrigger>
             <Description></Description>
-            <DialogContent className="max-w-[80vw] bg-slate-50 z-[8888]">
+            <DialogContent className="max-w-[80vw] bg-slate-50 z-[7777]">
                 <DialogHeader>
                     <DialogTitle>Impor Data Excel</DialogTitle>
                 </DialogHeader>
-                <div className="p-3 rounded border border-gray-300 font-sans text-sm">
+                <div className="p-3 rounded border border-gray-300 font-sans text-sm z-[7777]">
                     <div className="flex flex-row items-center justify-start gap-1">
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="small_size">Silakan pilih file Excel yang ingin diimpor. Pastikan file tersebut sesuai dengan format yang telah ditentukan.</label>
@@ -183,16 +185,9 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
                     ))}
                 </Tabs>
                 <DialogFooter>
-                    {result &&
-                        <AlertValidasi
-                            result={result}
-                            triggerOpenValidasi={showDialog}
-                            onClose={() => { setShowDialog(false); setResult(undefined); setSaveSuccess(true) }}
-                        />
-                    }
-                    {/* <Button onClick={() => setFile(null)} variant="outline" className="w-full">Batal</Button> */}
+
                     {!isSaveSuccess ?
-                        <Button onClick={() => { handleSave(data); setShowDialog(true); }} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
+                        <Button onClick={() => { handleSave(data); }} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
                         :
                         <DialogTrigger asChild>
                             <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); }}>Tutup</Button>

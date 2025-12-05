@@ -11,12 +11,14 @@ import { useToast } from "@/hooks/use-toast"
 import { Fingerprint, Key, User } from "lucide-react"
 import Loading from '@/app/dokumen/loading'
 import Cookies from 'js-cookie'
+import AppSwalToasSuccess from '@/components/ui/toas-swal-success'
+import AppSwalToasWarning from '@/components/ui/toas-swal-warning'
+import AppSwalToasError from '@/components/ui/toas-swal-error'
 
 
 export default function Login() {
 
   const session = useSession();
-  const { toast } = useToast()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const myCookie = Cookies.get('from')
@@ -39,21 +41,12 @@ export default function Login() {
       if (!res?.error) {
 
         router.replace(url)
-        toast({
-          title: "Login Berhasil",
-          description: "Login Berhasil",
-        })
+        AppSwalToasSuccess({ message: "Login Berhasil!" })
       } else {
-        // console.log(res.error)
-        toast({
-          variant: "destructive",
-          title: "Login Gagal",
-          description: "Email atau pasword yang anda masukan salah!",
-        })
-        // setError("Email atau Password salah!")
+        AppSwalToasWarning({ message: "Email atau pasword yang anda masukan salah!" })
       }
     } catch (error: any) {
-      console.log(error)
+      AppSwalToasError({ message: "Terjadi kesalahan pada server!" })
     } finally {
       setIsLoading(false)
     }
@@ -142,7 +135,6 @@ export default function Login() {
           className='bg-transparent z-10 max-w-56 fixed bottom-0 md:hidden' />
         <div className='bg-blue-400 w-[110vw] h-[110vw] rounded-r-full rounded-l-full fixed -bottom-[50vw] z-0
                       md:-left-[65vw] md:w-[110vw] md:h-[110vw] md:-bottom-[25vw] '></div>
-
       </div >
 
     )

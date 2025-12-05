@@ -16,48 +16,14 @@ import FileUpload from '@/components/ui/uploadCloudinary';
 import Entitas from '@/utils/entitas';
 import kodeDokumen from '@/utils/kodeDokumen';
 import { format } from "date-fns";
-import { Circle, CircleCheckBigIcon, FileTextIcon, InboxIcon, Trash } from "lucide-react";
+import { Circle, CircleCheckBigIcon, FileTextIcon, InboxIcon } from "lucide-react";
 import React from 'react';
-import { useToast } from "@/hooks/use-toast";
+import AppSwalDelete from './allert-swal-delete';
 
-export default function AppTableList({ posts, page, page_size, limit, dataEntry, children, refreshTriggerHandler, refreshTrigger }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode, refreshTriggerHandler: () => void, refreshTrigger: number }) {
+export default function AppTableList({ posts, page, page_size, limit, dataEntry, children, realoadTriggerHandler }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode, realoadTriggerHandler: () => void, refreshTrigger: number }) {
 	const countData = posts.length;
 	const [flag, setFlag] = React.useState<string>("")
-	const { toast } = useToast()
-	const handleDelete = async (id: number) => {
-		const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus data ini?");
-		if (!confirmDelete) return;
-		try {
-			const response = await fetch(`/api/delete-dokumen`, {
-				method: 'DELETE',
-				body: JSON.stringify({
-					id: id
-				}),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-			if (response.ok) {
-				toast({
-					title: "Delete Data Berhasil",
-					description: "Data berhasil dihapus",
-				})
-				refreshTriggerHandler();
-			} else {
-				toast({
-					variant: "destructive",
-					title: "Gagal Tambah User",
-					description: 'Failed to delete dokumen',
-				})
-			}
-		} catch (error) {
-			toast({
-				variant: "destructive",
-				title: "Gagal Tambah User",
-				description: error instanceof Error ? error.message : 'An unknown error occurred',
-			})
-		}
-	}
+
 	return (
 		<div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
 
@@ -148,7 +114,7 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<FileUpload
-													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} onUploadSuccess={refreshTriggerHandler} />
+													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} onUploadSuccess={realoadTriggerHandler} />
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
@@ -173,7 +139,7 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 												<AppDetailDokumen posts={post} />
 											</AppTooltip>
 											<AppTooltip title='Delete Dokumen' sideAlign='left'>
-												<Trash size={16} className='hover:stroke-red-600 cursor-pointer' onClick={() => handleDelete(post.id)} />
+												<AppSwalDelete id={post.id} url={`/api/delete-dokumen`} realoadTrigger={realoadTriggerHandler} />
 											</AppTooltip>
 											{/* <AppTooltip title='Download Excel' sideAlign='left'>
 												<DownloadCloud size={16} className='hover:stroke-green-600 cursor-pointer' onClick={() => downloadExcelFile(post.nomor_aju)} />

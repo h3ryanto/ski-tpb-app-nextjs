@@ -17,6 +17,7 @@ import UpdateBarangJadi from "@/components/ui/app-update-barang-jadi";
 import AddBarangJadi from "@/components/ui/app-add-barang-jadi";
 import { AppBom } from "@/components/ui/app-bom";
 import { Button } from "@/components/ui/button";
+import AppSwalDelete from "@/components/ui/allert-swal-delete";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 const Archive = (props: {
@@ -33,35 +34,6 @@ const Archive = (props: {
     const [size, setSize] = React.useState<number>(10);
     const [isLoading, setIsLoading] = React.useState(false);
     const { toast } = useToast()
-
-    const deleteData = async (id: number) => {
-        const confirmDelete = window.confirm("Apakah kamu yakin ingin menghapus data ini?");
-        if (!confirmDelete) return;
-        const result = await fetch('/api/delete-barang-jadi', {
-            method: 'DELETE',
-            body: JSON.stringify({
-                id: id
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        const res = await result.json()
-        if (res.message === "success") {
-            loadData(search, limit, currenPage);
-            toast({
-                title: "Delete Data Berhasil",
-                description: "Data berhasil dihapus",
-            })
-            loadData(search, limit, currenPage);
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Gagal Tambah User",
-                description: res.message,
-            })
-        }
-    }
 
     const loadData = async (search: any, limit: number, currenPage: number) => {
         setIsLoading(true);
@@ -139,8 +111,8 @@ const Archive = (props: {
                                                 <UpdateBarangJadi onUpdateDataSuccess={async () => await loadData(search, limit, currenPage)} data={post} />
 
                                             </AppTooltip>
-                                            <AppTooltip title='Hapus Barang Jadi' sideAlign='left'>
-                                                <Trash2Icon size={16} className='cursor-pointer stroke-slate-500 hover:stroke-red-500' onClick={() => deleteData(post.id)} />
+                                            <AppTooltip title='Delete Dokumen' sideAlign='left'>
+                                                <AppSwalDelete id={post.id} url={`/api/delete-barang-jadi`} realoadTrigger={async () => await loadData(search, limit, currenPage)} />
                                             </AppTooltip>
                                         </td>
                                     </tr>

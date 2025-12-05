@@ -31,7 +31,6 @@ export default function Dokumen(props: {
 	const currenPage = Number(searchParams?.page) || 1;
 	const page_size = Number(searchParams?.pageSize) || 10;
 	const limit = Number(searchParams?.pageSize) || 10;
-	const skip = (currenPage - 1) * limit;
 	const [posts, setPosts] = useState<any[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [page, setPage] = useState<number>(1);
@@ -39,7 +38,7 @@ export default function Dokumen(props: {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
 
-	const refreshTriggerHandler = () => {
+	const realoadTriggerHandler = () => {
 		// Naikkan angka → trigger useEffect di AppPdfLinkIcon
 		setRefreshTrigger(prev => prev + 1);
 	};
@@ -85,18 +84,18 @@ export default function Dokumen(props: {
 
 	useEffect(() => {
 		getDokumen(currenPage, page_size, search, filter);
-	}, [currenPage, page_size, search, filter, getDokumen])
+	}, [currenPage, page_size, search, filter, getDokumen, refreshTrigger])
 
 	// console.log(posts)
 	return (
 
 		<Suspense>
-			<AppTableList posts={posts} page={page} page_size={size} limit={limit} dataEntry={total} refreshTriggerHandler={refreshTriggerHandler} refreshTrigger={refreshTrigger} >
+			<AppTableList posts={posts} page={page} page_size={size} limit={limit} dataEntry={total} realoadTriggerHandler={realoadTriggerHandler} refreshTrigger={refreshTrigger} >
 				<div className='flex flex-row gap-3'>
-					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(currenPage, page_size, search, filter); refreshTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(currenPage, page_size, search, filter); realoadTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
 					{session.data?.user?.isAdmin && (
 						<div className='flex items-center'>
-							<ImportDataExcell saveUrl='/api/save-data' reload={async () => { refreshTriggerHandler(); }} />
+							<ImportDataExcell saveUrl='/api/save-data' reload={async () => { realoadTriggerHandler(); }} />
 						</div>
 					)}
 					<div className='flex items-center'>

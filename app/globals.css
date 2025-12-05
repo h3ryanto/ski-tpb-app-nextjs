@@ -144,3 +144,18 @@ body {
   }
 }
 
+.swal-mini {
+  width: 350px !important;
+  font-size: 12px;
+  padding: 1rem !important;
+  z-index: 9999 !important;
+}
+
+.swal2-container {
+   z-index: 8889 !important;
+  pointer-events: auto !important;
+
+}
+
+
+

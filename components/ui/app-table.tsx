@@ -20,7 +20,7 @@ import { Circle, CircleCheckBigIcon, InboxIcon } from "lucide-react";
 import React from 'react';
 import AppPdfLinkIcon from './app-pdf-link-icon.tsx';
 
-export default function AppTable({ posts, page, page_size, limit, dataEntry, children, refreshTriggerHandler, refreshTrigger }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode, refreshTriggerHandler: () => void, refreshTrigger: number }) {
+export default function AppTable({ posts, page, page_size, limit, dataEntry, children, reloadTriggerHandler, refreshTrigger }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode, reloadTriggerHandler: () => void, refreshTrigger: number }) {
 	const countData = posts.length;
 	const [flag, setFlag] = React.useState<string>("")
 
@@ -114,7 +114,7 @@ export default function AppTable({ posts, page, page_size, limit, dataEntry, chi
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<FileUpload
-													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} onUploadSuccess={refreshTriggerHandler} />
+													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} onUploadSuccess={reloadTriggerHandler} />
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>
