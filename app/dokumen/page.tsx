@@ -38,7 +38,7 @@ export default function Dokumen(props: {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
 
-	const refreshTriggerHandler = () => {
+	const reloadTriggerHandler = () => {
 		// Naikkan angka → trigger useEffect di AppPdfLinkIcon
 		setRefreshTrigger(prev => prev + 1);
 	};
@@ -89,12 +89,12 @@ export default function Dokumen(props: {
 
 		<Suspense>
 			<List posts={posts} page={currenPage} limit={limit} dataEntry={dataEntry} />
-			<Table posts={posts} page={currenPage} page_size={page_size} limit={limit} dataEntry={dataEntry} refreshTriggerHandler={refreshTriggerHandler} refreshTrigger={refreshTrigger} >
+			<Table posts={posts} page={currenPage} page_size={page_size} limit={limit} dataEntry={dataEntry} reloadTriggerHandler={reloadTriggerHandler} refreshTrigger={refreshTrigger} >
 				<div className='flex flex-row gap-3'>
-					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(limit, skip, search, filter); refreshTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
+					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(limit, skip, search, filter); reloadTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
 					{session.data?.user?.isAdmin && (
 						<div className='flex items-center'>
-							<ImportDataExcell saveUrl='/api/save-data' reload={async () => { refreshTriggerHandler(); }} />
+							<ImportDataExcell saveUrl='/api/save-data' reload={async () => { reloadTriggerHandler(); }} />
 						</div>
 					)}
 					<div className='flex items-center'>
