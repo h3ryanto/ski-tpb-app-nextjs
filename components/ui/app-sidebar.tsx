@@ -39,7 +39,7 @@ export function AppSidebar() {
         { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: BookTextIcon, isAdmin: false },
         { name: 'Archive', href: '/archive', current: pathname === '/archive' ? true : false, icon: ArchiveRestore, isAdmin: false },
         { name: 'Barang Jadi', href: '/barang-jadi', current: pathname === '/barang-jadi' ? true : false, icon: PackageOpen, isAdmin: false },
-        { name: 'Dokumen Trial', href: '/dokumen-trial', current: pathname === '/dokumen-trial' ? true : false, icon: BookTextIcon, isAdmin: true },
+        { name: 'Dokumen TPB', href: '/dokumen-tpb', current: pathname === '/dokumen-tpb' ? true : false, icon: BookTextIcon, isAdmin: true },
         { name: 'User', href: '/user', current: pathname === '/user' ? true : false, icon: User2, isAdmin: true },
     ]
 

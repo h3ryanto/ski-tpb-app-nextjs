@@ -29,6 +29,7 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
 
 
     const handleSave = async (data: any) => {
+        setSaveSuccess(false);
         const result = await fetch(`${saveUrl}`, {
             method: 'POST',
             body: JSON.stringify({
@@ -58,6 +59,8 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
             AppSwalError({ message: getResult.message || 'Terjadi Kesalahan Saat Menyimpan Data' });
             setSaveSuccess(false);
         }
+        setSaveSuccess(true);
+
     }
 
     const handleFileChange = () => {
@@ -95,7 +98,7 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
                 setFile(null);
                 setSuccess(true);
                 setFile(null);
-                setSaveSuccess(false);
+
             } else {
                 AppSwalError({ message: result.message || 'Import failed' });
                 setError(result.message || 'Import failed');
@@ -187,7 +190,9 @@ export function ImportDataExcell({ saveUrl, reload }: { saveUrl: string, reload:
                 <DialogFooter>
 
                     {!isSaveSuccess ?
-                        <Button onClick={() => { handleSave(data); }} variant="destructive" className="w-auto" disabled={data.length === 0}>Simpan</Button>
+                        <Button onClick={() => { handleSave(data); }} variant="destructive" className="w-auto" disabled={data.length === 0}>
+                            {isSaveSuccess ? "Save" : "Saving..."}
+                        </Button>
                         :
                         <DialogTrigger asChild>
                             <Button onClick={() => { setData([]); setFile(null); setSuccess(false); setTab([]); }}>Tutup</Button>

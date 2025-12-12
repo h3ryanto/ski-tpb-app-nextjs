@@ -26,7 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env.local
 .env
 
 # vercel
@@ -39,12 +39,12 @@ next-env.d.ts
 # Public upload directory
 /public/upload
 /public/pdf
+/public/repository
 
 # Run Start for startup windows
 run-start.bat
 
 # Run Start for startup pm2
 pm2.config.js
-.env
 .env.local
 .env

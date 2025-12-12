@@ -69,8 +69,8 @@ const TabsBarang = ({ posts }: { posts: Header | Entitas }) => {
                                         <td className="p-2">{barang.tipe}</td>
                                         <td className="p-2">{barang.jumlah_satuan ? barang.jumlah_satuan.toString() : 0}</td>
                                         <td className="p-2">{barang.kode_satuan}</td>
-                                        <td className="p-2">{formatCurrency(Number(barang.fob) || 0, ('header' in barang) ? barang.header?.kode_valuta : barang.kode_valuta || 'IDR')}</td>
-                                        <td className="p-2">{formatCurrency(Number(barang.cif) || 0, ('header' in barang) ? barang.header?.kode_valuta : barang.kode_valuta || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.fob) || 0, (('header' in barang) ? barang.header.kode_valuta : barang.kode_valuta) || 'IDR')}</td>
+                                        <td className="p-2">{formatCurrency(Number(barang.cif) || 0, (('header' in barang) ? barang.header.kode_valuta : barang.kode_valuta) || 'IDR')}</td>
                                         <td className="p-2">{formatCurrency(Number(barang.harga_penyerahan) || 0, 'IDR')}</td>
                                     </tr>
                                 ))}

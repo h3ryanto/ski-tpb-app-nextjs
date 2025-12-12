@@ -13,7 +13,7 @@ export default function AppSwalToasSuccess({ message }: Props) {
         toast: true,
         position: "top-end",
         showConfirmButton: false,
-        timer: 5000,
+        timer: 3000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;
@@ -22,6 +22,10 @@ export default function AppSwalToasSuccess({ message }: Props) {
     });
     Toast.fire({
         icon: "success",
-        title: `${message}`
+        title: `${message}`,
+        customClass: {
+            container: 'swal2-container',
+            popup: "swal-mini",
+        },
     });
 }
