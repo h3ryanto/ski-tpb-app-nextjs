@@ -36,7 +36,7 @@ async function refreshAccessToken(token: any) {
             ...token,
             accessToken: data.accessToken,
             refreshAccessToken: data.refreshAccessToken,
-            accessTokenExpires: Date.now() + 16 * 60 * 1000,
+            accessTokenExpires: Date.now() + 13 * 60 * 1000,
         };
     } catch (error: any) {
         console.error("Error refreshing token:", error.response?.data || error.message);

@@ -19,7 +19,7 @@ import { format } from "date-fns";
 import { Circle, CircleCheckBigIcon, FileTextIcon, InboxIcon } from "lucide-react";
 import React from 'react';
 import AppSwalDelete from './allert-swal-delete';
-import AppExportExcel from './app-export-excel';
+import AppExportExcelIconList from './app-export-excel-icon-list';
 
 export default function AppTableList({ posts, page, page_size, limit, dataEntry, children, realoadTriggerHandler }: { posts: any, page: number, page_size: number, limit: number, dataEntry: number, children?: React.ReactNode, realoadTriggerHandler: () => void, refreshTrigger: number }) {
 	const countData = posts.length;
@@ -143,7 +143,7 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 												<AppSwalDelete id={post.id} url={`/api/delete-dokumen`} realoadTrigger={realoadTriggerHandler} />
 											</AppTooltip>
 
-											<AppExportExcel data={post} file_name={post.nomor_aju} />
+											<AppExportExcelIconList data={[post]} file_name={post.nomor_aju} />
 
 
 										</div>

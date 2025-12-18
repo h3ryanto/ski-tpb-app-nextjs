@@ -4,12 +4,12 @@ import React from "react";
 import { exportToExcel } from "@/utils/exportExcel";
 import AppTooltip from "@/components/ui/app-tool-tip";
 import { DownloadCloud } from "lucide-react";
-import { TransformData } from "@/utils/trasfornData";
+import { FormatExcelDokumenTpb } from "@/utils/formatExcelDokumenTpb";
 
-export default function AppExportExcel({ data, file_name }: { data: any, file_name: string }) {
+export default function AppExportExcelIconList({ data, file_name }: { data: any, file_name: string }) {
     const handleExport = () => {
         // Gunakan fungsi dari utils
-        const result = TransformData(data);
+        const result = FormatExcelDokumenTpb(data);
 
         console.log("Data hasil transformasi:", result);
 

@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const size = Number(body.size) || 10;
     const page = Number(body.page) || 1;
     // log the parsed filter value
-    // console.log('API get-dokumen called with params:', JSON.stringify(filter, null, 2));
+    console.log('API get-dokumen called with params:', JSON.stringify(filter, null, 2));
 
     const session = await auth()
     if (!session) {

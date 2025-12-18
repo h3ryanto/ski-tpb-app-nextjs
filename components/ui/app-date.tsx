@@ -90,7 +90,7 @@ export default function DatePickerWithRange({
                         )}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-2 justify-items-center" align="start">
+                <PopoverContent className="w-auto p-2 justify-items-center z-[7778]" align="start">
                     <Calendar
                         initialFocus
                         mode="range"

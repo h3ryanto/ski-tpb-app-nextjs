@@ -71,8 +71,9 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
     const params = React.useMemo(() => new URLSearchParams(searchParams), [searchParams]);
 
     useEffect(() => {
+
         // alert(value)
-        if ((searchParams.get('kodeDokumen')?.toString()) && (!value) && (!isAll)) {
+        if ((searchParams.get('kodeDokumen')?.toString() != value) && (!value) && (!isAll)) {
             setValue(searchParams.get('kodeDokumen')?.toString() || "")
         }
         if ((value !== "") && (!isAll)) {
@@ -102,10 +103,10 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                         <ChevronsUpDown className="opacity-50" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                    <Command>
+                <PopoverContent className="w-[200px] p-0 z-[7778]">
+                    <Command >
                         <CommandInput placeholder="Search" className="h-9" />
-                        <CommandList>
+                        <CommandList >
                             <CommandEmpty>No dokumen found.</CommandEmpty>
                             <CommandGroup>
                                 <CommandItem
@@ -114,6 +115,7 @@ export function FilterDokumen({ children }: { children: ReactNode }) {
                                         setIsAll(true)
                                         setOpen(false)
                                     }}
+
                                 >
                                     All
                                     <Check

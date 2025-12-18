@@ -7,7 +7,8 @@ import { RefreshCcwIcon } from 'lucide-react';
 import { Search } from '@/components/ui/app-search';
 import { ImportDataExcell } from '@/components/ui/app-import-excel';
 import { useSession } from 'next-auth/react';
-import AppTableList from '@/components/ui/app-table-list';
+import AppTableList from '@/components/ui/app-table-tpb';
+import AppExportExcelButton from "@/components/ui/app-export-excel-button";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default function Dokumen(props: {
@@ -94,8 +95,9 @@ export default function Dokumen(props: {
 				<div className='flex flex-row gap-3'>
 					<Button className='flex flex-row w-fit' onClick={() => { getDokumen(currenPage, page_size, search, filter); realoadTriggerHandler(); }}><RefreshCcwIcon className={isLoading ? 'animate-spin' : ''} />Muat Ulang</Button>
 					{session.data?.user?.isAdmin && (
-						<div className='flex items-center'>
+						<div className='flex items-center gap-2'>
 							<ImportDataExcell saveUrl='/api/save-data' reload={async () => { realoadTriggerHandler(); }} />
+							<AppExportExcelButton />
 						</div>
 					)}
 					<div className='flex items-center'>

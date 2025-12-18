@@ -19,7 +19,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.photo = user.photo
         token.isAdmin = user.isAdmin
         token.isGuest = user.isGuest
-        token.accessTokenExpires = Date.now() + 16 * 60 * 1000
+        token.accessTokenExpires = Date.now() + 13 * 60 * 1000
       }
 
       if (Date.now() < token.accessTokenExpires) return token
