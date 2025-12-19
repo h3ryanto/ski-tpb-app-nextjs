@@ -50,8 +50,10 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
     SUM(CASE WHEN ("Header".kode_tujuan_pengiriman NOT LIKE '1') AND ("Barang".nomor_aju LIKE '%0000270219892%') THEN "Barang".cif::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS cif_idr_lainnya_bc_27_out,
     SUM(CASE WHEN ("Header".kode_tujuan_pengiriman LIKE '1') AND ("Barang".nomor_aju NOT LIKE '%0000270219892%') THEN "Barang".harga_penyerahan::numeric ELSE 0 END) AS penyerahan_bahan_baku,
     SUM(CASE WHEN "Barang".kode_barang NOT LIKE '%1-0%' THEN "Barang".harga_penyerahan::numeric ELSE 0 END) AS penyerahan_lainnya,
-    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric ELSE 0 END) AS fob,
-    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN "Barang".fob::numeric*"Barang".ndpbm::numeric ELSE 0 END) AS fob_rupiah
+    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN COALESCE(NULLIF("Barang".fob, '')::numeric, 0) ELSE 0 END) AS fob,
+    SUM(CASE WHEN "Header".kode_jenis_ekspor = '1' THEN COALESCE(NULLIF("Barang".fob, '')::numeric, 0) * COALESCE(NULLIF("Barang".ndpbm, '')::numeric, 0) ELSE 0 END) AS fob_rupiah,
+    SUM(CASE WHEN "Header".kode_jenis_ekspor != '1' THEN COALESCE(NULLIF("Barang".fob, '')::numeric, 0) ELSE 0 END) AS fob_lainnya,
+    SUM(CASE WHEN "Header".kode_jenis_ekspor != '1' THEN COALESCE(NULLIF("Barang".fob, '')::numeric, 0) * COALESCE(NULLIF("Barang".ndpbm, '')::numeric, 0) ELSE 0 END) AS fob_rupiah_lainnya
     FROM "Header"
     inner JOIN "Barang" ON "Barang".nomor_aju = "Header".nomor_aju
     WHERE

@@ -155,13 +155,13 @@ const AppChartRadial = React.forwardRef<
                                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                                             return (
                                                 <Link
-                                                        href={
-                                                            data.kode_dok === '25'
+                                                    href={
+                                                        data.kode_dok === '25'
                                                             ? `/dokumen?date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`
                                                             : `/dokumen?kodeValuta=${data.kurs}&date_from=${dateFrom}&date_to=${dateTo}&kodeDokumen=${data.kode_dok}`
-                                                        }
-                                                        className="cursor-pointer"
-                                                        >
+                                                    }
+                                                    className="cursor-pointer"
+                                                >
                                                     <text
                                                         x={viewBox.cx}
                                                         y={viewBox.cy}
@@ -214,9 +214,21 @@ const AppChartRadial = React.forwardRef<
                         </div>
                     )) ||
                         (data.kode_dok == '30' && (
-                            <div>
-                                <div>FOB : {formatCurrency(data.fob, 'USD')}</div>
-                                <div>FOB Rupiah : {formatCurrency(data.fob_rupiah, 'IDR')}</div>
+                            <div className="flex flex-col gap-2">
+                                <div>
+                                    <div>Eksport :</div>
+                                    <div className="leading-none text-muted-foreground font-normal">
+                                        <div>FOB : {formatCurrency(data.fob, data.kurs)}</div>
+                                        <div>FOB Rupiah : {formatCurrency(data.fob_rupiah, 'IDR')}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>Eksport Lainnya :</div>
+                                    <div className="leading-none text-muted-foreground font-normal">
+                                        <div>FOB : {formatCurrency(data.fob_lainnya, data.kurs)}</div>
+                                        <div>FOB Rupiah : {formatCurrency(data.fob_rupiah_lainnya, 'IDR')}</div>
+                                    </div>
+                                </div>
                             </div>
                         )) ||
                         (data.kode_dok == '33' && (
