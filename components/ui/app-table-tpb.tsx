@@ -102,7 +102,7 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 										</div>
 									</td>
 									<td className='p-2'><AppCopyText textToCopy={post.nomor_daftar}>{post.nomor_daftar}</AppCopyText></td>
-									<td className='p-2'>{format(post.tanggal_daftar, "yyyy-MM-dd")}</td>
+									<td className='p-2'>{post.tanggal_daftar}</td>
 									<td className='p-2'>{
 										post.dokumen.map((dok: any) => (
 											<div key={dok.id} className='flex flex-row gap-1'>
@@ -115,7 +115,7 @@ export default function AppTableList({ posts, page, page_size, limit, dataEntry,
 										<div className='flex flex-col gap-2 w-auto gap-x-2 items-center mx-2'>
 											<AppTooltip title='Upload Dokumen' sideAlign='left'>
 												<FileUpload
-													file_name={post.nomor_daftar} tahun={format(post.tanggal_daftar, "yyyy")} kode_dokumen={post.kode_dokumen} onUploadSuccess={realoadTriggerHandler} />
+													file_name={post.nomor_daftar} tahun={post.tanggal_daftar} kode_dokumen={post.kode_dokumen} onUploadSuccess={realoadTriggerHandler} />
 											</AppTooltip>
 
 											<AppTooltip title='Lihat Dokumen' sideAlign='left'>

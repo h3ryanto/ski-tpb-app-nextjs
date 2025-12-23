@@ -16,20 +16,17 @@ import { Description } from "@radix-ui/react-dialog"
 import { Button } from "./button"
 import { AppSelectDokumen } from "./app-select-dokumen";
 import AppSwalError from "./allert-swal-error";
-
+import AppSwalSuccess from "./allert-swal-success";
 
 export default function AppExportExcelButton() {
     const [kode_dokumen, setKodeDokumen] = React.useState("")
     const [dateFrom, setDateFrom] = React.useState("")
     const [dateTo, setDateTo] = React.useState("")
 
-
     const isDisabled =
         dateFrom.length === 0 ||
         dateTo.length === 0 ||
         kode_dokumen.length === 0;
-
-
 
     const handleExport = async () => {
         try {
@@ -53,10 +50,11 @@ export default function AppExportExcelButton() {
                     // Gunakan fungsi dari utils
                     const result = FormatExcelDokumenTpb(posts.posts.data);
 
-                    console.log("Data hasil transformasi:", result);
+                    // console.log("Data hasil transformasi:", result);
 
                     // Ekspor ke Excel
                     exportToExcel(result, `BC ${kode_dokumen} periode :${dateFrom} - ${dateTo}`);
+                    AppSwalSuccess({ message: "Berhasil di Export ke Excel" });
                 } else {
                     AppSwalError({ message: "Data tidak ditemukan" });
                 }
