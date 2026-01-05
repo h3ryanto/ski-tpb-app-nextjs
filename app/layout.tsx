@@ -8,6 +8,8 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import AppBreadCrumb from "@/components/ui/app-bredcrumb";
 import { ThemeProvider } from "@/components/ui/theme-provider"
+import { MenuProvider } from "@/contexts/MenuContext";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,14 +26,11 @@ export const metadata: Metadata = {
   title: "ski-tpb-app",
   description: "Aplikasi TPB",
 };
-
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>,
-) {
-
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiase text-sm`}>
@@ -42,20 +41,22 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <SidebarProvider >
-              <div className="grid grid-cols-[auto,1fr] w-full">
-                <AppSidebar />
+            {/* 🔥 WAJIB DI SINI */}
+            <MenuProvider>
+              <SidebarProvider>
+                <div className="grid grid-cols-[auto,1fr] w-full">
+                  <AppSidebar />
 
-                <SidebarInset>
-                  <AppBreadCrumb />
-                  <main>
-
-                    {children}
-                    <Toaster />
-                  </main>
-                </SidebarInset>
-              </div>
-            </SidebarProvider>
+                  <SidebarInset>
+                    <AppBreadCrumb />
+                    <main>
+                      {children}
+                      <Toaster />
+                    </main>
+                  </SidebarInset>
+                </div>
+              </SidebarProvider>
+            </MenuProvider>
           </ThemeProvider>
         </SessionProvider>
       </body>

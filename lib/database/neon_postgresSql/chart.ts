@@ -1,11 +1,16 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
 
+export async function retriveDataChart({
+  date_from,
+  date_to,
+}: {
+  date_from?: string;
+  date_to?: string;
+}) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
 
-export async function retriveDataChart({ date_from, date_to }: { date_from?: string, date_to?: string }) {
-    const sql = neon(`${process.env.DATABASE_URL}`);
-
-    const posts = await sql`
+  const posts = await sql`
     SELECT
     CASE 
         WHEN "Header".nomor_aju NOT LIKE '%0000270219892%' AND "Header".kode_dokumen = '27' THEN concat("Header".kode_dokumen,'_IN') 
@@ -59,14 +64,21 @@ export async function retriveDataChart({ date_from, date_to }: { date_from?: str
     WHERE
     "Header".tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}
     GROUP BY kode_dok,kurs
-    ORDER BY kode_dok`
-    return posts;
+    ORDER BY kode_dok`;
+  //   console.log(posts);
+  return posts;
 }
 
-export async function retriveDataStatikChart({ date_from, date_to }: { date_from?: string, date_to?: string }) {
-    const sql = neon(`${process.env.DATABASE_URL}`);
+export async function retriveDataStatikChart({
+  date_from,
+  date_to,
+}: {
+  date_from?: string;
+  date_to?: string;
+}) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
 
-    const posts = await sql`
+  const posts = await sql`
     SELECT
     "Header".kode_dokumen AS dokumen,
     (CASE
@@ -94,23 +106,27 @@ export async function retriveDataStatikChart({ date_from, date_to }: { date_from
     AND
     "Header".kode_dokumen IN ('23','27','30','33')
     GROUP BY "Header".kode_dokumen
-    ORDER BY "Header".kode_dokumen`
-    const chartData =
-        posts.map((data: any) => {
-            return {
-                browser: data.dokumen,
-                visitors: Number(data.harga),
-                fill: data.fill
-            }
-        })
+    ORDER BY "Header".kode_dokumen`;
+  const chartData = posts.map((data: any) => {
+    return {
+      browser: data.dokumen,
+      visitors: Number(data.harga),
+      fill: data.fill,
+    };
+  });
 
-
-    return chartData;
+  return chartData;
 }
 
-export async function countData({ date_from, date_to }: { date_from?: string, date_to?: string }) {
-    const sql = neon(`${process.env.DATABASE_URL}`);
-    const count = await sql`
+export async function countData({
+  date_from,
+  date_to,
+}: {
+  date_from?: string;
+  date_to?: string;
+}) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  const count = await sql`
     SELECT
     COUNT("Header".kode_dokumen) AS jumlah
     FROM "Header"
@@ -118,17 +134,21 @@ export async function countData({ date_from, date_to }: { date_from?: string, da
     "Header".tanggal_daftar BETWEEN ${`'${date_from}'`} AND ${`'${date_to}'`}
     GROUP BY kode_dokumen
     ORDER BY jumlah DESC
-    LIMIT 1`
-
-    return count;
-
+    LIMIT 1`;
+  //   console.log(count);
+  return count;
 }
 
+export async function retriveDataKontainer({
+  date_from,
+  date_to,
+}: {
+  date_from?: string;
+  date_to?: string;
+}) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
 
-export async function retriveDataKontainer({ date_from, date_to }: { date_from?: string, date_to?: string }) {
-    const sql = neon(`${process.env.DATABASE_URL}`);
-
-    const posts = await sql`
+  const posts = await sql`
     SELECT    
     "Header".kode_dokumen,
     (
@@ -160,8 +180,7 @@ export async function retriveDataKontainer({ date_from, date_to }: { date_from?:
     AND
     "Header".kode_dokumen IN ('23','30','33')
     GROUP BY "Header".kode_dokumen
-    ORDER BY "Header".kode_dokumen`
-    // console.log(posts);
-    return posts;
+    ORDER BY "Header".kode_dokumen`;
+  // console.log(posts);
+  return posts;
 }
-

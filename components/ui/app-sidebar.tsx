@@ -1,110 +1,70 @@
-'use client'
-import { ArchiveRestore, BookTextIcon, ChartNoAxesCombinedIcon, PackageOpen, User2 } from "lucide-react"
+"use client";
 
-import {
-    Sidebar,
-    SidebarHeader,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarFooter,
-} from "@/components/ui/sidebar"
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react';
-import { NavUser } from "./nav-user"
-import { CloseTrigger } from "./close-trigger-sidebar"
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+} from "@/components/ui/sidebar";
 
-function classNames(...classes: (string | undefined | null | false)[]): string {
-    return classes.filter(Boolean).join(' ');
-}
+import { useMenu } from "@/contexts/MenuContext";
+import { CloseTrigger } from "./close-trigger-sidebar";
+import { NavUser } from "./nav-user";
+import { SidebarMenuItemRecursive } from "./SidebarMenuItemRecursive";
 
 export function AppSidebar() {
-    const pathname = usePathname();
-    const session = useSession();
-    const router = useRouter();
-    const status = session.status;
+  const router = useRouter();
+  const session = useSession();
+  const { menus, loading } = useMenu();
 
-    // Menu items.
-    const items = [
-        // { name: 'Home', href: '/', current: pathname === '/' ? true : false, icon: Home },
-        { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' ? true : false, icon: ChartNoAxesCombinedIcon, isAdmin: false },
-        { name: 'Dokumen', href: '/dokumen', current: pathname === '/dokumen' ? true : false, icon: BookTextIcon, isAdmin: false },
-        { name: 'Archive', href: '/archive', current: pathname === '/archive' ? true : false, icon: ArchiveRestore, isAdmin: false },
-        { name: 'Barang Jadi', href: '/barang-jadi', current: pathname === '/barang-jadi' ? true : false, icon: PackageOpen, isAdmin: false },
-        { name: 'Dokumen TPB', href: '/dokumen-tpb', current: pathname === '/dokumen-tpb' ? true : false, icon: BookTextIcon, isAdmin: true },
-        { name: 'User', href: '/user', current: pathname === '/user' ? true : false, icon: User2, isAdmin: true },
-    ]
-
-    const data = {
-        user: {
-            name: session.data?.user?.name || '',
-            email: session.data?.user?.email || '',
-            avatar: session.data?.user?.image || '',
-        }
+  useEffect(() => {
+    if (session.status === "unauthenticated") {
+      router.push("/login");
     }
+  }, [session.status, router]);
 
+  if (!session.data) return null;
+  // console.log("Menus in Sidebar:", menus)
+  if (loading) return <div>Loading menu...</div>;
+  return (
+    <Sidebar collapsible="icon">
+      <SidebarHeader />
 
-    useEffect(() => {
-        if ((status === "unauthenticated") && !pathname.startsWith('/login')) {
-            router.push("/login"); // redirect ke login page
-        }
-    }, [status, router]);
+      <SidebarContent>
+        <div className="grid items-center justify-end px-4 md:hidden">
+          <CloseTrigger />
+        </div>
 
+        <SidebarGroup>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
 
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menus.map((menu) => (
+                <SidebarMenuItemRecursive key={menu.menu_id} menu={menu} />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
 
-    // console.log(session.data?.user?.image)
-    if (session.data?.expires && !pathname.startsWith('/pdf')) {
-        return (
-            <Sidebar collapsible="icon">
-                <SidebarHeader>
-
-                    {/* <SidebarMenu><Inbox /></SidebarMenu> */}
-
-                </SidebarHeader>
-                <SidebarContent>
-                    <div className="grid items-center justify-end px-4 md:hidden">
-                        <CloseTrigger />
-                    </div>
-                    <SidebarGroup>
-                        <SidebarGroupLabel>Application</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {items.map((item) => (
-                                    (item.isAdmin === false || item.isAdmin === session.data?.user?.isAdmin) && (
-                                        <SidebarMenuItem key={item.name}>
-                                            <SidebarMenuButton asChild>
-                                                <Link
-                                                    key={item.name}
-                                                    href={item.href} replace
-                                                    aria-current={item.current ? 'page' : undefined}
-                                                    className={classNames(
-                                                        item.current ? 'bg-gray-900 text-white' : '',
-                                                        'rounded-md px-3 py-2 text-sm font-medium',
-                                                    )}
-                                                >
-                                                    <item.icon />
-                                                    <span>{item.name}</span>
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    )
-                                ))}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                </SidebarContent>
-                <SidebarFooter>
-                    <NavUser user={data.user} />
-                </SidebarFooter>
-            </Sidebar>
-        )
-    }
+      <SidebarFooter>
+        <NavUser
+          user={{
+            name: session.data.user?.name || "",
+            email: session.data.user?.email || "",
+            avatar: session.data.user?.image || "",
+          }}
+        />
+      </SidebarFooter>
+    </Sidebar>
+  );
 }

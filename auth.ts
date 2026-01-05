@@ -1,6 +1,6 @@
-import NextAuth from "next-auth"
-import { authConfig } from "./auth.config" // ⬅️ ubah dari "default"
-import refreshAccessToken from "@/utils/refreshAccessToken"
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config"; // ⬅️ ubah dari "default"
+import refreshAccessToken from "@/utils/refreshAccessToken";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -12,18 +12,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, account, user }: any) {
       if (account && user) {
-        token.accessToken = user.accessToken
-        token.refreshAccessToken = user.refreshAccessToken
-        token.email = user.email
-        token.name = user.name
-        token.photo = user.photo
-        token.isAdmin = user.isAdmin
-        token.isGuest = user.isGuest
-        token.accessTokenExpires = Date.now() + 13 * 60 * 1000
+        token.accessToken = user.accessToken;
+        token.refreshAccessToken = user.refreshAccessToken;
+        token.email = user.email;
+        token.name = user.name;
+        token.photo = user.photo;
+        token.isAdmin = user.isAdmin;
+        token.isGuest = user.isGuest;
+        token.roleId = user.roleId;
+        token.accessTokenExpires = Date.now() + 13 * 60 * 1000;
       }
 
-      if (Date.now() < token.accessTokenExpires) return token
-      return await refreshAccessToken(token)
+      if (Date.now() < token.accessTokenExpires) return token;
+      return await refreshAccessToken(token);
     },
     async session({ session, token }: any) {
       session.user = {
@@ -32,11 +33,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         image: token.photo,
         isAdmin: token.isAdmin,
         isGuest: token.isGuest,
-      }
-      return session
+      };
+      return session;
     },
   },
   pages: {
     signIn: "/login",
   },
-})
+});
