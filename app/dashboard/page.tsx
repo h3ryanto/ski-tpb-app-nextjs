@@ -123,9 +123,24 @@ const Dashboard = (props: { searchParams: SearchParams }) => {
               })}
             </div>
           )) || (
-            <p className="flex p-4 justify-center justify-items-center">
-              Data tidak ditemukan
-            </p>
+            <div className="flex flex-col justify-item-center item-center gap-10">
+              <div className="flex p-4 justify-center justify-items-center">
+                Data tidak ditemukan untuk periode{" "}
+                {`${format(dateFrom, "dd MMM yyyy")} - ${format(dateTo, "dd MMM yyyy")}`}
+              </div>
+
+              <div className="text-center p-10 bg-gray-800 rounded-xl shadow-2xl">
+                {/* Main Greeting */}
+                <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-500 mb-4 animate-pulse">
+                  Happy New Year! 🎉
+                </h1>
+
+                {/* Subtitle/Year */}
+                <p className="text-white text-2xl md:text-3xl font-semibold mb-6">
+                  Wishing you a wonderful {`${format(dateFrom, "yyyy")} !`}
+                </p>
+              </div>
+            </div>
           )}
         </AppCardDekstop>
       </div>

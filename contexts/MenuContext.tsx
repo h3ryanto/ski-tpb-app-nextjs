@@ -36,10 +36,10 @@ export const useMenu = () => useContext(MenuContext);
 export function MenuProvider({ children }: { children: React.ReactNode }) {
   const [menus, setMenus] = useState<Menu[]>([]);
   const [loading, setLoading] = useState(true);
-  const session = useSession();
+  const { status } = useSession();
 
   const getMenus = useCallback(async () => {
-    if (session.data) {
+    if (status === "authenticated") {
       try {
         setLoading(true);
         const res = await fetch("/api/get-menus", {
@@ -82,11 +82,13 @@ export function MenuProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
       }
     }
-  }, [session.data]);
+  }, [status]);
 
   useEffect(() => {
-    getMenus();
-  }, [getMenus]);
+    if (status === "authenticated") {
+      getMenus();
+    }
+  }, [status, getMenus]);
 
   return (
     <MenuContext.Provider value={{ menus, loading, refresh: getMenus }}>
