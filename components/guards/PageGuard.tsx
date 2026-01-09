@@ -1,9 +1,9 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useMenu } from "@/contexts/MenuContext";
 import { findMenuByPath } from "@/lib/menu-utils";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function PageGuard({
   children,
@@ -32,9 +32,13 @@ export default function PageGuard({
     }
   }, [loading, menus, pathname, router]);
 
+
+
   if (loading) {
     return <div className="p-4 text-sm text-muted-foreground">Checking access...</div>;
   }
+
+
 
   return <>{children}</>;
 }

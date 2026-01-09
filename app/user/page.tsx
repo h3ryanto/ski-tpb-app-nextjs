@@ -1,6 +1,10 @@
 "use client";
 
+import PageGuard from "@/components/guards/PageGuard";
+import AppSwalDelete from "@/components/ui/allert-swal-delete";
 import { AppAddUsers } from "@/components/ui/app-add-users";
+import AppLoading from "@/components/ui/app-loading";
+import { AppRoleSelect } from "@/components/ui/app-role";
 import AppTooltip from "@/components/ui/app-tool-tip";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -11,26 +15,23 @@ import {
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { requirePermission } from "@/lib/auth/server-permission";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
-import { ImagePlus, InboxIcon, Trash2 } from "lucide-react";
-// import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+import { ImagePlus, InboxIcon } from "lucide-react";
+import { useRouter } from 'next/navigation';
 import React from "react";
-import AppLoading from "@/components/ui/app-loading";
-import PageGuard from "@/components/guards/PageGuard";
 
 const User = () => {
   const [data, setData] = React.useState<any[]>([]);
-  // const [page, setPage] = React.useState<number>(1);
-  // const [totalRecord, setTotalRecord] = React.useState<number>(1);
-  // const [size, setSize] = React.useState<number>(10);
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
+  const router = useRouter()
 
   const updateData = async (
     email: string,
     atribut: string,
-    value: string | boolean
+    value: string | boolean | number
   ) => {
     const result = await fetch("/api/update-users", {
       method: "PUT",
@@ -54,37 +55,6 @@ const User = () => {
     }
   };
 
-  const deleteData = async (id: number) => {
-    const confirmDelete = window.confirm(
-      "Apakah kamu yakin ingin menghapus data ini?"
-    );
-    if (!confirmDelete) return;
-    const result = await fetch("/api/delete-users", {
-      method: "DELETE",
-      body: JSON.stringify({
-        id: id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const res = await result.json();
-    if (res.message === "success") {
-      loadData();
-      toast({
-        title: "Delete Data Berhasil",
-        description: "Data berhasil dihapus",
-      });
-      loadData();
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Gagal Tambah User",
-        description: res.message,
-      });
-    }
-  };
-
   const loadData = () => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -98,9 +68,6 @@ const User = () => {
         const posts = await data.json();
         if (posts.posts.data) {
           setData(posts.posts.data);
-          // setPage(posts.posts.meta.page)
-          // setTotalRecord(posts.posts.meta.total)
-          // setSize(posts.posts.meta.size)
         }
       }
       setIsLoading(false);
@@ -109,8 +76,16 @@ const User = () => {
   };
 
   React.useEffect(() => {
+    requirePermission("/user").then((result) => {
+      if (!result.allowed) {
+        router.push("/forbidden");
+      }
+    });
     loadData();
-  }, []);
+  }, [router]);
+
+
+
 
   return (
     <PageGuard>
@@ -136,6 +111,9 @@ const User = () => {
                     <div>Email</div>
                   </th>
                   <th scope="col" className="p-1">
+                    <div>Role</div>
+                  </th>
+                  <th scope="col" className="p-1">
                     <div className="mb-3">isActive</div>
                   </th>
                   <th scope="col" className="p-1"></th>
@@ -158,20 +136,10 @@ const User = () => {
                       <td className="p-1">{item.id}</td>
                       <td className="p-1">{item.name}</td>
                       <td className="p-1">{item.email}</td>
-                      {/* <td className="p-1">
-                        <div className="flex items-center space-x-2">
-                          <Switch
-                            id="airplane-mode"
-                            checked={item.isAdmin}
-                            onClick={() =>
-                              updateData(item.email, "isAdmin", !item.isAdmin)
-                            }
-                          />
-                          <Label htmlFor="airplane-mode">
-                            {item.isAdmin && "Admin"}
-                          </Label>
-                        </div>
-                      </td> */}
+                      <td className="p-1">
+                        <AppRoleSelect roleId={item.roleId} onChange={(roleId) => updateData(item.email, "roleId", roleId)} />
+                      </td>
+
                       <td className="p-1">
                         <div className="flex items-center space-x-2">
                           <Switch
@@ -187,23 +155,27 @@ const User = () => {
                         </div>
                       </td>
                       <td className="p-1">
-                        <Trash2
-                          size={16}
-                          className="cursor-pointer stroke-slate-500 hover:stroke-red-500"
-                          onClick={() => deleteData(item.id)}
-                        />
+                        <AppTooltip title="Delete User" sideAlign="left">
+                          <AppSwalDelete
+                            id={item.id}
+                            url={`/api/delete-users`}
+                            realoadTrigger={async () =>
+                              await loadData()
+                            }
+                          />
+                        </AppTooltip>
                       </td>
                     </tr>
                   ))) || (
-                  <tr>
-                    <td colSpan={7} className="text-center text-slate-700">
-                      <span className="flex flex-col items-center">
-                        <InboxIcon />
-                        Data tidak ditemukan
-                      </span>
-                    </td>
-                  </tr>
-                )}
+                    <tr>
+                      <td colSpan={7} className="text-center text-slate-700">
+                        <span className="flex flex-col items-center">
+                          <InboxIcon />
+                          Data tidak ditemukan
+                        </span>
+                      </td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </CardContent>

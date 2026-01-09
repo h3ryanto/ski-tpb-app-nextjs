@@ -11,6 +11,10 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				// Anda bisa memberi nama kustom, misalnya 'digital'
+				digital: ['Monoton', 'monospace'],
+			},
 			colors: {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',

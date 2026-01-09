@@ -19,9 +19,12 @@ import { Button } from "@/components/ui/button";
 import AppSwalDelete from "@/components/ui/allert-swal-delete";
 import PageGuard from "@/components/guards/PageGuard";
 import { usePermission } from "@/hooks/usePermission";
+import { requirePermission } from "@/lib/auth/server-permission";
+import { useRouter } from 'next/navigation';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 const Archive = (props: { searchParams: SearchParams }) => {
+  const router = useRouter()
   const searchParams = use(props.searchParams);
   const search = searchParams?.query?.toString() || "";
   const limit = Number(searchParams?.pageSize) || 10;
@@ -58,8 +61,13 @@ const Archive = (props: { searchParams: SearchParams }) => {
   };
 
   React.useEffect(() => {
+    requirePermission("/barang-jadi").then((result) => {
+      if (!result.allowed) {
+        router.push("/forbidden");
+      }
+    });
     loadData(search, limit, currenPage);
-  }, [search, limit, currenPage]);
+  }, [search, limit, currenPage, router]);
 
   return (
     <PageGuard>
@@ -148,7 +156,7 @@ const Archive = (props: { searchParams: SearchParams }) => {
                         )}
 
                         {can("update") && (
-                          <AppTooltip title="Delete Dokumen" sideAlign="left">
+                          <AppTooltip title="Delete Barang Jadi " sideAlign="left">
                             <AppSwalDelete
                               id={post.id}
                               url={`/api/delete-barang-jadi`}
@@ -161,15 +169,15 @@ const Archive = (props: { searchParams: SearchParams }) => {
                       </td>
                     </tr>
                   ))) || (
-                  <tr>
-                    <td colSpan={7} className="text-center text-slate-700">
-                      <span className="flex flex-col items-center">
-                        <InboxIcon />
-                        Data tidak ditemukan
-                      </span>
-                    </td>
-                  </tr>
-                )}
+                    <tr>
+                      <td colSpan={7} className="text-center text-slate-700">
+                        <span className="flex flex-col items-center">
+                          <InboxIcon />
+                          Data tidak ditemukan
+                        </span>
+                      </td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </CardContent>

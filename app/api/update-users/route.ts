@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import axios from "axios"
 import { auth } from "@/auth"
-import { date } from "zod";
+
 
 export async function PUT(req: Request) {
 
@@ -30,7 +30,9 @@ export async function PUT(req: Request) {
 
     const body = await req.json();
     const token = jwt?.accessToken;
+    // console.log("🚀 ~ file: route.ts:26 ~ GET ~ roleId:", body)
     const res = await axios.put(
+
         `${process.env.API_URL}/users/${body.email}`,
         {
             [body.atribut]: body.value

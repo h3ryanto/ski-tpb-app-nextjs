@@ -1,19 +1,16 @@
 'use client'
-import Link from 'next/link'
-import Image from 'next/image'
-import React, { useState, FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
-import { signIn } from "next-auth/react"
-import login_sm from "@/public/svg/login_sm.svg"
-import login_md from "@/public/svg/login_md.svg"
-import { useSession } from 'next-auth/react';
-import { useToast } from "@/hooks/use-toast"
-import { Fingerprint, Key, User } from "lucide-react"
 import Loading from '@/app/dokumen/loading'
-import Cookies from 'js-cookie'
+import DigitalClock from '@/components/ui/app-digital-clock'
+import AppSwalToasError from '@/components/ui/toas-swal-error'
 import AppSwalToasSuccess from '@/components/ui/toas-swal-success'
 import AppSwalToasWarning from '@/components/ui/toas-swal-warning'
-import AppSwalToasError from '@/components/ui/toas-swal-error'
+// import login_md from "@/public/svg/login_md.svg"
+import Cookies from 'js-cookie'
+import { Fingerprint, Key, User } from "lucide-react"
+import { signIn, useSession } from "next-auth/react"
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { FormEvent, useState } from 'react'
 
 
 export default function Login() {
@@ -46,6 +43,7 @@ export default function Login() {
         AppSwalToasWarning({ message: "Email atau pasword yang anda masukan salah!" })
       }
     } catch (error: any) {
+      console.log(error)
       AppSwalToasError({ message: "Terjadi kesalahan pada server!" })
     } finally {
       setIsLoading(false)
@@ -57,14 +55,10 @@ export default function Login() {
 
 
         <div className="container mx-auto flex flex-col items-center py-10 z-20
-                      md:flex-row md:justify-between md:items-center md:max-w-[100vw]:">
-          <div className="hidden md:block md:basis-1/2">
-            <Image
-              src={login_md}
-              alt="Login"
-              width={500}
-              height={500}
-              className='bg-transparent z-10 max-w-[50vh]]' />
+                      md:flex-row md:justify-between md:items-center md:max-w-[100vw] md:p-32">
+          <div className="top-0 md:mb-0 md:basis-1/2 mb-10">
+
+            <DigitalClock />
           </div>
           <div className="rounded-xl py-5 mb-10 w-full px-14
                         sm:max-w-md md:basis-1/2 ">
@@ -127,14 +121,11 @@ export default function Login() {
             </div>
           </div>
         </div >
-        <Image
-          src={login_sm}
-          alt="Login"
-          width={500}
-          height={500}
-          className='bg-transparent z-10 max-w-56 fixed bottom-0 md:hidden' />
         <div className='bg-blue-400 w-[110vw] h-[110vw] rounded-r-full rounded-l-full fixed -bottom-[50vw] z-0
-                      md:-left-[65vw] md:w-[110vw] md:h-[110vw] md:-bottom-[25vw] '></div>
+                      md:-left-[65vw] md:w-[110vw] md:h-[110vw] md:-bottom-[25vw] hidden md:block'>
+
+        </div>
+
       </div >
 
     )

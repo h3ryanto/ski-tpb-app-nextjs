@@ -8,7 +8,9 @@ import AppTableList from "@/components/ui/app-table-tpb";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { usePermission } from "@/hooks/usePermission";
+import { requirePermission } from "@/lib/auth/server-permission";
 import { RefreshCcwIcon } from "lucide-react";
+import { useRouter } from 'next/navigation';
 import {
   Suspense,
   use,
@@ -20,6 +22,7 @@ import {
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 export default function Dokumen(props: { searchParams: SearchParams }) {
+  const router = useRouter()
   const { toast } = useToast();
   const searchParams = use(props.searchParams);
   const search = searchParams?.query?.toString() || "";
@@ -70,6 +73,7 @@ export default function Dokumen(props: { searchParams: SearchParams }) {
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
   const { can } = usePermission();
 
+
   const realoadTriggerHandler = () => {
     // Naikkan angka → trigger useEffect di AppPdfLinkIcon
     setRefreshTrigger((prev) => prev + 1);
@@ -115,8 +119,13 @@ export default function Dokumen(props: { searchParams: SearchParams }) {
   );
 
   useEffect(() => {
+    requirePermission("/dokumen-tpb").then((result) => {
+      if (!result.allowed) {
+        router.push("/forbidden");
+      }
+    });
     getDokumen(currenPage, page_size, search, filter);
-  }, [currenPage, page_size, search, filter, getDokumen, refreshTrigger]);
+  }, [currenPage, page_size, search, filter, getDokumen, refreshTrigger, router]);
 
   // console.log(posts)
   return (

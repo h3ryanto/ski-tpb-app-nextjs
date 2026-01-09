@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import List from "@/components/ui/list";
 import { useToast } from "@/hooks/use-toast";
 import { usePermission } from "@/hooks/usePermission";
+import { requirePermission } from "@/lib/auth/server-permission";
 import { RefreshCcwIcon } from "lucide-react";
+import { useRouter } from 'next/navigation';
 import {
   Suspense,
   use,
@@ -20,6 +22,7 @@ import {
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 export default function Dokumen(props: { searchParams: SearchParams }) {
+  const router = useRouter()
   const { toast } = useToast();
   const searchParams = use(props.searchParams);
   const search = searchParams?.query?.toString() || "";
@@ -112,8 +115,14 @@ export default function Dokumen(props: { searchParams: SearchParams }) {
   );
 
   useEffect(() => {
+    requirePermission("/dokumen").then((result) => {
+      if (!result.allowed) {
+        router.push("/forbidden");
+      }
+    });
+
     getDokumen(limit, skip, search, filter);
-  }, [limit, skip, search, filter, getDokumen]);
+  }, [limit, skip, search, filter, getDokumen, router]);
 
   // console.log(posts)
   return (

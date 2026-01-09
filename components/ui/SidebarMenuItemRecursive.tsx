@@ -18,6 +18,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { iconMap } from "@/utils/icon-map";
+import React from "react";
 
 function isActive(pathname: string, menu: Menu): boolean {
   if (menu.path && pathname === menu.path) return true;
@@ -34,6 +35,7 @@ export function SidebarMenuItemRecursive({ menu }: { menu: Menu }) {
   const pathname = usePathname();
   const active = isActive(pathname, menu);
   const hasChildren = menu.children && menu.children.length > 0;
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   // ❌ tidak boleh render menu tanpa view permission
   if (!menu.actions?.includes("view")) return null;
@@ -41,30 +43,29 @@ export function SidebarMenuItemRecursive({ menu }: { menu: Menu }) {
   // ✅ MENU DENGAN SUBMENU
   if (hasChildren) {
     return (
-      <Collapsible defaultOpen={active}>
+      <Collapsible defaultOpen={active} onOpenChange={setIsOpen}>
         <SidebarMenuItem>
           <CollapsibleTrigger asChild>
-            <SidebarMenuButton className={active ? "bg-muted" : ""}>
+            <SidebarMenuButton className={isOpen ? "bg-muted" : ""}>
               {Icon && <Icon className="mr-2 h-4 w-4" />}
               <span>{menu.name}</span>
               <ChevronDown
-                className={`ml-auto transition-transform ${
-                  active ? "rotate-180" : ""
-                }`}
+                className={`ml-auto transition-transform ${isOpen ? "rotate-180" : ""
+                  }`}
               />
             </SidebarMenuButton>
           </CollapsibleTrigger>
 
           <CollapsibleContent>
             {/* 🔥 PENTING: SUBMENU HARUS <SidebarMenu> */}
-            <SidebarMenu className="ml-4 border-l pl-2">
+            <SidebarMenu className="ml-2 mt-1 border-l pl-2">
               {menu.children!.map((child) => (
                 <SidebarMenuItemRecursive key={child.menu_id} menu={child} />
               ))}
             </SidebarMenu>
           </CollapsibleContent>
         </SidebarMenuItem>
-      </Collapsible>
+      </Collapsible >
     );
   }
 

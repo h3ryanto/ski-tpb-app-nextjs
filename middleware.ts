@@ -47,6 +47,17 @@ export default auth((req) => {
     const newUrl = new URL("/api/auth/signout", req.nextUrl.origin);
     return Response.redirect(newUrl);
   }
+
+  // lanjut → permission guard di server component
+  // requirePermission(req.nextUrl.pathname).then((result) => {
+  //   if (!result.allowed) {
+  //     const newUrl = new URL("/403", req.nextUrl.origin);
+  //     return NextResponse.redirect(newUrl);
+  //   }
+  // });
+
+
+  return NextResponse.next();
 });
 
 // Routes Middleware should not run on

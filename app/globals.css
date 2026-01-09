@@ -1,8 +1,10 @@
 /* stylelint-disable at-rule-no-unknown */
 /* tailwindcss directives — processed by PostCSS/Tailwind */
+/* input.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* stylelint-enable at-rule-no-unknown */
 
 body {
@@ -159,3 +161,8 @@ body {
 
 
 
+.apple-watch {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "SF Pro Text", "SF Compact Rounded", Inter, Arial, sans-serif;
+  letter-spacing: 2px;
+}

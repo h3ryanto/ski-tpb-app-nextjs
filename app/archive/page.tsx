@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import AppSwalDelete from "@/components/ui/allert-swal-delete";
 import PageGuard from "@/components/guards/PageGuard";
 import { usePermission } from "@/hooks/usePermission";
+import { requirePermission } from "@/lib/auth/server-permission";
+import { useRouter } from "next/navigation";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 const Archive = (props: { searchParams: SearchParams }) => {
@@ -33,6 +35,7 @@ const Archive = (props: { searchParams: SearchParams }) => {
   const [size, setSize] = React.useState<number>(10);
   const [isLoading, setIsLoading] = React.useState(false);
   const { can } = usePermission();
+  const router = useRouter();
 
   const loadData = async (search: any, limit: number, currenPage: number) => {
     setIsLoading(true);
@@ -58,8 +61,15 @@ const Archive = (props: { searchParams: SearchParams }) => {
   };
 
   React.useEffect(() => {
+    requirePermission("/archive").then((result) => {
+      if (!result.allowed) {
+        router.push("/forbidden");
+      }
+    });
+
     loadData(search, limit, currenPage);
-  }, [search, limit, currenPage]);
+  }, [search, limit, currenPage, router]);
+
 
   return (
     <PageGuard>
@@ -166,15 +176,15 @@ const Archive = (props: { searchParams: SearchParams }) => {
                       </td>
                     </tr>
                   ))) || (
-                  <tr>
-                    <td colSpan={7} className="text-center text-slate-700">
-                      <span className="flex flex-col items-center">
-                        <InboxIcon />
-                        Data tidak ditemukan
-                      </span>
-                    </td>
-                  </tr>
-                )}
+                    <tr>
+                      <td colSpan={7} className="text-center text-slate-700">
+                        <span className="flex flex-col items-center">
+                          <InboxIcon />
+                          Data tidak ditemukan
+                        </span>
+                      </td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </CardContent>
