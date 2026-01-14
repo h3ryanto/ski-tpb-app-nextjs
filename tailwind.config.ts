@@ -99,5 +99,10 @@ const config: Config = {
 	plugins: [
 		tailwindcssAnimate
 	],
+	safelist: [
+		{
+			pattern: /(bg|text|inset-ring)-(gray|red|yellow|green|blue|indigo|purple|pink|orange|teal|cyan|lime)-(50|600|700)/
+		}
+	],
 };
 export default config;

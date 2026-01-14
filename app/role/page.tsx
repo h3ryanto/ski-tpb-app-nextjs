@@ -9,6 +9,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { requirePermission } from "@/lib/auth/server-permission";
+import Color from "@/utils/color";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 
@@ -17,10 +18,28 @@ type Roles = {
   Role_name: string;
   permissions: [];
 };
+
+type Menus = {
+  menu_id: number;
+  nama_menu: string;
+  action: any[];
+  // tambahkan properti lain sesuai kebutuhan
+};
+
+
 export default function RolePage() {
   const [roles, setRoles] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+
+  const menuAsc = (data: any[]) => {
+    const menusActionsArray = data as Menus[];
+    const ascMenusActions = menusActionsArray.sort(
+      (a, b) => Number(a.menu_id) - Number(b.menu_id)
+    );
+    return ascMenusActions;
+  }
+
   const loadData = () => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -54,7 +73,7 @@ export default function RolePage() {
     });
     loadData();
   }, [router]);
-  // console.log("🚀 ~ file: page.tsx:62 ~ RolePage ~ roles:", roles);
+  console.log("🚀 ~ file: page.tsx:62 ~ RolePage ~ roles:", roles);
 
   return (
     <PageGuard>
@@ -74,6 +93,9 @@ export default function RolePage() {
                     Role Name
                   </th>
                   <th scope="col" className="p-1">
+                    Menu
+                  </th>
+                  <th scope="col" className="p-1">
                     Action
                   </th>
                 </tr>
@@ -86,10 +108,36 @@ export default function RolePage() {
                   >
                     <td className="p-1">{role.role_id}</td>
                     <td className="p-1">{role.role_name}</td>
+                    <td className="p-1 flex flex-wrap gap-2">
+                      {menuAsc(role.permissions) &&
+                        menuAsc(role.permissions).length > 0 &&
+                        menuAsc(role.permissions).map((item: any) => {
+                          // cek apakah ada action yang aktif
+                          const hasActive = item.action?.some((a: any) => a.action_id === 1 && a.is_active === true);
+
+                          if (!hasActive) return null; // kalau tidak aktif, jangan tampilkan
+                          return (
+                            <span
+                              key={item.menu_id}
+                              className={`
+              inline-flex items-center rounded-md
+              bg-${Color(item.menu_id)}-50
+              px-2 py-1 text-xs font-medium
+              text-${Color(item.menu_id)}-700
+              inset-ring inset-ring-${Color(item.menu_id)}-600/10
+            `}
+                            >
+                              {item.nama_menu}
+                            </span>
+                          );
+                        })}
+                    </td>
+
                     <td className="p-1">
                       <AppRoleActionMenus
                         menusActions={role.permissions}
                         user={role.role_name}
+                        refreshData={loadData}
                       />
                     </td>
                   </tr>

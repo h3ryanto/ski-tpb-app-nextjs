@@ -108,7 +108,7 @@ const AppChartPie = React.forwardRef<
 
         return data
     }, [data])
-    console.log(data)
+    // console.log(data)
     return (
         <Card
             ref={ref}
