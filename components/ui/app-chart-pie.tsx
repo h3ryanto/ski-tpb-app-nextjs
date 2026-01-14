@@ -1,8 +1,5 @@
 "use client"
 
-import * as React from "react"
-import { Label, Pie, PieChart } from "recharts"
-import { cn } from "@/lib/utils"
 import {
     Card,
     CardContent,
@@ -17,8 +14,11 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils"
 import { formatCurrency } from "@/utils/currency"
+import * as React from "react"
+import { useEffect, useState } from "react"
+import { Label, Pie, PieChart } from "recharts"
 // const chartData = [
 //     { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
 //     { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
@@ -69,25 +69,46 @@ const AppChartPie = React.forwardRef<
         // Perbarui state berdasarkan data yang diambil dari array
         data.forEach((element: any) => {
             if (element.browser === '23') {
-                setBC23(Number(element.visitors));
+                setBC23(Number(element.visitors || 0));
             }
             if (element.browser === '27') {
-                setBC27(Number(element.visitors));
+                setBC27(Number(element.visitors || 0));
             }
             if (element.browser === '33') {
-                setBC33(Number(element.visitors));
+                setBC33(Number(element.visitors || 0));
             }
             if (element.browser === '30') {
-                setBC30(Number(element.visitors));
+                setBC30(Number(element.visitors || 0));
             }
         });
+
     }, [data]); // Jalankan efek ini setiap kali data berubah
 
     // console.log(dataBC23, dataBC27, dataBC30, dataBC33)
     const totalVisitors = React.useMemo(() => {
-        return (((dataBC30 + dataBC33) - dataBC27) / dataBC23).toFixed(4);
-
+        return (((Number(dataBC30) || 0 + Number(dataBC33) || 0 - Number(dataBC27) || 0) / Number(dataBC23) || 0).toFixed(4));
     }, [dataBC23, dataBC30, dataBC33, dataBC27]);
+
+    const pieData = React.useMemo(() => {
+        const sum = data.reduce(
+            (acc: number, d: any) => acc + Number(d?.visitors || 0),
+            0
+        )
+
+        // kalau semua 0 → tampilkan dummy slice supaya pie tetap kelihatan
+        if (sum === 0) {
+            return [
+                {
+                    browser: "empty",
+                    visitors: 1,
+                    fill: "hsl(var(--muted))",
+                },
+            ]
+        }
+
+        return data
+    }, [data])
+    console.log(data)
     return (
         <Card
             ref={ref}
@@ -101,6 +122,7 @@ const AppChartPie = React.forwardRef<
                 <CardDescription>{periode}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
+
                 <ChartContainer
                     config={chartConfig}
                     className="mx-auto aspect-square max-h-[250px]"
@@ -111,7 +133,7 @@ const AppChartPie = React.forwardRef<
                             content={<ChartTooltipContent hideLabel className='w-auto' />}
                         />
                         <Pie
-                            data={data}
+                            data={pieData}
                             dataKey="visitors"
                             nameKey="browser"
                             innerRadius={60}
@@ -149,6 +171,7 @@ const AppChartPie = React.forwardRef<
                         </Pie>
                     </PieChart>
                 </ChartContainer>
+
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
                 {/* <div className="flex items-center gap-2 font-medium leading-none">
@@ -157,7 +180,7 @@ const AppChartPie = React.forwardRef<
                 <div className="text-muted-foreground">
                     <p>Persentasi keberhasilan pemberian fasilitas minimum 1.75%</p>
                     <p>Persentasi = (nilai eksport-BC 2.7 IN)/nilai impor (Bahan Baku)</p>
-                    <p>{(((dataBC30 + dataBC33) - dataBC27) / dataBC23).toFixed(4)} % = {formatCurrency(Number(dataBC30 + dataBC33), 'IDR')} - {formatCurrency(Number(dataBC27), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}</p>
+                    <p>{(((dataBC30 || 0 + dataBC33 || 0) - dataBC27 || 0) / dataBC23 || 0).toFixed(4)} % = {formatCurrency(Number(dataBC30 + dataBC33), 'IDR')} - {formatCurrency(Number(dataBC27), 'IDR')} / {formatCurrency(Number(dataBC23), 'IDR')}</p>
                 </div>
             </CardFooter>
         </Card>
