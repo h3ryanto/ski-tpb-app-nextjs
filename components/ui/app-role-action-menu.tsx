@@ -144,6 +144,7 @@ const AppRoleActionMenus = ({
                       </Label>
                       <Switch
                         id={menus.permission_id}
+                        size="sm"
                         checked={menus.is_active}
                         onClick={() =>
                           updateData(menus.permission_id, "is_active", !menus.is_active)
@@ -168,6 +169,7 @@ const AppRoleActionMenus = ({
                               </Label>
                               <Switch
                                 id={action.id}
+                                size="sm"
                                 checked={action.is_active}
                                 onClick={() =>
                                   updateData(action.id, "is_active", !action.is_active)
