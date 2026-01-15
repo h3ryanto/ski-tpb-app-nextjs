@@ -139,7 +139,7 @@ const Dashboard = (props: { searchParams: SearchParams }) => {
 
                   {/* Subtitle/Year */}
                   <p className="text-white text-2xl md:text-3xl font-semibold mb-6">
-                    Wishing you a wonderful {`${format(dateFrom, "yyyy")} !`}
+                    Wishing you a wonderful {`${format(dateFrom, "yyyy")}!`}
                   </p>
                 </div>
               </div>

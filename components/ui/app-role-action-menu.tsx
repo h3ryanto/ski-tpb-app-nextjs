@@ -15,11 +15,15 @@ import { Pencil } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "./button";
 import Color from "@/utils/color";
+import { Label } from "@radix-ui/react-label";
+import { Switch } from "@/components/ui/switch";
 
 
 type Menus = {
   menu_id: number;
   nama_menu: string;
+  sort_order: number;
+  is_active: boolean;
   action: any[];
   // tambahkan properti lain sesuai kebutuhan
 };
@@ -49,7 +53,7 @@ const AppRoleActionMenus = ({
   const loadData = (menusActions: any) => {
     const menusActionsArray = menusActions as Menus[];
     const ascMenusActions = menusActionsArray.sort(
-      (a, b) => Number(a.menu_id) - Number(b.menu_id)
+      (a, b) => Number(a.sort_order) - Number(b.sort_order)
     );
     setData(ascMenusActions)
 
@@ -123,50 +127,56 @@ const AppRoleActionMenus = ({
                   className="space-x-2 border-b border-slate-300 pb-2"
                 >
                   <div className="flex flex-col">
-                    <div>
-                      <span
-                        className={`
+                    <div className="flex flex-row justify-between items-center">
+                      <Label htmlFor={menus.permission_id}>
+                        <span
+                          className={`
                         inline-flex items-center rounded-md
                         bg-${Color(index + 1)}-50
-                        px-2 py-1 text-xs font-medium
+                        px-2 py-1  font-medium
+                        text-sm
                         text-${Color(index + 1)}-700
                         inset-ring inset-ring-${Color(index + 1)}-600/10
                       `}
-                      >
-                        {menus.nama_menu}
-                      </span>
+                        >
+                          {menus.nama_menu}
+                        </span>
+                      </Label>
+                      <Switch
+                        id={menus.permission_id}
+                        checked={menus.is_active}
+                        onClick={() =>
+                          updateData(menus.permission_id, "is_active", !menus.is_active)
+                        }
+
+                      />
+
                     </div>
-                    <div className="pl-2">
+                    <div className="ml-2 pl-2 gap-1 flex flex-col border-l border-slate-300">
                       {
 
                         actionAsc(menus.action) &&
                         actionAsc(menus.action).length > 0 &&
-                        actionAsc(menus.action).map((action: any, index: number) => (
-                          <label
-                            key={index}
-                            className="flex items-center gap-2 cursor-pointer"
-                          >
-                            <input
-                              id={action.id}
-                              type="checkbox"
-                              checked={action.is_active}
-                              // readOnly
-                              onChange={() => updateData(action.id, "is_active", !action.is_active)}
-                            />
-                            <span
-                              className={`
-                                inline-flex items-center rounded-md
-                                bg-${Color(index + 1)}-50
-                                px-2 py-1 text-xs font-medium
-                                text-${Color(index + 1)}-700
-                                inset-ring inset-ring-${Color(index + 1)}-600/10
-                              `}
-                            >
-                              {action.description}
-                            </span>
+                        actionAsc(menus.action).map((action: any) => {
+                          if (action.action_id === 1) return null; // kalau tidak aktif, jangan tampilkan
+                          return (
+                            <div className="flex flex-row justify-between items-center" key={action.id}>
+                              <Label htmlFor={action.id} className=" text-sm">
+                                <span>
+                                  {action.description}
+                                </span>
+                              </Label>
+                              <Switch
+                                id={action.id}
+                                checked={action.is_active}
+                                onClick={() =>
+                                  updateData(action.id, "is_active", !action.is_active)
+                                }
+                              />
 
-                          </label>
-                        ))}
+                            </div>
+                          )
+                        })}
                     </div>
                   </div>
                 </div>

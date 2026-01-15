@@ -22,6 +22,8 @@ type Roles = {
 type Menus = {
   menu_id: number;
   nama_menu: string;
+  sort_order: number;
+  is_active: boolean;
   action: any[];
   // tambahkan properti lain sesuai kebutuhan
 };
@@ -35,7 +37,7 @@ export default function RolePage() {
   const menuAsc = (data: any[]) => {
     const menusActionsArray = data as Menus[];
     const ascMenusActions = menusActionsArray.sort(
-      (a, b) => Number(a.menu_id) - Number(b.menu_id)
+      (a, b) => Number(a.sort_order) - Number(b.sort_order)
     );
     return ascMenusActions;
   }
@@ -108,14 +110,14 @@ export default function RolePage() {
                   >
                     <td className="p-1">{role.role_id}</td>
                     <td className="p-1">{role.role_name}</td>
-                    <td className="p-1 flex flex-wrap gap-2">
+                    <td className="p-1 flex flex-wrap gap-2 ">
                       {menuAsc(role.permissions) &&
                         menuAsc(role.permissions).length > 0 &&
                         menuAsc(role.permissions).map((item: any) => {
                           // cek apakah ada action yang aktif
-                          const hasActive = item.action?.some((a: any) => a.action_id === 1 && a.is_active === true);
+                          // const hasActive = item.action?.some((a: any) => a.action_id === 1 && a.is_active === true);
 
-                          if (!hasActive) return null; // kalau tidak aktif, jangan tampilkan
+                          if (!item.is_active) return null; // kalau tidak aktif, jangan tampilkan
                           return (
                             <span
                               key={item.menu_id}
