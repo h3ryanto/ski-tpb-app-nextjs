@@ -19,14 +19,14 @@ import { requirePermission } from "@/lib/auth/server-permission";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
 import { ImagePlus, InboxIcon } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const User = () => {
   const [data, setData] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
-  const router = useRouter()
+  const router = useRouter();
 
   const updateData = async (
     email: string,
@@ -84,9 +84,6 @@ const User = () => {
     loadData();
   }, [router]);
 
-
-
-
   return (
     <PageGuard>
       <div className="mx-auto justify-center rounded-md font-sans text-sm p-6 pt-2 hidden md:block">
@@ -137,20 +134,26 @@ const User = () => {
                       <td className="p-1">{item.name}</td>
                       <td className="p-1">{item.email}</td>
                       <td className="p-1">
-                        <AppRoleSelect roleId={item.roleId} onChange={(roleId) => updateData(item.email, "roleId", roleId)} />
+                        <AppRoleSelect
+                          roleId={item.roleId}
+                          onChange={(roleId) =>
+                            updateData(item.email, "roleId", roleId)
+                          }
+                        />
                       </td>
 
                       <td className="p-1">
                         <div className="flex items-center space-x-2">
                           <Switch
                             id="airplane-mode"
+                            size={"sm"}
                             checked={item.isActive}
                             onClick={() =>
                               updateData(item.email, "isActive", !item.isActive)
                             }
                           />
                           <Label htmlFor="airplane-mode">
-                            {item.isActive && "Active"}
+                            {(item.isActive && "Active") || "No Active"}
                           </Label>
                         </div>
                       </td>
@@ -159,23 +162,21 @@ const User = () => {
                           <AppSwalDelete
                             id={item.id}
                             url={`/api/delete-users`}
-                            realoadTrigger={async () =>
-                              await loadData()
-                            }
+                            realoadTrigger={async () => await loadData()}
                           />
                         </AppTooltip>
                       </td>
                     </tr>
                   ))) || (
-                    <tr>
-                      <td colSpan={7} className="text-center text-slate-700">
-                        <span className="flex flex-col items-center">
-                          <InboxIcon />
-                          Data tidak ditemukan
-                        </span>
-                      </td>
-                    </tr>
-                  )}
+                  <tr>
+                    <td colSpan={7} className="text-center text-slate-700">
+                      <span className="flex flex-col items-center">
+                        <InboxIcon />
+                        Data tidak ditemukan
+                      </span>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </CardContent>

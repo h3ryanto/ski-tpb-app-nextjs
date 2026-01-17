@@ -18,7 +18,6 @@ import Color from "@/utils/color";
 import { Label } from "@radix-ui/react-label";
 import { Switch } from "@/components/ui/switch";
 
-
 type Menus = {
   menu_id: number;
   nama_menu: string;
@@ -33,21 +32,19 @@ type ActionsType = {
   role_id: number;
   description: string;
   is_active: boolean;
-
 };
-
-
 
 const AppRoleActionMenus = ({
   menusActions,
   user,
-  refreshData
+  refreshData,
 }: {
   menusActions: any[];
   user: string;
-  refreshData?: () => void
+  refreshData?: () => void;
 }) => {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = React.useState<any[]>([]);
 
   const loadData = (menusActions: any) => {
@@ -55,16 +52,11 @@ const AppRoleActionMenus = ({
     const ascMenusActions = menusActionsArray.sort(
       (a, b) => Number(a.sort_order) - Number(b.sort_order)
     );
-    setData(ascMenusActions)
+    setData(ascMenusActions);
+  };
 
-  }
-
-
-  const updateData = async (
-    id: number,
-    atribut: string,
-    value: boolean
-  ) => {
+  const updateData = async (id: number, atribut: string, value: boolean) => {
+    setIsLoading(true);
     const result = await fetch("/api/update-role-aciton", {
       method: "PUT",
       body: JSON.stringify({
@@ -84,22 +76,18 @@ const AppRoleActionMenus = ({
         title: "Update Berhasil",
         description: "Data berhasil diupdate",
       });
-      refreshData?.()
+      setIsLoading(false);
+      refreshData?.();
     }
   };
 
-
   const actionAsc = (data: any[]) => {
     const actionsArray = data as ActionsType[];
-    const ascActions = actionsArray.sort(
-      (a, b) => Number(a.id) - Number(b.id)
-    );
+    const ascActions = actionsArray.sort((a, b) => Number(a.id) - Number(b.id));
     return ascActions;
-  }
-
+  };
 
   React.useEffect(() => {
-
     loadData(menusActions);
   }, [menusActions]);
   return (
@@ -127,8 +115,8 @@ const AppRoleActionMenus = ({
                   className="space-x-2 border-b border-slate-300 pb-2"
                 >
                   <div className="flex flex-col">
-                    <div className="flex flex-row justify-between items-center">
-                      <Label htmlFor={menus.permission_id}>
+                    <div className="flex flex-row justify-between items-center pr-3">
+                      <div>
                         <span
                           className={`
                         inline-flex items-center rounded-md
@@ -141,43 +129,62 @@ const AppRoleActionMenus = ({
                         >
                           {menus.nama_menu}
                         </span>
-                      </Label>
-                      <Switch
-                        id={menus.permission_id}
-                        size="sm"
-                        checked={menus.is_active}
-                        onClick={() =>
-                          updateData(menus.permission_id, "is_active", !menus.is_active)
-                        }
+                      </div>
 
-                      />
-
+                      <div className="flex flex-row gap-1 justify-items-center items-center">
+                        <Label htmlFor={menus.permission_id}>
+                          {(!isLoading &&
+                            ((menus.is_active && "Active") || "No Active")) ||
+                            "Loading"}
+                        </Label>
+                        <Switch
+                          id={menus.permission_id}
+                          size="sm"
+                          checked={menus.is_active}
+                          onClick={() =>
+                            updateData(
+                              menus.permission_id,
+                              "is_active",
+                              !menus.is_active
+                            )
+                          }
+                        />
+                      </div>
                     </div>
                     <div className="ml-2 pl-2 gap-1 flex flex-col border-l border-slate-300">
-                      {
-
-                        actionAsc(menus.action) &&
+                      {actionAsc(menus.action) &&
                         actionAsc(menus.action).length > 0 &&
                         actionAsc(menus.action).map((action: any) => {
                           if (action.action_id === 1) return null; // kalau tidak aktif, jangan tampilkan
                           return (
-                            <div className="flex flex-row justify-between items-center" key={action.id}>
-                              <Label htmlFor={action.id} className=" text-sm">
-                                <span>
-                                  {action.description}
-                                </span>
-                              </Label>
-                              <Switch
-                                id={action.id}
-                                size="sm"
-                                checked={action.is_active}
-                                onClick={() =>
-                                  updateData(action.id, "is_active", !action.is_active)
-                                }
-                              />
-
+                            <div
+                              className={`flex flex-row justify-between items-center pr-3 text-sm ${!menus.is_active && "text-muted-foreground"}`}
+                              key={action.id}
+                            >
+                              <span>{action.description}</span>
+                              <div className="flex flex-row gap-1 justify-items-center items-center">
+                                <Label htmlFor={action.id}>
+                                  {(!isLoading &&
+                                    ((action.is_active && "Active") ||
+                                      "No Active")) ||
+                                    "Loading"}
+                                </Label>
+                                <Switch
+                                  id={action.id}
+                                  size="sm"
+                                  checked={action.is_active}
+                                  onClick={() =>
+                                    updateData(
+                                      action.id,
+                                      "is_active",
+                                      !action.is_active
+                                    )
+                                  }
+                                  disabled={!menus.is_active}
+                                />
+                              </div>
                             </div>
-                          )
+                          );
                         })}
                     </div>
                   </div>
