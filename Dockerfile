@@ -26,7 +26,8 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 COPY prisma ./prisma
 
 # Instal semua dependensi
-RUN npm install --frozen-lockfile
+# RUN npm install --frozen-lockfile
+RUN npm ci
 
 
 
